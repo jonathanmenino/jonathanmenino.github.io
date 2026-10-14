@@ -1,0 +1,646 @@
+---
+/* LANDING DO WHITE LABEL
+   Contato e mensagens do WhatsApp: src/data/site.ts
+   Projetos: src/content/cases/ (cada arquivo vira um card e uma página)
+   Benefícios: src/data/pilares.ts */
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Seta from '../../components/Seta.astro';
+import Redes from '../../components/Redes.astro';
+import { SITE, MENSAGENS, linkWhatsApp, url } from '../../data/site';
+import { PILARES } from '../../data/pilares';
+import '../../styles/landing.css';
+
+const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.data.ordem);
+const wa = {
+  parceria: linkWhatsApp(MENSAGENS.parceria),
+  valores: linkWhatsApp(MENSAGENS.valores),
+  conversa: linkWhatsApp(MENSAGENS.conversa),
+};
+const inicio = new URL(url(), Astro.site).href;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Jonathan Menino · Desenvolvimento White Label',
+  description: 'Desenvolvimento White Label de sites e landing pages para agências.',
+  url: new URL(url('white-label/'), Astro.site).href,
+  image: new URL(url('og/white-label.jpg'), Astro.site).href,
+  areaServed: { '@type': 'Country', name: 'Brasil' },
+  availableLanguage: 'pt-BR',
+  serviceType: ['Desenvolvimento de sites', 'Landing pages', 'WordPress', 'Elementor'],
+  provider: { '@type': 'Person', name: SITE.nome, url: inicio, sameAs: Object.values(SITE.redes).filter(Boolean) },
+  contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: `+${SITE.whatsapp}`, availableLanguage: 'Portuguese' },
+};
+---
+<Base
+  title="Desenvolvedor White Label para Agências | Jonathan Menino"
+  description="Sites e landing pages em WordPress, Elementor e código para agências. Desenvolvimento White Label no prazo, sem manter desenvolvedor interno."
+  image="og/white-label.jpg"
+  themeColor="#F7F6F3"
+  jsonld={jsonld}
+>
+<!-- ============ MENU ============ -->
+<header class="sticky z-40 border-b border-black/5 bg-paper/90 backdrop-blur" style="top: var(--header-top)">
+  <div class="mx-auto flex h-16 max-w-site items-center justify-between px-5 md:h-[72px] md:px-8">
+    <a href="#topo" class="flex items-center gap-3" aria-label="Jonathan Menino, início">
+      <svg class="h-8 w-auto" viewBox="0 0 34 45" aria-hidden="true"><path fill="#6E44FF" d="M 34 9.23 L 32.203 1.078 L 30.23 0.5 L 22.281 8.652 L 22.047 9.98 L 22.977 11.891 L 21.641 11.137 L 21.062 10.965 L 13.285 10.965 L 12.707 11.137 L 10.965 12.121 L 12.012 10.039 L 11.777 8.711 L 3.77 0.5 L 1.797 1.078 L 0 9.23 L 0.117 10.039 L 5.047 18.711 L 0.406 28.078 L 0.871 29.582 L 8.066 33.688 L 13.984 43.922 L 14.969 44.5 L 18.973 44.5 L 19.961 43.922 L 25.879 33.688 L 33.07 29.582 L 33.535 28.078 L 28.895 18.711 L 33.824 10.039 Z M 2.379 9.289 L 3.598 3.68 L 9.516 9.691 L 6.324 16.227 Z M 9.922 32.301 L 9.516 31.895 L 3.016 28.137 L 6.441 21.141 L 11.953 30.855 L 12.938 37.504 Z M 19.902 29.93 L 19.785 30.336 L 18.043 42.188 L 16.012 42.188 L 14.273 30.336 L 14.156 29.93 L 7.715 18.656 L 9.168 15.648 L 13.578 13.219 L 20.77 13.219 L 24.832 15.648 L 26.34 18.656 Z M 30.984 28.137 L 24.484 31.895 L 24.078 32.301 L 21.062 37.562 L 22.047 30.914 L 27.559 21.199 Z M 27.734 16.227 L 24.543 9.691 L 30.402 3.621 L 31.621 9.23 Z M 27.734 16.227"/></svg>
+      <span class="leading-tight">
+        <span class="block text-[15px] font-semibold tracking-tight">Jonathan Menino</span>
+        <span class="block font-mono text-[9.5px] uppercase tracking-[.14em] text-muted">Desenvolvimento de sites</span>
+      </span>
+    </a>
+    <nav class="hidden items-center gap-8 text-sm font-medium md:flex" aria-label="Principal">
+      <a class="transition hover:text-brand" href="#parceria">Parceria</a>
+      <a class="transition hover:text-brand" href="#beneficios">Benefícios</a>
+      <a class="transition hover:text-brand" href="#projetos">Projetos</a>
+      <a class="transition hover:text-brand" href="#processo">Processo</a>
+    </nav>
+    <a href={wa.parceria} target="_blank" rel="noopener" class="hidden items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark md:inline-flex">
+      Quero ser parceiro <svg class="arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+    </a>
+    <button id="menu-open" class="grid h-10 w-10 place-items-center rounded-full border border-black/10 md:hidden" aria-label="Abrir menu" aria-controls="menu-mobile" aria-expanded="false">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- Menu mobile em tela cheia -->
+<div id="menu-mobile" class="fixed inset-0 z-50 flex flex-col bg-ink px-5 text-white md:hidden" style="padding-top: calc(var(--header-top) + 12px); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px)" hidden>
+  <div class="flex h-12 items-center justify-between">
+    <span class="flex items-center gap-3">
+      <svg class="h-8 w-auto" viewBox="0 0 34 45" aria-hidden="true"><path fill="#9B7BFF" d="M 34 9.23 L 32.203 1.078 L 30.23 0.5 L 22.281 8.652 L 22.047 9.98 L 22.977 11.891 L 21.641 11.137 L 21.062 10.965 L 13.285 10.965 L 12.707 11.137 L 10.965 12.121 L 12.012 10.039 L 11.777 8.711 L 3.77 0.5 L 1.797 1.078 L 0 9.23 L 0.117 10.039 L 5.047 18.711 L 0.406 28.078 L 0.871 29.582 L 8.066 33.688 L 13.984 43.922 L 14.969 44.5 L 18.973 44.5 L 19.961 43.922 L 25.879 33.688 L 33.07 29.582 L 33.535 28.078 L 28.895 18.711 L 33.824 10.039 Z M 2.379 9.289 L 3.598 3.68 L 9.516 9.691 L 6.324 16.227 Z M 9.922 32.301 L 9.516 31.895 L 3.016 28.137 L 6.441 21.141 L 11.953 30.855 L 12.938 37.504 Z M 19.902 29.93 L 19.785 30.336 L 18.043 42.188 L 16.012 42.188 L 14.273 30.336 L 14.156 29.93 L 7.715 18.656 L 9.168 15.648 L 13.578 13.219 L 20.77 13.219 L 24.832 15.648 L 26.34 18.656 Z M 30.984 28.137 L 24.484 31.895 L 24.078 32.301 L 21.062 37.562 L 22.047 30.914 L 27.559 21.199 Z M 27.734 16.227 L 24.543 9.691 L 30.402 3.621 L 31.621 9.23 Z M 27.734 16.227"/></svg>
+      <span class="text-[15px] font-semibold">Jonathan Menino</span>
+    </span>
+    <button id="menu-close" class="grid h-10 w-10 place-items-center rounded-full border border-white/15" aria-label="Fechar menu">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <nav class="mt-12 flex flex-col gap-2 text-3xl font-semibold tracking-tight" aria-label="Menu mobile">
+    <a class="py-2" href="#parceria">Parceria</a>
+    <a class="py-2" href="#beneficios">Benefícios</a>
+    <a class="py-2" href="#projetos">Projetos</a>
+    <a class="py-2" href="#processo">Processo</a>
+  </nav>
+  <a href={wa.parceria} target="_blank" rel="noopener" class="mt-auto flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-4 font-semibold">Quero ser parceiro</a>
+</div>
+
+<main id="topo">
+
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden bg-ink text-white">
+    <div class="hero-glow pointer-events-none absolute inset-0"></div>
+    <div class="grid-lines pointer-events-none absolute inset-0"></div>
+    <div class="relative mx-auto grid max-w-site items-center gap-14 px-5 pb-16 pt-14 md:px-8 md:pb-24 md:pt-24 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
+      <div class="hero-in">
+        <p class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[.12em] text-white/80">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span> Agenda aberta para novas parcerias
+        </p>
+        <h1 class="mt-7 text-[2.35rem] font-extrabold leading-[1.04] tracking-tight sm:text-5xl lg:text-[3.6rem]">
+          <span class="mb-4 block font-mono text-xs font-medium uppercase tracking-[.14em] text-white/70">Desenvolvimento White Label para agências</span>
+          O braço técnico de <span class="text-brand-light">Web Design</span> para a sua agência escalar.
+        </h1>
+        <p class="mt-6 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
+          Landing pages e sites institucionais com padrão de agência, <strong class="font-semibold text-white">sem manter desenvolvedor interno.</strong> Eu entro no seu fluxo, entrego no prazo e atuo 100% White Label.
+        </p>
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+          <a href={wa.parceria} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-4 text-sm font-semibold shadow-[0_12px_32px_-12px_rgba(110,68,255,.9)] transition hover:bg-brand-dark">
+            Quero ser parceiro <svg class="arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </a>
+          <a href="#projetos" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-4 text-sm font-semibold transition hover:border-white/50">
+            Ver projetos <svg class="arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Ilustração: o código nos bastidores, o site na frente com a marca da agência -->
+      <div class="relative mx-auto w-full max-w-[540px] pb-6 lg:mr-0" aria-hidden="true">
+        <div class="art-code absolute left-0 top-0 w-[74%] rounded-2xl border border-white/10 bg-graphite p-4 shadow-[0_30px_60px_-30px_rgba(0,0,0,.8)]">
+          <div class="flex items-center justify-between">
+            <span class="flex items-center gap-2 font-mono text-[10.5px] text-white/60">
+              <svg class="h-3.5 w-auto" viewBox="0 0 34 45"><path fill="#9B7BFF" d="M 34 9.23 L 32.203 1.078 L 30.23 0.5 L 22.281 8.652 L 22.047 9.98 L 22.977 11.891 L 21.641 11.137 L 21.062 10.965 L 13.285 10.965 L 12.707 11.137 L 10.965 12.121 L 12.012 10.039 L 11.777 8.711 L 3.77 0.5 L 1.797 1.078 L 0 9.23 L 0.117 10.039 L 5.047 18.711 L 0.406 28.078 L 0.871 29.582 L 8.066 33.688 L 13.984 43.922 L 14.969 44.5 L 18.973 44.5 L 19.961 43.922 L 25.879 33.688 L 33.07 29.582 L 33.535 28.078 L 28.895 18.711 L 33.824 10.039 Z M 2.379 9.289 L 3.598 3.68 L 9.516 9.691 L 6.324 16.227 Z M 9.922 32.301 L 9.516 31.895 L 3.016 28.137 L 6.441 21.141 L 11.953 30.855 L 12.938 37.504 Z M 19.902 29.93 L 19.785 30.336 L 18.043 42.188 L 16.012 42.188 L 14.273 30.336 L 14.156 29.93 L 7.715 18.656 L 9.168 15.648 L 13.578 13.219 L 20.77 13.219 L 24.832 15.648 L 26.34 18.656 Z M 30.984 28.137 L 24.484 31.895 L 24.078 32.301 L 21.062 37.562 L 22.047 30.914 L 27.559 21.199 Z M 27.734 16.227 L 24.543 9.691 L 30.402 3.621 L 31.621 9.23 Z M 27.734 16.227"/></svg> bastidores / index.html
+            </span>
+            <span class="flex gap-1"><i class="h-2 w-2 rounded-full bg-white/15"></i><i class="h-2 w-2 rounded-full bg-white/15"></i><i class="h-2 w-2 rounded-full bg-white/15"></i></span>
+          </div>
+          <div class="mt-4 space-y-1.5 overflow-hidden whitespace-nowrap font-mono text-[11px] leading-[1.6] sm:text-[12px]">
+            <div class="art-line" style="--i:0"><span class="text-white/35">1</span>&nbsp; <span class="text-brand-light">&lt;header</span> <span class="text-emerald-300">class</span>=<span class="text-amber-200">"site"</span><span class="text-brand-light">&gt;</span></div>
+            <div class="art-line" style="--i:1"><span class="text-white/35">2</span>&nbsp;&nbsp;&nbsp; <span class="text-brand-light">&lt;img</span> <span class="text-emerald-300">src</span>=<span class="text-amber-200">"logo-sua-agencia.svg"</span><span class="text-brand-light">&gt;</span></div>
+            <div class="art-line" style="--i:2"><span class="text-white/35">3</span>&nbsp; <span class="text-brand-light">&lt;/header&gt;</span></div>
+            <div class="art-line" style="--i:3"><span class="text-white/35">4</span>&nbsp; <span class="text-brand-light">&lt;main&gt;</span></div>
+            <div class="art-line" style="--i:4"><span class="text-white/35">5</span>&nbsp;&nbsp;&nbsp; <span class="text-brand-light">&lt;h1&gt;</span><span class="text-white/80">Novo site do cliente</span><span class="text-brand-light">&lt;/h1&gt;</span></div>
+            <div class="art-line" style="--i:5"><span class="text-white/35">6</span>&nbsp;&nbsp;&nbsp; <span class="text-white/45">&lt;!-- sem assinatura minha --&gt;</span><span class="cursor ml-0.5 inline-block h-3 w-1.5 translate-y-0.5 bg-brand-light"></span></div>
+          </div>
+        </div>
+
+        <div class="art-site relative ml-auto mt-[178px] w-[80%] overflow-hidden rounded-2xl bg-white text-ink shadow-[0_40px_80px_-30px_rgba(110,68,255,.55)]">
+          <div class="flex items-center gap-3 border-b border-black/5 bg-paper px-4 py-2.5">
+            <span class="flex gap-1"><i class="h-2 w-2 rounded-full bg-black/15"></i><i class="h-2 w-2 rounded-full bg-black/15"></i><i class="h-2 w-2 rounded-full bg-black/15"></i></span>
+            <span class="flex-1 truncate rounded-full bg-white px-3 py-1 font-mono text-[10px] text-muted">clientedasuaagencia.com.br</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center justify-between">
+              <span class="flex items-center gap-1.5 text-[11px] font-extrabold tracking-tight"><i class="h-3.5 w-3.5 rounded-[4px] bg-ink"></i>SUA AGÊNCIA</span>
+              <span class="flex gap-2"><i class="h-1.5 w-7 rounded bg-black/10"></i><i class="h-1.5 w-7 rounded bg-black/10"></i><i class="h-1.5 w-7 rounded bg-black/10"></i></span>
+            </div>
+            <div class="mt-5 grid grid-cols-[1.2fr_1fr] gap-4">
+              <div>
+                <p class="text-[17px] font-bold leading-tight tracking-tight sm:text-[19px]">Novo site do cliente</p>
+                <i class="mt-2.5 block h-1.5 w-full rounded bg-black/10"></i>
+                <i class="mt-1.5 block h-1.5 w-4/5 rounded bg-black/10"></i>
+                <i class="mt-4 block h-6 w-24 rounded-full bg-brand"></i>
+              </div>
+              <div class="rounded-xl bg-[linear-gradient(135deg,#EEE9FF,#C9B8FF)]"></div>
+            </div>
+          </div>
+          <div class="border-t border-black/5 px-5 py-2.5 text-[10.5px] text-muted">Desenvolvido por <strong class="text-ink">Sua Agência</strong></div>
+        </div>
+
+        <div class="art-chip absolute bottom-0 left-2 flex items-center gap-2 rounded-full bg-lilac px-4 py-2.5 text-xs font-semibold text-brand-dark shadow-[0_12px_30px_-10px_rgba(0,0,0,.6)] sm:left-6">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>
+          Entregue com a marca da sua agência
+        </div>
+      </div>
+    </div>
+
+    <!-- Selos: rolam na horizontal no celular -->
+    <div class="relative border-t border-white/10">
+      <div class="badges overflow-hidden md:overflow-visible">
+        <div class="badges-track flex w-max text-[13px] font-medium text-white/80 md:mx-auto md:w-auto md:max-w-site md:px-8">
+          <ul class="flex shrink-0 gap-8 py-5 pl-5 pr-3 md:w-full md:justify-between md:p-0 md:py-5">
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>100% White Label</li>
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Entrega no prazo</li>
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Alto desempenho</li>
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Sem custo fixo</li>
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Desenvolvedor parceiro</li>
+      </ul>
+          <ul class="flex shrink-0 gap-8 py-5 pl-5 pr-3 md:hidden" aria-hidden="true">
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>100% White Label</li>
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Entrega no prazo</li>
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Alto desempenho</li>
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Sem custo fixo</li>
+        <li class="flex shrink-0 items-center gap-2"><svg class="h-4 w-4 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Desenvolvedor parceiro</li>
+      </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PARCERIA (WHITE LABEL) ============ -->
+  <section id="parceria" class="mx-auto grid max-w-site items-center gap-12 px-5 py-16 md:px-8 md:py-28 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+    <div>
+      <p class="eyebrow text-muted">Parceria 100% invisível</p>
+      <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
+        Você cuida do <span class="text-brand">cliente</span>. Eu cuido do desenvolvimento.
+      </h2>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-muted md:text-lg">
+        <strong class="font-semibold text-ink/80">Entro como uma extensão silenciosa do seu time:</strong> recebo o briefing, desenvolvo, ajusto e entrego pronto para publicar. Sem contato com o cliente final e sem expor minha marca.
+      </p>
+      <div class="r-rise mt-8 flex max-w-xl items-start gap-4 rounded-2xl bg-lilac p-5 md:p-6">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand text-white"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span>
+        <div>
+          <p class="font-semibold text-brand-dark">Condições especiais para agências</p>
+          <p class="mt-1 text-sm leading-relaxed text-ink/75">Preço competitivo para você preservar sua margem comercial e vender desenvolvimento com segurança.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diagrama: quem aparece para o cliente e quem fica nos bastidores -->
+    <div class="r-rise rounded-3xl border border-black/[.07] bg-white p-5 md:p-7">
+      <p class="font-mono text-[11px] uppercase tracking-[.12em] text-muted">O que o cliente enxerga</p>
+      <div class="mt-4 space-y-3">
+        <div class="flex items-center gap-4 rounded-2xl border border-black/[.07] p-4">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-paper"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+          <div class="min-w-0"><p class="font-semibold">Cliente final</p><p class="text-sm text-muted">Recebe o site e fala só com a agência.</p></div>
+        </div>
+        <div class="ml-[37px] h-5 w-px bg-black/15"></div>
+        <div class="flex items-center gap-4 rounded-2xl bg-brand p-4 text-white shadow-[0_16px_36px_-18px_rgba(110,68,255,.9)]">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/15"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
+          <div class="min-w-0"><p class="font-semibold">Sua agência</p><p class="text-sm text-white/85">Contrato, preço, relacionamento e marca.</p></div>
+        </div>
+      </div>
+
+      <div class="relative my-5 flex items-center gap-3">
+        <span class="h-px flex-1 border-t border-dashed border-black/25"></span>
+        <span class="font-mono text-[11px] uppercase tracking-[.12em] text-muted">Bastidores</span>
+        <span class="h-px flex-1 border-t border-dashed border-black/25"></span>
+      </div>
+
+      <div class="hatch rounded-2xl p-1">
+        <div class="ml-[37px] h-5 w-px origin-top bg-brand r-draw"></div>
+        <div class="flex items-center gap-4 rounded-2xl border border-dashed border-black/20 bg-white/70 p-4">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink"><svg class="h-5 w-auto" viewBox="0 0 34 45" aria-hidden="true"><path fill="#9B7BFF" d="M 34 9.23 L 32.203 1.078 L 30.23 0.5 L 22.281 8.652 L 22.047 9.98 L 22.977 11.891 L 21.641 11.137 L 21.062 10.965 L 13.285 10.965 L 12.707 11.137 L 10.965 12.121 L 12.012 10.039 L 11.777 8.711 L 3.77 0.5 L 1.797 1.078 L 0 9.23 L 0.117 10.039 L 5.047 18.711 L 0.406 28.078 L 0.871 29.582 L 8.066 33.688 L 13.984 43.922 L 14.969 44.5 L 18.973 44.5 L 19.961 43.922 L 25.879 33.688 L 33.07 29.582 L 33.535 28.078 L 28.895 18.711 L 33.824 10.039 Z M 2.379 9.289 L 3.598 3.68 L 9.516 9.691 L 6.324 16.227 Z M 9.922 32.301 L 9.516 31.895 L 3.016 28.137 L 6.441 21.141 L 11.953 30.855 L 12.938 37.504 Z M 19.902 29.93 L 19.785 30.336 L 18.043 42.188 L 16.012 42.188 L 14.273 30.336 L 14.156 29.93 L 7.715 18.656 L 9.168 15.648 L 13.578 13.219 L 20.77 13.219 L 24.832 15.648 L 26.34 18.656 Z M 30.984 28.137 L 24.484 31.895 L 24.078 32.301 L 21.062 37.562 L 22.047 30.914 L 27.559 21.199 Z M 27.734 16.227 L 24.543 9.691 L 30.402 3.621 L 31.621 9.23 Z M 27.734 16.227"/></svg></span>
+          <div class="min-w-0"><p class="font-semibold">Jonathan Menino</p><p class="text-sm text-muted">Desenvolvimento, ajustes e publicação.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BENEFÍCIOS (ponto alto: o que faz a agência fechar) ============ -->
+  <section id="beneficios" class="mx-auto max-w-site px-5 pb-16 md:px-8 md:pb-28">
+    <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p class="eyebrow text-muted">Benefícios para a operação</p>
+        <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
+          Mais capacidade para <span class="text-brand">entregar</span>.<br class="hidden sm:block"> Sem aumentar a estrutura.
+        </h2>
+      </div>
+      <p class="max-w-xs text-sm leading-relaxed text-muted">Uma parceria feita para proteger sua marca, seu prazo e a rentabilidade de cada projeto.</p>
+    </div>
+
+    <div class="r-stagger mt-10 grid gap-4 lg:grid-cols-6">
+      <!-- Destaque 1: margem -->
+      <article class="relative overflow-hidden rounded-3xl bg-ink p-6 text-white md:p-9 lg:col-span-4">
+        <p class="font-mono text-[11px] uppercase tracking-[.12em] text-brand-light">Valores especiais para agências</p>
+        <h3 class="mt-4 max-w-lg text-[1.75rem] font-bold leading-[1.1] tracking-tight md:text-[2.4rem]">Você define o preço. A margem fica com a agência.</h3>
+        <p class="mt-4 max-w-lg text-[15px] leading-relaxed text-white/70">Agências parceiras têm valores diferenciados para montar o orçamento, incluir a própria margem e manter o controle comercial do projeto.</p>
+
+        <div class="mt-9" aria-label="Ilustração: o valor que o cliente paga é dividido entre o desenvolvimento e a margem da agência">
+          <div class="flex items-center justify-between text-xs text-white/60">
+            <span>Valor que sua agência cobra do cliente</span>
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+          <div class="relative mt-3 h-14 overflow-hidden rounded-xl bg-white/[.06]">
+            <div class="absolute inset-y-0 left-0 flex w-[56%] items-center rounded-l-xl bg-brand px-4 text-sm font-semibold">Desenvolvimento</div>
+            <div class="r-grow absolute inset-y-0 left-[56%] right-0 flex items-center justify-end rounded-r-xl bg-[repeating-linear-gradient(135deg,#9B7BFF_0_10px,#8A66FF_10px_20px)] px-4 text-sm font-bold text-ink">Sua margem</div>
+          </div>
+          <p class="mt-3 text-xs text-white/60">Ilustrativo. A tabela com as faixas por tipo de projeto vai direto no seu WhatsApp.</p>
+        </div>
+      </article>
+
+      <!-- Destaque 2: marca -->
+      <article class="flex flex-col rounded-3xl bg-lilac p-6 md:p-8 lg:col-span-2">
+        <p class="font-mono text-[11px] uppercase tracking-[.12em] text-brand-dark">Sua marca na frente</p>
+        <h3 class="mt-4 text-2xl font-bold leading-tight tracking-tight">Sua agência assina o projeto.</h3>
+        <p class="mt-3 text-[15px] leading-relaxed text-ink/70">Sem assinatura no rodapé, sem divulgação do desenvolvedor e sem contato direto com o cliente sem autorização.</p>
+        <div class="mt-auto pt-8">
+          <div class="rounded-2xl bg-white p-4 text-[13px] shadow-[0_10px_30px_-18px_rgba(90,48,238,.6)]">
+            <p class="font-mono text-[10px] uppercase tracking-[.12em] text-muted">Rodapé do site</p>
+            <p class="mt-2 text-muted line-through decoration-brand decoration-2">Desenvolvido por Jonathan Menino</p>
+            <p class="mt-1 font-semibold">Desenvolvido por Sua Agência <span class="ml-1 inline-grid h-4 w-4 translate-y-0.5 place-items-center rounded-full bg-brand text-white"><svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></span></p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sem custo fixo -->
+      <article class="rounded-3xl border border-black/[.07] bg-white p-6 md:p-8 lg:col-span-3">
+        <p class="font-mono text-[11px] uppercase tracking-[.12em] text-brand">Sem custo fixo</p>
+        <h3 class="mt-4 text-2xl font-bold leading-tight tracking-tight">Contrate só quando tiver projeto.</h3>
+        <div class="mt-6 grid gap-3 text-sm sm:grid-cols-2">
+          <div class="rounded-2xl bg-paper p-4">
+            <p class="font-semibold">Dev interno</p>
+            <ul class="mt-3 space-y-2 text-muted">
+              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-ink/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Salário todo mês</li>
+              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-ink/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Encargos</li>
+              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-ink/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Tempo ocioso</li>
+            </ul>
+          </div>
+          <div class="rounded-2xl bg-lilac p-4">
+            <p class="font-semibold text-brand-dark">Parceria</p>
+            <ul class="mt-3 space-y-2 text-ink/80">
+              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Paga por projeto</li>
+              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Sem encargos</li>
+              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Aciona quando precisa</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Parceiro técnico -->
+      <article class="rounded-3xl border border-black/[.07] bg-white p-6 md:p-8 lg:col-span-3">
+        <p class="font-mono text-[11px] uppercase tracking-[.12em] text-brand">Seu parceiro técnico</p>
+        <h3 class="mt-4 text-2xl font-bold leading-tight tracking-tight">Uma extensão do seu time.</h3>
+        <div class="mt-6 space-y-2.5 text-sm">
+          <p class="max-w-[85%] rounded-2xl rounded-bl-md bg-paper px-4 py-3">Fechamos um site novo. Você consegue pegar?</p>
+          <p class="ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-brand px-4 py-3 text-white">Consigo. Me manda o briefing e, se tiver, o layout. A parte técnica fica comigo.</p>
+        </div>
+        <p class="mt-5 text-sm leading-relaxed text-muted">Comunicação direta, previsibilidade e cuidado de quem entende que o seu nome também está na entrega.</p>
+      </article>
+    </div>
+
+    <div class="mt-10 flex items-center justify-between gap-6 border-t border-black/[.08] pt-8">
+      <p class="text-lg font-medium tracking-tight md:text-xl">Mais um parceiro no seu time. Menos uma preocupação na sua operação.</p>
+      <svg class="hidden h-6 w-6 shrink-0 text-brand sm:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></svg>
+    </div>
+  </section>
+
+  <!-- ============ DUAS OPÇÕES ============ -->
+  <section class="bg-mist">
+    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+      <p class="eyebrow text-muted">Flexível ao seu processo</p>
+      <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
+        Você manda o <span class="text-brand">layout</span>.<br class="hidden sm:block"> Ou deixa o layout comigo.
+      </h2>
+      <p class="mt-5 max-w-lg text-base leading-relaxed text-muted">O ponto de partida muda. O padrão de cuidado, comunicação e entrega permanece o mesmo.</p>
+
+      <div class="r-stagger mt-10 grid gap-4 md:grid-cols-2">
+        <article class="group flex flex-col rounded-3xl border border-black/[.06] bg-white p-6 md:p-9">
+          <!-- mini ilustração: layout pronto vira site -->
+          <div class="flex items-center gap-3" aria-hidden="true">
+            <div class="h-14 w-14 sm:h-16 sm:w-20 rounded-lg border-2 border-dashed border-black/20 p-2"><i class="block h-1.5 w-2/3 rounded bg-black/20"></i><i class="mt-1.5 block h-5 rounded bg-black/10"></i></div>
+            <svg class="h-5 w-5 text-brand transition group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <div class="h-14 w-14 sm:h-16 sm:w-20 overflow-hidden rounded-lg bg-ink p-2"><i class="block h-1.5 w-2/3 rounded bg-white/60"></i><i class="mt-1.5 block h-5 rounded bg-brand"></i></div>
+          </div>
+          <span class="mt-7 font-mono text-[11px] uppercase tracking-[.12em] text-brand">Opção 01</span>
+          <h3 class="mt-2 text-2xl font-semibold tracking-tight">Você já tem o layout</h3>
+          <p class="mt-3 text-[15px] leading-relaxed text-muted">Envie o arquivo e eu transformo a criação em uma página fiel, responsiva e pronta para performar.</p>
+          <ul class="mt-8 flex flex-wrap gap-2 border-t border-black/[.08] pt-6 text-xs font-medium">
+            <li class="flex items-center gap-1.5 rounded-full bg-paper py-1.5 pl-2 pr-3"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F24E1E" d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</li>
+            <li class="flex items-center gap-1.5 rounded-full bg-paper py-1.5 pl-2 pr-3"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" aria-hidden="true"><path fill="#FF61F6" d="M4.25.3C1.9.3 0 2.2 0 4.55v14.9c0 2.35 1.9 4.25 4.25 4.25h15.5c2.35 0 4.25-1.9 4.25-4.25V4.55C24 2.2 22.1.3 19.75.3Zm14.07 5.13h2.03c.05-.01.09.03.1.07v9.54c0 .18.01.38.02.6.02.21.03.41.04.58 0 .07-.03.13-.1.16-.52.22-1.07.38-1.63.48-.51.09-1.02.14-1.54.14-.74.01-1.48-.14-2.15-.45-.63-.29-1.15-.77-1.51-1.36-.37-.61-.55-1.37-.55-2.28a4.107 4.107 0 0 1 2.14-3.66c.7-.39 1.54-.58 2.53-.58.05 0 .12 0 .21.01s.19.01.31.02V5.54c0-.07.03-.11.1-.11zM3.68 6.3h2.27c.05 0 .1.01.14.02.04.02.07.05.1.09.19.43.41.86.64 1.29.24.43.47.85.72 1.27.24.42.46.84.67 1.27h.02c.21-.44.43-.87.65-1.29.22-.42.45-.84.68-1.26.23-.42.45-.85.67-1.26.01-.04.03-.08.06-.1a.19.19 0 0 1 .13-.02h2.11c.05-.01.1.02.11.07.01.01-.01.05-.03.07l-3 4.95 3.2 5.25c.02.04.03.08.02.12-.01.04-.05.01-.11.02h-2.29c-.16 0-.27-.01-.34-.11-.21-.42-.43-.83-.64-1.25-.21-.41-.44-.83-.68-1.26-.24-.43-.48-.86-.72-1.3h-.02c-.21.43-.44.86-.67 1.29-.23.43-.46.86-.68 1.28-.23.42-.46.85-.69 1.26-.04.1-.12.11-.23.11h-2.2c-.04 0-.07.02-.07-.03a.14.14 0 0 1 .02-.11l3.11-5.1L3.6 6.44c-.03-.04-.04-.08-.02-.1.02-.03.06-.04.1-.04zm13.94 4.23c-.39 0-.78.08-1.13.26-.34.17-.63.42-.85.74-.22.32-.33.75-.33 1.27-.01.35.05.7.17 1.03.1.27.25.51.45.71.19.18.42.32.68.4.27.09.55.13.83.13.15 0 .29-.01.42-.02.13.01.24-.01.36-.05v-4.4c-.09-.02-.18-.04-.27-.05-.11-.01-.22-.02-.33-.02Z"/></svg>Adobe XD</li>
+            <li class="flex items-center gap-1.5 rounded-full bg-paper py-1.5 pl-2 pr-3"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" aria-hidden="true"><path fill="#31A8FF" d="M9.85 8.42c-.37-.15-.77-.21-1.18-.2-.26 0-.49 0-.68.01-.2-.01-.34 0-.41.01v3.36c.14.01.27.02.39.02h.53c.39 0 .78-.06 1.15-.18.32-.09.6-.28.82-.53.21-.25.31-.59.31-1.03.01-.31-.07-.62-.23-.89-.17-.26-.41-.46-.7-.57zM19.75.3H4.25C1.9.3 0 2.2 0 4.55v14.899c0 2.35 1.9 4.25 4.25 4.25h15.5c2.35 0 4.25-1.9 4.25-4.25V4.55C24 2.2 22.1.3 19.75.3zm-7.391 11.65c-.399.56-.959.98-1.609 1.22-.68.25-1.43.34-2.25.34-.24 0-.4 0-.5-.01s-.24-.01-.43-.01v3.209c.01.07-.04.131-.11.141H5.52c-.08 0-.12-.041-.12-.131V6.42c0-.07.03-.11.1-.11.17 0 .33 0 .56-.01.24-.01.49-.01.76-.02s.56-.01.87-.02c.31-.01.61-.01.91-.01.82 0 1.5.1 2.06.31.5.17.96.45 1.34.82.32.32.57.71.73 1.14.149.42.229.85.229 1.3.001.86-.199 1.57-.6 2.13zm7.091 3.89c-.28.4-.671.709-1.12.891-.49.209-1.09.318-1.811.318-.459 0-.91-.039-1.359-.129-.35-.061-.7-.17-1.02-.32-.07-.039-.121-.109-.111-.189v-1.74c0-.029.011-.07.041-.09.029-.02.06-.01.09.01.39.23.8.391 1.24.49.379.1.779.15 1.18.15.38 0 .65-.051.83-.141.16-.07.27-.24.27-.42 0-.141-.08-.27-.24-.4-.16-.129-.489-.279-.979-.471-.51-.18-.979-.42-1.42-.719-.31-.221-.569-.51-.761-.85-.159-.32-.239-.67-.229-1.021 0-.43.12-.84.341-1.21.25-.4.619-.72 1.049-.92.469-.239 1.059-.349 1.769-.349.41 0 .83.03 1.24.09.3.04.59.12.86.23.039.01.08.05.1.09.01.04.02.08.02.12v1.63c0 .04-.02.08-.05.1-.09.02-.14.02-.18 0-.3-.16-.62-.27-.96-.34-.37-.08-.74-.13-1.12-.13-.2-.01-.41.02-.601.07-.129.03-.24.1-.31.2-.05.08-.08.18-.08.27s.04.18.101.26c.09.11.209.2.34.27.229.12.47.23.709.33.541.18 1.061.43 1.541.73.33.209.6.49.789.83.16.318.24.67.23 1.029.011.471-.129.94-.389 1.331z"/></svg>Photoshop</li>
+            <li class="flex items-center gap-1.5 rounded-full bg-paper py-1.5 pl-2 pr-3"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F7B500" d="M12 1.25l6.75 6.637V2L12 1.25zm0 0l-6.05 7h12.1l-6.05-7zm0 0L5.25 2v5.887L12 1.25zM5.25 2L0 9l4.416-.68L5.25 2zM0 9l11.959 13.703.008-.014L4.443 9H0zm18.75-7l.834 6.32L24 9l-5.25-7zM24 9h-4.506l-7.523 13.69.029.06L24 9zM12 22.75l-.031-.057-.008.012.039.045zM5.436 9l6.533 13.686L18.564 9H5.436Z"/></svg>Sketch</li>
+            <li class="rounded-full bg-paper px-3 py-1.5">Outras ferramentas</li>
+          </ul>
+        </article>
+        <article class="group flex flex-col rounded-3xl border border-black/[.06] bg-white p-6 md:p-9">
+          <!-- mini ilustração: do zero ao site -->
+          <div class="flex items-center gap-3" aria-hidden="true">
+            <div class="grid h-16 w-20 place-items-center rounded-lg border-2 border-dashed border-black/20 text-black/30"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>
+            <svg class="h-5 w-5 text-brand transition group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <div class="h-14 w-14 sm:h-16 sm:w-20 rounded-lg bg-lilac p-2"><i class="block h-1.5 w-2/3 rounded bg-brand/50"></i><i class="mt-1.5 block h-5 rounded bg-brand/30"></i></div>
+            <svg class="h-5 w-5 text-brand transition group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <div class="h-14 w-14 sm:h-16 sm:w-20 overflow-hidden rounded-lg bg-ink p-2"><i class="block h-1.5 w-2/3 rounded bg-white/60"></i><i class="mt-1.5 block h-5 rounded bg-brand"></i></div>
+          </div>
+          <span class="mt-7 font-mono text-[11px] uppercase tracking-[.12em] text-brand">Opção 02</span>
+          <h3 class="mt-2 text-2xl font-semibold tracking-tight">Você quer terceirizar tudo</h3>
+          <p class="mt-3 text-[15px] leading-relaxed text-muted">Assumo o projeto completo: estrutura de conteúdo, layout visual, desenvolvimento, revisão e publicação.</p>
+          <ul class="mt-8 flex flex-wrap gap-2 border-t border-black/[.08] pt-6 text-xs font-medium">
+            <li class="rounded-full bg-paper px-3 py-1.5">Estrutura</li>
+            <li class="rounded-full bg-paper px-3 py-1.5">Wireframe</li>
+            <li class="rounded-full bg-paper px-3 py-1.5">UI Design</li>
+            <li class="rounded-full bg-paper px-3 py-1.5">Desenvolvimento</li>
+            <li class="rounded-full bg-paper px-3 py-1.5">Publicação</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PILARES ============ -->
+  <section class="bg-ink text-white">
+    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+      <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="eyebrow text-white/60">Pilares da entrega</p>
+          <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
+            <span class="text-brand-light">Qualidade</span> percebida no visual. E sentida no uso.
+          </h2>
+        </div>
+        <p class="max-w-xs text-sm leading-relaxed text-white/65">Cada projeto combina rigor técnico e acabamento visual para sua agência entregar com confiança.</p>
+      </div>
+
+      <div class="r-stagger mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {PILARES.map((p) => (
+          <article class="group rounded-2xl border border-white/[.08] bg-graphite p-6 transition duration-300 hover:border-brand/60 hover:bg-[#1b1820]">
+            <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand/15 text-brand-light transition duration-300 group-hover:bg-brand group-hover:text-white">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" set:html={p.icone} />
+            </span>
+            <h3 class="mt-6 text-lg font-semibold">{p.titulo}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-white/65">{p.texto}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-8 flex items-start gap-2 text-xs leading-relaxed text-white/60">
+        <svg class="mt-0.5 h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        Resultados no PageSpeed também podem variar conforme hospedagem, scripts de terceiros, integrações e conteúdo inserido após a entrega.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ TECNOLOGIAS ============ -->
+  <section class="py-16 md:py-28">
+    <div class="mx-auto max-w-site px-5 md:px-8">
+      <p class="eyebrow text-muted">Tecnologias</p>
+      <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
+        A <span class="text-brand">tecnologia</span> certa<br class="hidden sm:block"> para cada projeto.
+      </h2>
+      <p class="mt-5 max-w-lg text-base leading-relaxed text-muted">Sem torcida por ferramenta. A solução é escolhida pela necessidade do cliente, prazo, autonomia e vida útil do site.</p>
+    </div>
+
+    <!-- faixa em movimento com as ferramentas do dia a dia -->
+    <div class="marquee mt-10 overflow-hidden border-y border-black/[.07] py-5" role="img" aria-label="Ferramentas: Figma, Adobe XD, Photoshop, Sketch, WordPress, Elementor, HTML, CSS, JavaScript, Tailwind">
+      <div class="marquee-track flex w-max whitespace-nowrap text-xl font-semibold tracking-tight text-ink/65 md:text-2xl" aria-hidden="true"><div class="flex gap-14 pr-14"><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F24E1E" d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#FF61F6" d="M4.25.3C1.9.3 0 2.2 0 4.55v14.9c0 2.35 1.9 4.25 4.25 4.25h15.5c2.35 0 4.25-1.9 4.25-4.25V4.55C24 2.2 22.1.3 19.75.3Zm14.07 5.13h2.03c.05-.01.09.03.1.07v9.54c0 .18.01.38.02.6.02.21.03.41.04.58 0 .07-.03.13-.1.16-.52.22-1.07.38-1.63.48-.51.09-1.02.14-1.54.14-.74.01-1.48-.14-2.15-.45-.63-.29-1.15-.77-1.51-1.36-.37-.61-.55-1.37-.55-2.28a4.107 4.107 0 0 1 2.14-3.66c.7-.39 1.54-.58 2.53-.58.05 0 .12 0 .21.01s.19.01.31.02V5.54c0-.07.03-.11.1-.11zM3.68 6.3h2.27c.05 0 .1.01.14.02.04.02.07.05.1.09.19.43.41.86.64 1.29.24.43.47.85.72 1.27.24.42.46.84.67 1.27h.02c.21-.44.43-.87.65-1.29.22-.42.45-.84.68-1.26.23-.42.45-.85.67-1.26.01-.04.03-.08.06-.1a.19.19 0 0 1 .13-.02h2.11c.05-.01.1.02.11.07.01.01-.01.05-.03.07l-3 4.95 3.2 5.25c.02.04.03.08.02.12-.01.04-.05.01-.11.02h-2.29c-.16 0-.27-.01-.34-.11-.21-.42-.43-.83-.64-1.25-.21-.41-.44-.83-.68-1.26-.24-.43-.48-.86-.72-1.3h-.02c-.21.43-.44.86-.67 1.29-.23.43-.46.86-.68 1.28-.23.42-.46.85-.69 1.26-.04.1-.12.11-.23.11h-2.2c-.04 0-.07.02-.07-.03a.14.14 0 0 1 .02-.11l3.11-5.1L3.6 6.44c-.03-.04-.04-.08-.02-.1.02-.03.06-.04.1-.04zm13.94 4.23c-.39 0-.78.08-1.13.26-.34.17-.63.42-.85.74-.22.32-.33.75-.33 1.27-.01.35.05.7.17 1.03.1.27.25.51.45.71.19.18.42.32.68.4.27.09.55.13.83.13.15 0 .29-.01.42-.02.13.01.24-.01.36-.05v-4.4c-.09-.02-.18-.04-.27-.05-.11-.01-.22-.02-.33-.02Z"/></svg>Adobe XD</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#31A8FF" d="M9.85 8.42c-.37-.15-.77-.21-1.18-.2-.26 0-.49 0-.68.01-.2-.01-.34 0-.41.01v3.36c.14.01.27.02.39.02h.53c.39 0 .78-.06 1.15-.18.32-.09.6-.28.82-.53.21-.25.31-.59.31-1.03.01-.31-.07-.62-.23-.89-.17-.26-.41-.46-.7-.57zM19.75.3H4.25C1.9.3 0 2.2 0 4.55v14.899c0 2.35 1.9 4.25 4.25 4.25h15.5c2.35 0 4.25-1.9 4.25-4.25V4.55C24 2.2 22.1.3 19.75.3zm-7.391 11.65c-.399.56-.959.98-1.609 1.22-.68.25-1.43.34-2.25.34-.24 0-.4 0-.5-.01s-.24-.01-.43-.01v3.209c.01.07-.04.131-.11.141H5.52c-.08 0-.12-.041-.12-.131V6.42c0-.07.03-.11.1-.11.17 0 .33 0 .56-.01.24-.01.49-.01.76-.02s.56-.01.87-.02c.31-.01.61-.01.91-.01.82 0 1.5.1 2.06.31.5.17.96.45 1.34.82.32.32.57.71.73 1.14.149.42.229.85.229 1.3.001.86-.199 1.57-.6 2.13zm7.091 3.89c-.28.4-.671.709-1.12.891-.49.209-1.09.318-1.811.318-.459 0-.91-.039-1.359-.129-.35-.061-.7-.17-1.02-.32-.07-.039-.121-.109-.111-.189v-1.74c0-.029.011-.07.041-.09.029-.02.06-.01.09.01.39.23.8.391 1.24.49.379.1.779.15 1.18.15.38 0 .65-.051.83-.141.16-.07.27-.24.27-.42 0-.141-.08-.27-.24-.4-.16-.129-.489-.279-.979-.471-.51-.18-.979-.42-1.42-.719-.31-.221-.569-.51-.761-.85-.159-.32-.239-.67-.229-1.021 0-.43.12-.84.341-1.21.25-.4.619-.72 1.049-.92.469-.239 1.059-.349 1.769-.349.41 0 .83.03 1.24.09.3.04.59.12.86.23.039.01.08.05.1.09.01.04.02.08.02.12v1.63c0 .04-.02.08-.05.1-.09.02-.14.02-.18 0-.3-.16-.62-.27-.96-.34-.37-.08-.74-.13-1.12-.13-.2-.01-.41.02-.601.07-.129.03-.24.1-.31.2-.05.08-.08.18-.08.27s.04.18.101.26c.09.11.209.2.34.27.229.12.47.23.709.33.541.18 1.061.43 1.541.73.33.209.6.49.789.83.16.318.24.67.23 1.029.011.471-.129.94-.389 1.331z"/></svg>Photoshop</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F7B500" d="M12 1.25l6.75 6.637V2L12 1.25zm0 0l-6.05 7h12.1l-6.05-7zm0 0L5.25 2v5.887L12 1.25zM5.25 2L0 9l4.416-.68L5.25 2zM0 9l11.959 13.703.008-.014L4.443 9H0zm18.75-7l.834 6.32L24 9l-5.25-7zM24 9h-4.506l-7.523 13.69.029.06L24 9zM12 22.75l-.031-.057-.008.012.039.045zM5.436 9l6.533 13.686L18.564 9H5.436Z"/></svg>Sketch</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#21759B" d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/></svg>WordPress</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#92003B" d="M12 0C5.372 0 0 5.372 0 12c0 6.626 5.372 12 12 12s12-5.372 12-12c0-6.626-5.372-12-12-12ZM9 17H7V7H9Zm8 0H11V15h6Zm0-4H11V11h6Zm0-4H11V7h6Z"/></svg>Elementor</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#E34F26" d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>HTML</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#1572B6" d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z"/></svg>CSS</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F7DF1E" d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg>JavaScript</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#06B6D4" d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/></svg>Tailwind</span></div><div class="flex gap-14 pr-14"><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F24E1E" d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#FF61F6" d="M4.25.3C1.9.3 0 2.2 0 4.55v14.9c0 2.35 1.9 4.25 4.25 4.25h15.5c2.35 0 4.25-1.9 4.25-4.25V4.55C24 2.2 22.1.3 19.75.3Zm14.07 5.13h2.03c.05-.01.09.03.1.07v9.54c0 .18.01.38.02.6.02.21.03.41.04.58 0 .07-.03.13-.1.16-.52.22-1.07.38-1.63.48-.51.09-1.02.14-1.54.14-.74.01-1.48-.14-2.15-.45-.63-.29-1.15-.77-1.51-1.36-.37-.61-.55-1.37-.55-2.28a4.107 4.107 0 0 1 2.14-3.66c.7-.39 1.54-.58 2.53-.58.05 0 .12 0 .21.01s.19.01.31.02V5.54c0-.07.03-.11.1-.11zM3.68 6.3h2.27c.05 0 .1.01.14.02.04.02.07.05.1.09.19.43.41.86.64 1.29.24.43.47.85.72 1.27.24.42.46.84.67 1.27h.02c.21-.44.43-.87.65-1.29.22-.42.45-.84.68-1.26.23-.42.45-.85.67-1.26.01-.04.03-.08.06-.1a.19.19 0 0 1 .13-.02h2.11c.05-.01.1.02.11.07.01.01-.01.05-.03.07l-3 4.95 3.2 5.25c.02.04.03.08.02.12-.01.04-.05.01-.11.02h-2.29c-.16 0-.27-.01-.34-.11-.21-.42-.43-.83-.64-1.25-.21-.41-.44-.83-.68-1.26-.24-.43-.48-.86-.72-1.3h-.02c-.21.43-.44.86-.67 1.29-.23.43-.46.86-.68 1.28-.23.42-.46.85-.69 1.26-.04.1-.12.11-.23.11h-2.2c-.04 0-.07.02-.07-.03a.14.14 0 0 1 .02-.11l3.11-5.1L3.6 6.44c-.03-.04-.04-.08-.02-.1.02-.03.06-.04.1-.04zm13.94 4.23c-.39 0-.78.08-1.13.26-.34.17-.63.42-.85.74-.22.32-.33.75-.33 1.27-.01.35.05.7.17 1.03.1.27.25.51.45.71.19.18.42.32.68.4.27.09.55.13.83.13.15 0 .29-.01.42-.02.13.01.24-.01.36-.05v-4.4c-.09-.02-.18-.04-.27-.05-.11-.01-.22-.02-.33-.02Z"/></svg>Adobe XD</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#31A8FF" d="M9.85 8.42c-.37-.15-.77-.21-1.18-.2-.26 0-.49 0-.68.01-.2-.01-.34 0-.41.01v3.36c.14.01.27.02.39.02h.53c.39 0 .78-.06 1.15-.18.32-.09.6-.28.82-.53.21-.25.31-.59.31-1.03.01-.31-.07-.62-.23-.89-.17-.26-.41-.46-.7-.57zM19.75.3H4.25C1.9.3 0 2.2 0 4.55v14.899c0 2.35 1.9 4.25 4.25 4.25h15.5c2.35 0 4.25-1.9 4.25-4.25V4.55C24 2.2 22.1.3 19.75.3zm-7.391 11.65c-.399.56-.959.98-1.609 1.22-.68.25-1.43.34-2.25.34-.24 0-.4 0-.5-.01s-.24-.01-.43-.01v3.209c.01.07-.04.131-.11.141H5.52c-.08 0-.12-.041-.12-.131V6.42c0-.07.03-.11.1-.11.17 0 .33 0 .56-.01.24-.01.49-.01.76-.02s.56-.01.87-.02c.31-.01.61-.01.91-.01.82 0 1.5.1 2.06.31.5.17.96.45 1.34.82.32.32.57.71.73 1.14.149.42.229.85.229 1.3.001.86-.199 1.57-.6 2.13zm7.091 3.89c-.28.4-.671.709-1.12.891-.49.209-1.09.318-1.811.318-.459 0-.91-.039-1.359-.129-.35-.061-.7-.17-1.02-.32-.07-.039-.121-.109-.111-.189v-1.74c0-.029.011-.07.041-.09.029-.02.06-.01.09.01.39.23.8.391 1.24.49.379.1.779.15 1.18.15.38 0 .65-.051.83-.141.16-.07.27-.24.27-.42 0-.141-.08-.27-.24-.4-.16-.129-.489-.279-.979-.471-.51-.18-.979-.42-1.42-.719-.31-.221-.569-.51-.761-.85-.159-.32-.239-.67-.229-1.021 0-.43.12-.84.341-1.21.25-.4.619-.72 1.049-.92.469-.239 1.059-.349 1.769-.349.41 0 .83.03 1.24.09.3.04.59.12.86.23.039.01.08.05.1.09.01.04.02.08.02.12v1.63c0 .04-.02.08-.05.1-.09.02-.14.02-.18 0-.3-.16-.62-.27-.96-.34-.37-.08-.74-.13-1.12-.13-.2-.01-.41.02-.601.07-.129.03-.24.1-.31.2-.05.08-.08.18-.08.27s.04.18.101.26c.09.11.209.2.34.27.229.12.47.23.709.33.541.18 1.061.43 1.541.73.33.209.6.49.789.83.16.318.24.67.23 1.029.011.471-.129.94-.389 1.331z"/></svg>Photoshop</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F7B500" d="M12 1.25l6.75 6.637V2L12 1.25zm0 0l-6.05 7h12.1l-6.05-7zm0 0L5.25 2v5.887L12 1.25zM5.25 2L0 9l4.416-.68L5.25 2zM0 9l11.959 13.703.008-.014L4.443 9H0zm18.75-7l.834 6.32L24 9l-5.25-7zM24 9h-4.506l-7.523 13.69.029.06L24 9zM12 22.75l-.031-.057-.008.012.039.045zM5.436 9l6.533 13.686L18.564 9H5.436Z"/></svg>Sketch</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#21759B" d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/></svg>WordPress</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#92003B" d="M12 0C5.372 0 0 5.372 0 12c0 6.626 5.372 12 12 12s12-5.372 12-12c0-6.626-5.372-12-12-12ZM9 17H7V7H9Zm8 0H11V15h6Zm0-4H11V11h6Zm0-4H11V7h6Z"/></svg>Elementor</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#E34F26" d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>HTML</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#1572B6" d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z"/></svg>CSS</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F7DF1E" d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg>JavaScript</span><span class="flex items-center gap-3"><svg class="h-7 w-7 md:h-8 md:w-8" viewBox="0 0 24 24" aria-hidden="true"><path fill="#06B6D4" d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/></svg>Tailwind</span></div></div>
+    </div>
+
+    <div class="mx-auto max-w-site px-5 md:px-8">
+      <div class="r-stagger mt-10 grid gap-4 md:grid-cols-2">
+        <article class="rounded-3xl border border-black/[.07] bg-white p-6 md:p-9">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[11px] uppercase tracking-[.12em] text-brand">Stack 01</span>
+            <span class="flex items-center gap-2" role="img" aria-label="Logos do WordPress e do Elementor"><span class="grid h-12 w-12 place-items-center rounded-xl bg-paper"><svg class="h-7 w-7" viewBox="0 0 24 24" aria-hidden="true"><path fill="#21759B" d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/></svg></span><span class="grid h-12 w-12 place-items-center rounded-xl bg-paper"><svg class="h-7 w-7" viewBox="0 0 24 24" aria-hidden="true"><path fill="#92003B" d="M12 0C5.372 0 0 5.372 0 12c0 6.626 5.372 12 12 12s12-5.372 12-12c0-6.626-5.372-12-12-12ZM9 17H7V7H9Zm8 0H11V15h6Zm0-4H11V11h6Zm0-4H11V7h6Z"/></svg></span></span>
+          </div>
+          <h3 class="mt-6 text-2xl font-semibold tracking-tight">WordPress + Elementor</h3>
+          <p class="mt-1.5 text-sm font-medium text-brand">Autonomia para o cliente, agilidade para a agência.</p>
+          <p class="mt-4 text-[15px] leading-relaxed text-muted">Indicado quando o projeto precisa de gestão visual simples, publicação recorrente ou evolução contínua.</p>
+          <ul class="mt-6 space-y-2.5 text-sm">
+            <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Sites institucionais gerenciáveis</li>
+            <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Landing pages com edição interna</li>
+            <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Blogs e páginas recorrentes</li>
+          </ul>
+        </article>
+        <article class="rounded-3xl border border-black/[.07] bg-white p-6 md:p-9">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[11px] uppercase tracking-[.12em] text-brand">Stack 02</span>
+            <span class="flex items-center gap-2" role="img" aria-label="Logos de HTML5, CSS3 e JavaScript"><span class="grid h-12 w-12 place-items-center rounded-xl bg-paper"><svg class="h-7 w-7" viewBox="0 0 24 24" aria-hidden="true"><path fill="#E34F26" d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg></span><span class="grid h-12 w-12 place-items-center rounded-xl bg-paper"><svg class="h-7 w-7" viewBox="0 0 24 24" aria-hidden="true"><path fill="#1572B6" d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z"/></svg></span><span class="grid h-12 w-12 place-items-center rounded-xl bg-paper"><svg class="h-7 w-7" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F7DF1E" d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg></span></span>
+          </div>
+          <h3 class="mt-6 text-2xl font-semibold tracking-tight">HTML + CSS + JavaScript</h3>
+          <p class="mt-1.5 text-sm font-medium text-brand">Controle fino, leveza e performance.</p>
+          <p class="mt-4 text-[15px] leading-relaxed text-muted">Ideal para experiências sob medida, campanhas de alta performance e páginas com escopo mais enxuto.</p>
+          <ul class="mt-6 space-y-2.5 text-sm">
+            <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Landing pages de campanha</li>
+            <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Sites estáticos personalizados</li>
+            <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Projetos com máxima liberdade visual</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJETOS (carregados da lista PROJETOS no script) ============ -->
+  <section id="projetos" class="bg-ink text-white">
+    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+      <p class="eyebrow text-white/60">Projetos selecionados</p>
+      <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
+        Projetos desenvolvidos<br class="hidden sm:block"> com <span class="text-brand-light">padrão de agência</span>.
+      </h2>
+      <p class="mt-5 max-w-xl text-base leading-relaxed text-white/65">Cada projeto recebe atenção à identidade, ao objetivo do negócio e à experiência em todos os dispositivos, sem deixar de lado a performance.</p>
+
+      <div class="r-stagger mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {cases.map(({ id, data: p }) => (
+          <article class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[.08] bg-graphite transition duration-300 hover:border-white/20 focus-within:border-brand-light">
+            <div class="relative aspect-[4/3] max-w-full overflow-hidden">
+              <div class="r-zoom h-full w-full"><Image src={p.capa.desktop} alt={p.card.titulo ?? p.titulo} widths={[400, 800]} sizes="(min-width: 1024px) 380px, (min-width: 768px) 50vw, 100vw" class="h-full w-full object-cover object-top transition duration-700 group-hover:scale-[1.04]" /></div>
+            </div>
+            <div class="flex flex-1 flex-col p-6">
+              <ul class="flex flex-wrap gap-1.5">{p.card.tags.map((t) => <li class="rounded-full border border-white/15 px-2.5 py-1 text-[11px] text-white/75">{t}</li>)}</ul>
+              <h3 class="mt-5 text-xl font-semibold">{p.card.titulo ?? p.titulo}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-white/65">{p.card.descricao}</p>
+              <a href={url(`white-label/projetos/${id}/`)} aria-label={`Ver projeto: ${p.card.titulo ?? p.titulo}`} class="mt-6 inline-flex items-center gap-2 text-sm font-semibold after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">Ver projeto <Seta class="arrow h-4 w-4 text-brand-light" /></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROCESSO ============ -->
+  <section id="processo" class="bg-mist">
+    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="eyebrow text-muted">Processo simples</p>
+          <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
+            Do primeiro briefing<br class="hidden sm:block"> até o <span class="text-brand">site no ar</span>.
+          </h2>
+        </div>
+        <p class="flex max-w-sm items-start gap-3 rounded-2xl bg-white p-4 text-sm leading-relaxed text-muted">
+          <svg class="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3Z"/></svg>
+          O layout é opcional. Se precisar, o projeto pode começar do zero comigo.
+        </p>
+      </div>
+
+      <div class="relative mt-14">
+        <!-- trilho e linha de progresso: horizontal no desktop, vertical no celular -->
+        <div class="absolute bottom-0 left-[11px] top-0 w-0.5 bg-black/10 md:bottom-auto md:left-0 md:right-0 md:top-[11px] md:h-0.5 md:w-auto"></div>
+        <div class="r-progress absolute bottom-0 left-[11px] top-0 w-0.5 origin-top bg-brand [--from-y:0] md:bottom-auto md:left-0 md:right-0 md:top-[11px] md:h-0.5 md:w-auto md:origin-left md:[--from-x:0] md:[--from-y:1]"></div>
+        <ol class="r-stagger relative grid gap-10 md:grid-cols-4 md:gap-6">
+          <li class="relative pl-12 md:pl-0">
+            <span class="absolute left-0 grid h-6 w-6 place-items-center rounded-full bg-brand font-mono text-[10px] text-white ring-4 ring-mist md:static">1</span>
+            <h3 class="text-xl font-semibold md:mt-6">Briefing</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">Alinhamos escopo, materiais, prazo, objetivo e a forma de colaboração com sua agência.</p>
+          </li>
+          <li class="relative pl-12 md:pl-0">
+            <span class="absolute left-0 grid h-6 w-6 place-items-center rounded-full bg-brand font-mono text-[10px] text-white ring-4 ring-mist md:static">2</span>
+            <h3 class="text-xl font-semibold md:mt-6">Desenvolvimento</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">O projeto ganha forma em ambiente de testes, com atualizações claras e checkpoints no momento certo.</p>
+          </li>
+          <li class="relative pl-12 md:pl-0">
+            <span class="absolute left-0 grid h-6 w-6 place-items-center rounded-full bg-brand font-mono text-[10px] text-white ring-4 ring-mist md:static">3</span>
+            <h3 class="text-xl font-semibold md:mt-6">Ajustes</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">A agência acompanha e valida. Concentramos os feedbacks e refinamos até a versão aprovada.</p>
+          </li>
+          <li class="relative pl-12 md:pl-0">
+            <span class="absolute left-0 grid h-6 w-6 place-items-center rounded-full bg-brand font-mono text-[10px] text-white ring-4 ring-mist md:static">4</span>
+            <h3 class="text-xl font-semibold md:mt-6">Entrega</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">Publico ou entrego os arquivos, faço a conferência final e o site vai ao ar com a identidade da sua agência.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VALORES (WhatsApp no lugar do formulário) ============ -->
+  <section id="valores" class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+    <div class="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+      <div>
+        <p class="eyebrow text-muted">Valores para agências</p>
+        <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
+          Quer saber <span class="text-brand">quanto custa</span> desenvolver um site em parceria?
+        </h2>
+        <p class="mt-5 max-w-md text-base leading-relaxed text-muted">Receba a tabela diferenciada para agências e entenda como posso entrar no seu próximo orçamento. Sem preços públicos e sem compromisso.</p>
+      </div>
+
+      <div class="r-rise rounded-3xl bg-ink p-6 text-white shadow-[0_30px_60px_-30px_rgba(110,68,255,.7)] md:p-9">
+        <div class="flex items-center justify-between gap-4">
+          <p class="text-lg font-semibold">Receber condições especiais</p>
+          <span class="font-mono text-[10.5px] uppercase tracking-[.12em] text-white/60">1 minuto</span>
+        </div>
+        <ul class="mt-6 space-y-3 text-sm text-white/80">
+          <li class="flex gap-3"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Tabela reservada para parceiros</li>
+          <li class="flex gap-3"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Faixas por tipo de projeto</li>
+          <li class="flex gap-3"><svg class="mt-0.5 h-4 w-4 shrink-0 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Retorno direto e sem abordagem insistente</li>
+        </ul>
+        <a href={wa.valores} target="_blank" rel="noopener" class="mt-8 flex w-full items-center justify-between gap-3 rounded-full bg-brand px-6 py-4 text-sm font-semibold transition hover:bg-brand-dark">
+          <span class="flex items-center gap-2.5">
+            <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+            Quero receber os valores especiais
+          </span>
+          <svg class="arrow h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <p class="mt-4 flex items-center gap-2 text-xs text-white/60">
+          <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          A conversa abre no seu WhatsApp. Retorno pessoal em até 1 dia útil.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA FINAL ============ -->
+  <section class="relative overflow-hidden bg-brand text-white">
+    <svg class="r-turn pointer-events-none absolute -right-16 top-1/2 h-[420px] w-auto -translate-y-1/2 opacity-[.12] md:right-[6%] md:h-[520px]" viewBox="0 0 34 45" aria-hidden="true"><path fill="#fff" d="M 34 9.23 L 32.203 1.078 L 30.23 0.5 L 22.281 8.652 L 22.047 9.98 L 22.977 11.891 L 21.641 11.137 L 21.062 10.965 L 13.285 10.965 L 12.707 11.137 L 10.965 12.121 L 12.012 10.039 L 11.777 8.711 L 3.77 0.5 L 1.797 1.078 L 0 9.23 L 0.117 10.039 L 5.047 18.711 L 0.406 28.078 L 0.871 29.582 L 8.066 33.688 L 13.984 43.922 L 14.969 44.5 L 18.973 44.5 L 19.961 43.922 L 25.879 33.688 L 33.07 29.582 L 33.535 28.078 L 28.895 18.711 L 33.824 10.039 Z M 2.379 9.289 L 3.598 3.68 L 9.516 9.691 L 6.324 16.227 Z M 9.922 32.301 L 9.516 31.895 L 3.016 28.137 L 6.441 21.141 L 11.953 30.855 L 12.938 37.504 Z M 19.902 29.93 L 19.785 30.336 L 18.043 42.188 L 16.012 42.188 L 14.273 30.336 L 14.156 29.93 L 7.715 18.656 L 9.168 15.648 L 13.578 13.219 L 20.77 13.219 L 24.832 15.648 L 26.34 18.656 Z M 30.984 28.137 L 24.484 31.895 L 24.078 32.301 L 21.062 37.562 L 22.047 30.914 L 27.559 21.199 Z M 27.734 16.227 L 24.543 9.691 L 30.402 3.621 L 31.621 9.23 Z M 27.734 16.227"/></svg>
+    <div class="relative mx-auto max-w-3xl px-5 py-16 text-center md:px-8 md:py-24">
+      <p class="font-mono text-[11px] uppercase tracking-[.14em] text-white/90">Próximo projeto</p>
+      <h2 class="r-wipe mt-5 text-[2rem] font-extrabold leading-[1.08] tracking-tight md:text-[3.4rem]">Tem projeto de site parado na agência?</h2>
+      <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/85">Você cuida do cliente e da parte criativa. Eu assumo o desenvolvimento. Vamos conversar sobre os próximos projetos da sua agência?</p>
+      <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href={wa.conversa} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-ink transition hover:bg-paper">
+          Quero conversar sobre uma parceria <svg class="arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+        <a href="#projetos" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-7 py-4 text-sm font-semibold transition hover:border-white">
+          Ver projetos <svg class="arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ RODAPÉ ============ -->
+<footer class="bg-ink text-white">
+  <div class="mx-auto max-w-site px-5 pb-24 pt-14 md:px-8 md:pb-10">
+    <div class="flex flex-col gap-10 md:flex-row md:justify-between">
+      <div class="max-w-sm">
+        <div class="flex items-center gap-3">
+          <svg class="h-9 w-auto" viewBox="0 0 34 45" aria-hidden="true"><path fill="#9B7BFF" d="M 34 9.23 L 32.203 1.078 L 30.23 0.5 L 22.281 8.652 L 22.047 9.98 L 22.977 11.891 L 21.641 11.137 L 21.062 10.965 L 13.285 10.965 L 12.707 11.137 L 10.965 12.121 L 12.012 10.039 L 11.777 8.711 L 3.77 0.5 L 1.797 1.078 L 0 9.23 L 0.117 10.039 L 5.047 18.711 L 0.406 28.078 L 0.871 29.582 L 8.066 33.688 L 13.984 43.922 L 14.969 44.5 L 18.973 44.5 L 19.961 43.922 L 25.879 33.688 L 33.07 29.582 L 33.535 28.078 L 28.895 18.711 L 33.824 10.039 Z M 2.379 9.289 L 3.598 3.68 L 9.516 9.691 L 6.324 16.227 Z M 9.922 32.301 L 9.516 31.895 L 3.016 28.137 L 6.441 21.141 L 11.953 30.855 L 12.938 37.504 Z M 19.902 29.93 L 19.785 30.336 L 18.043 42.188 L 16.012 42.188 L 14.273 30.336 L 14.156 29.93 L 7.715 18.656 L 9.168 15.648 L 13.578 13.219 L 20.77 13.219 L 24.832 15.648 L 26.34 18.656 Z M 30.984 28.137 L 24.484 31.895 L 24.078 32.301 L 21.062 37.562 L 22.047 30.914 L 27.559 21.199 Z M 27.734 16.227 L 24.543 9.691 L 30.402 3.621 L 31.621 9.23 Z M 27.734 16.227"/></svg>
+          <span class="leading-tight">
+            <span class="block font-semibold">Jonathan Menino</span>
+            <span class="block font-mono text-[9.5px] uppercase tracking-[.14em] text-white/60">Desenvolvimento de sites</span>
+          </span>
+        </div>
+        <p class="mt-5 text-sm leading-relaxed text-white/65">Desenvolvimento White Label para agências que querem entregar mais, com qualidade e sem aumentar o time fixo.</p>
+        <Redes class="mt-6 flex flex-wrap gap-2" />
+      </div>
+      <div class="grid grid-cols-2 gap-10 text-sm sm:gap-16">
+        <div>
+          <p class="font-mono text-[10.5px] uppercase tracking-[.12em] text-white/60">Navegação</p>
+          <ul class="mt-4 space-y-2.5">
+            <li><a class="text-white/85 hover:text-brand-light" href="#parceria">Parceria</a></li>
+            <li><a class="text-white/85 hover:text-brand-light" href="#beneficios">Benefícios</a></li>
+            <li><a class="text-white/85 hover:text-brand-light" href="#projetos">Projetos</a></li>
+            <li><a class="text-white/85 hover:text-brand-light" href="#processo">Processo</a></li>
+          </ul>
+        </div>
+        <div class="min-w-0">
+          <p class="font-mono text-[10.5px] uppercase tracking-[.12em] text-white/60">Contato</p>
+          <ul class="mt-4 space-y-2.5">
+            <li><a href={wa.conversa} target="_blank" rel="noopener" class="text-white/85 hover:text-brand-light">WhatsApp · Seg–Sex, 9h–18h</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row sm:justify-between">
+      <p>© {new Date().getFullYear()} Jonathan Menino. Todos os direitos reservados.</p>
+      <p class="font-mono uppercase tracking-[.1em]"><a class="hover:text-brand-light" href={url()}>jonathanmenino</a> · Atendendo agências em todo o país</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Botão flutuante de WhatsApp (só no celular) -->
+<a href={wa.parceria} target="_blank" rel="noopener" aria-label="Falar no WhatsApp" class="fixed right-4 z-30 grid h-14 w-14 place-items-center rounded-full bg-brand text-white shadow-[0_10px_30px_-8px_rgba(110,68,255,.7)] md:hidden" style="bottom: calc(env(safe-area-inset-bottom, 0px) + 16px)">
+  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+</a>
+
+<script>
+  // Menu mobile
+  const menu = document.getElementById('menu-mobile');
+  const abrir = document.getElementById('menu-open');
+  const setMenu = (aberto) => {
+    menu.hidden = !aberto;
+    abrir.setAttribute('aria-expanded', String(aberto));
+    document.body.style.overflow = aberto ? 'hidden' : '';
+  };
+  abrir.addEventListener('click', () => setMenu(true));
+  document.getElementById('menu-close').addEventListener('click', () => setMenu(false));
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) setMenu(false); });
+</script>
+</Base>

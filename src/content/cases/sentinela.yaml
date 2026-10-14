@@ -1,0 +1,99 @@
+# Conteúdo do case. Campos com null aparecem com o selo "A preencher".
+# ordem: posição na lista de projetos (e define o "Próximo projeto").
+# descricaoSeo: texto que aparece no Google (até ~155 caracteres).
+# Imagens ficam em src/assets/cases/sentinela/ (o Astro converte para WebP).
+ordem: 3
+titulo: Sentinela Serviços de Proteção
+tipo: Site institucional · Segurança patrimonial
+dominio: sentinelaservprotecao.com.br
+url: https://sentinelaservprotecao.com.br/
+resumo: Site de uma empresa de portaria, controle de acesso e monitoramento para condomínios, atacados, hospitais e indústrias. Um visual sóbrio, em preto e verde militar, que passa disciplina e leva o síndico ou gestor a pedir uma proposta.
+descricaoSeo: "Site institucional da Sentinela Serviços de Proteção, empresa de portaria e segurança patrimonial, em WordPress com Elementor: serviços, método de trabalho e pedido de proposta."
+card:
+  titulo: Sentinela
+  tags:
+    - Site institucional
+    - WordPress
+    - Elementor
+  descricao: Site de uma empresa de portaria e segurança patrimonial, com serviços, método de trabalho e pedido de proposta.
+ficha:
+  - rotulo: Cliente
+    valor: Sentinela Serviços de Proteção
+  - rotulo: Plataforma
+    valor: WordPress + Elementor
+  - rotulo: Meu papel
+    valor: Layout e desenvolvimento
+  - rotulo: Prazo
+    valor: 5 dias
+agencia:
+  nome: Agência Sphera
+  logo: ../../assets/agencias/sphera-branco.png
+stack:
+  - WordPress
+  - Elementor
+  - Google Fonts
+  - WhatsApp
+capa:
+  desktop: ../../assets/cases/sentinela/desktop.jpg
+  celular: ../../assets/cases/sentinela/mobile.jpg
+desafio:
+  titulo: Vender confiança antes de vender o serviço.
+  texto: Quem contrata portaria e segurança está entregando o acesso do condomínio ou da empresa a outra equipe. O site precisava mostrar quem está por trás da Sentinela, provar que existe método e deixar claro que o serviço segue a lei, antes de pedir o contato.
+solucao:
+  titulo: Um site com cara de operação séria, do topo ao rodapé.
+  texto: Fotos reais da equipe e da central, paleta escura com verde militar e textos diretos. A página apresenta o fundador e a trajetória, os três serviços, os motivos para escolher a empresa e o processo em cinco passos, com pedido de proposta e WhatsApp no começo e no fim.
+estrutura:
+  titulo: Da credibilidade ao pedido de proposta.
+  texto: "Cada bloco responde uma dúvida de quem vai contratar segurança: quem são, o que fazem, por que confiar e como trabalham."
+  secoes:
+    - nome: Topo com a proposta
+      texto: Segurança estruturada para condomínios, atacados, supermercados, hospitais e indústrias, com botões para pedir proposta ou falar no WhatsApp.
+      imagem: ../../assets/cases/sentinela/secao-topo.jpg
+    - nome: Quem somos
+      texto: "A história da empresa e do fundador, com fotos da equipe e três selos: experiência comprovada, qualificação técnica e credenciamento federal."
+      imagem: ../../assets/cases/sentinela/secao-quem-somos.jpg
+    - nome: Serviços
+      texto: Portaria para condomínios, portaria e controle industrial e monitoramento CFTV em cards sobre fundo escuro com o brasão da marca.
+      imagem: ../../assets/cases/sentinela/secao-servicos.jpg
+    - nome: Por que escolher a Sentinela
+      texto: Conformidade legal, seleção e treinamento, procedimentos por posto, supervisão e sigilo, ao lado da foto da central de monitoramento.
+      imagem: ../../assets/cases/sentinela/secao-por-que.jpg
+    - nome: Como trabalhamos
+      texto: O processo em cinco passos, da análise técnica do local à supervisão contínua, em uma linha do tempo vertical.
+      imagem: ../../assets/cases/sentinela/secao-como-trabalhamos.jpg
+    - nome: Compromisso com a prevenção
+      texto: Substituição imediata de faltas, atendimento a emergências e contato direto com síndicos e gestores.
+      imagem: ../../assets/cases/sentinela/secao-compromisso.jpg
+    - nome: Chamada final e rodapé
+      texto: '"Sua segurança merece gestão profissional", com orçamento e WhatsApp, e rodapé com as redes sociais.'
+      imagem: ../../assets/cases/sentinela/secao-contato.jpg
+desempenho:
+  titulo: Bem construído por dentro.
+  texto: Boas práticas com nota máxima, acessibilidade e SEO acima de 90, e uma página que não trava nem muda de lugar enquanto carrega.
+  notas:
+    mobile:
+      acessibilidade: 95
+      boasPraticas: 100
+      seo: 92
+    desktop:
+      acessibilidade: 95
+      boasPraticas: 100
+      seo: 92
+  metricas:
+    - rotulo: Total Blocking Time
+      valor: 0 ms no celular e no desktop
+      texto: "Nenhum script trava a página: o visitante rola e toca sem esperar."
+    - rotulo: Cumulative Layout Shift
+      valor: 0 no celular · 0,005 no desktop
+      texto: Nada muda de lugar enquanto a página carrega, então ninguém toca no botão errado.
+  observacao: Notas medidas no PageSpeed Insights em 13/10/2026.
+  otimizacoes: false
+telas:
+  titulo: A mesma experiência no celular
+  imagens:
+    - imagem: ../../assets/cases/sentinela/mobile.jpg
+      legenda: Topo com a proposta
+    - imagem: ../../assets/cases/sentinela/mobile-servicos.jpg
+      legenda: Serviços
+    - imagem: ../../assets/cases/sentinela/mobile-processo.jpg
+      legenda: Como trabalhamos

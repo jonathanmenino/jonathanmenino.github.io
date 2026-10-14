@@ -1,0 +1,105 @@
+# Conteúdo do case. Campos com null aparecem com o selo "A preencher".
+# ordem: posição na lista de projetos (e define o "Próximo projeto").
+# descricaoSeo: texto que aparece no Google (até ~155 caracteres).
+# Imagens ficam em src/assets/cases/agencia-zava/ (o Astro converte para WebP).
+ordem: 2
+titulo: Agência Zava
+tipo: Site institucional · Agência de marketing
+dominio: agenciazava.com.br
+url: https://agenciazava.com.br/home/
+resumo: Site da Agência Zava, de Limeira/SP. A home apresenta o Marketing 360° da agência, os seis serviços e os resultados dos clientes, e leva o visitante a pedir uma proposta ou falar no WhatsApp.
+descricaoSeo: "Site institucional da Agência Zava, agência de marketing de Limeira/SP, em WordPress com Elementor: serviços, cases e pedidos de proposta em uma página."
+card:
+  tags:
+    - Site institucional
+    - WordPress
+    - Elementor
+  descricao: Site de uma agência de marketing de Limeira/SP, com serviços, cases e caminho direto para pedir proposta.
+ficha:
+  - rotulo: Cliente
+    valor: Agência Zava · Limeira/SP
+  - rotulo: Plataforma
+    valor: WordPress + Elementor
+  - rotulo: Meu papel
+    valor: Layout e desenvolvimento
+  - rotulo: Prazo
+    valor: 5 dias
+agencia:
+  nome: Agência Zava
+  logo: ../../assets/agencias/zava-branco.svg
+  rotulo: Site feito para
+stack:
+  - WordPress
+  - Elementor
+  - WP Rocket
+  - Google Maps
+  - WhatsApp
+capa:
+  desktop: ../../assets/cases/agencia-zava/desktop.jpg
+  celular: ../../assets/cases/agencia-zava/mobile.jpg
+desafio:
+  titulo: Mostrar que a agência faz tudo, sem virar uma lista confusa.
+  texto: A Zava atende de redes sociais a tráfego pago, sites, design, foto e consultoria. O site precisava passar essa visão de marketing completo, provar com resultados de clientes e transformar a visita em pedido de proposta.
+solucao:
+  titulo: Uma promessa clara no topo e um caminho direto até a proposta.
+  texto: "O topo resume a agência em uma frase e já oferece dois caminhos: pedir proposta ou falar com um especialista. Os serviços ficam em cards iguais, cada um com seu contato, e os cases trazem logos de clientes e um resultado em destaque antes da chamada final."
+estrutura:
+  titulo: Da promessa à proposta em seis blocos.
+  texto: A home conta quem é a agência, o que ela faz e o que já entregou, sempre com um botão de contato por perto.
+  secoes:
+    - nome: Topo com a promessa
+      texto: '"Marketing 360° que transforma estratégias em vendas", com botão de proposta e atalho para um especialista no WhatsApp.'
+      imagem: ../../assets/cases/agencia-zava/secao-topo.jpg
+    - nome: Quem somos
+      texto: Posiciona a Zava como parceira de crescimento, não só social media, e abre os serviços com um bloco de destaque.
+      imagem: ../../assets/cases/agencia-zava/secao-quem-somos.jpg
+    - nome: Serviços
+      texto: "Seis serviços em cards com ícone, descrição curta e link de contato: redes sociais, tráfego pago, sites, identidade visual, conteúdo e consultoria."
+      imagem: ../../assets/cases/agencia-zava/secao-servicos.jpg
+    - nome: Cases de sucesso
+      texto: Faixa com logos de clientes atendidos, como Parque Hippolyto, Jardim Sul, Papa Rica, Kyoto e Macarrone.
+      imagem: ../../assets/cases/agencia-zava/secao-cases.jpg
+    - nome: Resultado em destaque
+      texto: O lançamento do Jardim Emília, com mais de R$ 8 milhões faturados no primeiro dia, e os serviços envolvidos.
+      imagem: ../../assets/cases/agencia-zava/secao-destaque.jpg
+    - nome: Chamada final e contato
+      texto: Bloco laranja para pedir proposta e rodapé com endereço, mapa, e-mail, telefone e links para cada serviço.
+      imagem: ../../assets/cases/agencia-zava/secao-contato.jpg
+desempenho:
+  titulo: Leve para quem navega, bem avaliado pelo Google.
+  texto: Boas práticas com nota máxima, SEO acima de 90 e uma página que responde ao toque sem travar, mesmo com vídeo de fundo no topo.
+  notas:
+    mobile:
+      acessibilidade: 86
+      boasPraticas: 100
+      seo: 92
+    desktop:
+      acessibilidade: 89
+      boasPraticas: 100
+      seo: 92
+  metricas:
+    - rotulo: Total Blocking Time
+      valor: 0 ms no celular e no desktop
+      texto: "Nenhum script trava a página: o visitante rola e toca sem esperar."
+    - rotulo: First Contentful Paint
+      valor: 0,5 s no desktop
+      texto: O topo aparece em meio segundo no computador.
+  observacao: Notas medidas no PageSpeed Insights em 13/10/2026.
+  otimizacoes:
+    - titulo: Cache de página
+      texto: Com o WP Rocket, o visitante recebe a página pronta em vez de o WordPress montar tudo a cada acesso.
+    - titulo: Lazy load
+      texto: Fotos, vídeos e mapa só carregam quando chegam perto da tela, e o topo aparece primeiro.
+    - titulo: Minificação
+      texto: CSS e JavaScript enxutos, sem espaços e comentários, para baixar menos arquivos e mais leves.
+    - titulo: JavaScript sob controle
+      texto: Scripts que a página não usa foram removidos ou adiados, por isso ela responde rápido ao toque.
+telas:
+  titulo: A mesma experiência no celular
+  imagens:
+    - imagem: ../../assets/cases/agencia-zava/mobile.jpg
+      legenda: Topo com a promessa
+    - imagem: ../../assets/cases/agencia-zava/mobile-servicos.jpg
+      legenda: Serviços
+    - imagem: ../../assets/cases/agencia-zava/mobile-cases.jpg
+      legenda: Resultado em destaque

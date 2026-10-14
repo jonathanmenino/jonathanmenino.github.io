@@ -1,0 +1,18 @@
+---
+// Anel de nota do PageSpeed (cores da escala do Lighthouse).
+interface Props { nota: number | null }
+const { nota } = Astro.props;
+const cor = nota == null ? '' : nota >= 90 ? '#0CCE6B' : nota >= 50 ? '#FFA400' : '#FF4E42';
+const c = 2 * Math.PI * 34;
+---
+{nota == null ? (
+  <div class="grid h-20 w-20 place-items-center rounded-full border-[5px] border-dashed border-white/15 font-mono text-lg text-white/40">–</div>
+) : (
+  <div class="relative h-20 w-20">
+    <svg class="h-20 w-20 -rotate-90" viewBox="0 0 80 80" aria-hidden="true">
+      <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/>
+      <circle cx="40" cy="40" r="34" fill="none" stroke={cor} stroke-width="6" stroke-linecap="round" stroke-dasharray={`${(c * nota) / 100} ${c}`}/>
+    </svg>
+    <span class="absolute inset-0 grid place-items-center font-mono text-xl font-medium" style={`color:${cor}`}>{nota}</span>
+  </div>
+)}

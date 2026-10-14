@@ -1,0 +1,104 @@
+# Conteúdo do case. Campos com null aparecem com o selo "A preencher".
+# ordem: posição na lista de projetos (e define o "Próximo projeto").
+# descricaoSeo: texto que aparece no Google (até ~155 caracteres).
+# Imagens ficam em src/assets/cases/jardim-sul/ (o Astro converte para WebP).
+ordem: 1
+titulo: Jardim Sul Residencial
+tipo: Landing page · Loteamento
+dominio: jardimsulipero.com.br
+url: https://jardimsulipero.com.br/
+resumo: Landing page de vendas para um loteamento em Iperó/SP. Uma página só, organizada na ordem das dúvidas de quem compra um lote, com o consultor a um toque no WhatsApp.
+descricaoSeo: "Landing page de loteamento em Iperó/SP, em WordPress com Elementor: estrutura pensada para vender lotes de um bairro em obras e levar o visitante direto ao consultor."
+card:
+  tags:
+    - Landing Page
+    - WordPress
+    - Elementor
+  descricao: Landing page de vendas para um loteamento em Iperó/SP, organizada na ordem das dúvidas de quem compra um lote.
+ficha:
+  - rotulo: Cliente
+    valor: Jardim Sul Residencial · Iperó/SP
+  - rotulo: Plataforma
+    valor: WordPress + Elementor
+  - rotulo: Meu papel
+    valor: Layout e desenvolvimento
+  - rotulo: Prazo
+    valor: 8 dias úteis
+agencia:
+  nome: Agência Zava
+  logo: ../../assets/agencias/zava-branco.svg
+stack:
+  - WordPress
+  - Elementor
+  - Google Tag Manager
+  - YouTube
+  - Google Maps
+capa:
+  desktop: ../../assets/cases/jardim-sul/desktop.jpg
+  celular: ../../assets/cases/jardim-sul/mobile.jpg
+desafio:
+  titulo: Vender lotes de um bairro que ainda está sendo construído.
+  texto: Quem compra um lote na planta quer ter certeza de que a obra anda, de que o loteamento é regular e de que a localização vale a pena. A página precisava responder tudo isso rápido e levar o interessado a falar com um consultor.
+solucao:
+  titulo: Uma página que segue a ordem das dúvidas do comprador.
+  texto: Preço e condições logo no topo, andamento da obra com fotos e vídeo de drone, distâncias até escola, mercado e posto de saúde, e os registros do loteamento no rodapé. O WhatsApp aparece no topo e no fim, já com a mensagem pronta.
+estrutura:
+  titulo: Cada seção responde uma pergunta.
+  texto: "A página é longa, mas não tem nada sobrando: cada bloco tira uma objeção antes de chamar para o contato."
+  secoes:
+    - nome: Topo com a oferta
+      texto: Lotes a partir de 140 m², entrada facilitada, obras avançadas e parcelas a partir de R$ 885. O visitante sabe em segundos se cabe no bolso.
+      imagem: ../../assets/cases/jardim-sul/secao-topo.jpg
+    - nome: Sobre o residencial
+      texto: Apresenta o bairro planejado, as áreas de lazer e a infraestrutura, com vídeo do empreendimento.
+      imagem: ../../assets/cases/jardim-sul/secao-sobre.jpg
+    - nome: Evolução das obras
+      texto: Etapas da obra (terraplenagem, redes de água e esgoto, asfalto, guias, rede elétrica) com fotos e vídeo aéreo. É a prova de que o projeto está saindo do papel.
+      imagem: ../../assets/cases/jardim-sul/secao-obras.jpg
+    - nome: Localização
+      texto: Tempo de deslocamento até creche, escola, posto de saúde, drogaria e mercado, mapa interativo e a vista do festival de balões.
+      imagem: ../../assets/cases/jardim-sul/secao-localizacao.jpg
+    - nome: Fale com um consultor
+      texto: Chamada final com botão direto para o WhatsApp.
+      imagem: ../../assets/cases/jardim-sul/secao-consultor.jpg
+    - nome: Parceiros e registro
+      texto: Imobiliárias credenciadas e os números de aprovação na prefeitura, GRAPROHAB e matrícula em cartório, para passar segurança.
+      imagem: ../../assets/cases/jardim-sul/secao-rodape.jpg
+desempenho:
+  titulo: Otimizado até onde dependia do código.
+  texto: "O que dependia da construção da página ficou bem avaliado: acessibilidade, boas práticas, SEO e um layout que não se mexe enquanto carrega."
+  notas:
+    mobile:
+      acessibilidade: 94
+      boasPraticas: 96
+      seo: 85
+    desktop:
+      acessibilidade: 91
+      boasPraticas: 96
+      seo: 85
+  metricas:
+    - rotulo: Cumulative Layout Shift
+      valor: 0 no celular · 0,058 no desktop
+      texto: Nada muda de lugar enquanto a página carrega, então o visitante não toca no botão errado.
+    - rotulo: Total Blocking Time
+      valor: 190 ms no celular
+      texto: A página responde rápido ao toque, mesmo com vídeos, carrossel e mapa.
+  observacao: Notas medidas no PageSpeed Insights em 13/10/2026. A hospedagem é do cliente e pesa no tempo de carregamento.
+  otimizacoes:
+    - titulo: Cache de página
+      texto: Com o WP Rocket, o visitante recebe a página pronta em vez de o WordPress montar tudo a cada acesso.
+    - titulo: Lazy load
+      texto: Fotos, vídeos e mapa só carregam quando chegam perto da tela, e o topo aparece primeiro.
+    - titulo: Minificação
+      texto: CSS e JavaScript enxutos, sem espaços e comentários, para baixar menos arquivos e mais leves.
+    - titulo: JavaScript sob controle
+      texto: Scripts que a página não usa foram removidos ou adiados, por isso ela responde rápido ao toque.
+telas:
+  titulo: A mesma experiência no celular
+  imagens:
+    - imagem: ../../assets/cases/jardim-sul/mobile.jpg
+      legenda: Topo com a oferta
+    - imagem: ../../assets/cases/jardim-sul/mobile-obras.jpg
+      legenda: Evolução das obras
+    - imagem: ../../assets/cases/jardim-sul/mobile-consultor.jpg
+      legenda: Fale com um consultor

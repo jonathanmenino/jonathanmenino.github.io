@@ -1,0 +1,252 @@
+---
+/* MODELO DE PÁGINA DE CASE
+   O conteúdo de cada case fica em src/content/cases/<slug>.yaml. */
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import Fox from '../../../components/Fox.astro';
+import Seta from '../../../components/Seta.astro';
+import Redes from '../../../components/Redes.astro';
+import Pendente from '../../../components/Pendente.astro';
+import Moldura from '../../../components/Moldura.astro';
+import Anel from '../../../components/Anel.astro';
+import { MENSAGENS, linkWhatsApp, url } from '../../../data/site';
+import '../../../styles/case.css';
+
+export async function getStaticPaths() {
+  const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.data.ordem);
+  // "Próximo projeto" segue a ordem e volta ao primeiro no fim.
+  return cases.map((c, i) => ({ params: { slug: c.id }, props: { item: c, proximo: cases[(i + 1) % cases.length] } }));
+}
+
+interface Props { item: CollectionEntry<'cases'>; proximo: CollectionEntry<'cases'> }
+const { item, proximo } = Astro.props;
+const C = item.data;
+const D = C.desempenho;
+const landing = url('white-label/');
+const wa = linkWhatsApp(MENSAGENS.case.replace('{projeto}', C.titulo));
+const vazio = (v: unknown) => v === null || v === undefined || v === '';
+const CATEGORIAS = [['performance', 'Performance'], ['acessibilidade', 'Acessibilidade'], ['boasPraticas', 'Boas práticas'], ['seo', 'SEO']];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: C.titulo,
+  description: C.descricaoSeo,
+  url: C.url,
+  creator: { '@type': 'Person', name: 'Jonathan Menino', url: new URL(url(), Astro.site).href },
+  inLanguage: 'pt-BR',
+};
+---
+<Base title={`${C.card.titulo ?? C.titulo} · Case de site · Jonathan Menino`} description={C.descricaoSeo} image={`og/${item.id}.jpg`} tipo="article" jsonld={jsonld}>
+<header class="sticky z-40 border-b border-black/5 bg-paper/90 backdrop-blur" style="top: env(safe-area-inset-top, 0px)">
+  <div class="mx-auto flex h-16 max-w-site items-center justify-between px-5 md:h-[72px] md:px-8">
+    <a href={landing} class="flex items-center gap-3" aria-label="Jonathan Menino, White Label para agências">
+      <Fox />
+      <span class="leading-tight">
+        <span class="block text-[15px] font-semibold tracking-tight">Jonathan Menino</span>
+        <span class="block font-mono text-[9.5px] uppercase tracking-[.14em] text-muted">Desenvolvimento de sites</span>
+      </span>
+    </a>
+    <nav class="hidden items-center gap-8 text-sm font-medium md:flex" aria-label="Principal">
+      <a class="transition hover:text-brand" href={`${landing}#parceria`}>Parceria</a>
+      <a class="transition hover:text-brand" href={`${landing}#beneficios`}>Benefícios</a>
+      <a class="text-brand" href={`${landing}#projetos`}>Projetos</a>
+      <a class="transition hover:text-brand" href={`${landing}#processo`}>Processo</a>
+    </nav>
+    <a href={wa} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark md:px-5">
+      <span class="hidden sm:inline">Quero ser parceiro</span><span class="sm:hidden">Contato</span> <Seta />
+    </a>
+  </div>
+</header>
+
+<main>
+  <!-- ============ TOPO ============ -->
+  <section class="relative overflow-hidden bg-ink text-white">
+    <div class="hero-glow pointer-events-none absolute inset-0"></div>
+    <div class="grid-lines pointer-events-none absolute inset-0"></div>
+    <div class="relative mx-auto max-w-site px-5 pb-10 pt-10 md:px-8 md:pt-16">
+      <nav class="hero-in font-mono text-[11px] uppercase tracking-[.12em] text-white/60" aria-label="Você está em">
+        <a class="hover:text-brand-light" href={`${landing}#projetos`}>Projetos</a> <span class="mx-2 text-white/30">/</span> <span class="text-white/85">{C.titulo}</span>
+      </nav>
+      <div class="hero-in mt-8 grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-end">
+        <div>
+          <p class="eyebrow text-brand-light">{C.tipo}</p>
+          <h1 class="mt-5 text-[2.5rem] font-bold leading-[1.05] tracking-tight md:text-6xl">{C.titulo}</h1>
+          <p class="mt-6 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">{C.resumo}</p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href={C.url} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold transition hover:bg-brand-dark">Ver site no ar <Seta /></a>
+            <a href="#desempenho" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold transition hover:border-white/40">Ver desempenho</a>
+          </div>
+        </div>
+        <dl class="grid grid-cols-2 gap-x-6 gap-y-5 border-t border-white/10 pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+          {C.ficha.map((f) => (
+            <div class="min-w-0">
+              <dt class="font-mono text-[10.5px] uppercase tracking-[.12em] text-white/60">{f.rotulo}</dt>
+              <dd class="mt-1.5 text-sm font-medium leading-snug text-white/90">{vazio(f.valor) ? <Pendente /> : f.valor}</dd>
+            </div>
+          ))}
+          {C.agencia && (
+            <div class="col-span-2 flex flex-wrap items-center gap-4 border-t border-white/10 pt-5">
+              <dt class="font-mono text-[10.5px] uppercase tracking-[.12em] text-white/60">{C.agencia.rotulo ?? 'White label para'}</dt>
+              <dd>
+                {C.agencia.logo
+                  ? <Image src={C.agencia.logo} alt={C.agencia.nome} height={56} class="h-7 w-auto" />
+                  : <span class="text-sm font-semibold">{C.agencia.nome}</span>}
+              </dd>
+            </div>
+          )}
+        </dl>
+      </div>
+
+      <div class="relative mt-14 md:mt-20">
+        <div class="art-site md:mr-24 lg:mr-40"><Moldura imagem={C.capa.desktop} alt={`${C.titulo}, versão desktop`} tipo="desktop" dominio={C.dominio} eager /></div>
+        <div class="art-chip absolute -bottom-6 right-0 hidden w-[200px] md:block lg:w-[230px]"><Moldura imagem={C.capa.celular} alt={`${C.titulo}, versão mobile`} tipo="celular" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DESAFIO E SOLUÇÃO ============ -->
+  <section class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+    <div class="grid gap-12 md:grid-cols-2 md:gap-16">
+      {([['01', 'O desafio', C.desafio], ['02', 'A solução', C.solucao]] as const).map(([n, rotulo, b]) => (
+        <div class="r-rise">
+          <p class="eyebrow text-muted">{n} · {rotulo}</p>
+          <h2 class="mt-5 text-2xl font-bold leading-tight tracking-tight md:text-[2rem]">{vazio(b.titulo) ? <Pendente /> : b.titulo}</h2>
+          <p class="mt-5 leading-relaxed text-muted">{vazio(b.texto) ? <Pendente /> : b.texto}</p>
+        </div>
+      ))}
+    </div>
+    <div class="r-rise mt-14 flex flex-wrap items-center gap-2 border-t border-black/10 pt-8">
+      <span class="mr-2 font-mono text-[10.5px] uppercase tracking-[.12em] text-muted">Ferramentas</span>
+      {C.stack.map((s) => <span class="rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-medium">{s}</span>)}
+    </div>
+  </section>
+
+  <!-- ============ ESTRUTURA DA PÁGINA ============ -->
+  <section class="bg-mist">
+    <div class="mx-auto grid max-w-site gap-12 px-5 py-16 md:px-8 md:py-28 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <p class="eyebrow text-muted">03 · Estrutura</p>
+        <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-[2.5rem]">{C.estrutura.titulo}</h2>
+        <p class="mt-5 leading-relaxed text-muted">{C.estrutura.texto}</p>
+      </div>
+      <ol class="relative space-y-4">
+        {C.estrutura.secoes.map((s, i) => (
+          <li class="r-rise overflow-hidden rounded-2xl border border-black/[.06] bg-white">
+            {s.imagem && <Image src={s.imagem} alt={s.nome} widths={[500, 1000]} sizes="(min-width: 1024px) 700px, 100vw" class="block h-auto w-full border-b border-black/[.06]" />}
+            <div class="flex gap-5 p-6 md:p-7">
+              <span class="font-mono text-sm text-brand">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 class="text-lg font-semibold">{s.nome}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-muted">{s.texto}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ DESEMPENHO ============ -->
+  <section id="desempenho" class="bg-ink text-white">
+    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+      <p class="eyebrow text-white/60">04 · Desempenho</p>
+      <h2 class="r-wipe mt-5 max-w-3xl text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">{D.titulo ?? 'Desempenho'}</h2>
+      <p class="mt-5 max-w-2xl leading-relaxed text-white/65">{vazio(D.texto) ? <Pendente /> : D.texto}</p>
+
+      <div class="mt-12 grid gap-4 lg:grid-cols-2">
+        {(['mobile', 'desktop'] as const).map((tela) => {
+          // Só aparecem as notas que estiverem no conteúdo (dá para omitir uma categoria, como performance)
+          const notas = D.notas[tela] ?? {};
+          const itens = CATEGORIAS.filter(([k]) => k in notas);
+          return (
+            <div class="r-rise rounded-2xl border border-white/[.08] bg-graphite p-6 md:p-8">
+              <div class="flex items-center justify-between">
+                <p class="font-mono text-[11px] uppercase tracking-[.12em] text-white/60">PageSpeed · {tela}</p>
+                {itens.some(([k]) => vazio(notas[k])) && <Pendente />}
+              </div>
+              <ul class:list={['mt-6 grid gap-4', itens.length === 3 ? 'grid-cols-3' : 'grid-cols-2 sm:grid-cols-4']}>
+                {itens.map(([k, rotulo]) => (
+                  <li class="flex flex-col items-center gap-3 text-center"><Anel nota={notas[k]} /><span class="text-xs text-white/70">{rotulo}</span></li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+      {D.metricas?.length ? (
+        <ul class="mt-4 grid gap-4 md:grid-cols-2">
+          {D.metricas.map((m) => (
+            <li class="r-rise flex gap-4 rounded-2xl border border-white/[.08] bg-graphite p-6">
+              <span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#0CCE6B]"></span>
+              <div class="min-w-0">
+                <p class="font-mono text-[11px] uppercase tracking-[.12em] text-white/60">{m.rotulo}</p>
+                <p class="mt-2 font-mono text-lg text-[#0CCE6B]">{m.valor}</p>
+                <p class="mt-2 text-sm leading-relaxed text-white/65">{m.texto}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {D.observacao && <p class="mt-5 max-w-3xl text-sm leading-relaxed text-white/60">{D.observacao}</p>}
+
+      {D.otimizacoes !== false && (
+        <div class="mt-14">
+          <h3 class="text-xl font-semibold">O que foi otimizado</h3>
+          {!D.otimizacoes?.length ? (
+            <div class="mt-5 rounded-2xl border border-dashed border-white/15 p-6 text-sm text-white/60"><Pendente /> <span class="ml-2">Liste aqui o que você fez: imagens, cache, fontes, scripts, etc.</span></div>
+          ) : (
+            <ul class:list={['r-stagger mt-6 grid gap-4 sm:grid-cols-2', D.otimizacoes.length % 4 === 0 ? 'lg:grid-cols-4' : 'lg:grid-cols-3']}>
+              {D.otimizacoes.map((o) => (
+                <li class="rounded-2xl border border-white/[.08] bg-graphite p-6">
+                  <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand/15 text-brand-light"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg></span>
+                  <h4 class="mt-5 font-semibold">{o.titulo}</h4>
+                  <p class="mt-2 text-sm leading-relaxed text-white/65">{o.texto}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ============ TELAS ============ -->
+  <section class="bg-[#0f0e12] text-white">
+    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-24">
+      <p class="eyebrow text-white/60">05 · No celular</p>
+      <h2 class="mt-5 text-2xl font-bold tracking-tight md:text-[2rem]">{C.telas.titulo ?? 'A mesma experiência no celular'}</h2>
+      <div class="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-4 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0">
+        {C.telas.imagens.map((t, i) => (
+          <figure class="w-[220px] shrink-0 snap-center md:w-auto">
+            <Moldura imagem={t.imagem} alt={t.legenda ?? `Tela ${i + 1}`} tipo="celular" />
+            {t.legenda && <figcaption class="mt-4 text-center text-sm text-white/65">{t.legenda}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRÓXIMO / CTA ============ -->
+  <section class="relative overflow-hidden bg-brand text-white">
+    <Fox cor="rgba(255,255,255,.08)" class="r-turn pointer-events-none absolute -right-16 -top-10 h-[420px] w-auto md:h-[560px]" />
+    <div class="relative mx-auto max-w-site px-5 py-16 md:px-8 md:py-24">
+      <h2 class="max-w-2xl text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">Sua agência tem um cliente precisando de um site assim?</h2>
+      <p class="mt-5 max-w-xl leading-relaxed text-white/80">Você cuida do cliente, eu cuido do desenvolvimento. Entrega com a marca da sua agência.</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href={wa} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink transition hover:bg-lilac">Conversar no WhatsApp <Seta /></a>
+        <a href={url(`white-label/projetos/${proximo.id}/`)} class="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold transition hover:border-white">Próximo projeto: {proximo.data.card.titulo ?? proximo.data.titulo}</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-ink text-white">
+  <div class="mx-auto flex max-w-site flex-col gap-4 px-5 py-10 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between md:px-8">
+    <a href={url()} class="flex items-center gap-3"><Fox cor="#9B7BFF" class="h-7 w-auto" /><span class="text-sm font-semibold text-white">Jonathan Menino</span></a>
+    <Redes />
+    <p>© {new Date().getFullYear()} Jonathan Menino. Projeto exibido com fins de portfólio.</p>
+  </div>
+</footer>
+</Base>
