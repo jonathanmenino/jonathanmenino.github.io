@@ -21,6 +21,7 @@ export const MENSAGENS = {
   parceria: 'Olá, Jonathan! Vi sua página e quero saber mais sobre a parceria White Label para a minha agência.',
   valores: 'Olá, Jonathan! Tenho uma agência e quero receber a tabela de valores especiais para parceiros.',
   conversa: 'Olá, Jonathan! Tenho projetos de site na agência e quero conversar sobre uma parceria.',
+  orcamento: 'Olá, Jonathan! Vi a tabela de valores para parceiros e quero um orçamento para um projeto da minha agência.',
   case: 'Olá, Jonathan! Vi o case {projeto} no seu site e quero conversar sobre uma parceria para a minha agência.',
 };
 
