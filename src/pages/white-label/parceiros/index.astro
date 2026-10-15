@@ -36,9 +36,9 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
 
       <section aria-labelledby="t-valores" class="mt-10">
         <h2 id="t-valores" class="sr-only">Valores por tipo de projeto</h2>
-        <ul class="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
+        <ul class="overflow-hidden rounded-2xl border border-[#DCDAD6] bg-white">
           {VALORES.map((v) => (
-            <li class="flex flex-col gap-1 border-b border-black/10 px-5 py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+            <li class="flex flex-col gap-1 border-b border-[#DCDAD6] px-5 py-4 even:bg-paper/60 last:border-b-0 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
               <span class="font-medium">{v.projeto}</span>
               <span class="whitespace-nowrap font-mono text-sm font-medium text-brand sm:text-[15px]">
                 {v.ate ? <>{v.de}<span class="mx-1.5 text-muted">a</span>{v.ate}</> : v.de}
