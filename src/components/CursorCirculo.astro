@@ -16,7 +16,7 @@
       border-radius: 50%;
       pointer-events: none;
       opacity: 0;
-      transition: opacity .25s ease, scale .15s ease;
+      transition: opacity .25s ease;
       will-change: transform;
     }
     /* Núcleo: mix-blend-mode difference com branco = negativo do que está atrás.
@@ -36,11 +36,9 @@
       height: 34px;
       margin: -17px 0 0 -17px;
       background: rgb(155 123 255 / .45);
-      border: 1.5px solid #9B7BFF;
       box-shadow: 0 0 14px rgb(110 68 255 / .35);
     }
     .cursor-circulo.ativo, .cursor-anel.ativo { opacity: 1; }
-    .cursor-circulo.clique, .cursor-anel.clique { scale: .75; }
     .cursor-onda {
       position: fixed;
       z-index: 9998;
@@ -62,9 +60,11 @@
     if (!c || !a) return;
     var els = [c, a];
     var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var mx = -100, my = -100, x = -100, y = -100, rodando = false, antes = 0;
+    // esc/escAlvo: o "aperto" do clique fica dentro do transform, depois do translate,
+    // para a bolinha encolher no lugar (a propriedade CSS scale escalava o deslocamento junto).
+    var mx = -100, my = -100, x = -100, y = -100, esc = 1, escAlvo = 1, rodando = false, antes = 0;
     function poe(px, py) {
-      var tr = 'translate3d(' + px.toFixed(2) + 'px,' + py.toFixed(2) + 'px,0)';
+      var tr = 'translate3d(' + px.toFixed(2) + 'px,' + py.toFixed(2) + 'px,0) scale(' + esc.toFixed(3) + ')';
       c.style.transform = tr; a.style.transform = tr;
     }
     function passo(agora) {
@@ -74,9 +74,10 @@
       var f = reduz ? 1 : 1 - Math.pow(1 - 0.2, dt / 16.7);
       x += (mx - x) * f;
       y += (my - y) * f;
+      esc += (escAlvo - esc) * (1 - Math.pow(1 - 0.3, dt / 16.7));
       poe(x, y);
-      if (Math.abs(mx - x) > 0.05 || Math.abs(my - y) > 0.05) requestAnimationFrame(passo);
-      else { rodando = false; antes = 0; }
+      if (Math.abs(mx - x) > 0.05 || Math.abs(my - y) > 0.05 || Math.abs(escAlvo - esc) > 0.002) requestAnimationFrame(passo);
+      else { esc = escAlvo; poe(x, y); rodando = false; antes = 0; }
     }
     addEventListener('pointermove', function (e) {
       if (e.pointerType !== 'mouse') return;
@@ -84,11 +85,12 @@
       if (!c.classList.contains('ativo')) { x = mx; y = my; poe(x, y); els.forEach(function (el) { el.classList.add('ativo'); }); }
       if (!rodando) { rodando = true; requestAnimationFrame(passo); }
     }, { passive: true });
+    function anima() { if (!rodando) { rodando = true; requestAnimationFrame(passo); } }
     // Onda de choque: dois anéis que saem do ponto do clique e somem.
     addEventListener('pointerdown', function (e) {
       if (e.pointerType !== 'mouse') return;
-      els.forEach(function (el) { el.classList.add('clique'); });
-      setTimeout(function () { els.forEach(function (el) { el.classList.remove('clique'); }); }, 150);
+      escAlvo = .75; anima();
+      setTimeout(function () { escAlvo = 1; anima(); }, 150);
       if (reduz) return;
       [0, 90].forEach(function (atraso, i) {
         var o = document.createElement('div');
