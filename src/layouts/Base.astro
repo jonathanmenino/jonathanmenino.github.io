@@ -3,6 +3,7 @@
    title/description: o que aparece no Google.
    image: imagem de compartilhamento (1200x630), caminho dentro de /public, sem barra inicial.
    jsonld: dados estruturados opcionais (objeto). */
+import CursorCirculo from '../components/CursorCirculo.astro';
 import { SITE, url } from '../data/site';
 // Fontes servidas pelo próprio site (sem depender do Google Fonts): carregam mais rápido.
 import '@fontsource-variable/inter/index.css';
@@ -74,5 +75,6 @@ const imagem = new URL(url(image), Astro.site);
 </head>
 <body>
   <slot />
+  <CursorCirculo />
 </body>
 </html>
