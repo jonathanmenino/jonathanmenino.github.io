@@ -10,6 +10,7 @@ import Redes from '../../../components/Redes.astro';
 import Pendente from '../../../components/Pendente.astro';
 import Moldura from '../../../components/Moldura.astro';
 import Anel from '../../../components/Anel.astro';
+import TemaToggle from '../../../components/TemaToggle.astro';
 import { MENSAGENS, linkWhatsApp, url } from '../../../data/site';
 import '../../../styles/case.css';
 
@@ -39,7 +40,7 @@ const jsonld = {
 };
 ---
 <Base title={`${C.card.titulo ?? C.titulo} · Case de site · Jonathan Menino`} description={C.descricaoSeo} image={`og/${item.id}.jpg`} tipo="article" jsonld={jsonld}>
-<header class="sticky z-40 border-b border-black/5 bg-paper/90 backdrop-blur" style="top: env(safe-area-inset-top, 0px)">
+<header class="sticky z-40 border-b border-line/5 bg-paper/90 backdrop-blur" style="top: env(safe-area-inset-top, 0px)">
   <div class="mx-auto flex h-16 max-w-site items-center justify-between px-5 md:h-[72px] md:px-8">
     <a href={landing} class="flex items-center gap-3" aria-label="Jonathan Menino, White Label para agências">
       <Fox />
@@ -49,14 +50,17 @@ const jsonld = {
       </span>
     </a>
     <nav class="hidden items-center gap-8 text-sm font-medium md:flex" aria-label="Principal">
-      <a class="transition hover:text-brand" href={`${landing}#parceria`}>Parceria</a>
-      <a class="transition hover:text-brand" href={`${landing}#beneficios`}>Benefícios</a>
-      <a class="text-brand" href={`${landing}#projetos`}>Projetos</a>
-      <a class="transition hover:text-brand" href={`${landing}#processo`}>Processo</a>
+      <a class="transition hover:text-hl" href={`${landing}#parceria`}>Parceria</a>
+      <a class="transition hover:text-hl" href={`${landing}#beneficios`}>Benefícios</a>
+      <a class="text-hl" href={`${landing}#projetos`}>Projetos</a>
+      <a class="transition hover:text-hl" href={`${landing}#processo`}>Processo</a>
     </nav>
+    <div class="flex items-center gap-2 md:gap-3">
+    <TemaToggle />
     <a href={wa} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark md:px-5">
       <span class="hidden sm:inline">Quero ser parceiro</span><span class="sm:hidden">Contato</span> <Seta />
     </a>
+    </div>
   </div>
 </header>
 
@@ -117,9 +121,9 @@ const jsonld = {
         </div>
       ))}
     </div>
-    <div class="r-rise mt-14 flex flex-wrap items-center gap-2 border-t border-black/10 pt-8">
+    <div class="r-rise mt-14 flex flex-wrap items-center gap-2 border-t border-line/10 pt-8">
       <span class="mr-2 font-mono text-[10.5px] uppercase tracking-[.12em] text-muted">Ferramentas</span>
-      {C.stack.map((s) => <span class="rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-medium">{s}</span>)}
+      {C.stack.map((s) => <span class="rounded-full border border-line/10 bg-surface px-3 py-1.5 text-xs font-medium">{s}</span>)}
     </div>
   </section>
 
@@ -133,10 +137,10 @@ const jsonld = {
       </div>
       <ol class="relative space-y-4">
         {C.estrutura.secoes.map((s, i) => (
-          <li class="r-rise overflow-hidden rounded-2xl border border-black/[.06] bg-white">
-            {s.imagem && <Image src={s.imagem} alt={s.nome} widths={[500, 1000]} sizes="(min-width: 1024px) 700px, 100vw" class="block h-auto w-full border-b border-black/[.06]" />}
+          <li class="r-rise overflow-hidden rounded-2xl border border-line/[.06] bg-surface">
+            {s.imagem && <Image src={s.imagem} alt={s.nome} widths={[500, 1000]} sizes="(min-width: 1024px) 700px, 100vw" class="block h-auto w-full border-b border-line/[.06]" />}
             <div class="flex gap-5 p-6 md:p-7">
-              <span class="font-mono text-sm text-brand">{String(i + 1).padStart(2, '0')}</span>
+              <span class="font-mono text-sm text-hl">{String(i + 1).padStart(2, '0')}</span>
               <div>
                 <h3 class="text-lg font-semibold">{s.nome}</h3>
                 <p class="mt-2 text-sm leading-relaxed text-muted">{s.texto}</p>
@@ -235,7 +239,7 @@ const jsonld = {
       <h2 class="max-w-2xl text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">Sua agência tem um cliente precisando de um site assim?</h2>
       <p class="mt-5 max-w-xl leading-relaxed text-white/80">Você cuida do cliente, eu cuido do desenvolvimento. Entrega com a marca da sua agência.</p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-        <a href={wa} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink transition hover:bg-lilac">Conversar no WhatsApp <Seta /></a>
+        <a href={wa} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink transition hover:bg-[#EEE9FF]">Conversar no WhatsApp <Seta /></a>
         <a href={url(`white-label/projetos/${proximo.id}/`)} class="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold transition hover:border-white">Próximo projeto: {proximo.data.card.titulo ?? proximo.data.titulo}</a>
       </div>
     </div>

@@ -7,10 +7,16 @@ export default {
         brand: { DEFAULT: '#6E44FF', dark: '#5A30EE', light: '#9B7BFF' },
         ink: '#0B0A0D',      // fundo escuro
         graphite: '#151317', // cards no fundo escuro
-        paper: '#F7F6F3',    // fundo claro principal
-        mist: '#EBEBEB',     // fundo claro alternativo
-        lilac: '#EEE9FF',    // selo de destaque
-        muted: '#6B6870',    // texto secundário no claro
+        // Cores das partes claras: mudam no modo escuro (valores em src/styles/tema.css).
+        paper: 'rgb(var(--paper) / <alpha-value>)',     // fundo claro principal
+        mist: 'rgb(var(--mist) / <alpha-value>)',       // fundo claro alternativo
+        surface: 'rgb(var(--surface) / <alpha-value>)', // cards
+        lilac: 'rgb(var(--lilac) / <alpha-value>)',     // selo de destaque
+        muted: 'rgb(var(--muted) / <alpha-value>)',     // texto secundário
+        fg: 'rgb(var(--fg) / <alpha-value>)',           // texto principal
+        line: 'rgb(var(--line) / <alpha-value>)',       // bordas e divisórias
+        accent: 'rgb(var(--accent) / <alpha-value>)',   // texto roxo sobre lilás
+        hl: 'rgb(var(--hl) / <alpha-value>)',           // texto roxo de destaque
       },
       fontFamily: {
         sans: ['"Inter Variable"', 'Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
