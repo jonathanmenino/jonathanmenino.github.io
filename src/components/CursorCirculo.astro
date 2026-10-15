@@ -1,6 +1,6 @@
 ---
 // Círculo roxo que segue o mouse com atraso e inverte as cores do que passa por trás.
-// Só aparece com mouse (hover + ponteiro fino); some em telas de toque.
+// No clique, solta uma onda de choque roxa. Só aparece com mouse (hover + ponteiro fino); some em telas de toque.
 ---
 <div class="cursor-circulo" aria-hidden="true"></div>
 
@@ -23,10 +23,22 @@
       -webkit-backdrop-filter: invert(1);
       backdrop-filter: invert(1);
       opacity: 0;
-      transition: opacity .25s ease;
+      transition: opacity .25s ease, width .15s ease, height .15s ease, margin .15s ease;
       will-change: transform;
     }
     .cursor-circulo.ativo { opacity: 1; }
+    .cursor-circulo.clique { width: 40px; height: 40px; margin: -20px 0 0 -20px; }
+    .cursor-onda {
+      position: fixed;
+      z-index: 9998;
+      width: 40px;
+      height: 40px;
+      margin: -20px 0 0 -20px;
+      border-radius: 50%;
+      pointer-events: none;
+      border: 2px solid #9B7BFF;
+      box-shadow: 0 0 18px rgb(110 68 255 / .5), inset 0 0 12px rgb(110 68 255 / .35);
+    }
   }
 </style>
 
@@ -52,6 +64,24 @@
       mx = e.clientX; my = e.clientY;
       if (!rodando) { rodando = true; requestAnimationFrame(passo); }
     }, { passive: true });
+    // Onda de choque: dois anéis que saem do ponto do clique e somem.
+    addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      c.classList.add('clique');
+      setTimeout(function () { c.classList.remove('clique'); }, 150);
+      if (reduz) return;
+      [0, 90].forEach(function (atraso, i) {
+        var o = document.createElement('div');
+        o.className = 'cursor-onda';
+        o.style.left = e.clientX + 'px';
+        o.style.top = e.clientY + 'px';
+        document.body.appendChild(o);
+        o.animate(
+          [{ transform: 'scale(.3)', opacity: 1 }, { transform: 'scale(' + (i ? 3.2 : 4.5) + ')', opacity: 0 }],
+          { duration: 650, delay: atraso, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'both' }
+        ).onfinish = function () { o.remove(); };
+      });
+    });
     document.documentElement.addEventListener('mouseleave', function () { c.classList.remove('ativo'); });
   })();
 </script>
