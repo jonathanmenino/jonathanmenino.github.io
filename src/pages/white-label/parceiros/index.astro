@@ -15,30 +15,33 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
   title="Valores para agências parceiras · Jonathan Menino"
   description="Tabela de valores do desenvolvimento White Label de sites e landing pages para agências parceiras."
   image="og/white-label.jpg"
+  themeColor="#F7F6F3"
 >
   <meta slot="head" name="robots" content="noindex, nofollow">
   <main class="min-h-[100dvh] bg-ink text-white">
-    <div class="mx-auto max-w-3xl px-5 pb-12 pt-10 md:pt-14">
+    <!-- Parte clara: tabela, inclusos e observações -->
+    <div class="bg-paper text-ink">
+    <div class="mx-auto max-w-3xl px-5 pb-16 pt-10 md:pb-20 md:pt-14">
       <a href={url('white-label/')} class="flex items-center gap-3" aria-label="White Label para agências">
-        <Fox cor="#9B7BFF" class="h-10 w-auto" />
+        <Fox cor="#6E44FF" class="h-10 w-auto" />
         <span>
           <span class="block text-[17px] font-semibold leading-tight">Jonathan Menino</span>
-          <span class="block font-mono text-[10px] uppercase tracking-[.14em] text-white/60">White Label para agências</span>
+          <span class="block font-mono text-[10px] uppercase tracking-[.14em] text-muted">White Label para agências</span>
         </span>
       </a>
 
-      <p class="mt-14 font-mono text-xs uppercase tracking-[.14em] text-brand-light">Agências parceiras</p>
+      <p class="mt-14 font-mono text-xs uppercase tracking-[.14em] text-brand">Agências parceiras</p>
       <h1 class="mt-3 text-[clamp(2rem,6vw,2.75rem)] font-bold leading-[1.1] tracking-tight">Tabela de valores</h1>
-      <p class="mt-4 max-w-xl leading-relaxed text-white/70">Valores de parceiro para a sua agência revender com a própria marca. O valor final de cada projeto é confirmado depois do briefing.</p>
+      <p class="mt-4 max-w-xl leading-relaxed text-muted">Valores de parceiro para a sua agência revender com a própria marca. O valor final de cada projeto é confirmado depois do briefing.</p>
 
       <section aria-labelledby="t-valores" class="mt-10">
         <h2 id="t-valores" class="sr-only">Valores por tipo de projeto</h2>
-        <ul class="overflow-hidden rounded-2xl border border-white/10 bg-graphite">
+        <ul class="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
           {VALORES.map((v) => (
-            <li class="flex flex-col gap-1 border-b border-white/10 px-5 py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+            <li class="flex flex-col gap-1 border-b border-black/10 px-5 py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
               <span class="font-medium">{v.projeto}</span>
-              <span class="whitespace-nowrap font-mono text-sm text-brand-light sm:text-[15px]">
-                {v.ate ? <>{v.de}<span class="mx-1.5 text-white/50">a</span>{v.ate}</> : v.de}
+              <span class="whitespace-nowrap font-mono text-sm font-medium text-brand sm:text-[15px]">
+                {v.ate ? <>{v.de}<span class="mx-1.5 text-muted">a</span>{v.ate}</> : v.de}
               </span>
             </li>
           ))}
@@ -49,8 +52,8 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
         <h2 id="t-incluso" class="text-xl font-semibold">Incluso em todos os projetos</h2>
         <ul class="mt-5 grid gap-3 sm:grid-cols-2">
           {INCLUSO.map((item) => (
-            <li class="flex items-start gap-3 text-white/80">
-              <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            <li class="flex items-start gap-3 text-ink/80">
+              <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
               <span>{item}</span>
             </li>
           ))}
@@ -59,14 +62,18 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
 
       <section aria-labelledby="t-obs" class="mt-12">
         <h2 id="t-obs" class="text-xl font-semibold">Observações</h2>
-        <ul class="mt-5 grid gap-3 text-[15px] leading-relaxed text-white/70">
+        <ul class="mt-5 grid gap-3 text-[15px] leading-relaxed text-muted">
           {OBSERVACOES.map((o) => (
-            <li class="flex gap-3"><span class="mt-[.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-brand-light" aria-hidden="true"></span><span>{o}</span></li>
+            <li class="flex gap-3"><span class="mt-[.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-brand" aria-hidden="true"></span><span>{o}</span></li>
           ))}
         </ul>
       </section>
+    </div>
+    </div>
 
-      <section aria-labelledby="t-cases" class="mt-12">
+    <!-- Parte escura: projetos, contato e rodapé -->
+    <div class="mx-auto max-w-3xl px-5 pb-12 pt-16 md:pt-20">
+      <section aria-labelledby="t-cases">
         <h2 id="t-cases" class="text-xl font-semibold">Projetos entregues</h2>
         <ul class="mt-5 grid gap-3 sm:grid-cols-3">
           {cases.map((c) => (
