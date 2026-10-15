@@ -1,6 +1,6 @@
 /* Estilos das páginas de case (além das classes do Tailwind). */
 html { scroll-behavior: smooth; scroll-padding-top: 88px; }
-body { background: #F7F6F3; color: #0B0A0D; font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+body { background: rgb(var(--paper)); color: rgb(var(--fg)); font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 ::selection { background: #6E44FF; color: #fff; }
 h1, h2, h3 { text-wrap: balance; }
 .eyebrow { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; }

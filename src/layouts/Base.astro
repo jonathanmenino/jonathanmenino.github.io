@@ -8,6 +8,7 @@ import { SITE, url } from '../data/site';
 import '@fontsource-variable/inter/index.css';
 import '@fontsource/jetbrains-mono/latin-400.css';
 import '@fontsource/jetbrains-mono/latin-500.css';
+import '../styles/tema.css';
 import interWoff from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
 interface Props {
@@ -31,6 +32,27 @@ const imagem = new URL(url(image), Astro.site);
   <meta name="description" content={description}>
   <link rel="canonical" href={canonical}>
   <meta name="theme-color" content={themeColor}>
+  <!-- Tema: aplica a escolha salva antes de desenhar a página (evita piscar) e expõe window.alternarTema. -->
+  <script is:inline>
+    (function () {
+      var raiz = document.documentElement, mq = matchMedia('(prefers-color-scheme: dark)');
+      var claro = document.querySelector('meta[name="theme-color"]').content;
+      function salvo() { try { return localStorage.getItem('tema'); } catch (e) { return null; } }
+      function escuro() { var t = raiz.getAttribute('data-theme'); return t ? t === 'dark' : mq.matches; }
+      function corBarra() { if (claro === '#F7F6F3') document.querySelector('meta[name="theme-color"]').content = escuro() ? '#141217' : claro; }
+      var t = salvo(); if (t === 'light' || t === 'dark') raiz.setAttribute('data-theme', t);
+      corBarra();
+      mq.addEventListener('change', corBarra);
+      window.alternarTema = function () {
+        var novo = escuro() ? 'light' : 'dark';
+        // Se a escolha bate com o sistema, volta a seguir o sistema.
+        var sistema = mq.matches ? 'dark' : 'light';
+        try { novo === sistema ? localStorage.removeItem('tema') : localStorage.setItem('tema', novo); } catch (e) {}
+        raiz.setAttribute('data-theme', novo);
+        corBarra();
+      };
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href={url('favicon.svg')}>
   <link rel="apple-touch-icon" href={url('apple-touch-icon.png')}>
   <link rel="sitemap" href={url('sitemap-index.xml')}>

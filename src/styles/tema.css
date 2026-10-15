@@ -1,0 +1,36 @@
+/* Tema claro e escuro das partes claras do site.
+   As faixas escuras (hero, pilares, projetos, rodapé) e a faixa roxa não mudam.
+   Sem escolha salva, o site segue o tema do sistema; o botão salva a escolha em localStorage ("tema"). */
+:root {
+  color-scheme: light;
+  --paper: 247 246 243;   /* fundo claro principal */
+  --mist: 235 235 235;    /* fundo claro alternativo */
+  --surface: 255 255 255; /* cards */
+  --lilac: 238 233 255;   /* caixas de destaque */
+  --fg: 11 10 13;         /* texto principal */
+  --muted: 107 104 112;   /* texto secundário */
+  --line: 0 0 0;          /* bordas e divisórias (usadas com transparência) */
+  --accent: 90 48 238;    /* texto roxo sobre lilás */
+  --hl: 110 68 255;       /* texto roxo de destaque */
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: 20 18 23; --mist: 27 25 31; --surface: 33 30 38; --lilac: 40 31 74;
+    --fg: 242 240 245; --muted: 170 166 178; --line: 255 255 255; --accent: 190 170 255; --hl: 155 123 255;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: 20 18 23; --mist: 27 25 31; --surface: 33 30 38; --lilac: 40 31 74;
+  --fg: 242 240 245; --muted: 170 166 178; --line: 255 255 255; --accent: 190 170 255; --hl: 155 123 255;
+}
+
+/* Botão de tema: mostra a lua no claro e o sol no escuro. */
+.tema-btn .sol { display: none; }
+:root[data-theme="dark"] .tema-btn .sol { display: block; }
+:root[data-theme="dark"] .tema-btn .lua { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tema-btn .sol { display: block; }
+  :root:not([data-theme="light"]) .tema-btn .lua { display: none; }
+}
