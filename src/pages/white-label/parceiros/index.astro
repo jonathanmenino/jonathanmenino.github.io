@@ -40,32 +40,29 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
 
       <section aria-labelledby="t-valores" class="mt-10">
         <h2 id="t-valores" class="sr-only">Valores por tipo de projeto</h2>
-        <div class="overflow-hidden rounded-2xl border border-line/[.12] bg-surface">
-          <div class="hidden grid-cols-[1fr_11rem_11rem] gap-6 border-b border-line/[.12] px-5 py-3 font-mono text-[11px] uppercase tracking-[.12em] text-muted sm:grid">
-            <span>Projeto</span><span class="text-right">Valor parceiro</span><span class="text-right">Venda sugerida</span>
-          </div>
-          <ul>
-            {VALORES.map((v) => (
-              <li class="grid gap-1.5 border-b border-line/[.12] px-5 py-4 even:bg-paper/60 last:border-b-0 sm:grid-cols-[1fr_11rem_11rem] sm:items-center sm:gap-6">
-                <span class="font-medium">{v.projeto}</span>
-                {v.de === null || v.ate === null ? (
-                  <span class="font-mono text-sm font-medium text-hl sm:col-span-2 sm:text-right sm:text-[15px]">Sob consulta</span>
-                ) : (
-                  <>
-                    <span class="flex items-baseline justify-between gap-3 whitespace-nowrap font-mono text-sm font-medium text-hl sm:block sm:text-right sm:text-[15px]">
-                      <span class="font-sans text-xs font-normal text-muted sm:hidden">Valor parceiro</span>
-                      <span>{reais(v.de)}<span class="mx-1.5 text-muted">a</span>{reais(v.ate)}</span>
-                    </span>
-                    <span class="flex items-baseline justify-between gap-3 whitespace-nowrap font-mono text-sm text-fg/70 sm:block sm:text-right sm:text-[15px]">
-                      <span class="font-sans text-xs text-muted sm:hidden">Venda sugerida</span>
-                      <span>{reais(sugerido(v.de))}<span class="mx-1.5 text-muted">a</span>{reais(sugerido(v.ate))}</span>
-                    </span>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted">
+          <span class="flex items-center gap-2"><span class="h-3 w-3 rounded-sm bg-brand" aria-hidden="true"></span>Valor parceiro (o que você me paga)</span>
+          <span class="flex items-center gap-2"><span class="h-3 w-3 rounded-sm bg-fg/[.14]" aria-hidden="true"></span>Venda sugerida (+80%)</span>
         </div>
+        <ul class="mt-5 grid gap-5 sm:gap-4">
+          {VALORES.map((v) => (
+            <li class="grid gap-2 sm:grid-cols-[15rem_1fr] sm:items-center sm:gap-6">
+              <span class="font-medium">{v.projeto}</span>
+              {v.de === null || v.ate === null ? (
+                <span class="flex min-h-12 items-center rounded-xl border border-dashed border-brand/50 px-4 font-mono text-sm font-medium text-hl">Sob consulta</span>
+              ) : (
+                <span class="grid min-h-12 grid-cols-[minmax(0,3fr)_minmax(0,2fr)] overflow-hidden rounded-xl font-mono text-[12px] leading-snug sm:text-sm">
+                  <span class="flex items-center bg-brand px-3 py-2 font-medium text-white sm:px-4">
+                    <span><span class="sr-only">Valor parceiro: </span><span class="whitespace-nowrap">{reais(v.de)} a</span> <span class="whitespace-nowrap">{reais(v.ate)}</span></span>
+                  </span>
+                  <span class="flex items-center justify-end bg-fg/[.09] px-3 py-2 text-right [text-wrap:balance] text-fg/75 sm:px-4">
+                    <span><span class="sr-only">Venda sugerida: </span><span class="whitespace-nowrap">{reais(sugerido(v.de))} a</span> <span class="whitespace-nowrap">{reais(sugerido(v.ate))}</span></span>
+                  </span>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section aria-labelledby="t-incluso" class="mt-12">
