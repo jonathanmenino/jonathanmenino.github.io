@@ -79,6 +79,10 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
     /* símbolo gigante do CTA final gira devagar com a rolagem */
     .r-turn { animation: r-turn linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
     @keyframes r-turn { from { transform: translateY(60px) rotate(-14deg); } to { transform: translateY(-60px) rotate(8deg); } }
+
+    /* anéis de nota do PageSpeed se completam ao entrar na tela */
+    .nota-arco { animation: r-nota linear both; animation-timeline: view(); animation-range: entry 20% cover 45%; }
+    @keyframes r-nota { from { stroke-dashoffset: var(--nota); } to { stroke-dashoffset: 0; } }
   }
 }
 
