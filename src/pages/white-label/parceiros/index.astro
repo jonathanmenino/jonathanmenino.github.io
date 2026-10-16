@@ -8,7 +8,7 @@ import Fox from '../../../components/Fox.astro';
 import Redes from '../../../components/Redes.astro';
 import TemaToggle from '../../../components/TemaToggle.astro';
 import { MENSAGENS, linkWhatsApp, url } from '../../../data/site';
-import { VALORES, INCLUSO, OBSERVACOES } from '../../../data/valores';
+import { VALORES, INCLUSO, OBSERVACOES, reais, sugerido } from '../../../data/valores';
 
 const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.data.ordem);
 ---
@@ -22,7 +22,7 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
   <main class="min-h-[100dvh] bg-ink text-white">
     <!-- Parte clara: tabela, inclusos e observações -->
     <div class="bg-paper text-fg">
-    <div class="mx-auto max-w-3xl px-5 pb-16 pt-10 md:pb-20 md:pt-14">
+    <div class="mx-auto max-w-4xl px-5 pb-16 pt-10 md:pb-20 md:pt-14">
       <div class="flex items-center justify-between gap-4">
       <a href={url('white-label/')} class="flex items-center gap-3" aria-label="White Label para agências">
         <Fox cor="#6E44FF" class="h-10 w-auto" />
@@ -40,16 +40,32 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
 
       <section aria-labelledby="t-valores" class="mt-10">
         <h2 id="t-valores" class="sr-only">Valores por tipo de projeto</h2>
-        <ul class="overflow-hidden rounded-2xl border border-line/[.12] bg-surface">
-          {VALORES.map((v) => (
-            <li class="flex flex-col gap-1 border-b border-line/[.12] px-5 py-4 even:bg-paper/60 last:border-b-0 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-              <span class="font-medium">{v.projeto}</span>
-              <span class="whitespace-nowrap font-mono text-sm font-medium text-hl sm:text-[15px]">
-                {v.ate ? <>{v.de}<span class="mx-1.5 text-muted">a</span>{v.ate}</> : v.de}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <div class="overflow-hidden rounded-2xl border border-line/[.12] bg-surface">
+          <div class="hidden grid-cols-[1fr_11rem_11rem] gap-6 border-b border-line/[.12] px-5 py-3 font-mono text-[11px] uppercase tracking-[.12em] text-muted sm:grid">
+            <span>Projeto</span><span class="text-right">Valor parceiro</span><span class="text-right">Venda sugerida</span>
+          </div>
+          <ul>
+            {VALORES.map((v) => (
+              <li class="grid gap-1.5 border-b border-line/[.12] px-5 py-4 even:bg-paper/60 last:border-b-0 sm:grid-cols-[1fr_11rem_11rem] sm:items-center sm:gap-6">
+                <span class="font-medium">{v.projeto}</span>
+                {v.de === null || v.ate === null ? (
+                  <span class="font-mono text-sm font-medium text-hl sm:col-span-2 sm:text-right sm:text-[15px]">Sob consulta</span>
+                ) : (
+                  <>
+                    <span class="flex items-baseline justify-between gap-3 whitespace-nowrap font-mono text-sm font-medium text-hl sm:block sm:text-right sm:text-[15px]">
+                      <span class="font-sans text-xs font-normal text-muted sm:hidden">Valor parceiro</span>
+                      <span>{reais(v.de)}<span class="mx-1.5 text-muted">a</span>{reais(v.ate)}</span>
+                    </span>
+                    <span class="flex items-baseline justify-between gap-3 whitespace-nowrap font-mono text-sm text-fg/70 sm:block sm:text-right sm:text-[15px]">
+                      <span class="font-sans text-xs text-muted sm:hidden">Venda sugerida</span>
+                      <span>{reais(sugerido(v.de))}<span class="mx-1.5 text-muted">a</span>{reais(sugerido(v.ate))}</span>
+                    </span>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       <section aria-labelledby="t-incluso" class="mt-12">
@@ -76,7 +92,7 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
     </div>
 
     <!-- Parte escura: projetos, contato e rodapé -->
-    <div class="mx-auto max-w-3xl px-5 pb-12 pt-16 md:pt-20">
+    <div class="mx-auto max-w-4xl px-5 pb-12 pt-16 md:pt-20">
       <section aria-labelledby="t-cases">
         <h2 id="t-cases" class="text-xl font-semibold">Projetos entregues</h2>
         <ul class="mt-5 grid gap-3 sm:grid-cols-3">
