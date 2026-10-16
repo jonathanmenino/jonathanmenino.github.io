@@ -2,7 +2,8 @@
 /* LANDING DO WHITE LABEL
    Contato e mensagens do WhatsApp: src/data/site.ts
    Projetos: src/content/cases/ (cada arquivo vira um card e uma página)
-   Benefícios: src/data/pilares.ts */
+   Benefícios: src/data/pilares.ts
+   Desempenho (PageSpeed): src/data/desempenho.ts */
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
@@ -11,6 +12,8 @@ import Redes from '../../components/Redes.astro';
 import TemaToggle from '../../components/TemaToggle.astro';
 import { SITE, MENSAGENS, linkWhatsApp, url } from '../../data/site';
 import { PILARES } from '../../data/pilares';
+import { DESEMPENHO } from '../../data/desempenho';
+import Nota from '../../components/Nota.astro';
 import '../../styles/landing.css';
 
 const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.data.ordem);
@@ -403,8 +406,76 @@ const jsonld = {
           </article>
         ))}
       </div>
+    </div>
+  </section>
 
-      <p class="mt-8 flex items-start gap-2 text-xs leading-relaxed text-white/60">
+  <!-- ============ DESEMPENHO (a própria página como prova; números em src/data/desempenho.ts) ============ -->
+  <section id="desempenho" class="bg-mist">
+    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+      <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="eyebrow text-muted">Desempenho excepcional</p>
+          <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
+            A prova é a <span class="text-hl">página</span><br class="hidden sm:block"> que você está lendo.
+          </h2>
+        </div>
+        <p class="max-w-xs text-sm leading-relaxed text-muted">Estes são os resultados desta página no PageSpeed Insights, do Google. É o mesmo padrão que vai para os projetos da sua agência.</p>
+      </div>
+
+      <div class="r-rise mt-10 rounded-3xl border border-line/[.06] bg-surface p-5 md:p-9">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div class="inline-flex rounded-full bg-paper p-1 text-sm font-medium" role="tablist" aria-label="Dispositivo do teste">
+            {DESEMPENHO.dispositivos.map((d, i) => (
+              <button type="button" role="tab" id={`aba-${d.id}`} aria-controls={`painel-${d.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class="aba-desempenho flex items-center gap-2 rounded-full px-4 py-2 text-muted transition aria-selected:bg-brand aria-selected:text-white">
+                {d.id === 'celular'
+                  ? <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>
+                  : <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M2 20h20"/></svg>}
+                {d.nome}
+              </button>
+            ))}
+          </div>
+          <a href={DESEMPENHO.testar} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-sm font-medium text-hl hover:underline">Teste você mesmo no PageSpeed <Seta /></a>
+        </div>
+
+        {DESEMPENHO.dispositivos.map((d, i) => (
+          <div id={`painel-${d.id}`} role="tabpanel" aria-labelledby={`aba-${d.id}`} hidden={i !== 0} class="mt-8 grid gap-10 lg:grid-cols-[auto_1fr] lg:gap-14">
+            <div class="flex flex-col items-center justify-center gap-8 sm:flex-row lg:flex-col lg:border-r lg:border-line/[.08] lg:pr-14">
+              <Nota valor={d.notas.desempenho} rotulo="Desempenho" grande />
+              <div class="grid grid-cols-3 gap-4 sm:gap-6">
+                <Nota valor={d.notas.acessibilidade} rotulo="Acessibilidade" />
+                <Nota valor={d.notas.praticas} rotulo="Boas práticas" />
+                <Nota valor={d.notas.seo} rotulo="SEO" />
+              </div>
+            </div>
+            <div>
+              <p class="font-mono text-[11px] uppercase tracking-[.12em] text-muted">Métricas · {d.nome}</p>
+              <dl class="mt-4 grid gap-x-8 sm:grid-cols-2">
+                {d.metricas.map((m) => (
+                  <div class="flex items-center justify-between gap-4 border-b border-line/[.08] py-4 last:border-b-0">
+                    <dt class="flex items-center gap-3 text-sm">
+                      <span class="h-2 w-2 shrink-0 rounded-full bg-hl" aria-hidden="true"></span>
+                      <span><abbr title={m.nome} class="font-mono font-semibold no-underline">{m.sigla}</abbr><span class="block text-xs text-muted">{m.nome}</span></span>
+                    </dt>
+                    <dd class="font-mono text-2xl font-semibold tracking-tight">{m.valor}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        ))}
+
+        <div class="mt-8 flex flex-col gap-4 border-t border-line/[.08] pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex flex-wrap items-center gap-2 text-xs font-medium">
+            <span class="text-muted">Feita com</span>
+            <span class="flex items-center gap-1.5 rounded-full bg-paper py-1.5 pl-2 pr-3"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.358 20.162c-1.186-1.07-1.532-3.316-1.038-4.944.856 1.026 2.043 1.352 3.272 1.535 1.897.283 3.76.177 5.522-.678.202-.098.388-.229.608-.36.166.473.209.95.151 1.437-.14 1.185-.738 2.1-1.688 2.794-.38.277-.782.525-1.175.787-1.205.804-1.531 1.747-1.078 3.119l.044.148a3.158 3.158 0 0 1-1.407-1.188 3.31 3.31 0 0 1-.544-1.815c-.004-.32-.004-.642-.048-.958-.106-.769-.472-1.113-1.161-1.133-.707-.02-1.267.411-1.415 1.09-.012.053-.028.104-.045.165h.002zm-5.961-4.445s3.24-1.575 6.49-1.575l2.451-7.565c.092-.366.36-.614.662-.614.302 0 .57.248.662.614l2.45 7.565c3.85 0 6.491 1.575 6.491 1.575L16.088.727C15.93.285 15.663 0 15.303 0H8.697c-.36 0-.615.285-.784.727l-5.516 14.99z"/></svg>Astro</span>
+            <span class="text-muted">+</span>
+            <span class="flex items-center gap-1.5 rounded-full bg-paper py-1.5 pl-2 pr-3"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" aria-hidden="true"><path fill="#06B6D4" d="M12 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12 4.8zM6 12c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6 12z"/></svg>Tailwind CSS</span>
+          </div>
+          <p class="font-mono text-[11px] uppercase tracking-[.12em] text-muted">Medido em {DESEMPENHO.data} · Lighthouse {DESEMPENHO.lighthouse}</p>
+        </div>
+      </div>
+
+      <p class="mt-6 flex items-start gap-2 text-xs leading-relaxed text-muted">
         <svg class="mt-0.5 h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
         Resultados no PageSpeed também podem variar conforme hospedagem, scripts de terceiros, integrações e conteúdo inserido após a entrega.
       </p>
@@ -646,5 +717,22 @@ const jsonld = {
   document.getElementById('menu-close').addEventListener('click', () => setMenu(false));
   menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) setMenu(false); });
+
+  // Abas Celular / Computador da seção de desempenho
+  const abas = [...document.querySelectorAll('.aba-desempenho')];
+  const escolher = (aba) => abas.forEach((a) => {
+    const ativa = a === aba;
+    a.setAttribute('aria-selected', String(ativa));
+    a.tabIndex = ativa ? 0 : -1;
+    document.getElementById(a.getAttribute('aria-controls')).hidden = !ativa;
+  });
+  abas.forEach((a, i) => {
+    a.addEventListener('click', () => escolher(a));
+    a.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const prox = abas[(i + (e.key === 'ArrowRight' ? 1 : -1) + abas.length) % abas.length];
+      escolher(prox); prox.focus();
+    });
+  });
 </script>
 </Base>
