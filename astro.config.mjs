@@ -9,5 +9,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://jonathanmenino.github.io',
   trailingSlash: 'always',
+  // CSS dentro do HTML: o navegador não espera baixar arquivos .css antes de desenhar a página (PageSpeed).
+  build: { inlineStylesheets: 'always' },
   integrations: [tailwind({ applyBaseStyles: true }), sitemap({ filter: (pagina) => !pagina.includes('/white-label/parceiros/') })],
 });
