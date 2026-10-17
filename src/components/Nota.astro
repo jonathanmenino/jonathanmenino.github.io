@@ -9,7 +9,7 @@ const { valor, rotulo, grande = false } = Astro.props;
       <circle cx="60" cy="60" r="52" fill="none" class="stroke-line/[.08]" stroke-width={grande ? 8 : 10} />
       <circle cx="60" cy="60" r="52" fill="none" class="nota-arco stroke-hl" stroke-width={grande ? 8 : 10} stroke-linecap="round" pathLength="100" stroke-dasharray={`${valor} 100`} style={`--nota:${valor}`} />
     </svg>
-    <span class:list={['font-mono font-semibold tracking-tight text-fg', grande ? 'text-5xl md:text-6xl' : 'text-lg md:text-xl']}>{valor}</span>
+    <span data-conta={valor} class:list={['font-mono font-semibold tracking-tight text-fg', grande ? 'text-5xl md:text-6xl' : 'text-lg md:text-xl']}>{valor}</span>
   </div>
   <span class:list={['mt-3 leading-tight', grande ? 'text-lg font-semibold' : 'text-xs text-muted']}>{rotulo}</span>
 </div>

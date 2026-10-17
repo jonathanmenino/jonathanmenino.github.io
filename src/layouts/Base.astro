@@ -49,6 +49,8 @@ const imagem = new URL(url(image), Astro.site);
       (function () {
         var raiz = document.documentElement,
           mq = matchMedia('(prefers-color-scheme: dark)');
+        // "js" libera as animações que esperam o elemento aparecer na tela (src/components/Anima.astro).
+        raiz.classList.add('js');
         var claro = document.querySelector('meta[name="theme-color"]').content;
         function salvo() {
           try {

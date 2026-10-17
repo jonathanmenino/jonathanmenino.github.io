@@ -7,6 +7,7 @@ import Base from '../../../layouts/Base.astro';
 import Fox from '../../../components/Fox.astro';
 import Redes from '../../../components/Redes.astro';
 import TemaToggle from '../../../components/TemaToggle.astro';
+import Anima from '../../../components/Anima.astro';
 import { MENSAGENS, linkWhatsApp, url } from '../../../data/site';
 import { VALORES, INCLUSO, OBSERVACOES, reais, sugerido } from '../../../data/valores';
 
@@ -45,17 +46,17 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
           <span class="flex items-center gap-2"><span class="h-3 w-3 rounded-sm bg-fg/[.14]" aria-hidden="true"></span>Venda sugerida (+80%)</span>
         </div>
         <ul class="mt-5 grid gap-5 sm:gap-4">
-          {VALORES.map((v) => (
-            <li class="grid gap-2 sm:grid-cols-[15rem_1fr] sm:items-center sm:gap-6">
+          {VALORES.map((v, i) => (
+            <li data-anima style={`--l:${i * 0.12}s`} class="grid gap-2 sm:grid-cols-[15rem_1fr] sm:items-center sm:gap-6">
               <span class="font-medium">{v.projeto}</span>
               {v.de === null || v.ate === null ? (
                 <span class="flex min-h-12 items-center rounded-xl border border-dashed border-brand/50 px-4 font-mono text-sm font-medium text-hl">Sob consulta</span>
               ) : (
                 <span class="grid min-h-12 grid-cols-[minmax(0,3fr)_minmax(0,2fr)] overflow-hidden rounded-xl font-mono text-[12px] leading-snug sm:text-sm">
-                  <span class="flex items-center bg-brand px-3 py-2 font-medium text-white sm:px-4">
+                  <span class="carrega brilho relative flex items-center overflow-hidden bg-brand px-3 py-2 font-medium text-white sm:px-4" style="--d:var(--l); --dur:.8s">
                     <span><span class="sr-only">Valor parceiro: </span><span class="whitespace-nowrap">{reais(v.de)} a</span> <span class="whitespace-nowrap">{reais(v.ate)}</span></span>
                   </span>
-                  <span class="flex items-center justify-end bg-fg/[.09] px-3 py-2 text-right [text-wrap:balance] text-fg/75 sm:px-4">
+                  <span class="carrega flex items-center justify-end bg-fg/[.09] px-3 py-2 text-right [text-wrap:balance] text-fg/75 sm:px-4" style="--d:calc(var(--l) + .7s); --dur:.6s">
                     <span><span class="sr-only">Venda sugerida: </span><span class="whitespace-nowrap">{reais(sugerido(v.de))} a</span> <span class="whitespace-nowrap">{reais(sugerido(v.ate))}</span></span>
                   </span>
                 </span>
@@ -116,4 +117,5 @@ const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.dat
       </footer>
     </div>
   </main>
+  <Anima />
 </Base>

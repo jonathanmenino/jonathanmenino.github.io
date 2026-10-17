@@ -1,0 +1,32 @@
+---
+// Animações que tocam uma vez quando o bloco aparece na tela: barras carregando, texto sendo riscado,
+// chat digitando e números contando. Marque o bloco com data-anima (ou data-conta="100" para contar até 100).
+// Estilos em src/styles/animacoes.css.
+import '../styles/animacoes.css';
+---
+<script>
+  const reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const contar = (el: HTMLElement) => {
+    const alvo = Number(el.dataset.conta);
+    const t0 = performance.now();
+    const passo = (t: number) => {
+      const p = Math.min((t - t0) / 1100, 1);
+      el.textContent = String(Math.round(alvo * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) requestAnimationFrame(passo);
+    };
+    requestAnimationFrame(passo);
+  };
+  const io = new IntersectionObserver((itens) => {
+    for (const { isIntersecting, target } of itens) {
+      if (!isIntersecting) continue;
+      const el = target as HTMLElement;
+      el.classList.add('vis');
+      if (el.dataset.conta && !reduzir) contar(el);
+      io.unobserve(el);
+    }
+  }, { threshold: 0.5 });
+  document.querySelectorAll<HTMLElement>('[data-anima], [data-conta]').forEach((el) => {
+    if (el.dataset.conta && !reduzir) el.textContent = '0';
+    io.observe(el);
+  });
+</script>

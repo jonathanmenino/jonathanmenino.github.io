@@ -14,6 +14,7 @@ import { SITE, MENSAGENS, linkWhatsApp, url } from '../../data/site';
 import { PILARES } from '../../data/pilares';
 import { DESEMPENHO } from '../../data/desempenho';
 import Nota from '../../components/Nota.astro';
+import Anima from '../../components/Anima.astro';
 import '../../styles/landing.css';
 
 const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.data.ordem);
@@ -101,14 +102,14 @@ const jsonld = {
     <div class="relative mx-auto grid max-w-site items-center gap-14 px-5 pb-16 pt-14 md:px-8 md:pb-24 md:pt-24 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
       <div class="hero-in">
         <p class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[.12em] text-white/80">
-          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span> Agenda aberta para novas parcerias
+          <span class="pulso relative h-1.5 w-1.5 rounded-full bg-emerald-400"></span> Agenda aberta para novas parcerias
         </p>
         <h1 class="mt-7 text-[2.35rem] font-extrabold leading-[1.04] tracking-tight sm:text-5xl lg:text-[3.6rem]">
           <span class="mb-4 block font-mono text-xs font-medium uppercase tracking-[.14em] text-white/70">Desenvolvimento White Label para agências</span>
           O braço técnico de <span class="text-brand-light">Web Design</span> para a sua agência escalar.
         </h1>
         <p class="mt-6 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
-          Landing pages e sites institucionais com padrão de agência, <strong class="font-semibold text-white">sem manter desenvolvedor interno.</strong> Eu entro no seu fluxo, entrego no prazo e atuo 100% White Label.
+          Sites e landing pages com padrão de agência, <strong class="font-semibold text-white">sem manter desenvolvedor interno.</strong> No prazo e 100% White Label.
         </p>
         <div class="mt-9 flex flex-col gap-3 sm:flex-row">
           <a href={wa.parceria} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-4 text-sm font-semibold shadow-[0_12px_32px_-12px_rgba(110,68,255,.9)] transition hover:bg-brand-dark">
@@ -193,22 +194,15 @@ const jsonld = {
   </section>
 
   <!-- ============ PARCERIA (WHITE LABEL) ============ -->
-  <section id="parceria" class="mx-auto grid max-w-site items-center gap-12 px-5 py-16 md:px-8 md:py-28 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+  <section id="parceria" class="mx-auto grid max-w-site items-center gap-12 px-5 py-20 md:px-8 md:py-36 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
     <div>
       <p class="eyebrow text-muted">Parceria 100% invisível</p>
       <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
         Você cuida do <span class="text-hl">cliente</span>. Eu cuido do desenvolvimento.
       </h2>
       <p class="mt-6 max-w-xl text-base leading-relaxed text-muted md:text-lg">
-        <strong class="font-semibold text-fg/80">Entro como uma extensão silenciosa do seu time:</strong> recebo o briefing, desenvolvo, ajusto e entrego pronto para publicar. Sem contato com o cliente final e sem expor minha marca.
+        Recebo o briefing e entrego pronto para publicar. <strong class="font-semibold text-fg/80">Sem contato com o cliente final e sem a minha marca.</strong>
       </p>
-      <div class="r-rise mt-8 flex max-w-xl items-start gap-4 rounded-2xl bg-lilac p-5 md:p-6">
-        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand text-white"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span>
-        <div>
-          <p class="font-semibold text-accent">Condições especiais para agências</p>
-          <p class="mt-1 text-sm leading-relaxed text-fg/75">Preço competitivo para você preservar sua margem comercial e vender desenvolvimento com segurança.</p>
-        </div>
-      </div>
     </div>
 
     <!-- Diagrama: quem aparece para o cliente e quem fica nos bastidores -->
@@ -243,7 +237,7 @@ const jsonld = {
   </section>
 
   <!-- ============ BENEFÍCIOS (ponto alto: o que faz a agência fechar) ============ -->
-  <section id="beneficios" class="mx-auto max-w-site px-5 pb-16 md:px-8 md:pb-28">
+  <section id="beneficios" class="mx-auto max-w-site px-5 pb-20 md:px-8 md:pb-36">
     <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
       <div>
         <p class="eyebrow text-muted">Benefícios para a operação</p>
@@ -251,26 +245,25 @@ const jsonld = {
           Mais capacidade para <span class="text-hl">entregar</span>.<br class="hidden sm:block"> Sem aumentar a estrutura.
         </h2>
       </div>
-      <p class="max-w-xs text-sm leading-relaxed text-muted">Uma parceria feita para proteger sua marca, seu prazo e a rentabilidade de cada projeto.</p>
     </div>
 
-    <div class="r-stagger mt-10 grid gap-4 lg:grid-cols-6">
+    <div class="r-stagger mt-12 md:mt-16 grid gap-4 lg:grid-cols-6">
       <!-- Destaque 1: margem -->
       <article class="relative overflow-hidden rounded-3xl bg-ink p-6 text-white md:p-9 lg:col-span-4">
         <p class="font-mono text-[11px] uppercase tracking-[.12em] text-brand-light">Valores especiais para agências</p>
         <h3 class="mt-4 max-w-lg text-[1.75rem] font-bold leading-[1.1] tracking-tight md:text-[2.4rem]">Você define o preço. A margem fica com a agência.</h3>
-        <p class="mt-4 max-w-lg text-[15px] leading-relaxed text-white/70">Agências parceiras têm valores diferenciados para montar o orçamento, incluir a própria margem e manter o controle comercial do projeto.</p>
+        <p class="mt-4 max-w-lg text-[15px] leading-relaxed text-white/70">Valores de parceiro para você montar o orçamento com a sua margem.</p>
 
-        <div class="mt-9" aria-label="Ilustração: o valor que o cliente paga é dividido entre o desenvolvimento e a margem da agência">
+        <div class="mt-9" data-anima aria-label="Ilustração: o valor que o cliente paga é dividido entre o desenvolvimento e a margem da agência">
           <div class="flex items-center justify-between text-xs text-white/60">
             <span>Valor que sua agência cobra do cliente</span>
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </div>
           <div class="relative mt-3 h-14 overflow-hidden rounded-xl bg-white/[.06]">
-            <div class="absolute inset-y-0 left-0 flex w-[56%] items-center rounded-l-xl bg-brand px-4 text-sm font-semibold">Desenvolvimento</div>
-            <div class="r-grow absolute inset-y-0 left-[56%] right-0 flex items-center justify-end rounded-r-xl bg-[repeating-linear-gradient(135deg,#9B7BFF_0_10px,#8A66FF_10px_20px)] px-4 text-sm font-bold text-ink">Sua margem</div>
+            <div class="carrega brilho absolute inset-y-0 left-0 flex w-[56%] items-center rounded-l-xl bg-brand px-4 text-sm font-semibold" style="--dur:1.1s">Desenvolvimento</div>
+            <div class="carrega absolute inset-y-0 left-[56%] right-0 flex items-center justify-end rounded-r-xl bg-[repeating-linear-gradient(135deg,#9B7BFF_0_10px,#8A66FF_10px_20px)] px-4 text-sm font-bold text-ink" style="--d:1.05s; --dur:.7s">Sua margem</div>
           </div>
-          <p class="mt-3 text-xs text-white/60">Ilustrativo. A tabela com as faixas por tipo de projeto vai direto no seu WhatsApp.</p>
+          <p class="mt-3 text-xs text-white/60">Ilustrativo. A tabela completa vai pelo WhatsApp.</p>
         </div>
       </article>
 
@@ -278,12 +271,12 @@ const jsonld = {
       <article class="flex flex-col rounded-3xl bg-lilac p-6 md:p-8 lg:col-span-2">
         <p class="font-mono text-[11px] uppercase tracking-[.12em] text-accent">Sua marca na frente</p>
         <h3 class="mt-4 text-2xl font-bold leading-tight tracking-tight">Sua agência assina o projeto.</h3>
-        <p class="mt-3 text-[15px] leading-relaxed text-fg/70">Sem assinatura no rodapé, sem divulgação do desenvolvedor e sem contato direto com o cliente sem autorização.</p>
+        <p class="mt-3 text-[15px] leading-relaxed text-fg/70">Sem a minha assinatura e sem contato com o seu cliente.</p>
         <div class="mt-auto pt-8">
-          <div class="rounded-2xl bg-surface p-4 text-[13px] shadow-[0_10px_30px_-18px_rgba(90,48,238,.6)]">
+          <div data-anima class="rounded-2xl bg-surface p-4 text-[13px] shadow-[0_10px_30px_-18px_rgba(90,48,238,.6)]">
             <p class="font-mono text-[10px] uppercase tracking-[.12em] text-muted">Rodapé do site</p>
-            <p class="mt-2 text-muted line-through decoration-brand decoration-2">Desenvolvido por Jonathan Menino</p>
-            <p class="mt-1 font-semibold">Desenvolvido por Sua Agência <span class="ml-1 inline-grid h-4 w-4 translate-y-0.5 place-items-center rounded-full bg-brand text-white"><svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></span></p>
+            <p class="mt-2 text-muted"><span class="risca" style="--d:.3s">Desenvolvido por Jonathan Menino</span></p>
+            <p class="surge mt-1 font-semibold" style="--d:1s">Desenvolvido por Sua Agência <span class="ml-1 inline-grid h-4 w-4 translate-y-0.5 place-items-center rounded-full bg-brand text-white"><svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></span></p>
           </div>
         </div>
       </article>
@@ -292,21 +285,21 @@ const jsonld = {
       <article class="rounded-3xl border border-line/[.07] bg-surface p-6 md:p-8 lg:col-span-3">
         <p class="font-mono text-[11px] uppercase tracking-[.12em] text-hl">Sem custo fixo</p>
         <h3 class="mt-4 text-2xl font-bold leading-tight tracking-tight">Contrate só quando tiver projeto.</h3>
-        <div class="mt-6 grid gap-3 text-sm sm:grid-cols-2">
+        <div data-anima class="mt-6 grid gap-3 text-sm sm:grid-cols-2">
           <div class="rounded-2xl bg-paper p-4">
             <p class="font-semibold">Dev interno</p>
             <ul class="mt-3 space-y-2 text-muted">
-              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-fg/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Salário todo mês</li>
-              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-fg/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Encargos</li>
-              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-fg/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Tempo ocioso</li>
+              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-fg/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg><span><span class="risca" style="--d:0.30s">Salário todo mês</span></span></li>
+              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-fg/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg><span><span class="risca" style="--d:0.65s">Encargos</span></span></li>
+              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-fg/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg><span><span class="risca" style="--d:1.00s">Tempo ocioso</span></span></li>
             </ul>
           </div>
           <div class="rounded-2xl bg-lilac p-4">
             <p class="font-semibold text-accent">Parceria</p>
             <ul class="mt-3 space-y-2 text-fg/80">
-              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Paga por projeto</li>
-              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Sem encargos</li>
-              <li class="flex gap-2"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Aciona quando precisa</li>
+              <li class="surge flex gap-2" style="--d:1.40s"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Paga por projeto</li>
+              <li class="surge flex gap-2" style="--d:1.55s"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Sem encargos</li>
+              <li class="surge flex gap-2" style="--d:1.70s"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Aciona quando precisa</li>
             </ul>
           </div>
         </div>
@@ -316,15 +309,24 @@ const jsonld = {
       <article class="rounded-3xl border border-line/[.07] bg-surface p-6 md:p-8 lg:col-span-3">
         <p class="font-mono text-[11px] uppercase tracking-[.12em] text-hl">Seu parceiro técnico</p>
         <h3 class="mt-4 text-2xl font-bold leading-tight tracking-tight">Uma extensão do seu time.</h3>
-        <div class="mt-6 space-y-2.5 text-sm">
-          <p class="max-w-[85%] rounded-2xl rounded-bl-md bg-paper px-4 py-3">Fechamos um site novo. Você consegue pegar?</p>
-          <p class="ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-brand px-4 py-3 text-white">Consigo. Me manda o briefing e, se tiver, o layout. A parte técnica fica comigo.</p>
+        <div data-anima class="mt-6 space-y-2.5 text-sm">
+          <div class="relative">
+            <span class="digitando absolute left-0 top-0 gap-1 rounded-2xl rounded-bl-md bg-paper px-4 py-4" style="--dur:1s" aria-hidden="true"><i class="h-1.5 w-1.5 rounded-full bg-fg/60"></i><i class="h-1.5 w-1.5 rounded-full bg-fg/60"></i><i class="h-1.5 w-1.5 rounded-full bg-fg/60"></i></span>
+            <p class="surge max-w-[85%] rounded-2xl rounded-bl-md bg-paper px-4 py-3" style="--d:.9s">Fechamos um site novo. Você consegue pegar?</p>
+          </div>
+          <div class="relative">
+            <span class="digitando absolute right-0 top-0 gap-1 rounded-2xl rounded-br-md bg-brand px-4 py-4" style="--d:1.6s; --dur:1.5s" aria-hidden="true"><i class="h-1.5 w-1.5 rounded-full bg-white"></i><i class="h-1.5 w-1.5 rounded-full bg-white"></i><i class="h-1.5 w-1.5 rounded-full bg-white"></i></span>
+            <p class="surge ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-brand px-4 py-3 text-white" style="--d:2.95s">Consigo! Me manda o briefing. A parte técnica fica comigo.</p>
+          </div>
+          <div class="relative">
+            <span class="digitando absolute left-0 top-0 gap-1 rounded-2xl rounded-bl-md bg-paper px-4 py-4" style="--d:3.7s; --dur:1.1s" aria-hidden="true"><i class="h-1.5 w-1.5 rounded-full bg-fg/60"></i><i class="h-1.5 w-1.5 rounded-full bg-fg/60"></i><i class="h-1.5 w-1.5 rounded-full bg-fg/60"></i></span>
+            <p class="surge w-fit max-w-[85%] rounded-2xl rounded-bl-md bg-paper px-4 py-3" style="--d:4.7s">Perfeito, te mando agora 🙌</p>
+          </div>
         </div>
-        <p class="mt-5 text-sm leading-relaxed text-muted">Comunicação direta, previsibilidade e cuidado de quem entende que o seu nome também está na entrega.</p>
       </article>
     </div>
 
-    <div class="mt-10 flex items-center justify-between gap-6 border-t border-line/[.08] pt-8">
+    <div class="mt-14 flex items-center justify-between gap-6 border-t border-line/[.08] pt-8">
       <p class="text-lg font-medium tracking-tight md:text-xl">Mais um parceiro no seu time. Menos uma preocupação na sua operação.</p>
       <svg class="hidden h-6 w-6 shrink-0 text-hl sm:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></svg>
     </div>
@@ -332,14 +334,13 @@ const jsonld = {
 
   <!-- ============ DUAS OPÇÕES ============ -->
   <section class="bg-mist">
-    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+    <div class="mx-auto max-w-site px-5 py-20 md:px-8 md:py-36">
       <p class="eyebrow text-muted">Flexível ao seu processo</p>
       <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
         Você manda o <span class="text-hl">layout</span>.<br class="hidden sm:block"> Ou deixa o layout comigo.
       </h2>
-      <p class="mt-5 max-w-lg text-base leading-relaxed text-muted">O ponto de partida muda. O padrão de cuidado, comunicação e entrega permanece o mesmo.</p>
 
-      <div class="r-stagger mt-10 grid gap-4 md:grid-cols-2">
+      <div class="r-stagger mt-12 md:mt-16 grid gap-4 md:grid-cols-2">
         <article class="group flex flex-col rounded-3xl border border-line/[.06] bg-surface p-6 md:p-9">
           <!-- mini ilustração: layout pronto vira site -->
           <div class="flex items-center gap-3" aria-hidden="true">
@@ -349,7 +350,7 @@ const jsonld = {
           </div>
           <span class="mt-7 font-mono text-[11px] uppercase tracking-[.12em] text-hl">Opção 01</span>
           <h3 class="mt-2 text-2xl font-semibold tracking-tight">Você já tem o layout</h3>
-          <p class="mt-3 text-[15px] leading-relaxed text-muted">Envie o arquivo e eu transformo a criação em uma página fiel, responsiva e pronta para performar.</p>
+          <p class="mt-3 text-[15px] leading-relaxed text-muted">Envie o arquivo e eu entrego a página fiel e responsiva.</p>
           <ul class="mt-8 flex flex-wrap gap-2 border-t border-line/[.08] pt-6 text-xs font-medium">
             <li class="flex items-center gap-1.5 rounded-full bg-paper py-1.5 pl-2 pr-3"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F24E1E" d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</li>
             <li class="flex items-center gap-1.5 rounded-full bg-paper py-1.5 pl-2 pr-3"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" aria-hidden="true"><path fill="#FF61F6" d="M4.25.3C1.9.3 0 2.2 0 4.55v14.9c0 2.35 1.9 4.25 4.25 4.25h15.5c2.35 0 4.25-1.9 4.25-4.25V4.55C24 2.2 22.1.3 19.75.3Zm14.07 5.13h2.03c.05-.01.09.03.1.07v9.54c0 .18.01.38.02.6.02.21.03.41.04.58 0 .07-.03.13-.1.16-.52.22-1.07.38-1.63.48-.51.09-1.02.14-1.54.14-.74.01-1.48-.14-2.15-.45-.63-.29-1.15-.77-1.51-1.36-.37-.61-.55-1.37-.55-2.28a4.107 4.107 0 0 1 2.14-3.66c.7-.39 1.54-.58 2.53-.58.05 0 .12 0 .21.01s.19.01.31.02V5.54c0-.07.03-.11.1-.11zM3.68 6.3h2.27c.05 0 .1.01.14.02.04.02.07.05.1.09.19.43.41.86.64 1.29.24.43.47.85.72 1.27.24.42.46.84.67 1.27h.02c.21-.44.43-.87.65-1.29.22-.42.45-.84.68-1.26.23-.42.45-.85.67-1.26.01-.04.03-.08.06-.1a.19.19 0 0 1 .13-.02h2.11c.05-.01.1.02.11.07.01.01-.01.05-.03.07l-3 4.95 3.2 5.25c.02.04.03.08.02.12-.01.04-.05.01-.11.02h-2.29c-.16 0-.27-.01-.34-.11-.21-.42-.43-.83-.64-1.25-.21-.41-.44-.83-.68-1.26-.24-.43-.48-.86-.72-1.3h-.02c-.21.43-.44.86-.67 1.29-.23.43-.46.86-.68 1.28-.23.42-.46.85-.69 1.26-.04.1-.12.11-.23.11h-2.2c-.04 0-.07.02-.07-.03a.14.14 0 0 1 .02-.11l3.11-5.1L3.6 6.44c-.03-.04-.04-.08-.02-.1.02-.03.06-.04.1-.04zm13.94 4.23c-.39 0-.78.08-1.13.26-.34.17-.63.42-.85.74-.22.32-.33.75-.33 1.27-.01.35.05.7.17 1.03.1.27.25.51.45.71.19.18.42.32.68.4.27.09.55.13.83.13.15 0 .29-.01.42-.02.13.01.24-.01.36-.05v-4.4c-.09-.02-.18-.04-.27-.05-.11-.01-.22-.02-.33-.02Z"/></svg>Adobe XD</li>
@@ -369,7 +370,7 @@ const jsonld = {
           </div>
           <span class="mt-7 font-mono text-[11px] uppercase tracking-[.12em] text-hl">Opção 02</span>
           <h3 class="mt-2 text-2xl font-semibold tracking-tight">Você quer terceirizar tudo</h3>
-          <p class="mt-3 text-[15px] leading-relaxed text-muted">Assumo o projeto completo: estrutura de conteúdo, layout visual, desenvolvimento, revisão e publicação.</p>
+          <p class="mt-3 text-[15px] leading-relaxed text-muted">Eu cuido de tudo, da estrutura à publicação.</p>
           <ul class="mt-8 flex flex-wrap gap-2 border-t border-line/[.08] pt-6 text-xs font-medium">
             <li class="rounded-full bg-paper px-3 py-1.5">Estrutura</li>
             <li class="rounded-full bg-paper px-3 py-1.5">Wireframe</li>
@@ -384,18 +385,17 @@ const jsonld = {
 
   <!-- ============ PILARES ============ -->
   <section class="bg-ink text-white">
-    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
-      <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+    <div class="mx-auto max-w-site px-5 py-20 md:px-8 md:py-36">
+      <div>
         <div>
           <p class="eyebrow text-white/60">Pilares da entrega</p>
           <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
             <span class="text-brand-light">Qualidade</span> percebida no visual. E sentida no uso.
           </h2>
         </div>
-        <p class="max-w-xs text-sm leading-relaxed text-white/65">Cada projeto combina rigor técnico e acabamento visual para sua agência entregar com confiança.</p>
       </div>
 
-      <div class="r-stagger mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="r-stagger mt-12 md:mt-16 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {PILARES.map((p) => (
           <article class="group rounded-2xl border border-white/[.08] bg-graphite p-6 transition duration-300 hover:border-brand/60 hover:bg-[#1b1820]">
             <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand/15 text-brand-light transition duration-300 group-hover:bg-brand group-hover:text-white">
@@ -411,7 +411,7 @@ const jsonld = {
 
   <!-- ============ DESEMPENHO (a própria página como prova; números em src/data/desempenho.ts) ============ -->
   <section id="desempenho" class="bg-mist">
-    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+    <div class="mx-auto max-w-site px-5 py-20 md:px-8 md:py-36">
       <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="eyebrow text-muted">Desempenho excepcional</p>
@@ -419,10 +419,10 @@ const jsonld = {
             A prova é a <span class="text-hl">página</span><br class="hidden sm:block"> que você está lendo.
           </h2>
         </div>
-        <p class="max-w-xs text-sm leading-relaxed text-muted">Estes são os resultados desta página no PageSpeed Insights, do Google. É o mesmo padrão que vai para os projetos da sua agência.</p>
+        <p class="max-w-xs text-sm leading-relaxed text-muted">Notas desta página no PageSpeed, do Google. O mesmo padrão vai para os seus projetos.</p>
       </div>
 
-      <div class="r-rise mt-10 rounded-3xl border border-line/[.06] bg-surface p-5 md:p-9">
+      <div class="r-rise mt-12 md:mt-16 rounded-3xl border border-line/[.06] bg-surface p-5 md:p-9">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div class="inline-flex rounded-full bg-paper p-1 text-sm font-medium" role="tablist" aria-label="Dispositivo do teste">
             {DESEMPENHO.dispositivos.map((d, i) => (
@@ -477,19 +477,19 @@ const jsonld = {
 
       <p class="mt-6 flex items-start gap-2 text-xs leading-relaxed text-muted">
         <svg class="mt-0.5 h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
-        Resultados no PageSpeed também podem variar conforme hospedagem, scripts de terceiros, integrações e conteúdo inserido após a entrega.
+        As notas podem variar com hospedagem, scripts de terceiros e conteúdo inserido depois da entrega.
       </p>
     </div>
   </section>
 
   <!-- ============ TECNOLOGIAS ============ -->
-  <section class="py-16 md:py-28">
+  <section class="py-20 md:py-36">
     <div class="mx-auto max-w-site px-5 md:px-8">
       <p class="eyebrow text-muted">Tecnologias</p>
       <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
         A <span class="text-hl">tecnologia</span> certa<br class="hidden sm:block"> para cada projeto.
       </h2>
-      <p class="mt-5 max-w-lg text-base leading-relaxed text-muted">Sem torcida por ferramenta. A solução é escolhida pela necessidade do cliente, prazo, autonomia e vida útil do site.</p>
+      <p class="mt-5 max-w-lg text-base leading-relaxed text-muted">Escolhida pela necessidade do cliente, não por preferência.</p>
     </div>
 
     <!-- faixa em movimento com as ferramentas do dia a dia -->
@@ -498,7 +498,7 @@ const jsonld = {
     </div>
 
     <div class="mx-auto max-w-site px-5 md:px-8">
-      <div class="r-stagger mt-10 grid gap-4 md:grid-cols-2">
+      <div class="r-stagger mt-12 md:mt-16 grid gap-4 md:grid-cols-2">
         <article class="rounded-3xl border border-line/[.07] bg-surface p-6 md:p-9">
           <div class="flex items-center justify-between">
             <span class="font-mono text-[11px] uppercase tracking-[.12em] text-hl">Stack 01</span>
@@ -506,7 +506,6 @@ const jsonld = {
           </div>
           <h3 class="mt-6 text-2xl font-semibold tracking-tight">WordPress + Elementor</h3>
           <p class="mt-1.5 text-sm font-medium text-hl">Autonomia para o cliente, agilidade para a agência.</p>
-          <p class="mt-4 text-[15px] leading-relaxed text-muted">Indicado quando o projeto precisa de gestão visual simples, publicação recorrente ou evolução contínua.</p>
           <ul class="mt-6 space-y-2.5 text-sm">
             <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Sites institucionais gerenciáveis</li>
             <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Landing pages com edição interna</li>
@@ -520,7 +519,6 @@ const jsonld = {
           </div>
           <h3 class="mt-6 text-2xl font-semibold tracking-tight">HTML + CSS + JavaScript</h3>
           <p class="mt-1.5 text-sm font-medium text-hl">Controle fino, leveza e performance.</p>
-          <p class="mt-4 text-[15px] leading-relaxed text-muted">Ideal para experiências sob medida, campanhas de alta performance e páginas com escopo mais enxuto.</p>
           <ul class="mt-6 space-y-2.5 text-sm">
             <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Landing pages de campanha</li>
             <li class="flex gap-2.5"><svg class="mt-0.5 h-4 w-4 shrink-0 text-hl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Sites estáticos personalizados</li>
@@ -533,14 +531,13 @@ const jsonld = {
 
   <!-- ============ PROJETOS (carregados da lista PROJETOS no script) ============ -->
   <section id="projetos" class="bg-ink text-white">
-    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+    <div class="mx-auto max-w-site px-5 py-20 md:px-8 md:py-36">
       <p class="eyebrow text-white/60">Projetos selecionados</p>
       <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
         Projetos desenvolvidos<br class="hidden sm:block"> com <span class="text-brand-light">padrão de agência</span>.
       </h2>
-      <p class="mt-5 max-w-xl text-base leading-relaxed text-white/65">Cada projeto recebe atenção à identidade, ao objetivo do negócio e à experiência em todos os dispositivos, sem deixar de lado a performance.</p>
 
-      <div class="r-stagger mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div class="r-stagger mt-12 md:mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {cases.map(({ id, data: p }) => (
           <article class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[.08] bg-graphite transition duration-300 hover:border-white/20 focus-within:border-brand-light">
             <div class="relative aspect-[4/3] max-w-full overflow-hidden">
@@ -560,7 +557,7 @@ const jsonld = {
 
   <!-- ============ PROCESSO ============ -->
   <section id="processo" class="bg-mist">
-    <div class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+    <div class="mx-auto max-w-site px-5 py-20 md:px-8 md:py-36">
       <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="eyebrow text-muted">Processo simples</p>
@@ -574,7 +571,7 @@ const jsonld = {
         </p>
       </div>
 
-      <div class="relative mt-14">
+      <div class="relative mt-16 md:mt-20">
         <!-- trilho e linha de progresso: horizontal no desktop, vertical no celular -->
         <div class="absolute bottom-0 left-[11px] top-0 w-0.5 bg-line/10 md:bottom-auto md:left-0 md:right-0 md:top-[11px] md:h-0.5 md:w-auto"></div>
         <div class="r-progress absolute bottom-0 left-[11px] top-0 w-0.5 origin-top bg-brand [--from-y:0] md:bottom-auto md:left-0 md:right-0 md:top-[11px] md:h-0.5 md:w-auto md:origin-left md:[--from-x:0] md:[--from-y:1]"></div>
@@ -582,22 +579,22 @@ const jsonld = {
           <li class="relative pl-12 md:pl-0">
             <span class="absolute left-0 grid h-6 w-6 place-items-center rounded-full bg-brand font-mono text-[10px] text-white ring-4 ring-mist md:static">1</span>
             <h3 class="text-xl font-semibold md:mt-6">Briefing</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted">Alinhamos escopo, materiais, prazo, objetivo e a forma de colaboração com sua agência.</p>
+            <p class="mt-2 text-sm leading-relaxed text-muted">Escopo, materiais e prazo alinhados.</p>
           </li>
           <li class="relative pl-12 md:pl-0">
             <span class="absolute left-0 grid h-6 w-6 place-items-center rounded-full bg-brand font-mono text-[10px] text-white ring-4 ring-mist md:static">2</span>
             <h3 class="text-xl font-semibold md:mt-6">Desenvolvimento</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted">O projeto ganha forma em ambiente de testes, com atualizações claras e checkpoints no momento certo.</p>
+            <p class="mt-2 text-sm leading-relaxed text-muted">Ambiente de testes com atualizações claras.</p>
           </li>
           <li class="relative pl-12 md:pl-0">
             <span class="absolute left-0 grid h-6 w-6 place-items-center rounded-full bg-brand font-mono text-[10px] text-white ring-4 ring-mist md:static">3</span>
             <h3 class="text-xl font-semibold md:mt-6">Ajustes</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted">A agência acompanha e valida. Concentramos os feedbacks e refinamos até a versão aprovada.</p>
+            <p class="mt-2 text-sm leading-relaxed text-muted">Você valida e eu refino até aprovar.</p>
           </li>
           <li class="relative pl-12 md:pl-0">
             <span class="absolute left-0 grid h-6 w-6 place-items-center rounded-full bg-brand font-mono text-[10px] text-white ring-4 ring-mist md:static">4</span>
             <h3 class="text-xl font-semibold md:mt-6">Entrega</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted">Publico ou entrego os arquivos, faço a conferência final e o site vai ao ar com a identidade da sua agência.</p>
+            <p class="mt-2 text-sm leading-relaxed text-muted">Site no ar com a marca da sua agência.</p>
           </li>
         </ol>
       </div>
@@ -605,14 +602,14 @@ const jsonld = {
   </section>
 
   <!-- ============ VALORES (WhatsApp no lugar do formulário) ============ -->
-  <section id="valores" class="mx-auto max-w-site px-5 py-16 md:px-8 md:py-28">
+  <section id="valores" class="mx-auto max-w-site px-5 py-20 md:px-8 md:py-36">
     <div class="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
       <div>
         <p class="eyebrow text-muted">Valores para agências</p>
         <h2 class="r-wipe mt-5 text-[2rem] font-bold leading-[1.1] tracking-tight md:text-5xl">
           Quer saber <span class="text-hl">quanto custa</span> desenvolver um site em parceria?
         </h2>
-        <p class="mt-5 max-w-md text-base leading-relaxed text-muted">Receba a tabela diferenciada para agências e entenda como posso entrar no seu próximo orçamento. Sem preços públicos e sem compromisso.</p>
+        <p class="mt-5 max-w-md text-base leading-relaxed text-muted">Receba a tabela exclusiva para agências. Sem compromisso.</p>
       </div>
 
       <div class="r-rise rounded-3xl bg-ink p-6 text-white shadow-[0_30px_60px_-30px_rgba(110,68,255,.7)] md:p-9">
@@ -646,7 +643,7 @@ const jsonld = {
     <div class="relative mx-auto max-w-3xl px-5 py-16 text-center md:px-8 md:py-24">
       <p class="font-mono text-[11px] uppercase tracking-[.14em] text-white/90">Próximo projeto</p>
       <h2 class="r-wipe mt-5 text-[2rem] font-extrabold leading-[1.08] tracking-tight md:text-[3.4rem]">Tem projeto de site parado na agência?</h2>
-      <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/85">Você cuida do cliente e da parte criativa. Eu assumo o desenvolvimento. Vamos conversar sobre os próximos projetos da sua agência?</p>
+      <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/85">Me chama no WhatsApp e a gente tira esse projeto do papel.</p>
       <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
         <a href={wa.conversa} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-ink transition hover:bg-[#F7F6F3]">
           Quero conversar sobre uma parceria <svg class="arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
@@ -735,4 +732,5 @@ const jsonld = {
     });
   });
 </script>
+<Anima />
 </Base>
