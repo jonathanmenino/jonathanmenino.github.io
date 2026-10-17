@@ -20,61 +20,115 @@ interface Props {
   jsonld?: Record<string, unknown> | Record<string, unknown>[];
   themeColor?: string;
 }
-const { title, description, image = 'og/home.jpg', tipo = 'website', jsonld, themeColor = '#0B0A0D' } = Astro.props;
+const {
+  title,
+  description,
+  image = 'og/home.jpg',
+  tipo = 'website',
+  jsonld,
+  themeColor = '#0B0A0D',
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const imagem = new URL(url(image), Astro.site);
 ---
+
 <!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>{title}</title>
-  <meta name="description" content={description}>
-  <link rel="canonical" href={canonical}>
-  <meta name="theme-color" content={themeColor}>
-  <!-- Tema: aplica a escolha salva antes de desenhar a página (evita piscar) e expõe window.alternarTema. -->
-  <script is:inline>
-    (function () {
-      var raiz = document.documentElement, mq = matchMedia('(prefers-color-scheme: dark)');
-      var claro = document.querySelector('meta[name="theme-color"]').content;
-      function salvo() { try { return localStorage.getItem('tema'); } catch (e) { return null; } }
-      function escuro() { var t = raiz.getAttribute('data-theme'); return t ? t === 'dark' : mq.matches; }
-      function corBarra() { if (claro === '#F7F6F3') document.querySelector('meta[name="theme-color"]').content = escuro() ? '#141217' : claro; }
-      var t = salvo(); if (t === 'light' || t === 'dark') raiz.setAttribute('data-theme', t);
-      corBarra();
-      mq.addEventListener('change', corBarra);
-      window.alternarTema = function () {
-        var novo = escuro() ? 'light' : 'dark';
-        // Se a escolha bate com o sistema, volta a seguir o sistema.
-        var sistema = mq.matches ? 'dark' : 'light';
-        try { novo === sistema ? localStorage.removeItem('tema') : localStorage.setItem('tema', novo); } catch (e) {}
-        raiz.setAttribute('data-theme', novo);
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content={themeColor} />
+    <!-- Tema: aplica a escolha salva antes de desenhar a página (evita piscar) e expõe window.alternarTema. -->
+    <script is:inline>
+      (function () {
+        var raiz = document.documentElement,
+          mq = matchMedia('(prefers-color-scheme: dark)');
+        var claro = document.querySelector('meta[name="theme-color"]').content;
+        function salvo() {
+          try {
+            return localStorage.getItem('tema');
+          } catch (e) {
+            return null;
+          }
+        }
+        function escuro() {
+          var t = raiz.getAttribute('data-theme');
+          return t ? t === 'dark' : mq.matches;
+        }
+        function corBarra() {
+          if (claro === '#F7F6F3')
+            document.querySelector('meta[name="theme-color"]').content =
+              escuro() ? '#141217' : claro;
+        }
+        var t = salvo();
+        if (t === 'light' || t === 'dark') raiz.setAttribute('data-theme', t);
         corBarra();
-      };
-    })();
-  </script>
-  <link rel="icon" type="image/svg+xml" href={url('favicon.svg')}>
-  <link rel="apple-touch-icon" href={url('apple-touch-icon.png')}>
-  <link rel="sitemap" href={url('sitemap-index.xml')}>
+        mq.addEventListener('change', corBarra);
+        window.alternarTema = function () {
+          var novo = escuro() ? 'light' : 'dark';
+          // Se a escolha bate com o sistema, volta a seguir o sistema.
+          var sistema = mq.matches ? 'dark' : 'light';
+          try {
+            novo === sistema
+              ? localStorage.removeItem('tema')
+              : localStorage.setItem('tema', novo);
+          } catch (e) {}
+          raiz.setAttribute('data-theme', novo);
+          corBarra();
+        };
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+    <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
+    <link rel="sitemap" href={url('sitemap-index.xml')} />
 
-  <meta property="og:type" content={tipo}>
-  <meta property="og:locale" content="pt_BR">
-  <meta property="og:site_name" content={SITE.nome}>
-  <meta property="og:title" content={title}>
-  <meta property="og:description" content={description}>
-  <meta property="og:url" content={canonical}>
-  <meta property="og:image" content={imagem}>
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content={tipo} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={SITE.nome} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imagem} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="preload" href={interWoff} as="font" type="font/woff2" crossorigin>
-  {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
-  <slot name="head" />
-</head>
-<body>
-  <slot />
-  <CursorCirculo />
-</body>
+    <link
+      rel="preload"
+      href={interWoff}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    {
+      jsonld && (
+        <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+      )
+    }
+    <slot name="head" />
+    <script is:inline>
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'r84srt439a');
+    </script>
+  </head>
+  <body>
+    <slot />
+    <CursorCirculo />
+  </body>
 </html>
