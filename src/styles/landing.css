@@ -52,6 +52,11 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
     .r-rise { animation: r-rise linear both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
     @keyframes r-rise { from { opacity: 0; transform: translateY(48px); } to { opacity: 1; transform: none; } }
 
+    /* como o r-rise, mas sem mexer na opacidade: o texto nunca fica "meio apagado"
+       (o Lighthouse reprovava o contraste quando pegava o card no meio do fade) */
+    .r-unveil { animation: r-unveil linear both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+    @keyframes r-unveil { from { clip-path: inset(0 0 100% 0 round 1.5rem); transform: translateY(48px); } to { clip-path: inset(0 0 0 0 round 1.5rem); transform: none; } }
+
     .r-wipe { animation: r-wipe linear both; animation-timeline: view(); animation-range: entry 10% cover 30%; }
     @keyframes r-wipe { from { clip-path: inset(0 0 100% 0); transform: translateY(24px); } to { clip-path: inset(0 0 -10% 0); transform: none; } }
 
