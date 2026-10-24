@@ -169,6 +169,12 @@ td:last-child { width: 1%; white-space: nowrap; }
 .citem .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--on-ink-muted); }
 .citem a, .citem span.v { font-size: 14.5px; color: var(--on-ink); text-decoration: none; font-weight: 500; overflow-wrap: anywhere; user-select: all; }
 .citem a:hover { color: #9B7BFF; }
+.dl { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+.dl span { font-family: var(--mono); font-size: 12px; color: var(--on-ink-muted); }
+.btn-pdf { display: inline-flex; align-items: center; gap: 10px; background: var(--brand); color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; padding: 14px 22px; border-radius: 999px; transition: background .2s, transform .2s; }
+.btn-pdf:hover { background: #5A30EE; transform: translateY(-1px); }
+.btn-pdf:focus-visible { outline: 2px solid #9B7BFF; outline-offset: 3px; }
+@media print { .dl { display: none; } }
 .sign { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 12px; color: var(--on-ink-muted); }
 
 @media (max-width: 640px) {
@@ -465,7 +471,8 @@ td:last-child { width: 1%; white-space: nowrap; }
       <div class="citem"><span class="lbl">LinkedIn</span><a href="https://www.linkedin.com/in/jonathanmenino/" target="_blank" rel="noopener">in/jonathanmenino</a></div>
       <div class="citem"><span class="lbl">Instagram</span><a href="https://www.instagram.com/devmenino/" target="_blank" rel="noopener">@devmenino</a></div>
     </div>
-    <div class="sign"><span>Jonathan Menino · Diagnóstico SEO e GEO · <a href="diagnostico-seo-geo-so-helices.pdf" download style="color:#9B7BFF">Baixar em PDF</a></span><span>Outubro de 2026</span></div>
+    <div class="dl"><a class="btn-pdf" href="diagnostico-seo-geo-so-helices.pdf" download="Diagnostico-SEO-GEO-So-Helices.pdf"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Baixar proposta em PDF</a><span>PDF · 8 páginas</span></div>
+    <div class="sign"><span>Jonathan Menino · Diagnóstico SEO e GEO</span><span>Outubro de 2026</span></div>
   </div>
 </footer>
 </body>
