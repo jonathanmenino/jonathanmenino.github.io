@@ -1,6 +1,6 @@
 ---
 /* CASE DE CAMPANHA: Macarrone Costelinha BBQ (Macarrone in Box, lançamento de sabor, setembro de 2025).
-   Jonathan fez os vídeos e parte das peças (identidade e conceito são da agência).
+   Jonathan fez os vídeos e parte das peças (identidade, conceito, captação e fotos são da agência).
    A página usa a identidade da própria campanha (vermelho, preto, marrom defumado, Roadhawk).
    Acumin Pro (texto da marca) é fonte da Adobe e não pode ser servida aqui: Inter entra no lugar.
    Ainda não está linkada em nenhum lugar: quando a seção Portfólio existir,
@@ -14,12 +14,8 @@ import '@fontsource-variable/inter';
 import logo from '../../../assets/portfolio/macarrone-costelinha-bbq/logo.png';
 import seloBbq from '../../../assets/portfolio/macarrone-costelinha-bbq/selo-costelinha-bbq.png';
 import seloIrresistivel from '../../../assets/portfolio/macarrone-costelinha-bbq/selo-irresistivel.png';
-import postPrato from '../../../assets/portfolio/macarrone-costelinha-bbq/post-prato.jpg';
-import postTexas from '../../../assets/portfolio/macarrone-costelinha-bbq/post-texas.jpg';
 import postLogo from '../../../assets/portfolio/macarrone-costelinha-bbq/post-logo.jpg';
-import cartaz from '../../../assets/portfolio/macarrone-costelinha-bbq/cartaz-em-breve.jpg';
 import stTeaser from '../../../assets/portfolio/macarrone-costelinha-bbq/story-teaser.jpg';
-import stTexas from '../../../assets/portfolio/macarrone-costelinha-bbq/story-texas.jpg';
 import stModelo from '../../../assets/portfolio/macarrone-costelinha-bbq/story-modelo.jpg';
 import voucher from '../../../assets/portfolio/macarrone-costelinha-bbq/voucher.jpg';
 import neon from '../../../assets/portfolio/macarrone-costelinha-bbq/neon.jpg';
@@ -79,7 +75,7 @@ const jsonld = {
 ---
 <Base
   title="Macarrone Costelinha BBQ · Campanha · Jonathan Menino"
-  description="Vídeos e peças da campanha de lançamento do Costelinha BBQ da Macarrone in Box, inspirada no Texas: vídeo oficial com chroma key, telão de LED, spoiler, anúncios e peças. Feita para a Agência Zava."
+  description="Vídeos e peças da campanha de lançamento do Costelinha BBQ da Macarrone in Box, inspirada no Texas: vídeo oficial com chroma key, telão de LED, spoiler, anúncios, stories e voucher. Feita para a Agência Zava."
   image="og/macarrone-costelinha-bbq.jpg"
   tipo="article"
   themeColor="#0B0B0B"
@@ -112,7 +108,7 @@ const jsonld = {
           </dl>
         </div>
         <div class="hero-arte">
-          <Image src={postTexas} alt="Post com o selo do Texas e o título Costelinha BBQ, Absolutamente Irresistível" widths={[480, 960]} sizes="(min-width: 1024px) 460px, 90vw" loading="eager" />
+          <Image src={stModelo} alt="Story de lançamento com a modelo de cowboy segurando a box em cenário de faroeste" widths={[400, 800]} sizes="(min-width: 1024px) 380px, 80vw" loading="eager" />
         </div>
       </div>
     </section>
@@ -138,7 +134,7 @@ const jsonld = {
     <section class="defumado">
       <div class="wrap duas prato">
         <div class="prato-img">
-          <Image src={postPrato} alt="Post do Macarrone BBQ com o prato visto de cima" widths={[480, 960]} sizes="(min-width: 900px) 480px, 90vw" />
+          <Image src={e21} alt="Prato Costelinha BBQ servido na bandeja da loja" widths={[480, 960]} sizes="(min-width: 900px) 480px, 90vw" />
         </div>
         <div>
           <p class="num">03 · O prato</p>
@@ -159,7 +155,7 @@ const jsonld = {
       <div class="wrap">
         <p class="num">04 · Vídeos</p>
         <h2 class="grande">Do saloon ao delivery.</h2>
-        <p class="intro">Meu trabalho principal na campanha: edição, motion e composição de todos os vídeos. Toque em um vídeo para ouvir.</p>
+        <p class="intro">Meu trabalho principal na campanha: edição, motion e composição de todos os vídeos. A captação foi da agência. Toque em um vídeo para ouvir.</p>
 
         <div class="oficial">
           <div class="oficial-video">
@@ -168,7 +164,7 @@ const jsonld = {
           <div>
             <p class="selo-oficial">Vídeo oficial</p>
             <h3>O filme principal da campanha.</h3>
-            <p>A peça mais complexa do projeto: gravação em chroma key, cenários de faroeste montados na pós, letreiros de neon animados e cenas reais na loja, costurados com os títulos da campanha.</p>
+            <p>A peça mais complexa do projeto. A partir do material gravado pela agência em chroma key e na loja, montei os cenários de faroeste na pós, animei os letreiros de neon e costurei tudo com os títulos da campanha.</p>
             <ul class="tags">
               <li>Chroma key</li><li>Composição de cenários</li><li>Motion e lettering</li><li>Edição</li>
             </ul>
@@ -197,29 +193,31 @@ const jsonld = {
       </div>
     </section>
 
-    <!-- ============ PRÉ-LANÇAMENTO ============ -->
+    <!-- ============ PEÇAS ============ -->
     <section class="brasa secao">
       {flutuam.prelanc.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="160px" /></span>)}
       <div class="wrap">
-        <p class="num">05 · Pré-lançamento</p>
+        <p class="num">05 · Peças</p>
         <h2 class="grande">Contagem para 12/09.</h2>
-        <p class="intro">Antes da estreia, o prato apareceu só em pedaços: o fogo da panela, o neon do Texas e a data. O cartaz "Em breve" fechou o ciclo com a foto e a descrição completa, e no dia da estreia um voucher premiava quem chegasse primeiro.</p>
-        <div class="prelanc">
-          <div class="cartaz">
-            <Image src={cartaz} alt="Cartaz Em breve na Macarrone in Box: Costelinha BBQ, disponível a partir de 12 de setembro" widths={[500, 1000]} sizes="(min-width: 900px) 460px, 90vw" />
-            <p class="legenda">Cartaz "Em breve"</p>
-          </div>
-          <div class="prelanc-lado">
-            <div>
-              <Image src={stTeaser} alt="Story teaser: Absolutamente Irresistível, 12/09" widths={[270, 540]} sizes="(min-width: 900px) 240px, 44vw" />
-              <p class="legenda">Story teaser</p>
-            </div>
-            <div>
-              <video src={video('spoiler.mp4')} poster={video('spoiler.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo spoiler do Costelinha BBQ"></video>
-              <p class="legenda">Vídeo spoiler</p>
-            </div>
-          </div>
-        </div>
+        <p class="intro">Antes da estreia, o prato apareceu só em pedaços: o fogo da panela, o neon do Texas e a data. Depois vieram as peças de lançamento e, no dia da estreia, um voucher para quem chegasse primeiro.</p>
+        <ul class="pecas">
+          <li>
+            <Image src={stTeaser} alt="Story teaser: Absolutamente Irresistível, 12/09" widths={[270, 540]} sizes="(min-width: 900px) 260px, 44vw" />
+            <p class="legenda">Story teaser</p>
+          </li>
+          <li>
+            <video src={video('spoiler.mp4')} poster={video('spoiler.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo spoiler do Costelinha BBQ"></video>
+            <p class="legenda">Vídeo spoiler</p>
+          </li>
+          <li>
+            <Image src={stModelo} alt="Story com a modelo de cowboy segurando a box em cenário de faroeste" widths={[270, 540]} sizes="(min-width: 900px) 260px, 44vw" />
+            <p class="legenda">Story de lançamento</p>
+          </li>
+          <li class="feed-item">
+            <Image src={postLogo} alt="Post com o logo Macarrone BBQ" widths={[360, 720]} sizes="(min-width: 900px) 260px, 44vw" />
+            <p class="legenda">Post de feed</p>
+          </li>
+        </ul>
         <div class="voucher">
           <div class="voucher-txt">
             <h3>Voucher do dia da estreia.</h3>
@@ -230,43 +228,12 @@ const jsonld = {
       </div>
     </section>
 
-    <!-- ============ REDES ============ -->
-    <section class="escuro">
-      <div class="wrap">
-        <p class="num">06 · Redes sociais</p>
-        <h2 class="grande">Feed e stories.</h2>
-        <p class="intro">Posts de lançamento com o selo do Texas, o prato e o logo, e stories com o teaser e a modelo da campanha.</p>
-
-        <h3 class="sub-h">Feed · 1080 × 1350</h3>
-        <ul class="trilho feed">
-          {[
-            { img: postTexas, alt: 'Post Costelinha BBQ com o selo do Texas' },
-            { img: postPrato, alt: 'Post Macarrone BBQ com o prato' },
-            { img: postLogo, alt: 'Post com o logo Macarrone BBQ' },
-          ].map((p) => (
-            <li><Image src={p.img} alt={p.alt} widths={[360, 720]} sizes="320px" /></li>
-          ))}
-        </ul>
-
-        <h3 class="sub-h">Stories · 1080 × 1920</h3>
-        <ul class="trilho stories">
-          {[
-            { img: stTeaser, alt: 'Story teaser com a data 12/09' },
-            { img: stTexas, alt: 'Story Costelinha BBQ com o selo do Texas' },
-            { img: stModelo, alt: 'Story com a modelo de cowboy segurando a box em cenário de faroeste' },
-          ].map((s) => (
-            <li><Image src={s.img} alt={s.alt} widths={[270, 540]} sizes="240px" /></li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
     <!-- ============ IDENTIDADE ============ -->
     <section class="claro">
       <div class="wrap">
-        <p class="num">07 · Base visual</p>
+        <p class="num">06 · Base visual</p>
         <h2 class="grande">A identidade que os vídeos seguem.</h2>
-        <p class="bloco-txt nota">A identidade visual da campanha foi criada pela equipe da agência, não por mim. Ela aparece aqui porque é a base dos vídeos e peças que fiz.</p>
+        <p class="bloco-txt nota">A identidade visual da campanha foi criada pela equipe da agência, não por mim. Ela aparece aqui porque é a base dos vídeos e das peças que fiz.</p>
 
         <div class="logo-palco">
           <Image src={logo} alt="Logo Macarrone BBQ em branco e vermelho sobre preto" widths={[800, 882]} sizes="(min-width: 1200px) 860px, 90vw" />
@@ -290,9 +257,9 @@ const jsonld = {
     <section class="claro">
       {flutuam.ensaio.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="160px" /></span>)}
       <div class="wrap">
-        <p class="num">08 · Ensaio</p>
+        <p class="num">07 · Ensaio</p>
         <h2 class="grande">Cowboy na praça de alimentação.</h2>
-        <p class="bloco-txt">Fotos em dois cenários: na loja, com o prato servido na bandeja, e em fundo verde, para recortar e aplicar a modelo nas peças e nos cenários do vídeo.</p>
+        <p class="bloco-txt">Fotos da agência em dois cenários: na loja, com o prato servido na bandeja, e em fundo verde. Usei essas imagens nas peças e nos cenários do vídeo.</p>
         <ul class="ensaio">
           {ensaio.map((f) => (
             <li class={f.classe}><Image src={f.img} alt={f.alt} widths={[400, 800, 1200]} sizes="(min-width: 900px) 380px, 50vw" /></li>
@@ -304,7 +271,7 @@ const jsonld = {
     <!-- ============ CRÉDITOS ============ -->
     <section class="escuro creditos">
       <div class="wrap">
-        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>. Fiz os vídeos e parte das peças; a identidade visual e o conceito da campanha são da equipe da agência.</p>
+        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>. Fiz os vídeos e parte das peças. Identidade visual, conceito, captação de vídeo e fotos são da equipe da agência.</p>
         <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
       </div>
     </section>
@@ -396,7 +363,7 @@ const jsonld = {
 .bbq .agencia { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; }
 .bbq .agencia dd { margin: 0; }
 .bbq .zava { height: 22px; width: auto; display: block; }
-.bbq .hero-arte img { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; border-radius: 18px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); transform: rotate(2deg); }
+.bbq .hero-arte img { display: block; width: 100%; max-width: 380px; height: auto; margin: 0 auto; border-radius: 18px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); transform: rotate(2deg); }
 
 /* Seções */
 .bbq .claro { background: var(--fumaca); color: var(--carvao); padding: 72px 0; }
@@ -420,7 +387,7 @@ const jsonld = {
 
 /* Prato */
 .bbq .prato { align-items: center; }
-.bbq .prato-img img { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; border-radius: 18px; box-shadow: 0 30px 60px -24px rgba(0,0,0,.7); transform: rotate(-2deg); }
+.bbq .prato-img img { display: block; width: 100%; max-width: 480px; aspect-ratio: 4 / 5; object-fit: cover; height: auto; margin: 0 auto; border-radius: 18px; box-shadow: 0 30px 60px -24px rgba(0,0,0,.7); transform: rotate(-2deg); }
 .bbq .receita { margin-top: 20px; font-size: 17px; line-height: 1.75; color: rgba(255,255,255,.88); }
 .bbq .fatos { list-style: none; padding: 0; margin: 32px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .bbq .fatos li { border-top: 3px solid var(--vermelho-vivo); padding-top: 12px; }
@@ -472,11 +439,9 @@ const jsonld = {
 .bbq .tipo-reg { margin-top: 20px; font-size: 18px; line-height: 1.4; color: var(--carvao); }
 
 /* Pré-lançamento */
-.bbq .prelanc { margin-top: 48px; display: grid; gap: 24px; align-items: start; }
-@media (min-width: 900px) { .bbq .prelanc { grid-template-columns: 1.1fr 1fr; gap: 40px; } }
-.bbq .cartaz img { display: block; width: 100%; max-width: 480px; height: auto; border-radius: 6px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); }
-.bbq .prelanc-lado { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.bbq .prelanc-lado img { display: block; width: 100%; height: auto; border-radius: 16px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.6); }
+.bbq .pecas { list-style: none; padding: 0; margin: 48px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+@media (min-width: 900px) { .bbq .pecas { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+.bbq .pecas img { display: block; width: 100%; height: auto; border-radius: 16px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.6); }
 
 /* Voucher */
 .bbq .voucher { margin-top: 64px; display: grid; gap: 24px; align-items: center; }
@@ -499,10 +464,6 @@ const jsonld = {
 @media (min-width: 768px) { .bbq .trilho { margin: 20px -32px 0; padding: 4px 32px 16px; } }
 .bbq .trilho li { flex: none; scroll-snap-align: start; }
 .bbq .trilho img { display: block; height: auto; border-radius: 14px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.6); }
-.bbq .feed li { width: min(78vw, 340px); }
-.bbq .feed img { width: 100%; }
-.bbq .stories li { width: min(58vw, 250px); }
-.bbq .stories img { width: 100%; }
 .bbq .videos { margin-top: 56px; }
 .bbq .videos li { width: min(62vw, 260px); }
 .bbq video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 16px; background: #000; }
