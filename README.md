@@ -26,6 +26,8 @@ npm run build    # gera o site final em dist/
 | Modelo da página de case | `src/pages/white-label/projetos/[slug].astro` |
 | Case de campanha Escalados Macarrone (ainda sem link) | `src/pages/portfolio/escalados-macarrone/index.astro` |
 | Imagens e vídeos desse case | `src/assets/portfolio/escalados-macarrone/` e `public/portfolio/escalados-macarrone/videos/` |
+| Case de campanha Macarrone Costelinha BBQ (ainda sem link) | `src/pages/portfolio/macarrone-costelinha-bbq/index.astro` |
+| Imagens, vídeos e fonte Roadhawk desse case | `src/assets/portfolio/macarrone-costelinha-bbq/` e `public/portfolio/macarrone-costelinha-bbq/` |
 | Imagens de compartilhamento (1200x630) | `public/og/` |
 
 ### Novo case
