@@ -1,0 +1,429 @@
+---
+/* CASE DE CAMPANHA: Doces da Fer · Temporada de Páscoa (Páscoa de 2026, principalmente Instagram).
+   Jonathan fez a edição dos vídeos, os assets gerados com IA e parte das peças.
+   NÃO é um case de identidade: a marca é da cliente (já veio pronta) e a identidade
+   "Temporada de Páscoa" é da Agência Zava. Captação e fotos também são da agência.
+   Não citar designers pelo nome.
+   A página usa as cores da campanha (creme, rosa, marrom e verde da marca). As fontes da marca
+   (Lovera, Magic Bright Script) não podem ser servidas aqui: Fraunces e Inter entram no lugar.
+   Ainda não está linkada em nenhum lugar: quando a seção Portfólio existir,
+   troque o link "Portfólio" do topo e do rodapé (const portfolio). */
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import Fox from '../../../components/Fox.astro';
+import { url } from '../../../data/site';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces';
+
+import temporada from '../../../assets/portfolio/doces-da-fer-pascoa/temporada-de-pascoa.png';
+import keyVisual from '../../../assets/portfolio/doces-da-fer-pascoa/key-visual.jpg';
+import iaCasinha from '../../../assets/portfolio/doces-da-fer-pascoa/ia-casinha.jpg';
+import iaTrilha from '../../../assets/portfolio/doces-da-fer-pascoa/ia-trilha.jpg';
+import stCapa from '../../../assets/portfolio/doces-da-fer-pascoa/story-capa.jpg';
+import stUltima from '../../../assets/portfolio/doces-da-fer-pascoa/story-ultima-hora.jpg';
+import stFeliz from '../../../assets/portfolio/doces-da-fer-pascoa/story-feliz-pascoa.jpg';
+import postUltima from '../../../assets/portfolio/doces-da-fer-pascoa/post-ultima-hora.jpg';
+import postFeliz from '../../../assets/portfolio/doces-da-fer-pascoa/post-feliz-pascoa.jpg';
+import marcaVerde from '../../../assets/portfolio/doces-da-fer-pascoa/marca-verde.svg';
+import marcaRosa from '../../../assets/portfolio/doces-da-fer-pascoa/marca-rosa.svg';
+import seloVerde from '../../../assets/portfolio/doces-da-fer-pascoa/marca-selo-verde.svg';
+import seloMarrom from '../../../assets/portfolio/doces-da-fer-pascoa/marca-selo-marrom.svg';
+import seloRosa from '../../../assets/portfolio/doces-da-fer-pascoa/selo-rosa.svg';
+import zava from '../../../assets/agencias/zava-branco.svg';
+
+const portfolio = url(); // TODO: trocar por url('portfolio/') quando a página existir
+const base = url('portfolio/doces-da-fer-pascoa/');
+const video = (nome: string) => `${base}videos/${nome}`;
+
+const ficha = [
+  ['Cliente', 'Os Doces da Fer Espósito'],
+  ['Ocasião', 'Páscoa de 2026'],
+  ['Meu papel', 'Edição de vídeo, assets com IA generativa e parte das peças'],
+  ['Canal', 'Instagram'],
+];
+
+const outros = [
+  { arquivo: 'acao-pascoa', titulo: 'Ação de Páscoa', texto: 'A Fer entregando ovos de surpresa, direto na janela do carro.' },
+  { arquivo: 'sabores-ineditos', titulo: 'Sabores inéditos', texto: 'Os lançamentos do cardápio de Páscoa num só vídeo.' },
+  { arquivo: 'pistache', titulo: 'Pistache', texto: 'O ovo de pistache em close, da casca ao recheio.' },
+  { arquivo: 'brulle', titulo: 'Brûlée', texto: 'A casca caramelizada no maçarico.' },
+  { arquivo: 'ovo-cookie', titulo: 'Cookieholic', texto: 'O ovo de cookie, também com envio para todo o Brasil.' },
+  { arquivo: 'ovo-kids', titulo: 'Ovo Kids', texto: 'A versão das crianças, com granulado colorido.' },
+  { arquivo: 'stop-motion-kinder', titulo: 'Stop motion', texto: 'O ovo Kinder Bueno montado quadro a quadro.' },
+];
+
+// Selos flutuando pela página (decorativos). pos: posição no CSS; w: largura; v: velocidade do parallax.
+type Flutua = { pos: string; w: string; r: number; v: number; d?: number };
+const flutuam: Record<string, Flutua[]> = {
+  desafio: [{ pos: 'top:40px;right:-20px', w: 'clamp(120px,13vw,190px)', r: -10, v: -0.08 }],
+  videos: [{ pos: 'top:64px;right:3%', w: 'clamp(100px,10vw,150px)', r: 8, v: -0.06, d: 1.2 }],
+  pecas: [{ pos: 'top:56px;right:4%', w: 'clamp(90px,9vw,140px)', r: -6, v: -0.07, d: 0.6 }],
+};
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'Doces da Fer · Temporada de Páscoa',
+  description: 'Vídeos e peças da campanha de Páscoa 2026 da confeitaria Os Doces da Fer Espósito, com assets gerados por IA. Feita para a Agência Zava.',
+  creator: { '@type': 'Person', name: 'Jonathan Menino' },
+  dateCreated: '2026',
+  inLanguage: 'pt-BR',
+};
+---
+<Base
+  title="Doces da Fer · Temporada de Páscoa · Jonathan Menino"
+  description="Edição dos vídeos e parte das peças da campanha de Páscoa 2026 da confeitaria Os Doces da Fer, com cenários e objetos gerados por IA. Feita para a Agência Zava."
+  image="og/doces-da-fer-pascoa.jpg"
+  tipo="article"
+  themeColor="#FBF4EC"
+  jsonld={jsonld}
+>
+<div class="fer">
+  <header class="topo">
+    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+      <Fox cor="#C2456A" class="raposa" />
+      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+    </a>
+    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+  </header>
+
+  <main>
+    <!-- ============ TOPO ============ -->
+    <section class="hero creme">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Campanha · Páscoa 2026</p>
+          <h1 class="sr-only">Doces da Fer · Temporada de Páscoa</h1>
+          <Image src={temporada} alt="Lettering Temporada de Páscoa" widths={[600, 1000]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
+          <p class="lead">A Páscoa da confeitaria Os Doces da Fer, contada no Instagram. Editei os vídeos da campanha, criei com IA generativa os cenários e objetos dos vídeos de abertura e fiz parte das peças.</p>
+          <dl class="ficha">
+            {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
+            <div class="larga">
+              <dt>Identidade visual</dt>
+              <dd>Marca da cliente e campanha da Agência Zava (não são minhas)</dd>
+            </div>
+            <div class="agencia">
+              <dt>Feito para</dt>
+              <dd><span class="zava-pill"><Image src={zava} alt="Agência Zava" height={28} class="zava" /></span></dd>
+            </div>
+          </dl>
+        </div>
+        <div class="hero-arte">
+          <div class="celular">
+            <video src={video('ia-paraquedas.mp4')} poster={video('ia-paraquedas.jpg')} muted loop playsinline preload="metadata" aria-label="Vídeo gerado com IA: paraquedas com sacolas da Doces da Fer caindo sobre uma cidade em tons pastel"></video>
+          </div>
+          <p class="selo-ia">Feito com IA generativa</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DESAFIO E MINHA PARTE ============ -->
+    <section class="rosa">
+      {flutuam.desafio.map((f) => <span class="flutua so-desk" data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={seloRosa} alt="" width={240} /></span>)}
+      <div class="wrap duas">
+        <div>
+          <p class="num">01 · O desafio</p>
+          <h2>A época mais disputada do ano para uma confeitaria.</h2>
+          <p>Na Páscoa, todo mundo vende ovo e o feed fica cheio de chocolate. A Doces da Fer, confeitaria de Limeira (SP), precisava apresentar um cardápio com vários sabores, abrir as encomendas, anunciar o envio para todo o Brasil e ainda manter o ritmo de posts até o feriado.</p>
+        </div>
+        <div>
+          <p class="num">02 · Minha parte</p>
+          <h2>Dar movimento à campanha.</h2>
+          <p>Entrei na campanha com a identidade já definida. Meu trabalho foi transformar o material em vídeo: editar as captações da agência, gerar com IA os cenários e objetos dos vídeos de abertura e montar parte das peças para o feed e os stories.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ IA GENERATIVA ============ -->
+    <section class="marrom">
+      <div class="wrap">
+        <p class="num">03 · IA generativa</p>
+        <h2 class="grande">Um mundo de Páscoa <em>sem sair da tela</em>.</h2>
+        <p class="intro">O destaque do projeto. Os dois vídeos que abriram a campanha foram feitos com assets gerados por IA: uma trilha de madeira entre flores, a casinha rosa, as sacolas, as caixas e os ovos da marca, e uma cidade em tons pastel com sacolas descendo de paraquedas. Tudo seguindo as cores e o logo da Doces da Fer, sem montar cenário nem fotografar produto.</p>
+
+        <div class="ia">
+          <div class="ia-video">
+            <video src={video('ia-producao.mp4')} poster={video('ia-producao.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo gerado com IA: trilha de madeira entre flores com sacolas, caixas e ovos de Páscoa da Doces da Fer"></video>
+            <p class="legenda">Vídeo 01 · A trilha</p>
+            <p class="legenda-txt">A câmera percorre um caminho de ovos e sacolas até a casinha da marca.</p>
+          </div>
+          <div class="ia-video">
+            <video src={video('ia-paraquedas.mp4')} poster={video('ia-paraquedas.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo gerado com IA: sacolas descendo de paraquedas sobre a cidade, com o texto Cardápio de Páscoa liberado"></video>
+            <p class="legenda">Vídeo 02 · Os paraquedas</p>
+            <p class="legenda-txt">Para anunciar o cardápio liberado e o envio para todo o Brasil.</p>
+          </div>
+          <div class="ia-txt">
+            <h3>Da geração à edição.</h3>
+            <p>As cenas foram geradas mantendo a paleta pastel e as embalagens da marca de um take para o outro. Na edição, os trechos ganharam os textos da campanha e o ritmo dos stories.</p>
+            <ul class="tags">
+              <li>IA generativa</li><li>Consistência de marca</li><li>Edição</li><li>Instagram</li>
+            </ul>
+            <ul class="frames">
+              <li><Image src={iaCasinha} alt="Frame gerado com IA: casinha rosa e verde da marca no fim da trilha, com ovo e morangos" widths={[240, 480]} sizes="(min-width: 900px) 180px, 42vw" /></li>
+              <li><Image src={iaTrilha} alt="Frame gerado com IA: sacola da Doces da Fer e ovos recheados sobre a trilha de madeira" widths={[240, 480]} sizes="(min-width: 900px) 180px, 42vw" /></li>
+            </ul>
+            <p class="legenda-txt">Frames gerados com IA</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VÍDEOS ============ -->
+    <section class="creme">
+      {flutuam.videos.map((f) => <span class="flutua so-desk" data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={seloRosa} alt="" width={240} /></span>)}
+      <div class="wrap">
+        <p class="num">04 · Vídeos</p>
+        <h2 class="grande">Um sabor por vídeo.</h2>
+        <p class="intro">Cada sabor do cardápio ganhou o seu vídeo, além de uma ação com a Fer na rua. As captações são da equipe da agência; eu fiz a edição. Toque em um vídeo para ouvir.</p>
+        <ul class="trilho videos">
+          {outros.map((v) => (
+            <li>
+              <video src={video(`${v.arquivo}.mp4`)} poster={video(`${v.arquivo}.jpg`)} muted loop playsinline controls preload="none" aria-label={v.titulo}></video>
+              <p class="legenda">{v.titulo}</p>
+              <p class="legenda-txt">{v.texto}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ PEÇAS ============ -->
+    <section class="rosa">
+      {flutuam.pecas.map((f) => <span class="flutua so-desk" data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={seloRosa} alt="" width={240} /></span>)}
+      <div class="wrap">
+        <p class="num">05 · Peças</p>
+        <h2 class="grande">Feed e stories.</h2>
+        <p class="intro">Algumas das peças que fiz dentro da identidade da campanha: a capa com o fundo gerado por IA, a conversa para quem deixou a encomenda para a última hora e o post de Feliz Páscoa.</p>
+
+        <h3 class="sub-h">Stories · 1080 × 1920</h3>
+        <ul class="trilho stories">
+          {[
+            { img: stCapa, alt: 'Story de capa Temporada de Páscoa com fundo de trilha e flores gerado por IA, sacola e ovo' },
+            { img: stUltima, alt: 'Story em formato de conversa: Deixei para a última hora, e agora? Tranquilo! Aproveite os sabores a pronta entrega' },
+            { img: stFeliz, alt: 'Story Feliz Páscoa com a Fer segurando ovos de Páscoa' },
+          ].map((s) => (
+            <li><Image src={s.img} alt={s.alt} widths={[270, 540]} sizes="240px" /></li>
+          ))}
+        </ul>
+
+        <h3 class="sub-h">Feed · 1080 × 1350</h3>
+        <ul class="trilho feed">
+          {[
+            { img: postUltima, alt: 'Post em formato de conversa sobre os sabores a pronta entrega, com o ovo de cookie de pistache' },
+            { img: postFeliz, alt: 'Post Feliz Páscoa com a Fer segurando ovos de Páscoa' },
+          ].map((p) => (
+            <li><Image src={p.img} alt={p.alt} widths={[360, 720]} sizes="320px" /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ BASE VISUAL ============ -->
+    <section class="creme">
+      <div class="wrap">
+        <p class="num">06 · Base visual</p>
+        <h2 class="grande">A base que eu recebi.</h2>
+        <p class="bloco-txt nota">A campanha trabalha com duas identidades, e nenhuma delas foi criada por mim. Elas aparecem aqui porque são a base dos vídeos e das peças que fiz.</p>
+
+        <div class="identidades">
+          <div class="id-bloco">
+            <h3>A marca</h3>
+            <p class="id-autor">Os Doces da Fer Espósito · trazida pronta pela cliente</p>
+            <p>O símbolo junta um coração com três pessoas, a Fer e a família. Verde-sálvia, marrom e rosa formam a paleta.</p>
+            <ul class="logos">
+              <li><Image src={marcaVerde} alt="Logo Os Doces da Fer Espósito em marrom e rosa sobre verde" width={400} /></li>
+              <li><Image src={seloVerde} alt="Selo circular Os Doces da Fer Espósito sobre verde" width={400} /></li>
+              <li><Image src={marcaRosa} alt="Logo Os Doces da Fer Espósito sobre rosa claro" width={400} /></li>
+              <li><Image src={seloMarrom} alt="Selo circular Os Doces da Fer Espósito em branco sobre marrom" width={400} /></li>
+            </ul>
+            <ul class="paleta">
+              <li style="--c:#ADBC91"><span>Verde</span></li>
+              <li style="--c:#8B532E"><span>Marrom</span></li>
+              <li style="--c:#E99CA5"><span>Rosa</span></li>
+              <li style="--c:#F5D7D5" class="clara"><span>Rosa claro</span></li>
+            </ul>
+          </div>
+          <div class="id-bloco">
+            <h3>Temporada de Páscoa</h3>
+            <p class="id-autor">Identidade da campanha · criada pela Agência Zava</p>
+            <p>O lettering em rosa, o fundo creme pontilhado e o selo redondo da marca, aplicados em todas as peças da Páscoa.</p>
+            <div class="kv">
+              <Image src={keyVisual} alt="Key visual Temporada de Páscoa: mão segurando um ovo de pistache sobre fundo creme pontilhado" widths={[400, 800]} sizes="(min-width: 900px) 420px, 90vw" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CRÉDITOS ============ -->
+    <section class="marrom creditos">
+      <div class="wrap">
+        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Os Doces da Fer Espósito</b>. Fiz a edição dos vídeos, os assets gerados com IA e parte das peças. A identidade da marca é da cliente; a identidade Temporada de Páscoa, as captações e as fotos são da agência.</p>
+        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+</div>
+</Base>
+
+<script>
+  // Vídeos tocam sem som quando aparecem na tela e pausam quando saem.
+  const videos = document.querySelectorAll<HTMLVideoElement>('.fer video');
+  const reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduzir && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((itens) => {
+      for (const i of itens) {
+        const v = i.target as HTMLVideoElement;
+        if (i.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      }
+    }, { threshold: 0.6 });
+    videos.forEach((v) => obs.observe(v));
+  }
+
+  // Parallax leve nos selos flutuantes.
+  const flutuam = [...document.querySelectorAll<HTMLElement>('.fer .flutua')];
+  if (!reduzir && flutuam.length) {
+    let pendente = false;
+    const mover = () => {
+      pendente = false;
+      const meio = innerHeight / 2;
+      for (const f of flutuam) {
+        const caixa = f.parentElement!.getBoundingClientRect();
+        if (caixa.bottom < 0 || caixa.top > innerHeight) continue;
+        const dist = caixa.top + caixa.height / 2 - meio;
+        f.style.transform = `translate3d(0, ${(dist * Number(f.dataset.v)).toFixed(1)}px, 0)`;
+      }
+    };
+    addEventListener('scroll', () => { if (!pendente) { pendente = true; requestAnimationFrame(mover); } }, { passive: true });
+    mover();
+  }
+</script>
+
+<style is:global>
+.fer {
+  --creme: #FBF4EC; --pontos: #F2C9CF; --rosa: #E57490; --rosa-texto: #B83E62; --rosa-claro: #F5D7D5;
+  --marrom: #8B532E; --cacau: #4A2C1A; --verde: #ADBC91; --salvia: #BFCABA; --tinta: #3B2416;
+  font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  background: var(--creme); color: var(--tinta); -webkit-font-smoothing: antialiased;
+}
+.fer * { box-sizing: border-box; }
+.fer .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 768px) { .fer .wrap { padding: 0 32px; } }
+.fer .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.fer a:focus-visible, .fer video:focus-visible { outline: 3px solid var(--rosa-texto); outline-offset: 3px; }
+
+/* Topo */
+.fer .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(251,244,236,.92); backdrop-filter: blur(8px); border-bottom: 2px solid var(--rosa); }
+@media (min-width: 768px) { .fer .topo { padding: 14px 32px; } }
+.fer .marca { display: flex; align-items: center; gap: 10px; color: var(--tinta); text-decoration: none; }
+.fer .raposa { height: 32px; width: auto; }
+.fer .nome { display: block; font-weight: 600; font-size: 15px; line-height: 1.2; }
+.fer .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(59,36,22,.7); }
+.fer .voltar { font-size: 14px; font-weight: 600; color: var(--tinta); text-decoration: none; }
+.fer .voltar:hover { color: var(--rosa-texto); }
+
+/* Fundos: creme pontilhado (como o key visual), rosa claro e marrom */
+.fer .creme { background-color: var(--creme); background-image: radial-gradient(var(--pontos) 1.6px, transparent 1.8px); background-size: 26px 26px; }
+.fer .rosa { background: var(--rosa-claro); }
+.fer .marrom { background: var(--cacau); color: #fff; background-image: radial-gradient(ellipse at 80% 0%, #7a4526 0%, var(--cacau) 60%); }
+.fer main > section { position: relative; overflow: hidden; padding: 72px 0; }
+@media (min-width: 768px) { .fer main > section { padding: 112px 0; } }
+.fer main > section > .wrap { position: relative; z-index: 2; }
+
+/* Hero */
+.fer .hero { padding: 48px 0 64px !important; }
+@media (min-width: 1024px) { .fer .hero { padding: 72px 0 96px !important; } }
+.fer .hero-grid { display: grid; gap: 48px; align-items: center; }
+@media (min-width: 1024px) { .fer .hero-grid { grid-template-columns: 1.25fr 1fr; gap: 64px; } }
+.fer .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--rosa-texto); }
+.fer .hero-logo { display: block; width: 100%; max-width: 560px; height: auto; margin-top: 20px; }
+.fer .lead { margin-top: 28px; max-width: 34rem; font-size: 17px; line-height: 1.65; }
+@media (min-width: 768px) { .fer .lead { font-size: 19px; } }
+.fer .ficha { margin: 36px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; padding-top: 24px; border-top: 1px solid rgba(139,83,46,.25); }
+.fer .ficha dt { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--marrom); }
+.fer .ficha dd { margin: 6px 0 0; font-size: 14px; font-weight: 600; line-height: 1.4; }
+.fer .larga { grid-column: 1 / -1; }
+.fer .agencia { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; }
+.fer .agencia dd { margin: 0; }
+.fer .zava-pill { display: inline-flex; padding: 8px 14px; border-radius: 999px; background: var(--cacau); }
+.fer .zava { height: 18px; width: auto; display: block; }
+.fer .hero-arte { position: relative; display: grid; justify-items: center; }
+.fer .celular { width: min(78vw, 320px); padding: 10px; border-radius: 34px; background: #fff; box-shadow: 0 30px 60px -24px rgba(74,44,26,.45); transform: rotate(2deg); }
+.fer .celular video { border-radius: 24px; }
+.fer .selo-ia { position: absolute; bottom: 28px; left: 50%; translate: -170px 0; transform: rotate(-6deg); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #fff; background: var(--rosa-texto); padding: 8px 14px; border-radius: 999px; box-shadow: 0 10px 20px -10px rgba(0,0,0,.4); }
+@media (max-width: 500px) { .fer .selo-ia { translate: -50% 0; left: 50%; bottom: -14px; } }
+
+/* Títulos */
+.fer .num { font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--rosa-texto); }
+.fer .marrom .num { color: var(--rosa); }
+.fer h2, .fer h3 { font-family: 'Fraunces Variable', Georgia, serif; font-weight: 600; letter-spacing: -.01em; }
+.fer h2 { margin-top: 16px; font-size: clamp(1.9rem, 3.8vw, 2.7rem); line-height: 1.08; color: var(--marrom); text-wrap: balance; }
+.fer .marrom h2 { color: #fff; }
+.fer h2.grande { font-size: clamp(2.4rem, 6vw, 4.2rem); max-width: 18ch; }
+.fer h2 em { font-style: italic; color: var(--rosa); }
+.fer .duas { display: grid; gap: 48px; }
+@media (min-width: 900px) { .fer .duas { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.fer .duas p:not(.num) { margin-top: 18px; line-height: 1.7; font-size: 16px; }
+.fer .intro { margin-top: 18px; max-width: 42rem; line-height: 1.7; font-size: 16px; }
+.fer .marrom .intro { color: rgba(255,255,255,.86); }
+.fer .nota { padding-left: 14px; border-left: 3px solid var(--rosa); }
+.fer .bloco-txt { margin-top: 18px; max-width: 42rem; font-size: 16px; line-height: 1.7; }
+.fer .sub-h { margin-top: 56px; font-family: 'Inter Variable', sans-serif !important; font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--marrom); }
+
+/* IA generativa */
+.fer .ia { margin-top: 48px; display: grid; gap: 32px; align-items: start; grid-template-columns: 1fr 1fr; }
+@media (min-width: 1000px) { .fer .ia { grid-template-columns: 300px 300px 1fr; gap: 40px; } }
+.fer .ia-video video { box-shadow: 0 30px 60px -24px rgba(0,0,0,.7); outline: 2px solid var(--rosa); outline-offset: 6px; }
+.fer .ia-txt { grid-column: 1 / -1; }
+@media (min-width: 1000px) { .fer .ia-txt { grid-column: auto; } }
+.fer .ia-txt h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.1; }
+.fer .ia-txt > p { margin-top: 14px; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.86); }
+.fer .tags { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.fer .tags li { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); color: rgba(255,255,255,.92); }
+.fer .frames { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 380px; }
+.fer .frames img { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 14px; }
+
+/* Trilhos horizontais (vídeos, feed e stories) */
+.fer .trilho { list-style: none; margin: 20px -20px 0; padding: 4px 20px 16px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: rgba(139,83,46,.4) transparent; }
+@media (min-width: 768px) { .fer .trilho { margin: 20px -32px 0; padding: 4px 32px 16px; } }
+.fer .trilho li { flex: none; scroll-snap-align: start; }
+.fer .trilho img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 18px 40px -18px rgba(74,44,26,.45); }
+.fer .feed li { width: min(78vw, 340px); }
+.fer .stories li { width: min(58vw, 250px); }
+.fer .videos { margin-top: 48px; }
+.fer .videos li { width: min(62vw, 250px); }
+.fer video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 16px; background: var(--cacau); }
+.fer .legenda { margin-top: 12px; font-size: 13px; font-weight: 700; }
+.fer .legenda-txt { margin-top: 4px; font-size: 13px; line-height: 1.5; opacity: .75; }
+
+/* Base visual */
+.fer .identidades { margin-top: 48px; display: grid; gap: 20px; }
+@media (min-width: 900px) { .fer .identidades { grid-template-columns: 1fr 1fr; } }
+.fer .id-bloco { background: #fff; border-radius: 24px; padding: clamp(22px, 4vw, 36px); border: 1px solid rgba(139,83,46,.12); }
+.fer .id-bloco h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); color: var(--marrom); }
+.fer .id-autor { margin-top: 6px; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--rosa-texto); }
+.fer .id-bloco > p:not(.id-autor) { margin-top: 14px; font-size: 15px; line-height: 1.65; }
+.fer .logos { list-style: none; padding: 0; margin: 22px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fer .logos img { display: block; width: 100%; height: auto; border-radius: 14px; }
+.fer .paleta { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.fer .paleta li { height: 56px; border-radius: 12px; background: var(--c); display: flex; align-items: flex-end; padding: 6px 8px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+.fer .paleta span { font-size: 11px; font-weight: 600; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.35); }
+.fer .paleta .clara span { color: var(--marrom); text-shadow: none; }
+.fer .kv { margin-top: 22px; }
+.fer .kv img { display: block; width: 100%; height: auto; border-radius: 14px; }
+
+/* Selos flutuando */
+.fer .flutua { position: absolute; z-index: 1; width: var(--w); pointer-events: none; will-change: transform; }
+.fer .flutua img { display: block; width: 100%; height: auto; opacity: .85; transform: rotate(var(--r)); animation: fer-boia 7s ease-in-out var(--d) infinite; }
+@keyframes fer-boia { 0%, 100% { transform: translateY(0) rotate(var(--r)); } 50% { transform: translateY(-12px) rotate(calc(var(--r) + 4deg)); } }
+@media (max-width: 899px) { .fer .so-desk { display: none; } }
+@media (prefers-reduced-motion: reduce) { .fer .flutua img { animation: none; } }
+
+/* Créditos */
+.fer .creditos .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.fer .creditos p { max-width: 42rem; font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.82); }
+.fer .creditos b { color: #fff; }
+.fer .botao { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: var(--rosa-texto); color: #fff; font-weight: 700; font-size: 15px; text-decoration: none; transition: transform .2s, background .2s; }
+.fer .botao:hover { transform: translateY(-2px); background: #a2334f; }
+</style>
