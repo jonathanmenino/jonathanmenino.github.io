@@ -46,3 +46,7 @@ Cada envio (push) para a branch `main` publica o site sozinho pelo GitHub Action
 ## Domínio próprio (futuro)
 
 Em `astro.config.mjs`, troque `site` pelo domínio e ajuste o endereço em `public/robots.txt`.
+
+## Currículo
+
+Página em `src/pages/curriculo/index.astro` (dados no topo do arquivo). O PDF em `public/curriculo/jonathan-menino-curriculo.pdf` é a mesma página impressa em A4: depois de editar, rode `npm run build && npx astro preview` e, no navegador, Imprimir → Salvar como PDF (A4, sem margens extras), ou gere com Playwright.

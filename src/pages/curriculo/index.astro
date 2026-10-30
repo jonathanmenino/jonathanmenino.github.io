@@ -1,0 +1,286 @@
+---
+/* CURRÍCULO: página do site e fonte do PDF.
+   O PDF (public/curriculo/jonathan-menino-curriculo.pdf) é gerado a partir desta página impressa em A4.
+   Texto de verdade, uma coluna e títulos comuns: leitura fácil para recrutadores, sistemas de vagas (ATS) e IA.
+   Para atualizar: edite os dados abaixo e gere o PDF de novo (veja o README). */
+import Base from '../../layouts/Base.astro';
+import Fox from '../../components/Fox.astro';
+import { SITE, url } from '../../data/site';
+
+const CONTATO = {
+  cidade: 'Limeira, SP',
+  telefone: '+55 (19) 99436-6334',
+  email: 'jmeninodesign@gmail.com',
+  portfolio: 'https://jonathanmenino.github.io/portfolio/',
+  linkedin: SITE.redes.linkedin,
+  behance: SITE.redes.behance,
+  github: SITE.redes.github,
+};
+const curto = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+
+const CARGOS = ['Designer Gráfico', 'UI Designer', 'Editor de Vídeo', 'Criação de Sites'];
+
+const RESUMO =
+  'Designer gráfico com mais de 14 anos de experiência em agências e empresas B2B e B2C. Crio identidades visuais e campanhas para redes sociais, mídia paga, impressos e PDV, edito vídeos e motion para Reels e anúncios, e desenho e desenvolvo sites e interfaces, do Figma ao código. Uso fluxos de IA generativa no dia a dia para produzir imagens e vídeos com mais agilidade, sem perder o cuidado com a marca. Hoje sou designer gráfico na Agência Zava, onde também aprovo e oriento os criativos da equipe.';
+
+const EXPERIENCIA = [
+  {
+    empresa: 'Agência Zava',
+    cargo: 'Designer Gráfico',
+    periodo: 'jun 2025 – atual',
+    sobre: 'agência de marketing digital',
+    itens: [
+      'Identidade visual e direção de arte de campanhas para marcas de alimentação e varejo.',
+      'Peças para redes sociais, anúncios, impressos e pontos de venda.',
+      'Edição de vídeo e motion design para Reels, anúncios e telão de LED.',
+      'Fluxos de IA generativa para criar cenários, objetos e assets dos vídeos.',
+      'Aprovação e direcionamento dos criativos dos designers plenos e júniores.',
+    ],
+  },
+  {
+    empresa: 'Acade',
+    cargo: 'Designer Gráfico Pleno',
+    periodo: 'mar 2023 – fev 2025',
+    sobre: 'educação para o mercado fitness',
+    itens: [
+      'Criativos para campanhas de marketing digital e redes sociais.',
+      'Materiais offline: anúncios impressos e peças para PDV.',
+      'Identidade visual e apresentações para eventos e treinamentos.',
+    ],
+  },
+  {
+    empresa: 'DISEMP',
+    cargo: 'Designer Gráfico Pleno',
+    periodo: 'nov 2021 – jan 2023',
+    sobre: 'marketing automotivo, Grupo DISEMP',
+    itens: [
+      'Peças digitais e impressas para concessionárias e campanhas automotivas.',
+      'Motion design e edição de vídeos para campanhas digitais.',
+      'Aprovação e direcionamento criativo das peças da equipe.',
+    ],
+  },
+  {
+    empresa: 'BluePex',
+    cargo: 'Analista de Marketing',
+    periodo: 'set 2019 – mai 2021',
+    sobre: 'segurança cibernética B2B',
+    itens: [
+      'Peças para campanhas digitais e impressas.',
+      'Criação de landing pages e automação do funil de vendas.',
+      'Gestão das plataformas de marketing e do CRM, e vídeos para treinamentos internos.',
+    ],
+  },
+];
+
+const PROJETOS = [
+  { nome: 'Escalados Macarrone', contexto: 'Agência Zava', texto: 'Campanha da Copa 2026: identidade, posts, stories, vídeos, landing page e PDV.', link: 'portfolio/escalados-macarrone/' },
+  { nome: 'Costelinha BBQ · Macarrone in Box', contexto: 'Agência Zava', texto: 'Lançamento de sabor: vídeos com chroma key, telão de LED e peças.', link: 'portfolio/macarrone-costelinha-bbq/' },
+  { nome: 'Os Doces da Fer · Páscoa 2026', contexto: 'Agência Zava', texto: 'Edição dos vídeos com cenários e objetos gerados por IA, e peças.', link: 'portfolio/doces-da-fer-pascoa/' },
+  { nome: 'menin0 lo-fi', contexto: 'Projeto pessoal', texto: 'Identidade, UI no Figma e site desenvolvido em HTML e CSS.', link: 'portfolio/menin0-lofi/' },
+  { nome: 'Sites White Label para agências', contexto: 'Freelance', texto: 'Sites e landing pages: Agência Zava, Jardim Sul Residencial e Sentinela.', link: 'white-label/' },
+];
+
+const COMPETENCIAS = [
+  { area: 'Design gráfico', itens: 'Identidade visual, direção de arte, social media, anúncios, impressos, PDV, apresentações' },
+  { area: 'Vídeo e motion', itens: 'Edição de vídeo, motion design, Reels, anúncios em vídeo, chroma key, telão de LED' },
+  { area: 'UI e sites', itens: 'UI design, landing pages, sites institucionais, design responsivo, HTML, CSS, JavaScript' },
+  { area: 'IA generativa', itens: 'Fluxos de IA para imagem e vídeo, geração de cenários e objetos, IA na criação e no código' },
+  { area: 'Ferramentas', itens: 'Photoshop, Illustrator, InDesign, Premiere Pro, Figma' },
+];
+
+const CURSOS = [
+  { nome: 'UI Design Avançado', escola: 'Origamid' },
+  { nome: 'JavaScript', escola: 'Origamid' },
+  { nome: 'HTML e CSS', escola: 'Coderhouse' },
+  { nome: 'Liderança Transformacional', escola: 'ISI Infinity' },
+];
+
+const PDF = url('curriculo/jonathan-menino-curriculo.pdf');
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.nome,
+  jobTitle: 'Designer Gráfico',
+  email: `mailto:${CONTATO.email}`,
+  telephone: '+5519994366334',
+  address: { '@type': 'PostalAddress', addressLocality: 'Limeira', addressRegion: 'SP', addressCountry: 'BR' },
+  worksFor: { '@type': 'Organization', name: 'Agência Zava' },
+  knowsLanguage: ['pt-BR', 'en'],
+  url: new URL(url('curriculo/'), Astro.site).href,
+  sameAs: Object.values(SITE.redes).filter(Boolean),
+};
+---
+<Base
+  title="Currículo · Jonathan Menino, Designer Gráfico"
+  description="Currículo de Jonathan Menino: designer gráfico, UI designer e editor de vídeo em Limeira/SP, com mais de 14 anos de experiência em identidade visual, campanhas, motion, sites e fluxos de IA."
+  jsonld={jsonld}
+>
+<div class="barra no-print">
+  <a href={url()} class="voltar" aria-label="Voltar ao início">
+    <Fox cor="#9B7BFF" class="raposa" />
+    <span>Jonathan Menino</span>
+  </a>
+  <div class="acoes">
+    <a class="btn" href={PDF} download>Baixar PDF</a>
+    <a class="btn sec" href={CONTATO.portfolio}>Ver portfólio</a>
+  </div>
+</div>
+
+<main class="folha">
+  <header class="topo">
+    <h1>Jonathan Menino</h1>
+    <p class="cargos">{CARGOS.join(' · ')}</p>
+    <ul class="contato">
+      <li>{CONTATO.cidade}</li>
+      <li><a href={`https://wa.me/${SITE.whatsapp}`}>{CONTATO.telefone}</a></li>
+      <li><a href={`mailto:${CONTATO.email}`}>{CONTATO.email}</a></li>
+      <li><strong>Portfólio:</strong> <a href={CONTATO.portfolio}>{curto(CONTATO.portfolio)}</a></li>
+      <li><a href={CONTATO.linkedin}>{curto(CONTATO.linkedin)}</a></li>
+      <li><a href={CONTATO.behance}>{curto(CONTATO.behance)}</a></li>
+      <li><a href={CONTATO.github}>{curto(CONTATO.github)}</a></li>
+    </ul>
+  </header>
+
+  <section>
+    <h2>Resumo</h2>
+    <p class="resumo">{RESUMO}</p>
+  </section>
+
+  <section>
+    <h2>Experiência profissional</h2>
+    {EXPERIENCIA.map((e) => (
+      <article class="exp">
+        <div class="exp-topo">
+          <h3>{e.cargo} <span class="em">· {e.empresa}</span> <span class="sobre">({e.sobre})</span></h3>
+          <p class="periodo">{e.periodo}</p>
+        </div>
+        <ul class="itens">{e.itens.map((i) => <li>{i}</li>)}</ul>
+      </article>
+    ))}
+  </section>
+
+  <section>
+    <h2>Projetos em destaque</h2>
+    <ul class="projetos">
+      {PROJETOS.map((p) => (
+        <li>
+          <a href={new URL(url(p.link), Astro.site).href}><strong>{p.nome}</strong></a>
+          <span class="contexto"> · {p.contexto}.</span> {p.texto}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Competências</h2>
+    <dl class="comp">
+      {COMPETENCIAS.map((c) => (<div><dt>{c.area}</dt><dd>{c.itens}</dd></div>))}
+    </dl>
+  </section>
+
+  <div class="duas">
+    <section>
+      <h2>Formação</h2>
+      <p><strong>Bacharelado em Design Gráfico</strong></p>
+      <p>FAAL · 2017 – 2021 <span class="periodo">(incompleto)</span></p>
+    </section>
+    <section>
+      <h2>Cursos</h2>
+      <ul class="lista">{CURSOS.map((c) => <li><strong>{c.nome}</strong> · {c.escola}</li>)}</ul>
+    </section>
+    <section>
+      <h2>Idiomas</h2>
+      <ul class="lista">
+        <li><strong>Português</strong> · nativo</li>
+        <li><strong>Inglês</strong> · intermediário (<a href="https://cert.efset.org/qKgw2L">certificado EF SET</a>)</li>
+      </ul>
+    </section>
+  </div>
+</main>
+</Base>
+
+<style is:global>
+/* Folha branca sobre o fundo carvão do site. Na impressão (e no PDF), só a folha em A4. */
+:root { --roxo: #6E44FF; --roxo-esc: #5A30EE; --carvao: #0B0A0D; --tinta: #16141A; --cinza: #5E5A66; --linha: #E4E1EA; }
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--carvao); color: var(--tinta); font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid #9B7BFF; outline-offset: 3px; border-radius: 4px; }
+
+.barra { max-width: 860px; margin: 0 auto; padding: 24px 16px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; color: #fff; }
+.voltar { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; }
+.raposa { height: 32px; width: auto; }
+.acoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 999px; background: var(--roxo); color: #fff; text-decoration: none; font-weight: 600; font-size: 14px; transition: background .2s; }
+.btn:hover { background: var(--roxo-esc); }
+.btn.sec { background: transparent; border: 1px solid rgba(255,255,255,.25); }
+.btn.sec:hover { border-color: #9B7BFF; background: transparent; }
+
+.folha { max-width: 860px; margin: 0 auto 56px; background: #fff; padding: 56px 64px; border-radius: 6px; font-size: 14px; line-height: 1.55; }
+@media (max-width: 640px) { .folha { padding: 32px 20px; border-radius: 0; margin-bottom: 0; } }
+
+.topo { border-bottom: 3px solid var(--roxo); padding-bottom: 18px; }
+h1 { font-size: 34px; font-weight: 750; letter-spacing: -.02em; line-height: 1.1; }
+.cargos { margin-top: 6px; font-size: 15px; font-weight: 600; color: var(--roxo-esc); }
+.contato { list-style: none; padding: 0; margin-top: 12px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--cinza); }
+.contato a { text-decoration: none; color: var(--tinta); }
+.contato a:hover, .projetos a:hover, .lista a:hover { color: var(--roxo-esc); text-decoration: underline; }
+.contato strong { color: var(--tinta); font-weight: 600; }
+
+section { margin-top: 22px; }
+h2 { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--roxo-esc); padding-bottom: 6px; border-bottom: 1px solid var(--linha); margin-bottom: 10px; }
+.resumo { color: var(--tinta); }
+
+.exp { margin-top: 14px; break-inside: avoid; }
+.exp:first-of-type { margin-top: 0; }
+.exp-topo { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px; align-items: baseline; }
+h3 { font-size: 15px; font-weight: 650; }
+h3 .em { font-weight: 500; color: var(--cinza); }
+.periodo { font-size: 12.5px; color: var(--cinza); font-variant-numeric: tabular-nums; }
+.sobre { font-size: 13px; font-weight: 400; color: var(--cinza); }
+.itens { margin-top: 4px; padding-left: 18px; list-style: disc; }
+.itens li { margin-top: 2px; }
+.itens li::marker { color: var(--roxo); }
+
+.projetos { list-style: none; padding: 0; display: grid; gap: 6px; }
+.projetos a { text-decoration: none; color: var(--tinta); }
+.contexto { color: var(--cinza); }
+
+.comp { display: grid; gap: 5px; }
+.comp div { display: grid; grid-template-columns: 130px 1fr; gap: 12px; }
+.comp dt { font-weight: 650; }
+@media (max-width: 640px) { .comp div { grid-template-columns: 1fr; gap: 0; } }
+
+.duas { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 28px; }
+@media (max-width: 640px) { .duas { grid-template-columns: 1fr; } }
+.lista { list-style: none; padding: 0; display: grid; gap: 3px; }
+.lista a { color: var(--roxo-esc); }
+
+.cursor-circulo, .cursor-anel { display: none !important; }
+
+/* Impressão e PDF: A4, sem barra, folha ocupando a página. */
+@page { size: A4; margin: 10mm 13mm; }
+@media print {
+  body { background: #fff; }
+  .no-print { display: none !important; }
+  .folha { max-width: none; margin: 0; padding: 0; border-radius: 0; font-size: 9.1pt; line-height: 1.38; }
+  h1 { font-size: 22pt; }
+  .cargos { font-size: 10.5pt; }
+  .contato { font-size: 8.8pt; margin-top: 8px; }
+  .topo { padding-bottom: 12px; }
+  section { margin-top: 11px; }
+  h2 { font-size: 8.5pt; margin-bottom: 7px; padding-bottom: 4px; }
+  h3 { font-size: 10.2pt; }
+  .periodo, .sobre { font-size: 8.8pt; }
+  .exp { margin-top: 7px; }
+  .projetos { gap: 3px; }
+  .comp { gap: 3px; }
+  .itens li { margin-top: 0; }
+  .itens { margin-top: 2px; }
+  .comp div { grid-template-columns: 105px 1fr; }
+  .duas { grid-template-columns: 1fr 1.1fr 1fr; }
+  a { text-decoration: none !important; }
+}
+</style>
