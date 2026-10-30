@@ -28,6 +28,8 @@ npm run build    # gera o site final em dist/
 | Imagens e vídeos desse case | `src/assets/portfolio/escalados-macarrone/` e `public/portfolio/escalados-macarrone/videos/` |
 | Case de campanha Macarrone Costelinha BBQ (ainda sem link) | `src/pages/portfolio/macarrone-costelinha-bbq/index.astro` |
 | Imagens, vídeos e fonte Roadhawk desse case | `src/assets/portfolio/macarrone-costelinha-bbq/` e `public/portfolio/macarrone-costelinha-bbq/` |
+| Case de campanha Doces da Fer · Páscoa 2026 (ainda sem link) | `src/pages/portfolio/doces-da-fer-pascoa/index.astro` |
+| Imagens e vídeos desse case | `src/assets/portfolio/doces-da-fer-pascoa/` e `public/portfolio/doces-da-fer-pascoa/videos/` |
 | Imagens de compartilhamento (1200x630) | `public/og/` |
 
 ### Novo case
