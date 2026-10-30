@@ -37,7 +37,7 @@ const links = {
 
 const ficha = [
   ['Projeto', 'menin0, meu projeto de lo-fi hip hop'],
-  ['Meu papel', 'Design no Figma e desenvolvimento'],
+  ['Meu papel', 'Identidade, design no Figma e desenvolvimento'],
   ['Contexto', 'Curso de HTML e CSS da Coder House'],
   ['Resultado', 'Nota máxima na avaliação final'],
 ];
@@ -47,6 +47,16 @@ const cenas = [
   { img: ceu, hora: 'Manhã', nome: 'Céu', secao: 'Use a música', texto: 'Céu aberto para liberar as faixas para criadores e rádios lo-fi.' },
   { img: praia, hora: 'Tarde', nome: 'Praia', secao: 'Newsletter', texto: 'Areia vista de cima, para quem quer saber do próximo lançamento.' },
   { img: mar, hora: 'Fim de tarde', nome: 'Mar', secao: 'Contato', texto: 'A onda chegando na areia fecha a página com o formulário.' },
+];
+
+// Paleta da identidade, na proporção em que aparece no guia (w = largura relativa).
+const paleta = [
+  { nome: 'Areia', hex: '#FFE6B5', uso: 'Fundos claros e calor das cenas de dia', w: 3.5 },
+  { nome: 'Céu', hex: '#49B0ED', uso: 'Céu e mar, o lado fresco do dia', w: 3 },
+  { nome: 'Vinil', hex: '#DB3E51', uso: 'Destaques, traço dos títulos e botões', w: 1 },
+  { nome: 'Musgo', hex: '#2B3F3D', uso: 'Superfícies escuras e detalhes', w: 1 },
+  { nome: 'Névoa', hex: '#F3FEFB', uso: 'Textos sobre o escuro e caixas claras', w: 1 },
+  { nome: 'Noite', hex: '#152524', uso: 'Fundo base da marca', w: 0 },
 ];
 
 // Personagens flutuando pela página (decorativos). pos: posição no CSS; w: largura; v: velocidade do parallax.
@@ -67,7 +77,7 @@ const jsonld = {
 ---
 <Base
   title="menin0 · Site de artista lo-fi · Jonathan Menino"
-  description="Site do menin0, meu projeto de lo-fi hip hop: uma página que atravessa um dia, da cidade à noite até o mar. Design no Figma e desenvolvimento em HTML e CSS."
+  description="Site do menin0, meu projeto de lo-fi hip hop: uma página que atravessa um dia, da cidade à noite até o mar. Identidade, design no Figma e desenvolvimento em HTML e CSS."
   image="og/menin0-lofi.jpg"
   tipo="article"
   themeColor="#0E1918"
@@ -127,10 +137,66 @@ const jsonld = {
       </div>
     </section>
 
+    <!-- ============ IDENTIDADE ============ -->
+    <section class="noite identidade">
+      <div class="wrap">
+        <p class="num">03 · Identidade</p>
+        <h2 class="script">A marca do menin0</h2>
+        <p class="intro">Também criei a identidade do projeto: o logo escrito à mão, a paleta e o par de fontes que o site usa.</p>
+
+        <div class="ident-grid">
+          <div class="logo-palco">
+            <Image src={logo} alt="Logo menin0, escrito à mão" class="logo-grande" />
+          </div>
+          <div class="logo-txt">
+            <h3>Logo</h3>
+            <p>Um "menin0" escrito à mão, em traço contínuo, com o zero no lugar do "o" final. Solto e um pouco irregular, como um beat lo-fi.</p>
+          </div>
+        </div>
+
+        <h3 class="sub-h">Paleta</h3>
+        <div class="paleta-barra" role="img" aria-label="Paleta: Areia, Céu, Vinil, Musgo e Névoa sobre o fundo Noite">
+          {paleta.filter((c) => c.w > 0 && c.nome !== 'Névoa').map((c) => (
+            c.nome === 'Musgo'
+              ? <div class="par" style={`flex:${c.w}`}><span style={`background:${c.hex}`}></span><span style="background:#F3FEFB"></span></div>
+              : <span style={`flex:${c.w};background:${c.hex}`}></span>
+          ))}
+        </div>
+        <ul class="paleta">
+          {paleta.map((c) => (
+            <li>
+              <span class="amostra" style={`background:${c.hex}`}></span>
+              <div>
+                <p class="cor-nome">{c.nome}</p>
+                <p class="cor-cod">{c.hex}</p>
+                <p class="cor-uso">{c.uso}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <h3 class="sub-h">Tipografia</h3>
+        <div class="tipos">
+          <div class="tipo">
+            <p class="tipo-aa script-aa" aria-hidden="true">Aa</p>
+            <p class="tipo-nome">Hertine</p>
+            <p class="tipo-desc">Manuscrita nos títulos das seções, conversando com o logo.</p>
+            <p class="tipo-amostra script-aa">Listen now</p>
+          </div>
+          <div class="tipo">
+            <p class="tipo-aa" aria-hidden="true">Aa</p>
+            <p class="tipo-nome">Heebo</p>
+            <p class="tipo-desc">Sem serifa para o resto: nome do lançamento, textos, formulários e botões.</p>
+            <p class="tipo-amostra"><b>Rainy Coffee</b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ O SITE ============ -->
     <section class="noite">
       <div class="wrap">
-        <p class="num">03 · O site</p>
+        <p class="num">04 · O site</p>
         <h2 class="script">Role e passe o dia</h2>
         <p class="intro">A página inteira, no computador e no celular. Role dentro de cada tela.</p>
         <div class="telas">
@@ -153,7 +219,7 @@ const jsonld = {
     <section class="claro">
       {flutuam.cenas.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="180px" /></span>)}
       <div class="wrap">
-        <p class="num">04 · As cenas</p>
+        <p class="num">05 · As cenas</p>
         <h2 class="script escura">Um dia em quatro cenas</h2>
         <p class="intro">Depois do lançamento mais recente no topo, cada cena sustenta uma parte do conteúdo.</p>
         <ol class="cenas">
@@ -173,9 +239,9 @@ const jsonld = {
     <section class="ceu-rosa">
       <div class="wrap duas">
         <div>
-          <p class="num">05 · Bastidores</p>
+          <p class="num">06 · Bastidores</p>
           <h2>Do Figma para o HTML, sem framework de design.</h2>
-          <p>Desenhei o layout no Figma e construí a página com HTML e CSS, usando Bootstrap só no menu. O projeto foi a entrega final do curso de HTML e CSS da Coder House e recebeu a nota máxima.</p>
+          <p>Criei a identidade e desenhei o layout no Figma e construí a página com HTML e CSS, usando Bootstrap só no menu. O projeto foi a entrega final do curso de HTML e CSS da Coder House e recebeu a nota máxima.</p>
         </div>
         <ul class="feito">
           <li><b>Figma</b><span>Layout, cenas e responsivo</span></li>
@@ -287,6 +353,36 @@ const jsonld = {
 .mn h2.script + .intro { margin-top: 20px; }
 .mn .duas { display: grid; gap: 48px; }
 @media (min-width: 900px) { .mn .duas { grid-template-columns: 1fr 1fr; gap: 64px; } }
+
+/* Identidade */
+.mn .identidade { border-bottom: 1px solid rgba(255,255,255,.06); }
+.mn .ident-grid { margin-top: 40px; display: grid; gap: 24px; align-items: center; }
+@media (min-width: 900px) { .mn .ident-grid { grid-template-columns: 1.6fr 1fr; gap: 48px; } }
+.mn .logo-palco { display: grid; place-items: center; padding: clamp(48px, 9vw, 110px) 24px; background: #152524; border: 1px solid rgba(255,255,255,.08); }
+.mn .logo-grande { width: 100%; max-width: 440px; height: auto; }
+.mn .logo-txt h3 { font-size: 22px; font-weight: 700; }
+.mn .logo-txt p { margin-top: 10px; line-height: 1.7; color: rgba(255,255,255,.8); }
+.mn .sub-h { margin-top: 64px; font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.75); }
+.mn .paleta-barra { margin-top: 20px; display: flex; height: clamp(110px, 16vw, 180px); padding: clamp(14px, 2.5vw, 24px); background: #152524; border: 1px solid rgba(255,255,255,.08); }
+.mn .paleta-barra .par { display: flex; flex-direction: column; }
+.mn .paleta-barra .par span { flex: 1; }
+.mn .paleta { list-style: none; padding: 0; margin: 12px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 700px) { .mn .paleta { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1100px) { .mn .paleta { grid-template-columns: repeat(6, 1fr); } }
+.mn .paleta li { background: var(--noite-2); border: 1px solid rgba(255,255,255,.08); }
+.mn .amostra { display: block; height: 56px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.mn .paleta li > div { padding: 14px 16px 18px; }
+.mn .cor-nome { font-weight: 700; font-size: 15px; }
+.mn .cor-cod { margin-top: 2px; font-size: 12px; letter-spacing: .04em; color: rgba(255,255,255,.65); font-variant-numeric: tabular-nums; }
+.mn .cor-uso { margin-top: 8px; font-size: 13px; line-height: 1.5; color: rgba(255,255,255,.75); }
+.mn .tipos { margin-top: 20px; display: grid; gap: 12px; }
+@media (min-width: 900px) { .mn .tipos { grid-template-columns: 1fr 1fr; } }
+.mn .tipo { background: var(--papel); color: #1b1b1b; padding: clamp(24px, 4vw, 40px); }
+.mn .tipo-aa { font-size: clamp(5rem, 10vw, 7.5rem); font-weight: 700; line-height: 1; color: #152524; }
+.mn .script-aa { font-family: Hertine, 'Brush Script MT', cursive; font-weight: 400; }
+.mn .tipo-nome { margin-top: 12px; font-size: 24px; font-weight: 700; }
+.mn .tipo-desc { margin-top: 8px; font-size: 15px; line-height: 1.65; color: #4a4a4a; }
+.mn .tipo-amostra { margin-top: 20px; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; color: #A82C3D; }
 
 /* O site */
 .mn .telas { margin-top: 40px; display: grid; gap: 32px; align-items: start; }
