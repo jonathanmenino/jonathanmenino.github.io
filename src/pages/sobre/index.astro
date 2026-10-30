@@ -7,6 +7,10 @@ import Base from '../../layouts/Base.astro';
 import Fox from '../../components/Fox.astro';
 import Redes from '../../components/Redes.astro';
 import { SITE, url, linkWhatsApp } from '../../data/site';
+import CardProjeto from '../../components/CardProjeto.astro';
+import { PROJETOS } from '../../data/portfolio';
+
+const DESTAQUES = PROJETOS.filter((p) => p.destaque);
 
 const FRENTES = [
   {
@@ -123,6 +127,11 @@ const jsonld = {
   </section>
 
   <section class="wrap">
+    <div class="titulo titulo-link"><h2>Projetos em destaque</h2><a href={url('portfolio/')}>Ver todos <span aria-hidden="true">→</span></a></div>
+    <ul class="destaques">{DESTAQUES.map((p) => <li><CardProjeto p={p} /></li>)}</ul>
+  </section>
+
+  <section class="wrap">
     <h2 class="titulo">Como eu trabalho</h2>
     <ol class="jeito">
       {JEITO.map((j, i) => (
@@ -215,6 +224,12 @@ h1 span { display: block; color: var(--roxo-claro); }
 .colunas p { break-inside: avoid; margin-bottom: 20px; font-size: 17px; line-height: 1.7; color: var(--texto2); }
 .colunas a { color: var(--roxo-claro); text-decoration: underline; text-underline-offset: 3px; }
 
+.titulo-link { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.titulo-link h2 { font: inherit; letter-spacing: inherit; }
+.titulo-link a { color: var(--roxo-claro); text-decoration: none; font-weight: 500; }
+.titulo-link a:hover { color: #fff; }
+.destaques { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (max-width: 700px) { .destaques { grid-template-columns: 1fr; } }
 .frentes { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
 .frente { display: flex; flex-direction: column; padding: 24px; border: 1px solid rgba(255,255,255,.1); border-radius: 18px; background: var(--grafite); transition: border-color .2s, transform .2s; }
 .frente:hover { border-color: rgba(155,123,255,.6); transform: translateY(-2px); }
