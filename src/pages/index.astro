@@ -131,6 +131,7 @@ const jsonld = {
   <section class="wrap">
     <div class="titulo titulo-link"><h2>Projetos em destaque</h2><a href={url('portfolio/')}>Ver todos <span aria-hidden="true">→</span></a></div>
     <ul class="destaques">{DESTAQUES.map((p) => <li><CardProjeto p={p} /></li>)}</ul>
+    <p class="ver-todos"><a class="btn sec" href={url('portfolio/')}>Ver todos os projetos <span aria-hidden="true">→</span></a></p>
   </section>
 
   <section class="wrap">
@@ -238,6 +239,9 @@ h1 span { display: block; color: var(--roxo-claro); }
 .titulo-link h2 { font: inherit; letter-spacing: inherit; }
 .titulo-link a { color: var(--roxo-claro); text-decoration: none; font-weight: 500; }
 .titulo-link a:hover { color: #fff; }
+.ver-todos { margin-top: 28px; display: flex; justify-content: center; }
+.ver-todos .btn span { margin-left: 8px; transition: transform .2s; }
+.ver-todos .btn:hover span { transform: translateX(3px); }
 .destaques { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 @media (max-width: 700px) { .destaques { grid-template-columns: 1fr; } }
 .agencias { display: flex; align-items: center; gap: 20px; padding: 28px; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: var(--grafite); text-decoration: none; transition: border-color .2s, transform .2s; }
