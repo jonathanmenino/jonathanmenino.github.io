@@ -13,7 +13,14 @@ import '@fontsource/poppins/latin-800.css';
 
 import logo from '../../../assets/portfolio/escalados-macarrone/logo.png';
 import keyVisual from '../../../assets/portfolio/escalados-macarrone/key-visual.jpg';
-import bannerSite from '../../../assets/portfolio/escalados-macarrone/banner-site.png';
+import aGolacooo from '../../../assets/portfolio/escalados-macarrone/adesivos/golacooo.png';
+import aPepperoni from '../../../assets/portfolio/escalados-macarrone/adesivos/pepperoni.png';
+import aPeito from '../../../assets/portfolio/escalados-macarrone/adesivos/peito-de-peru.png';
+import aParmigiano from '../../../assets/portfolio/escalados-macarrone/adesivos/parmigiano.png';
+import aVaiBrasil from '../../../assets/portfolio/escalados-macarrone/adesivos/vai-brasil.png';
+import aEscalados from '../../../assets/portfolio/escalados-macarrone/adesivos/escalados.png';
+import aHexa from '../../../assets/portfolio/escalados-macarrone/adesivos/rumo-ao-hexa.png';
+import aTaca from '../../../assets/portfolio/escalados-macarrone/adesivos/taca.png';
 import bannerDelivery from '../../../assets/portfolio/escalados-macarrone/banner-delivery.jpg';
 import landing from '../../../assets/portfolio/escalados-macarrone/landing.jpg';
 import postSabores from '../../../assets/portfolio/escalados-macarrone/post-sabores.jpg';
@@ -91,6 +98,35 @@ const grupos = [
   },
 ];
 
+const adesivos = [
+  { img: aVaiBrasil, nome: 'Vai Brasil', r: -6 },
+  { img: aGolacooo, nome: 'Golaçooo de Sabor', r: 4 },
+  { img: aHexa, nome: 'Rumo ao Hexa', r: -3 },
+  { img: aTaca, nome: 'A Taça do Mundo é Nossa', r: 5 },
+  { img: aEscalados, nome: 'Escalados Macarrone', r: 0 },
+  { img: aParmigiano, nome: 'Etiqueta Parmigiano', r: -4 },
+  { img: aPeito, nome: 'Etiqueta Petto di Tacchino', r: 3 },
+  { img: aPepperoni, nome: 'Etiqueta Pepperoni', r: -2 },
+];
+
+// Adesivos flutuando pela página (decorativos). pos: posição no CSS; w: largura; v: velocidade do parallax.
+type Flutua = { img: ImageMetadata; pos: string; w: string; r: number; v: number; d?: number; desk?: boolean };
+const flutuam: Record<string, Flutua[]> = {
+  hero: [
+    { img: aVaiBrasil, pos: 'top:5%;right:2%', w: 'clamp(84px,11vw,150px)', r: 10, v: -0.06, desk: true },
+    { img: aHexa, pos: 'bottom:4%;left:47%', w: 'clamp(90px,10vw,140px)', r: -12, v: 0.05, d: 1.5, desk: true },
+  ],
+  desafio: [{ img: aGolacooo, pos: 'bottom:24px;right:-36px', w: 'clamp(120px,14vw,200px)', r: 12, v: -0.08 }],
+  time: [{ img: aTaca, pos: 'top:28px;right:5%', w: 'clamp(60px,7vw,100px)', r: 14, v: -0.1, d: 0.8, desk: true }],
+  redes: [{ img: aEscalados, pos: 'top:40px;right:4%', w: 'clamp(100px,12vw,180px)', r: 8, v: -0.07, desk: true }],
+  videos: [
+    { img: aParmigiano, pos: 'top:60px;right:4%', w: 'clamp(110px,12vw,170px)', r: -10, v: -0.06, d: 1, desk: true },
+    { img: aPepperoni, pos: 'top:48%;right:-30px', w: 'clamp(110px,12vw,170px)', r: 14, v: -0.12, d: 2, desk: true },
+  ],
+  site: [{ img: aPeito, pos: 'bottom:40px;left:-30px', w: 'clamp(110px,12vw,170px)', r: -12, v: -0.06, desk: true }],
+  pdv: [{ img: aVaiBrasil, pos: 'bottom:30px;right:4%', w: 'clamp(90px,11vw,160px)', r: -8, v: -0.08, d: 1.2, desk: true }],
+};
+
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
@@ -120,6 +156,7 @@ const jsonld = {
   <main>
     <!-- ============ TOPO ============ -->
     <section class="hero gramado">
+      {flutuam.hero.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="campo" aria-hidden="true"></div>
       <div class="wrap hero-grid">
         <div>
@@ -143,6 +180,7 @@ const jsonld = {
 
     <!-- ============ DESAFIO E IDEIA ============ -->
     <section class="claro">
+      {flutuam.desafio.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap duas">
         <div>
           <p class="num">01 · O desafio</p>
@@ -159,6 +197,7 @@ const jsonld = {
 
     <!-- ============ O TIME ============ -->
     <section class="escuro">
+      {flutuam.time.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap">
         <p class="num">03 · O time escalado</p>
         <h2 class="grande">Parmigiano, Peito de Peru e Pepperoni.</h2>
@@ -219,15 +258,18 @@ const jsonld = {
         </div>
 
         <h3 class="sub-h">Adesivos e selos</h3>
-        <div class="adesivos">
-          <Image src={bannerSite} alt="Peça com os adesivos Vai Brasil, Golaçooo de Sabor e A Taça do Mundo é Nossa" widths={[600, 1242]} sizes="(min-width: 900px) 560px, 90vw" />
-          <p>Selos de torcida que aparecem nas peças, no jogo americano e na embalagem: "Vai Brasil", "Golaçooo de Sabor", "A Taça do Mundo é Nossa", "Rumo ao Hexa" e uma etiqueta para cada sabor colada no prato.</p>
-        </div>
+        <p class="adesivos-txt">Selos de torcida para as peças, o jogo americano e a embalagem, e uma etiqueta para cada sabor colada no prato.</p>
+        <ul class="adesivos gramado">
+          {adesivos.map((a) => (
+            <li style={`--r:${a.r}deg`}><Image src={a.img} alt={a.nome} widths={[200, 400]} sizes="(min-width: 900px) 220px, 40vw" /></li>
+          ))}
+        </ul>
       </div>
     </section>
 
     <!-- ============ REDES ============ -->
     <section class="gramado secao">
+      {flutuam.redes.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap">
         <p class="num">05 · Redes sociais</p>
         <h2 class="grande">Feed e stories.</h2>
@@ -251,6 +293,7 @@ const jsonld = {
 
     <!-- ============ VÍDEOS ============ -->
     <section class="escuro">
+      {flutuam.videos.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap">
         <p class="num">06 · Vídeos</p>
         <h2 class="grande">Reels, trends e anúncios.</h2>
@@ -276,6 +319,7 @@ const jsonld = {
 
     <!-- ============ SITE E DELIVERY ============ -->
     <section class="claro">
+      {flutuam.site.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap duas site">
         <div>
           <p class="num">07 · Site e delivery</p>
@@ -296,6 +340,7 @@ const jsonld = {
 
     <!-- ============ PONTO DE VENDA ============ -->
     <section class="gramado secao">
+      {flutuam.pdv.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap duas pdv">
         <div class="pdv-img">
           <Image src={display} alt="Display impresso A4 da campanha para o balcão" widths={[500, 1000]} sizes="(min-width: 900px) 460px, 90vw" />
@@ -332,6 +377,24 @@ const jsonld = {
       }
     }, { threshold: 0.6 });
     videos.forEach((v) => obs.observe(v));
+  }
+
+  // Parallax leve nos adesivos flutuantes.
+  const flutuam = [...document.querySelectorAll<HTMLElement>('.em .flutua')];
+  if (!reduzir && flutuam.length) {
+    let pendente = false;
+    const mover = () => {
+      pendente = false;
+      const meio = innerHeight / 2;
+      for (const f of flutuam) {
+        const caixa = f.parentElement!.getBoundingClientRect();
+        if (caixa.bottom < 0 || caixa.top > innerHeight) continue;
+        const dist = caixa.top + caixa.height / 2 - meio;
+        f.style.transform = `translate3d(0, ${(dist * Number(f.dataset.v)).toFixed(1)}px, 0)`;
+      }
+    };
+    addEventListener('scroll', () => { if (!pendente) { pendente = true; requestAnimationFrame(mover); } }, { passive: true });
+    mover();
   }
 </script>
 
@@ -436,10 +499,22 @@ const jsonld = {
 .em .tipo-amostra { margin-top: 24px; font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 800; line-height: 1; color: #C99A00; }
 .em .tipo-esp { margin-top: 8px; font-size: 14px; letter-spacing: .4em; color: var(--preto); }
 .em .tipo-reg { margin-top: 16px; font-size: 16px; color: #4a4a4a; }
-.em .adesivos { margin-top: 20px; display: grid; gap: 24px; align-items: center; }
-@media (min-width: 900px) { .em .adesivos { grid-template-columns: 1.1fr 1fr; gap: 48px; } }
-.em .adesivos img { display: block; width: 100%; height: auto; }
-.em .adesivos p { font-size: 16px; line-height: 1.7; color: #4a4a4a; }
+.em .adesivos-txt { margin-top: 12px; max-width: 40rem; font-size: 16px; line-height: 1.7; color: #4a4a4a; }
+.em .adesivos { list-style: none; margin: 20px 0 0; padding: clamp(28px, 5vw, 64px); border-radius: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(20px, 4vw, 48px); align-items: center; justify-items: center; }
+@media (min-width: 900px) { .em .adesivos { grid-template-columns: repeat(4, 1fr); } }
+.em .adesivos li { width: 100%; max-width: 220px; transform: rotate(var(--r)); transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+.em .adesivos li:hover { transform: rotate(0deg) scale(1.08); }
+.em .adesivos li { display: grid; place-items: center; }
+.em .adesivos img { display: block; width: auto; max-width: 100%; height: auto; max-height: clamp(110px, 15vw, 190px); filter: drop-shadow(0 10px 14px rgba(0,0,0,.3)); }
+
+/* Adesivos flutuando */
+.em main > section { position: relative; overflow: hidden; }
+.em main > section > .wrap { position: relative; z-index: 2; }
+.em .flutua { position: absolute; z-index: 1; width: var(--w); pointer-events: none; will-change: transform; }
+.em .flutua img { display: block; width: 100%; height: auto; filter: drop-shadow(0 14px 18px rgba(0,0,0,.35)); transform: rotate(var(--r)); animation: em-boia 7s ease-in-out var(--d) infinite; }
+@keyframes em-boia { 0%, 100% { transform: translateY(0) rotate(var(--r)); } 50% { transform: translateY(-12px) rotate(calc(var(--r) + 4deg)); } }
+@media (max-width: 899px) { .em .so-desk { display: none; } .em .flutua { opacity: .9; } }
+@media (prefers-reduced-motion: reduce) { .em .flutua img { animation: none; } }
 
 /* Trilhos horizontais (feed, stories e vídeos) */
 .em .trilho { list-style: none; margin: 20px -20px 0; padding: 4px 20px 16px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.4) transparent; }
