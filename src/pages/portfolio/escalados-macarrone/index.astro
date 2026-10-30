@@ -338,6 +338,28 @@ const jsonld = {
       </div>
     </section>
 
+    <!-- ============ TELAS DO SHOPPING ============ -->
+    <section class="escuro">
+      <div class="wrap">
+        <p class="num">08 · Telas do shopping</p>
+        <h2 class="grande">A campanha no corredor do shopping.</h2>
+        <p class="intro">Animações para as telas dos shoppings onde ficam as lojas: um painel de LED grande e uma parede de seis TVs verticais lado a lado.</p>
+        <div class="telao">
+          <h3 class="telao-tit">Parede de 6 TVs verticais · 6480 × 1920</h3>
+          <div class="tvs">
+            <video src={video('tv-6-telas.mp4')} poster={video('tv-6-telas.jpg')} muted loop playsinline preload="none" aria-label="Animação para seis TVs verticais"></video>
+            <span class="tvs-divisas" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="telao">
+          <h3 class="telao-tit">Painel de LED · 2560 × 1280</h3>
+          <div class="led">
+            <video src={video('led.mp4')} poster={video('led.jpg')} muted loop playsinline preload="none" aria-label="Animação para o painel de LED"></video>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ PONTO DE VENDA ============ -->
     <section class="gramado secao">
       {flutuam.pdv.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
@@ -346,7 +368,7 @@ const jsonld = {
           <Image src={display} alt="Display impresso A4 da campanha para o balcão" widths={[500, 1000]} sizes="(min-width: 900px) 460px, 90vw" />
         </div>
         <div>
-          <p class="num">08 · Ponto de venda</p>
+          <p class="num">09 · Ponto de venda</p>
           <h2>Display A4 para o balcão.</h2>
           <p>Peça impressa para as três lojas, com os sabores, o "Compre &amp; Concorra" e as regras do sorteio no rodapé.</p>
         </div>
@@ -542,6 +564,22 @@ const jsonld = {
 .em .nav-barra em { margin-left: 10px; font-style: normal; font-size: 12px; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .em .nav-rolagem { height: min(70vh, 640px); overflow-y: auto; overscroll-behavior: contain; }
 .em .nav-rolagem img { display: block; width: 100%; height: auto; }
+
+/* Telas do shopping */
+.em .telao { margin-top: 48px; }
+.em .telao-tit { font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.75); }
+.em .tvs, .em .led { position: relative; margin-top: 16px; overflow: hidden; background: #000; }
+.em .tvs { border: 6px solid #1d1d1f; border-radius: 6px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.8); }
+.em .tvs video, .em .led video { aspect-ratio: auto; border-radius: 0; height: auto; }
+.em .tvs-divisas { position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(#1d1d1f, #1d1d1f) 16.667% 0 / 5px 100% no-repeat,
+    linear-gradient(#1d1d1f, #1d1d1f) 33.333% 0 / 5px 100% no-repeat,
+    linear-gradient(#1d1d1f, #1d1d1f) 50.0% 0 / 5px 100% no-repeat,
+    linear-gradient(#1d1d1f, #1d1d1f) 66.667% 0 / 5px 100% no-repeat,
+    linear-gradient(#1d1d1f, #1d1d1f) 83.333% 0 / 5px 100% no-repeat; }
+.em .led { max-width: 900px; border-radius: 4px; outline: 10px solid #222; outline-offset: 0; margin-left: 10px; margin-right: 10px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.8); }
+@media (min-width: 900px) { .em .led { margin-left: auto; margin-right: auto; } }
 
 /* Ponto de venda */
 .em .pdv { align-items: center; }
