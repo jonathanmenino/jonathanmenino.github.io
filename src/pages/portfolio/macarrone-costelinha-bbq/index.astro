@@ -1,5 +1,6 @@
 ---
 /* CASE DE CAMPANHA: Macarrone Costelinha BBQ (Macarrone in Box, lançamento de sabor, setembro de 2025).
+   Jonathan fez os vídeos e parte das peças (identidade e conceito são da agência).
    A página usa a identidade da própria campanha (vermelho, preto, marrom defumado, Roadhawk).
    Acumin Pro (texto da marca) é fonte da Adobe e não pode ser servida aqui: Inter entra no lugar.
    Ainda não está linkada em nenhum lugar: quando a seção Portfólio existir,
@@ -11,9 +12,6 @@ import { url } from '../../../data/site';
 import '@fontsource-variable/inter';
 
 import logo from '../../../assets/portfolio/macarrone-costelinha-bbq/logo.png';
-import logoPreto from '../../../assets/portfolio/macarrone-costelinha-bbq/logo-preto.jpg';
-import logoBranco from '../../../assets/portfolio/macarrone-costelinha-bbq/logo-branco.jpg';
-import logoVermelho from '../../../assets/portfolio/macarrone-costelinha-bbq/logo-vermelho.jpg';
 import seloBbq from '../../../assets/portfolio/macarrone-costelinha-bbq/selo-costelinha-bbq.png';
 import seloIrresistivel from '../../../assets/portfolio/macarrone-costelinha-bbq/selo-irresistivel.png';
 import postPrato from '../../../assets/portfolio/macarrone-costelinha-bbq/post-prato.jpg';
@@ -23,7 +21,6 @@ import cartaz from '../../../assets/portfolio/macarrone-costelinha-bbq/cartaz-em
 import stTeaser from '../../../assets/portfolio/macarrone-costelinha-bbq/story-teaser.jpg';
 import stTexas from '../../../assets/portfolio/macarrone-costelinha-bbq/story-texas.jpg';
 import stModelo from '../../../assets/portfolio/macarrone-costelinha-bbq/story-modelo.jpg';
-import assinatura from '../../../assets/portfolio/macarrone-costelinha-bbq/assinatura.png';
 import voucher from '../../../assets/portfolio/macarrone-costelinha-bbq/voucher.jpg';
 import neon from '../../../assets/portfolio/macarrone-costelinha-bbq/neon.jpg';
 import e16 from '../../../assets/portfolio/macarrone-costelinha-bbq/ensaio-16.jpg';
@@ -41,16 +38,10 @@ const video = (nome: string) => `${base}videos/${nome}`;
 const ficha = [
   ['Cliente', 'Macarrone in Box'],
   ['Ocasião', 'Lançamento do sabor Costelinha BBQ'],
-  ['Meu papel', 'Identidade da campanha, direção de arte, peças e vídeos'],
+  ['Meu papel', 'Vídeos (edição, motion e chroma key) e parte das peças'],
   ['Período', 'Setembro de 2025'],
 ];
 
-const paleta = [
-  { nome: 'Vermelho Brasa', hex: '#BD0000', rgb: '189 0 0', uso: '"BBQ", tarjas, títulos e selo do Texas' },
-  { nome: 'Preto Carvão', hex: '#0B0B0B', rgb: '11 11 11', uso: 'Fundo do logo, vídeos e chamadas' },
-  { nome: 'Marrom Defumado', hex: '#3C2827', rgb: '60 40 39', uso: 'Fundo do cartaz e das fotos de prato' },
-  { nome: 'Fumaça', hex: '#F2EFF6', rgb: '242 239 246', uso: 'Fundos claros do feed e textos sobre escuro' },
-];
 
 const outros = [
   { arquivo: 'chef', titulo: 'Chef apresentando', texto: 'O chef Andrade conta como o prato foi criado.' },
@@ -88,7 +79,7 @@ const jsonld = {
 ---
 <Base
   title="Macarrone Costelinha BBQ · Campanha · Jonathan Menino"
-  description="Campanha de lançamento do Costelinha BBQ da Macarrone in Box, inspirada no Texas: identidade, teaser, cartaz, posts, stories, vídeo oficial com chroma key e ensaio. Feita para a Agência Zava."
+  description="Vídeos e peças da campanha de lançamento do Costelinha BBQ da Macarrone in Box, inspirada no Texas: vídeo oficial com chroma key, telão de LED, spoiler, anúncios e peças. Feita para a Agência Zava."
   image="og/macarrone-costelinha-bbq.jpg"
   tipo="article"
   themeColor="#0B0B0B"
@@ -111,7 +102,7 @@ const jsonld = {
           <p class="eyebrow">Campanha · Lançamento de sabor</p>
           <h1 class="sr-only">Macarrone Costelinha BBQ</h1>
           <Image src={logo} alt="Logo Macarrone BBQ, Absolutamente Irresistível" widths={[600, 882]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
-          <p class="lead">Um sabor novo com sotaque texano. Criei a identidade e as peças da campanha de lançamento do Costelinha BBQ, do teaser com a data de estreia ao vídeo oficial.</p>
+          <p class="lead">Um sabor novo com sotaque texano. Fiz os vídeos da campanha de lançamento do Costelinha BBQ, do spoiler ao vídeo oficial com chroma key, e parte das peças.</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
             <div class="agencia">
@@ -162,69 +153,47 @@ const jsonld = {
       </div>
     </section>
 
-    <!-- ============ IDENTIDADE ============ -->
-    <section class="claro">
+    <!-- ============ VÍDEOS ============ -->
+    <section class="defumado">
+      {flutuam.videos.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="220px" /></span>)}
       <div class="wrap">
-        <p class="num">04 · Identidade da campanha</p>
-        <h2 class="grande">Assinatura da casa, sotaque do Texas.</h2>
+        <p class="num">04 · Vídeos</p>
+        <h2 class="grande">Do saloon ao delivery.</h2>
+        <p class="intro">Meu trabalho principal na campanha: edição, motion e composição de todos os vídeos. Toque em um vídeo para ouvir.</p>
 
-        <div class="logo-palco">
-          <Image src={logo} alt="Logo Macarrone BBQ em branco e vermelho sobre preto" widths={[800, 882]} sizes="(min-width: 1200px) 860px, 90vw" />
-        </div>
-        <ul class="anatomia">
-          <li><span><Image src={assinatura} alt="Macarrone" width={260} class="script" /></span><p><b>Assinatura manuscrita</b> da marca, que mantém o prato dentro da família Macarrone.</p></li>
-          <li><span class="rh">BBQ</span><p><b>Roadhawk condensada</b>, com serifas de faroeste, como letreiro de saloon.</p></li>
-          <li><span class="tarja"><i>ABSOLUTAMENTE</i><em>IRRESISTÍVEL</em></span><p><b>Slogan espaçado com tarja</b>, que vira a assinatura de todas as peças.</p></li>
-        </ul>
-
-        <h3 class="sub-h">Versões do logo</h3>
-        <ul class="versoes">
-          <li><Image src={logoVermelho} alt="Logo em branco e vermelho sobre preto" widths={[500, 1000]} sizes="(min-width: 900px) 360px, 90vw" /></li>
-          <li><Image src={logoBranco} alt="Logo em branco sobre preto" widths={[500, 1000]} sizes="(min-width: 900px) 360px, 90vw" /></li>
-          <li><Image src={logoPreto} alt="Logo em preto sobre branco" widths={[500, 1000]} sizes="(min-width: 900px) 360px, 90vw" /></li>
-        </ul>
-
-        <h3 class="sub-h">Selo do Texas e neon</h3>
-        <p class="bloco-txt">Nas peças de impacto, o logo da Macarrone entra dentro do mapa do Texas com textura de carimbo, e os títulos ganham sombra em vermelho. Nos vídeos, o mesmo mapa vira um letreiro de neon.</p>
-        <div class="texas">
-          <div class="texas-selos brasa">
-            <Image src={seloBbq} alt="Selo do Texas com Macarrone in Box e o título Costelinha BBQ" widths={[300, 600]} sizes="(min-width: 900px) 280px, 50vw" class="selo-bbq" />
-            <Image src={seloIrresistivel} alt="Lettering Absolutamente Irresistível com sombra vermelha" widths={[300, 600]} sizes="(min-width: 900px) 300px, 60vw" class="selo-irr" />
+        <div class="oficial">
+          <div class="oficial-video">
+            <video src={video('oficial.mp4')} poster={video('oficial.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo oficial da campanha Costelinha BBQ"></video>
           </div>
-          <div class="texas-neon">
-            <Image src={neon} alt="Letreiro de neon com o mapa do Texas e a palavra Macarrone" widths={[400, 720]} sizes="(min-width: 900px) 380px, 90vw" />
+          <div>
+            <p class="selo-oficial">Vídeo oficial</p>
+            <h3>O filme principal da campanha.</h3>
+            <p>A peça mais complexa do projeto: gravação em chroma key, cenários de faroeste montados na pós, letreiros de neon animados e cenas reais na loja, costurados com os títulos da campanha.</p>
+            <ul class="tags">
+              <li>Chroma key</li><li>Composição de cenários</li><li>Motion e lettering</li><li>Edição</li>
+            </ul>
           </div>
         </div>
 
-        <h3 class="sub-h">Paleta</h3>
-        <ul class="paleta">
-          {paleta.map((c) => (
+        <div class="led">
+          <div class="led-tela">
+            <video src={video('led.mp4')} poster={video('led.jpg')} muted loop playsinline preload="none" aria-label="Animação para o telão de LED do shopping"></video>
+          </div>
+          <div class="led-txt">
+            <h3>Telão de LED no shopping.</h3>
+            <p>Versão horizontal 2:1 para o painel do shopping: o prato em close, com o logo entrando por cima. Sem som, feita para ser entendida de longe e em poucos segundos.</p>
+          </div>
+        </div>
+
+        <ul class="trilho videos">
+          {outros.map((v) => (
             <li>
-              <span class="amostra" style={`background:${c.hex}`}></span>
-              <div>
-                <p class="cor-nome">{c.nome}</p>
-                <p class="cor-cod">{c.hex} · RGB {c.rgb}</p>
-                <p class="cor-uso">{c.uso}</p>
-              </div>
+              <video src={video(`${v.arquivo}.mp4`)} poster={video(`${v.arquivo}.jpg`)} muted loop playsinline controls preload="none" aria-label={v.titulo}></video>
+              <p class="legenda">{v.titulo}</p>
+              <p class="legenda-txt">{v.texto}</p>
             </li>
           ))}
         </ul>
-
-        <h3 class="sub-h">Tipografia</h3>
-        <div class="tipos">
-          <div class="tipo">
-            <div class="tipo-aa rh" aria-hidden="true">Aa</div>
-            <p class="tipo-nome">Roadhawk</p>
-            <p class="tipo-desc">Títulos da campanha. Condensada e pesada, com o ar das placas de faroeste.</p>
-            <p class="tipo-amostra rh">COSTELINHA BBQ</p>
-          </div>
-          <div class="tipo">
-            <div class="tipo-aa acumin" aria-hidden="true">Aa</div>
-            <p class="tipo-nome">Acumin Pro</p>
-            <p class="tipo-desc">Fonte padrão da Macarrone in Box, nos textos de apoio, descrições e chamadas.</p>
-            <p class="tipo-reg acumin">Toda a essência do Texas em um prato exclusivo.</p>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -292,47 +261,28 @@ const jsonld = {
       </div>
     </section>
 
-    <!-- ============ VÍDEOS ============ -->
-    <section class="defumado">
-      {flutuam.videos.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="220px" /></span>)}
+    <!-- ============ IDENTIDADE ============ -->
+    <section class="claro">
       <div class="wrap">
-        <p class="num">07 · Vídeos</p>
-        <h2 class="grande">Do saloon ao delivery.</h2>
-        <p class="intro">Edição e motion dos vídeos da campanha. Toque em um vídeo para ouvir.</p>
+        <p class="num">07 · Base visual</p>
+        <h2 class="grande">A identidade que os vídeos seguem.</h2>
+        <p class="bloco-txt nota">A identidade visual da campanha foi criada pela equipe da agência, não por mim. Ela aparece aqui porque é a base dos vídeos e peças que fiz.</p>
 
-        <div class="oficial">
-          <div class="oficial-video">
-            <video src={video('oficial.mp4')} poster={video('oficial.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo oficial da campanha Costelinha BBQ"></video>
+        <div class="logo-palco">
+          <Image src={logo} alt="Logo Macarrone BBQ em branco e vermelho sobre preto" widths={[800, 882]} sizes="(min-width: 1200px) 860px, 90vw" />
+        </div>
+        <h3 class="sub-h">Selo do Texas e neon nos vídeos</h3>
+        <p class="bloco-txt">Nas peças de impacto, o logo da Macarrone entra dentro do mapa do Texas com textura de carimbo, e os títulos ganham sombra em vermelho. Nos vídeos, o mesmo mapa vira um letreiro de neon.</p>
+        <div class="texas">
+          <div class="texas-selos brasa">
+            <Image src={seloBbq} alt="Selo do Texas com Macarrone in Box e o título Costelinha BBQ" widths={[300, 600]} sizes="(min-width: 900px) 280px, 50vw" class="selo-bbq" />
+            <Image src={seloIrresistivel} alt="Lettering Absolutamente Irresistível com sombra vermelha" widths={[300, 600]} sizes="(min-width: 900px) 300px, 60vw" class="selo-irr" />
           </div>
-          <div>
-            <p class="selo-oficial">Vídeo oficial</p>
-            <h3>O filme principal da campanha.</h3>
-            <p>A peça mais complexa do projeto: gravação em chroma key, cenários de faroeste montados na pós, letreiros de neon animados e cenas reais na loja, costurados com os títulos da campanha.</p>
-            <ul class="tags">
-              <li>Chroma key</li><li>Composição de cenários</li><li>Motion e lettering</li><li>Edição</li>
-            </ul>
+          <div class="texas-neon">
+            <Image src={neon} alt="Letreiro de neon com o mapa do Texas e a palavra Macarrone" widths={[400, 720]} sizes="(min-width: 900px) 380px, 90vw" />
           </div>
         </div>
 
-        <div class="led">
-          <div class="led-tela">
-            <video src={video('led.mp4')} poster={video('led.jpg')} muted loop playsinline preload="none" aria-label="Animação para o telão de LED do shopping"></video>
-          </div>
-          <div class="led-txt">
-            <h3>Telão de LED no shopping.</h3>
-            <p>Versão horizontal 2:1 para o painel do shopping: o prato em close, com o logo entrando por cima. Sem som, feita para ser entendida de longe e em poucos segundos.</p>
-          </div>
-        </div>
-
-        <ul class="trilho videos">
-          {outros.map((v) => (
-            <li>
-              <video src={video(`${v.arquivo}.mp4`)} poster={video(`${v.arquivo}.jpg`)} muted loop playsinline controls preload="none" aria-label={v.titulo}></video>
-              <p class="legenda">{v.titulo}</p>
-              <p class="legenda-txt">{v.texto}</p>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
 
@@ -354,7 +304,7 @@ const jsonld = {
     <!-- ============ CRÉDITOS ============ -->
     <section class="escuro creditos">
       <div class="wrap">
-        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>.</p>
+        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>. Fiz os vídeos e parte das peças; a identidade visual e o conceito da campanha são da equipe da agência.</p>
         <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
       </div>
     </section>
@@ -460,6 +410,7 @@ const jsonld = {
 .bbq .duas p:not(.num) { margin-top: 18px; line-height: 1.7; font-size: 16px; }
 .bbq .claro .duas p:not(.num) { color: #45403f; }
 .bbq .intro { margin-top: 18px; max-width: 40rem; line-height: 1.7; color: rgba(255,255,255,.82); }
+.bbq .nota { padding-left: 14px; border-left: 3px solid var(--vermelho); }
 .bbq .bloco-txt { margin-top: 14px; max-width: 42rem; font-size: 16px; line-height: 1.7; color: #45403f; }
 .bbq .duas { display: grid; gap: 48px; }
 @media (min-width: 900px) { .bbq .duas { grid-template-columns: 1fr 1fr; gap: 64px; } }
