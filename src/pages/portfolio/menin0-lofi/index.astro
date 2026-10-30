@@ -1,0 +1,336 @@
+---
+/* CASE DE SITE: menin0 lo-fi (projeto musical do Jonathan).
+   Apresentação enxuta de um site: topo, desafio e ideia, o site rolando no
+   computador e no celular, as cenas e os bastidores.
+   A página usa a identidade do próprio site: noite verde-escura, vermelho, areia,
+   Heebo nos textos e a manuscrita Hertine nos títulos.
+   Ainda não está linkada em nenhum lugar: quando a seção Portfólio existir,
+   troque o link "Portfólio" do topo e do rodapé (const portfolio). */
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import Fox from '../../../components/Fox.astro';
+import { url } from '../../../data/site';
+import '@fontsource/heebo/latin-400.css';
+import '@fontsource/heebo/latin-500.css';
+import '@fontsource/heebo/latin-700.css';
+import hertine from '../../../assets/portfolio/menin0-lofi/Hertine.ttf?url';
+
+import logo from '../../../assets/portfolio/menin0-lofi/logo.svg';
+import mockup from '../../../assets/portfolio/menin0-lofi/mockup.png';
+import capaBlur from '../../../assets/portfolio/menin0-lofi/blur-cover.png';
+import baleia from '../../../assets/portfolio/menin0-lofi/ilustracoes/blue-whale.png';
+import gato from '../../../assets/portfolio/menin0-lofi/ilustracoes/cat.png';
+import cidade from '../../../assets/portfolio/menin0-lofi/cenarios/cidade.png';
+import ceu from '../../../assets/portfolio/menin0-lofi/cenarios/ceu.png';
+import praia from '../../../assets/portfolio/menin0-lofi/cenarios/praia.png';
+import mar from '../../../assets/portfolio/menin0-lofi/cenarios/mar.png';
+import siteDesktop from '../../../assets/portfolio/menin0-lofi/site-desktop.jpg';
+import siteMobile from '../../../assets/portfolio/menin0-lofi/site-mobile.jpg';
+
+const portfolio = url(); // TODO: trocar por url('portfolio/') quando a página existir
+
+const links = {
+  github: 'https://github.com/jonathanmenino/menin0-lofi',
+  figma: 'https://www.figma.com/design/VRfx6O96uid1v8RRLesghX/menin0?node-id=57-285&t=n3tpVLtizsGxKhVr-0',
+  spotify: 'https://open.spotify.com/intl-pt/artist/25aFd5MLcf5yOSRLMksbYa',
+};
+
+const ficha = [
+  ['Projeto', 'menin0, meu projeto de lo-fi hip hop'],
+  ['Meu papel', 'Design no Figma e desenvolvimento'],
+  ['Contexto', 'Curso de HTML e CSS da Coder House'],
+  ['Resultado', 'Nota máxima na avaliação final'],
+];
+
+const cenas = [
+  { img: cidade, hora: 'Noite', nome: 'Cidade', secao: 'Ouça agora', texto: 'Prédios no escuro para o convite principal: escolher a plataforma e dar o play.' },
+  { img: ceu, hora: 'Manhã', nome: 'Céu', secao: 'Use a música', texto: 'Céu aberto para liberar as faixas para criadores e rádios lo-fi.' },
+  { img: praia, hora: 'Tarde', nome: 'Praia', secao: 'Newsletter', texto: 'Areia vista de cima, para quem quer saber do próximo lançamento.' },
+  { img: mar, hora: 'Fim de tarde', nome: 'Mar', secao: 'Contato', texto: 'A onda chegando na areia fecha a página com o formulário.' },
+];
+
+// Personagens flutuando pela página (decorativos). pos: posição no CSS; w: largura; v: velocidade do parallax.
+type Flutua = { img: ImageMetadata; pos: string; w: string; r: number; v: number; d?: number; desk?: boolean };
+const flutuam: Record<string, Flutua[]> = {
+  ideia: [{ img: baleia, pos: 'bottom:24px;right:-40px', w: 'clamp(130px,16vw,230px)', r: -6, v: -0.08, desk: true }],
+  cenas: [{ img: gato, pos: 'top:56px;right:4%', w: 'clamp(110px,11vw,160px)', r: 8, v: -0.06, d: 1, desk: true }],
+};
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'menin0 · Lo-fi Hip Hop',
+  description: 'Site do menin0, projeto de lo-fi hip hop de Jonathan Menino: design no Figma e desenvolvimento em HTML e CSS.',
+  creator: { '@type': 'Person', name: 'Jonathan Menino' },
+  inLanguage: 'pt-BR',
+};
+---
+<Base
+  title="menin0 · Site de artista lo-fi · Jonathan Menino"
+  description="Site do menin0, meu projeto de lo-fi hip hop: uma página que atravessa um dia, da cidade à noite até o mar. Design no Figma e desenvolvimento em HTML e CSS."
+  image="og/menin0-lofi.jpg"
+  tipo="article"
+  themeColor="#0E1918"
+  jsonld={jsonld}
+>
+<Fragment slot="head">
+  <link rel="preload" href={hertine} as="font" type="font/ttf" crossorigin />
+  <Fragment set:html={`<style>@font-face{font-family:'Hertine';src:url("${hertine}") format("truetype");font-display:swap}</style>`} />
+</Fragment>
+<div class="mn">
+  <header class="topo">
+    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+      <Fox cor="#DB3E51" class="raposa" />
+      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+    </a>
+    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+  </header>
+
+  <main>
+    <!-- ============ TOPO ============ -->
+    <section class="hero">
+      <div class="hero-luz" aria-hidden="true"><Image src={capaBlur} alt="" widths={[900]} sizes="100vw" loading="eager" /></div>
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Site · Artista de lo-fi hip hop</p>
+          <h1 class="sr-only">menin0</h1>
+          <Image src={logo} alt="Logo menin0, escrito à mão" class="hero-logo" loading="eager" />
+          <p class="lead">Um site para o meu projeto musical que atravessa um dia inteiro: começa na cidade à noite, sobe para o céu, desce na praia e termina no mar. Do jeito que uma playlist lo-fi acompanha o dia.</p>
+          <dl class="ficha">
+            {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
+          </dl>
+          <div class="hero-links">
+            <a class="botao" href={links.github} target="_blank" rel="noopener">Ver o código <span aria-hidden="true">↗</span></a>
+            <a class="botao fantasma" href={links.figma} target="_blank" rel="noopener">Ver no Figma <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="hero-arte">
+          <Image src={mockup} alt="O site do menin0 aberto em um iPad e em um iPhone" widths={[560, 888]} sizes="(min-width: 1024px) 560px, 92vw" loading="eager" fetchpriority="high" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DESAFIO E IDEIA ============ -->
+    <section class="areia">
+      {flutuam.ideia.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="220px" /></span>)}
+      <div class="wrap duas">
+        <div>
+          <p class="num">01 · O desafio</p>
+          <h2>Dar uma casa para a música fora das plataformas.</h2>
+          <p>As faixas do menin0 estão espalhadas por Spotify, Apple Music, YouTube, Amazon e Deezer. O site precisava juntar tudo em um lugar só e ainda abrir espaço para o que as plataformas não fazem: liberar a música para criadores, receber apoio, captar e-mails e falar comigo.</p>
+        </div>
+        <div>
+          <p class="num">02 · A ideia</p>
+          <h2>Rolar a página é passar o dia ouvindo lo-fi.</h2>
+          <p>Cada seção ganhou uma cena ilustrada, da noite ao fim de tarde, e um bichinho que respira devagar no seu canto. Os títulos são manuscritos, como o logo, e as caixas brancas translúcidas deixam a cena aparecer por trás do texto. A estética é de propósito um pouco crua, como o próprio gênero.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ O SITE ============ -->
+    <section class="noite">
+      <div class="wrap">
+        <p class="num">03 · O site</p>
+        <h2 class="script">Role e passe o dia</h2>
+        <p class="intro">A página inteira, no computador e no celular. Role dentro de cada tela.</p>
+        <div class="telas">
+          <div class="navegador">
+            <div class="nav-barra"><span></span><span></span><span></span><em>menin0 | Lo-fi Hip Hop</em></div>
+            <div class="nav-rolagem" tabindex="0" aria-label="Site no computador, role para ver tudo">
+              <Image src={siteDesktop} alt="Página completa do site do menin0 no computador" widths={[720, 1440]} sizes="(min-width: 1100px) 760px, 92vw" />
+            </div>
+          </div>
+          <div class="celular">
+            <div class="cel-tela" tabindex="0" aria-label="Site no celular, role para ver tudo">
+              <Image src={siteMobile} alt="Página completa do site do menin0 no celular" widths={[300, 600]} sizes="280px" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ AS CENAS ============ -->
+    <section class="claro">
+      {flutuam.cenas.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="180px" /></span>)}
+      <div class="wrap">
+        <p class="num">04 · As cenas</p>
+        <h2 class="script escura">Um dia em quatro cenas</h2>
+        <p class="intro">Depois do lançamento mais recente no topo, cada cena sustenta uma parte do conteúdo.</p>
+        <ol class="cenas">
+          {cenas.map((c, i) => (
+            <li>
+              <div class="cena-img"><Image src={c.img} alt={`Cenário ${c.nome}`} widths={[480, 960]} sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 90vw" /></div>
+              <p class="cena-hora">{String(i + 1).padStart(2, '0')} · {c.hora}</p>
+              <h3>{c.secao}</h3>
+              <p>{c.texto}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ BASTIDORES ============ -->
+    <section class="ceu-rosa">
+      <div class="wrap duas">
+        <div>
+          <p class="num">05 · Bastidores</p>
+          <h2>Do Figma para o HTML, sem framework de design.</h2>
+          <p>Desenhei o layout no Figma e construí a página com HTML e CSS, usando Bootstrap só no menu. O projeto foi a entrega final do curso de HTML e CSS da Coder House e recebeu a nota máxima.</p>
+        </div>
+        <ul class="feito">
+          <li><b>Figma</b><span>Layout, cenas e responsivo</span></li>
+          <li><b>HTML e CSS</b><span>Estrutura, cenas em fundo e animação dos personagens</span></li>
+          <li><b>Bootstrap</b><span>Menu com versão recolhida no celular</span></li>
+          <li><b>GitHub</b><span>Código aberto no repositório menin0-lofi</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ CRÉDITOS ============ -->
+    <section class="noite creditos">
+      <div class="wrap">
+        <p>Projeto pessoal. Música, design e código por <b>Jonathan Menino</b>, o menin0.</p>
+        <div class="creditos-links">
+          <a href={links.spotify} class="botao fantasma" target="_blank" rel="noopener">Ouvir no Spotify <span aria-hidden="true">↗</span></a>
+          <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</Base>
+
+<script>
+  // Parallax leve nos personagens flutuantes.
+  const reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const flutuam = [...document.querySelectorAll<HTMLElement>('.mn .flutua')];
+  if (!reduzir && flutuam.length) {
+    let pendente = false;
+    const mover = () => {
+      pendente = false;
+      const meio = innerHeight / 2;
+      for (const f of flutuam) {
+        const caixa = f.parentElement!.getBoundingClientRect();
+        if (caixa.bottom < 0 || caixa.top > innerHeight) continue;
+        const dist = caixa.top + caixa.height / 2 - meio;
+        f.style.transform = `translate3d(0, ${(dist * Number(f.dataset.v)).toFixed(1)}px, 0)`;
+      }
+    };
+    addEventListener('scroll', () => { if (!pendente) { pendente = true; requestAnimationFrame(mover); } }, { passive: true });
+    mover();
+  }
+</script>
+
+<style is:global>
+.mn {
+  --noite: #0E1918; --noite-2: #15231F; --vinil: #DB3E51; --vinil-forte: #C8364A; --areia: #FFE6B5; --papel: #FBF7EF;
+  font-family: Heebo, ui-sans-serif, system-ui, sans-serif;
+  background: var(--noite); color: #fff; -webkit-font-smoothing: antialiased;
+}
+.mn * { box-sizing: border-box; }
+.mn .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 768px) { .mn .wrap { padding: 0 32px; } }
+.mn .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.mn a:focus-visible, .mn [tabindex]:focus-visible { outline: 3px solid var(--vinil); outline-offset: 3px; }
+
+/* Topo */
+.mn .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(14,25,24,.9); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,.08); }
+@media (min-width: 768px) { .mn .topo { padding: 14px 32px; } }
+.mn .marca { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+.mn .raposa { height: 32px; width: auto; }
+.mn .nome { display: block; font-weight: 700; font-size: 15px; line-height: 1.2; }
+.mn .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+.mn .voltar { font-size: 14px; font-weight: 500; color: #fff; text-decoration: none; }
+.mn .voltar:hover { color: var(--vinil); }
+
+/* Hero: a capa desfocada vira luz de fundo, como no site */
+.mn .hero { position: relative; overflow: hidden; padding: 48px 0 72px; }
+@media (min-width: 1024px) { .mn .hero { padding: 72px 0 104px; } }
+.mn .hero-luz { position: absolute; inset: 0; opacity: .35; }
+.mn .hero-luz img { width: 100%; height: 100%; object-fit: cover; }
+.mn .hero-luz::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--noite) 15%, rgba(14,25,24,.55) 100%); }
+.mn .hero-grid { position: relative; display: grid; gap: 40px; align-items: center; }
+@media (min-width: 1024px) { .mn .hero-grid { grid-template-columns: 1fr 1.05fr; gap: 56px; } }
+.mn .eyebrow { position: relative; display: inline-block; padding-bottom: 14px; font-size: 13px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.8); }
+.mn .eyebrow::after, .mn .num::after { content: ""; position: absolute; left: 0; bottom: 0; width: 32px; height: 4px; background: var(--vinil); }
+.mn .hero-logo { display: block; width: 100%; max-width: 400px; height: auto; margin-top: 32px; }
+.mn .lead { margin-top: 28px; max-width: 34rem; font-size: 17px; line-height: 1.7; color: rgba(255,255,255,.88); }
+@media (min-width: 768px) { .mn .lead { font-size: 19px; } }
+.mn .ficha { margin: 36px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.18); }
+.mn .ficha dt { font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.65); }
+.mn .ficha dd { margin: 6px 0 0; font-size: 15px; font-weight: 500; line-height: 1.4; }
+.mn .hero-links { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+.mn .hero-arte img { display: block; width: 100%; max-width: 620px; height: auto; margin: 0 auto; border-radius: 18px; box-shadow: 0 40px 80px -30px rgba(0,0,0,.7); }
+
+/* Botões retos, como os do site */
+.mn .botao { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; background: var(--vinil-forte); color: #fff; font-weight: 700; font-size: 15px; text-decoration: none; transition: background-color .2s; }
+.mn .botao:hover { background: #E2566A; }
+.mn .botao.fantasma { background: transparent; box-shadow: inset 0 0 0 2px rgba(255,255,255,.5); }
+.mn .botao.fantasma:hover { background: rgba(255,255,255,.08); }
+
+/* Seções */
+.mn main > section { position: relative; overflow: hidden; }
+.mn main > section > .wrap { position: relative; z-index: 2; }
+.mn .areia { background: var(--areia); color: #1b1b1b; padding: 72px 0; }
+.mn .claro { background: var(--papel); color: #1b1b1b; padding: 72px 0; }
+.mn .noite { background: var(--noite); color: #fff; padding: 72px 0; }
+.mn .ceu-rosa { background: linear-gradient(180deg, #F9C9CF 0%, #FFE6C9 100%); color: #1b1b1b; padding: 72px 0; }
+@media (min-width: 768px) { .mn .areia, .mn .claro, .mn .noite, .mn .ceu-rosa { padding: 112px 0; } }
+.mn .num { position: relative; display: inline-block; padding-bottom: 12px; font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #8C1F2E; }
+.mn .noite .num { color: rgba(255,255,255,.85); }
+.mn h2 { margin-top: 20px; font-size: clamp(1.6rem, 3.4vw, 2.25rem); font-weight: 700; line-height: 1.18; letter-spacing: -.01em; text-wrap: balance; }
+.mn h2.script { font-family: Hertine, 'Brush Script MT', cursive; font-weight: 400; font-size: clamp(2.6rem, 7vw, 4.75rem); line-height: 1.2; letter-spacing: 0; }
+.mn h2.script.escura { color: #1b1b1b; }
+.mn .duas p:not(.num) { margin-top: 18px; line-height: 1.75; font-size: 16px; color: #3d3d3d; }
+.mn .intro { margin-top: 12px; max-width: 40rem; line-height: 1.7; color: rgba(255,255,255,.8); }
+.mn .claro .intro { color: #4a4a4a; }
+.mn h2.script + .intro { margin-top: 20px; }
+.mn .duas { display: grid; gap: 48px; }
+@media (min-width: 900px) { .mn .duas { grid-template-columns: 1fr 1fr; gap: 64px; } }
+
+/* O site */
+.mn .telas { margin-top: 40px; display: grid; gap: 32px; align-items: start; }
+@media (min-width: 1000px) { .mn .telas { grid-template-columns: 1fr 300px; gap: 48px; } }
+.mn .navegador { overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 40px 80px -30px rgba(0,0,0,.8); }
+.mn .nav-barra { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: #1f2b29; }
+.mn .nav-barra span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.25); }
+.mn .nav-barra em { margin-left: 10px; font-style: normal; font-size: 12px; color: rgba(255,255,255,.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mn .nav-rolagem { height: min(72vh, 620px); overflow-y: auto; overscroll-behavior: contain; scrollbar-color: rgba(0,0,0,.35) transparent; }
+.mn .nav-rolagem img, .mn .cel-tela img { display: block; width: 100%; height: auto; }
+.mn .celular { justify-self: center; width: min(78vw, 300px); padding: 12px; border-radius: 44px; background: #0a0f0e; box-shadow: inset 0 0 0 2px #2a3533, 0 40px 80px -30px rgba(0,0,0,.8); }
+.mn .cel-tela { aspect-ratio: 9 / 19.5; overflow-y: auto; overscroll-behavior: contain; border-radius: 32px; scrollbar-width: none; }
+.mn .cel-tela::-webkit-scrollbar { display: none; }
+
+/* Cenas */
+.mn .cenas { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 20px; }
+@media (min-width: 640px) { .mn .cenas { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .mn .cenas { grid-template-columns: repeat(4, 1fr); } }
+.mn .cenas li { background: #fff; border: 1px solid rgba(0,0,0,.08); padding: 0 0 24px; }
+.mn .cenas li > :not(.cena-img) { padding: 0 20px; }
+.mn .cena-img { aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 18px; }
+.mn .cena-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.mn .cenas li:hover .cena-img img { transform: scale(1.05); }
+.mn .cena-hora { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #A82C3D; }
+.mn .cenas h3 { margin-top: 6px; font-size: 21px; font-weight: 700; }
+.mn .cenas p:last-child { margin-top: 8px; font-size: 15px; line-height: 1.65; color: #4a4a4a; }
+
+/* Personagens flutuando */
+.mn .flutua { position: absolute; z-index: 1; width: var(--w); pointer-events: none; will-change: transform; }
+.mn .flutua img { display: block; width: 100%; height: auto; transform: rotate(var(--r)); animation: mn-boia 7s ease-in-out var(--d) infinite; }
+@keyframes mn-boia { 0%, 100% { transform: translateY(0) rotate(var(--r)); } 50% { transform: translateY(-12px) rotate(calc(var(--r) + 3deg)); } }
+@media (max-width: 899px) { .mn .so-desk { display: none; } .mn .flutua { opacity: .9; } }
+@media (prefers-reduced-motion: reduce) { .mn .flutua img { animation: none; } }
+
+/* Bastidores */
+.mn .feito { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; align-self: center; }
+.mn .feito li { display: grid; gap: 2px; padding: 18px 20px; background: rgba(255,255,255,.75); border-left: 4px solid var(--vinil); }
+.mn .feito b { font-size: 16px; }
+.mn .feito span { font-size: 14px; color: #4a4a4a; }
+
+/* Créditos */
+.mn .creditos { padding: 64px 0 !important; }
+.mn .creditos .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.mn .creditos p { max-width: 40rem; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.8); }
+.mn .creditos b { color: #fff; }
+.mn .creditos-links { display: flex; flex-wrap: wrap; gap: 12px; }
+</style>
