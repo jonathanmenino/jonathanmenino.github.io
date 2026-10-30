@@ -1,0 +1,592 @@
+---
+/* CASE DE CAMPANHA: Macarrone Costelinha BBQ (Macarrone in Box, lançamento de sabor, setembro de 2025).
+   A página usa a identidade da própria campanha (vermelho, preto, marrom defumado, Roadhawk).
+   Acumin Pro (texto da marca) é fonte da Adobe e não pode ser servida aqui: Inter entra no lugar.
+   Ainda não está linkada em nenhum lugar: quando a seção Portfólio existir,
+   troque o link "Portfólio" do topo e do rodapé (const portfolio). */
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import Fox from '../../../components/Fox.astro';
+import { url } from '../../../data/site';
+import '@fontsource-variable/inter';
+
+import logo from '../../../assets/portfolio/macarrone-costelinha-bbq/logo.png';
+import logoPreto from '../../../assets/portfolio/macarrone-costelinha-bbq/logo-preto.jpg';
+import logoBranco from '../../../assets/portfolio/macarrone-costelinha-bbq/logo-branco.jpg';
+import logoVermelho from '../../../assets/portfolio/macarrone-costelinha-bbq/logo-vermelho.jpg';
+import seloBbq from '../../../assets/portfolio/macarrone-costelinha-bbq/selo-costelinha-bbq.png';
+import seloIrresistivel from '../../../assets/portfolio/macarrone-costelinha-bbq/selo-irresistivel.png';
+import postPrato from '../../../assets/portfolio/macarrone-costelinha-bbq/post-prato.jpg';
+import postTexas from '../../../assets/portfolio/macarrone-costelinha-bbq/post-texas.jpg';
+import postLogo from '../../../assets/portfolio/macarrone-costelinha-bbq/post-logo.jpg';
+import cartaz from '../../../assets/portfolio/macarrone-costelinha-bbq/cartaz-em-breve.jpg';
+import stTeaser from '../../../assets/portfolio/macarrone-costelinha-bbq/story-teaser.jpg';
+import stTexas from '../../../assets/portfolio/macarrone-costelinha-bbq/story-texas.jpg';
+import stModelo from '../../../assets/portfolio/macarrone-costelinha-bbq/story-modelo.jpg';
+import assinatura from '../../../assets/portfolio/macarrone-costelinha-bbq/assinatura.png';
+import voucher from '../../../assets/portfolio/macarrone-costelinha-bbq/voucher.jpg';
+import neon from '../../../assets/portfolio/macarrone-costelinha-bbq/neon.jpg';
+import e16 from '../../../assets/portfolio/macarrone-costelinha-bbq/ensaio-16.jpg';
+import e21 from '../../../assets/portfolio/macarrone-costelinha-bbq/ensaio-21.jpg';
+import e33 from '../../../assets/portfolio/macarrone-costelinha-bbq/ensaio-33.jpg';
+import e58 from '../../../assets/portfolio/macarrone-costelinha-bbq/ensaio-58.jpg';
+import e59 from '../../../assets/portfolio/macarrone-costelinha-bbq/ensaio-59.jpg';
+import e62 from '../../../assets/portfolio/macarrone-costelinha-bbq/ensaio-62.jpg';
+import zava from '../../../assets/agencias/zava-branco.svg';
+
+const portfolio = url(); // TODO: trocar por url('portfolio/') quando a página existir
+const base = url('portfolio/macarrone-costelinha-bbq/');
+const video = (nome: string) => `${base}videos/${nome}`;
+
+const ficha = [
+  ['Cliente', 'Macarrone in Box'],
+  ['Ocasião', 'Lançamento do sabor Costelinha BBQ'],
+  ['Meu papel', 'Conceito e identidade da campanha, direção de arte, peças e vídeos'],
+  ['Período', 'Setembro de 2025'],
+];
+
+const paleta = [
+  { nome: 'Vermelho Brasa', hex: '#BD0000', rgb: '189 0 0', uso: '"BBQ", tarjas, títulos e selo do Texas' },
+  { nome: 'Preto Carvão', hex: '#0B0B0B', rgb: '11 11 11', uso: 'Fundo do logo, vídeos e chamadas' },
+  { nome: 'Marrom Defumado', hex: '#3C2827', rgb: '60 40 39', uso: 'Fundo do cartaz e das fotos de prato' },
+  { nome: 'Fumaça', hex: '#F2EFF6', rgb: '242 239 246', uso: 'Fundos claros do feed e textos sobre escuro' },
+];
+
+const outros = [
+  { arquivo: 'chef', titulo: 'Chef apresentando', texto: 'O chef Andrade conta como o prato foi criado.' },
+  { arquivo: 'preparo', titulo: 'Preparo', texto: 'Do fogo da panela ao prato montado, com os ingredientes na legenda.' },
+  { arquivo: 'anuncio-box', titulo: 'Anúncio para tráfego pago', texto: 'Close na box de delivery, para impulsionar o pedido.' },
+];
+
+const ensaio = [
+  { img: e16, alt: 'Modelo de chapéu de cowboy na loja da Macarrone in Box', classe: 'alto' },
+  { img: e21, alt: 'Modelo à mesa com o prato Costelinha BBQ servido na bandeja' },
+  { img: e58, alt: 'Modelo em fundo verde segurando a box e o garfo com costelinha' },
+  { img: e33, alt: 'Modelo apresentando o prato na loja' },
+  { img: e59, alt: 'Modelo em fundo verde provando o Costelinha BBQ' },
+  { img: e62, alt: 'Modelo em fundo verde sorrindo com a box' },
+];
+
+// Selos flutuando pela página (decorativos). pos: posição no CSS; w: largura; v: velocidade do parallax.
+type Flutua = { img: ImageMetadata; pos: string; w: string; r: number; v: number; d?: number; desk?: boolean };
+const flutuam: Record<string, Flutua[]> = {
+  desafio: [{ img: seloIrresistivel, pos: 'top:36px;right:-24px', w: 'clamp(130px,15vw,220px)', r: -8, v: -0.08, desk: true }],
+  prelanc: [{ img: seloBbq, pos: 'top:48px;right:3%', w: 'clamp(90px,10vw,150px)', r: 8, v: -0.07, desk: true }],
+  videos: [{ img: seloIrresistivel, pos: 'top:70px;right:3%', w: 'clamp(140px,14vw,220px)', r: 6, v: -0.06, d: 1.2, desk: true }],
+  ensaio: [{ img: seloBbq, pos: 'top:48px;right:4%', w: 'clamp(90px,10vw,150px)', r: -10, v: -0.08, d: 0.6, desk: true }],
+};
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'Macarrone Costelinha BBQ',
+  description: 'Campanha de lançamento do sabor Costelinha BBQ da Macarrone in Box, feita para a Agência Zava.',
+  creator: { '@type': 'Person', name: 'Jonathan Menino' },
+  dateCreated: '2025-09',
+  inLanguage: 'pt-BR',
+};
+---
+<Base
+  title="Macarrone Costelinha BBQ · Campanha · Jonathan Menino"
+  description="Campanha de lançamento do Costelinha BBQ da Macarrone in Box, inspirada no Texas: identidade, teaser, cartaz, posts, stories, vídeo oficial com chroma key e ensaio. Feita para a Agência Zava."
+  image="og/macarrone-costelinha-bbq.jpg"
+  tipo="article"
+  themeColor="#0B0B0B"
+  jsonld={jsonld}
+>
+<div class="bbq">
+  <header class="topo">
+    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+      <Fox cor="#FF2A2A" class="raposa" />
+      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+    </a>
+    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+  </header>
+
+  <main>
+    <!-- ============ TOPO ============ -->
+    <section class="hero brasa">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Campanha · Lançamento de sabor</p>
+          <h1 class="sr-only">Macarrone Costelinha BBQ</h1>
+          <Image src={logo} alt="Logo Macarrone BBQ, Absolutamente Irresistível" widths={[600, 882]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
+          <p class="lead">Um sabor novo com sotaque texano. Criei a campanha de lançamento do Costelinha BBQ, do teaser com a data de estreia ao vídeo oficial.</p>
+          <dl class="ficha">
+            {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
+            <div class="agencia">
+              <dt>Feito para</dt>
+              <dd><Image src={zava} alt="Agência Zava" height={28} class="zava" /></dd>
+            </div>
+          </dl>
+        </div>
+        <div class="hero-arte">
+          <Image src={postTexas} alt="Post com o selo do Texas e o título Costelinha BBQ, Absolutamente Irresistível" widths={[480, 960]} sizes="(min-width: 1024px) 460px, 90vw" loading="eager" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DESAFIO E IDEIA ============ -->
+    <section class="claro">
+      {flutuam.desafio.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="240px" /></span>)}
+      <div class="wrap duas">
+        <div>
+          <p class="num">01 · O desafio</p>
+          <h2>Fazer um sabor novo parecer um acontecimento.</h2>
+          <p>A Macarrone in Box ia lançar o Costelinha BBQ, prato novo criado pelo chef Andrade. A campanha precisava criar expectativa antes da estreia em 12 de setembro e mostrar, em poucos segundos, que esse não era só mais um item do cardápio.</p>
+        </div>
+        <div>
+          <p class="num">02 · A ideia</p>
+          <h2>Levar o Texas para dentro da Macarrone.</h2>
+          <p>O prato nasceu da culinária texana, então a campanha foi buscar lá a sua linguagem: o mapa do estado como selo, letreiros em neon, lettering de faroeste e figurino de cowboy no ensaio e no vídeo. Por cima de tudo, uma promessa curta: Absolutamente Irresistível.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ O PRATO ============ -->
+    <section class="defumado">
+      <div class="wrap duas prato">
+        <div class="prato-img">
+          <Image src={postPrato} alt="Post do Macarrone BBQ com o prato visto de cima" widths={[480, 960]} sizes="(min-width: 900px) 480px, 90vw" />
+        </div>
+        <div>
+          <p class="num">03 · O prato</p>
+          <h2 class="grande">Costelinha BBQ.</h2>
+          <p class="receita">Molho BBQ Jack preparado pelo chef Andrade, costelinha de porco cozida lentamente em vinho branco chileno, caldo de legumes e especiarias, servida desfiada como pulled pork. Vai com o molho cheddar da casa, macarrão caracolino e crispy de cebola.</p>
+          <ul class="fatos">
+            <li><b>12/09</b><span>Data de estreia</span></li>
+            <li><b>Texas</b><span>Inspiração</span></li>
+            <li><b>Chef Andrade</b><span>Receita</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ IDENTIDADE ============ -->
+    <section class="claro">
+      <div class="wrap">
+        <p class="num">04 · Identidade da campanha</p>
+        <h2 class="grande">Assinatura da casa, sotaque do Texas.</h2>
+
+        <div class="logo-palco">
+          <Image src={logo} alt="Logo Macarrone BBQ em branco e vermelho sobre preto" widths={[800, 882]} sizes="(min-width: 1200px) 860px, 90vw" />
+        </div>
+        <ul class="anatomia">
+          <li><span><Image src={assinatura} alt="Macarrone" width={260} class="script" /></span><p><b>Assinatura manuscrita</b> da marca, que mantém o prato dentro da família Macarrone.</p></li>
+          <li><span class="rh">BBQ</span><p><b>Roadhawk condensada</b>, com serifas de faroeste, como letreiro de saloon.</p></li>
+          <li><span class="tarja"><i>ABSOLUTAMENTE</i><em>IRRESISTÍVEL</em></span><p><b>Slogan espaçado com tarja</b>, que vira a assinatura de todas as peças.</p></li>
+        </ul>
+
+        <h3 class="sub-h">Versões do logo</h3>
+        <ul class="versoes">
+          <li><Image src={logoVermelho} alt="Logo em branco e vermelho sobre preto" widths={[500, 1000]} sizes="(min-width: 900px) 360px, 90vw" /></li>
+          <li><Image src={logoBranco} alt="Logo em branco sobre preto" widths={[500, 1000]} sizes="(min-width: 900px) 360px, 90vw" /></li>
+          <li><Image src={logoPreto} alt="Logo em preto sobre branco" widths={[500, 1000]} sizes="(min-width: 900px) 360px, 90vw" /></li>
+        </ul>
+
+        <h3 class="sub-h">Selo do Texas e neon</h3>
+        <p class="bloco-txt">Nas peças de impacto, o logo da Macarrone entra dentro do mapa do Texas com textura de carimbo, e os títulos ganham sombra em vermelho. Nos vídeos, o mesmo mapa vira um letreiro de neon.</p>
+        <div class="texas">
+          <div class="texas-selos brasa">
+            <Image src={seloBbq} alt="Selo do Texas com Macarrone in Box e o título Costelinha BBQ" widths={[300, 600]} sizes="(min-width: 900px) 280px, 50vw" class="selo-bbq" />
+            <Image src={seloIrresistivel} alt="Lettering Absolutamente Irresistível com sombra vermelha" widths={[300, 600]} sizes="(min-width: 900px) 300px, 60vw" class="selo-irr" />
+          </div>
+          <div class="texas-neon">
+            <Image src={neon} alt="Letreiro de neon com o mapa do Texas e a palavra Macarrone" widths={[400, 720]} sizes="(min-width: 900px) 380px, 90vw" />
+          </div>
+        </div>
+
+        <h3 class="sub-h">Paleta</h3>
+        <ul class="paleta">
+          {paleta.map((c) => (
+            <li>
+              <span class="amostra" style={`background:${c.hex}`}></span>
+              <div>
+                <p class="cor-nome">{c.nome}</p>
+                <p class="cor-cod">{c.hex} · RGB {c.rgb}</p>
+                <p class="cor-uso">{c.uso}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <h3 class="sub-h">Tipografia</h3>
+        <div class="tipos">
+          <div class="tipo">
+            <div class="tipo-aa rh" aria-hidden="true">Aa</div>
+            <p class="tipo-nome">Roadhawk</p>
+            <p class="tipo-desc">Títulos da campanha. Condensada e pesada, com o ar das placas de faroeste.</p>
+            <p class="tipo-amostra rh">COSTELINHA BBQ</p>
+          </div>
+          <div class="tipo">
+            <div class="tipo-aa acumin" aria-hidden="true">Aa</div>
+            <p class="tipo-nome">Acumin Pro</p>
+            <p class="tipo-desc">Fonte padrão da Macarrone in Box, nos textos de apoio, descrições e chamadas.</p>
+            <p class="tipo-reg acumin">Toda a essência do Texas em um prato exclusivo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRÉ-LANÇAMENTO ============ -->
+    <section class="brasa secao">
+      {flutuam.prelanc.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="160px" /></span>)}
+      <div class="wrap">
+        <p class="num">05 · Pré-lançamento</p>
+        <h2 class="grande">Contagem para 12/09.</h2>
+        <p class="intro">Antes da estreia, o prato apareceu só em pedaços: o fogo da panela, o neon do Texas e a data. O cartaz "Em breve" fechou o ciclo com a foto e a descrição completa, e no dia da estreia um voucher premiava quem chegasse primeiro.</p>
+        <div class="prelanc">
+          <div class="cartaz">
+            <Image src={cartaz} alt="Cartaz Em breve na Macarrone in Box: Costelinha BBQ, disponível a partir de 12 de setembro" widths={[500, 1000]} sizes="(min-width: 900px) 460px, 90vw" />
+            <p class="legenda">Cartaz "Em breve"</p>
+          </div>
+          <div class="prelanc-lado">
+            <div>
+              <Image src={stTeaser} alt="Story teaser: Absolutamente Irresistível, 12/09" widths={[270, 540]} sizes="(min-width: 900px) 240px, 44vw" />
+              <p class="legenda">Story teaser</p>
+            </div>
+            <div>
+              <video src={video('spoiler.mp4')} poster={video('spoiler.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo spoiler do Costelinha BBQ"></video>
+              <p class="legenda">Vídeo spoiler</p>
+            </div>
+          </div>
+        </div>
+        <div class="voucher">
+          <div class="voucher-txt">
+            <h3>Voucher do dia da estreia.</h3>
+            <p>Ação para o 12/09: os primeiros 15 da fila que pedissem o Costelinha BBQ ganhavam um combo de brigadeiro e Coca-Cola. O voucher segue o formato de ingresso, com o canhoto numerado.</p>
+          </div>
+          <Image src={voucher} alt="Voucher Você ganhou um combo brigadeiro tradicional mais Coca-Cola 220 ml comprando o Macarrone Costelinha BBQ, número 01 na fila" widths={[600, 1200, 1772]} sizes="(min-width: 900px) 700px, 92vw" class="voucher-img" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REDES ============ -->
+    <section class="escuro">
+      <div class="wrap">
+        <p class="num">06 · Redes sociais</p>
+        <h2 class="grande">Feed e stories.</h2>
+        <p class="intro">Posts de lançamento com o selo do Texas, o prato e o logo, e stories com o teaser e a modelo da campanha.</p>
+
+        <h3 class="sub-h">Feed · 1080 × 1350</h3>
+        <ul class="trilho feed">
+          {[
+            { img: postTexas, alt: 'Post Costelinha BBQ com o selo do Texas' },
+            { img: postPrato, alt: 'Post Macarrone BBQ com o prato' },
+            { img: postLogo, alt: 'Post com o logo Macarrone BBQ' },
+          ].map((p) => (
+            <li><Image src={p.img} alt={p.alt} widths={[360, 720]} sizes="320px" /></li>
+          ))}
+        </ul>
+
+        <h3 class="sub-h">Stories · 1080 × 1920</h3>
+        <ul class="trilho stories">
+          {[
+            { img: stTeaser, alt: 'Story teaser com a data 12/09' },
+            { img: stTexas, alt: 'Story Costelinha BBQ com o selo do Texas' },
+            { img: stModelo, alt: 'Story com a modelo de cowboy segurando a box em cenário de faroeste' },
+          ].map((s) => (
+            <li><Image src={s.img} alt={s.alt} widths={[270, 540]} sizes="240px" /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ VÍDEOS ============ -->
+    <section class="defumado">
+      {flutuam.videos.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="220px" /></span>)}
+      <div class="wrap">
+        <p class="num">07 · Vídeos</p>
+        <h2 class="grande">Do saloon ao delivery.</h2>
+        <p class="intro">Edição e motion dos vídeos da campanha. Toque em um vídeo para ouvir.</p>
+
+        <div class="oficial">
+          <div class="oficial-video">
+            <video src={video('oficial.mp4')} poster={video('oficial.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo oficial da campanha Costelinha BBQ"></video>
+          </div>
+          <div>
+            <p class="selo-oficial">Vídeo oficial</p>
+            <h3>O filme principal da campanha.</h3>
+            <p>A peça mais complexa do projeto: gravação em chroma key, cenários de faroeste montados na pós, letreiros de neon animados e cenas reais na loja, costurados com os títulos da campanha.</p>
+            <ul class="tags">
+              <li>Chroma key</li><li>Composição de cenários</li><li>Motion e lettering</li><li>Edição</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="led">
+          <div class="led-tela">
+            <video src={video('led.mp4')} poster={video('led.jpg')} muted loop playsinline preload="none" aria-label="Animação para o telão de LED do shopping"></video>
+          </div>
+          <div class="led-txt">
+            <h3>Telão de LED no shopping.</h3>
+            <p>Versão horizontal 2:1 para o painel do shopping: o prato em close, com o logo entrando por cima. Sem som, feita para ser entendida de longe e em poucos segundos.</p>
+          </div>
+        </div>
+
+        <ul class="trilho videos">
+          {outros.map((v) => (
+            <li>
+              <video src={video(`${v.arquivo}.mp4`)} poster={video(`${v.arquivo}.jpg`)} muted loop playsinline controls preload="none" aria-label={v.titulo}></video>
+              <p class="legenda">{v.titulo}</p>
+              <p class="legenda-txt">{v.texto}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ ENSAIO ============ -->
+    <section class="claro">
+      {flutuam.ensaio.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="160px" /></span>)}
+      <div class="wrap">
+        <p class="num">08 · Ensaio</p>
+        <h2 class="grande">Cowboy na praça de alimentação.</h2>
+        <p class="bloco-txt">Fotos em dois cenários: na loja, com o prato servido na bandeja, e em fundo verde, para recortar e aplicar a modelo nas peças e nos cenários do vídeo.</p>
+        <ul class="ensaio">
+          {ensaio.map((f) => (
+            <li class={f.classe}><Image src={f.img} alt={f.alt} widths={[400, 800, 1200]} sizes="(min-width: 900px) 380px, 50vw" /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ CRÉDITOS ============ -->
+    <section class="escuro creditos">
+      <div class="wrap">
+        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>.</p>
+        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+</div>
+</Base>
+
+<script>
+  // Vídeos tocam sem som quando aparecem na tela e pausam quando saem.
+  const videos = document.querySelectorAll<HTMLVideoElement>('.bbq video');
+  const reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduzir && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((itens) => {
+      for (const i of itens) {
+        const v = i.target as HTMLVideoElement;
+        if (i.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      }
+    }, { threshold: 0.6 });
+    videos.forEach((v) => obs.observe(v));
+  }
+
+  // Parallax leve nos selos flutuantes.
+  const flutuam = [...document.querySelectorAll<HTMLElement>('.bbq .flutua')];
+  if (!reduzir && flutuam.length) {
+    let pendente = false;
+    const mover = () => {
+      pendente = false;
+      const meio = innerHeight / 2;
+      for (const f of flutuam) {
+        const caixa = f.parentElement!.getBoundingClientRect();
+        if (caixa.bottom < 0 || caixa.top > innerHeight) continue;
+        const dist = caixa.top + caixa.height / 2 - meio;
+        f.style.transform = `translate3d(0, ${(dist * Number(f.dataset.v)).toFixed(1)}px, 0)`;
+      }
+    };
+    addEventListener('scroll', () => { if (!pendente) { pendente = true; requestAnimationFrame(mover); } }, { passive: true });
+    mover();
+  }
+</script>
+
+<style is:global>
+@font-face { font-family: 'Roadhawk'; src: url('/portfolio/macarrone-costelinha-bbq/fonts/roadhawk-regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Roadhawk'; src: url('/portfolio/macarrone-costelinha-bbq/fonts/roadhawk-bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Roadhawk'; src: url('/portfolio/macarrone-costelinha-bbq/fonts/roadhawk-black.woff2') format('woff2'); font-weight: 900; font-display: swap; }
+
+.bbq {
+  --vermelho: #BD0000; --vermelho-vivo: #FF2A2A; --carvao: #0B0B0B; --defumado: #2B1C1B; --marrom: #3C2827; --fumaca: #F2EFF6;
+  font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  background: var(--carvao); color: #fff; -webkit-font-smoothing: antialiased;
+}
+.bbq * { box-sizing: border-box; }
+.bbq .rh { font-family: Roadhawk, 'Oswald', Impact, sans-serif; font-weight: 900; }
+.bbq .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 768px) { .bbq .wrap { padding: 0 32px; } }
+.bbq .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.bbq a:focus-visible, .bbq video:focus-visible { outline: 3px solid var(--vermelho-vivo); outline-offset: 3px; }
+
+/* Topo */
+.bbq .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(11,11,11,.9); backdrop-filter: blur(8px); border-bottom: 2px solid var(--vermelho); }
+@media (min-width: 768px) { .bbq .topo { padding: 14px 32px; } }
+.bbq .marca { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+.bbq .raposa { height: 32px; width: auto; }
+.bbq .nome { display: block; font-weight: 600; font-size: 15px; line-height: 1.2; }
+.bbq .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+.bbq .voltar { font-size: 14px; font-weight: 600; color: #fff; text-decoration: none; }
+.bbq .voltar:hover { color: var(--vermelho-vivo); }
+
+/* Fundo brasa: marrom defumado indo para o carvão, com textura leve */
+.bbq .brasa { position: relative; background-color: var(--carvao);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 70% 20%, #4a2c29 0%, var(--marrom) 25%, #1a1110 65%, var(--carvao) 100%); }
+.bbq .secao { padding: 72px 0; }
+@media (min-width: 768px) { .bbq .secao { padding: 112px 0; } }
+
+/* Hero */
+.bbq .hero { overflow: hidden; padding: 48px 0 64px; }
+@media (min-width: 1024px) { .bbq .hero { padding: 72px 0 96px; } }
+.bbq .hero-grid { position: relative; display: grid; gap: 48px; align-items: center; }
+@media (min-width: 1024px) { .bbq .hero-grid { grid-template-columns: 1.2fr 1fr; gap: 64px; } }
+.bbq .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--vermelho-vivo); }
+.bbq .hero-logo { display: block; width: 100%; max-width: 560px; height: auto; margin-top: 24px; }
+.bbq .lead { margin-top: 28px; max-width: 34rem; font-size: 17px; line-height: 1.65; color: rgba(255,255,255,.9); }
+@media (min-width: 768px) { .bbq .lead { font-size: 19px; } }
+.bbq .ficha { margin: 36px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.2); }
+.bbq .ficha dt { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.65); }
+.bbq .ficha dd { margin: 6px 0 0; font-size: 14px; font-weight: 600; line-height: 1.4; }
+.bbq .agencia { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; }
+.bbq .agencia dd { margin: 0; }
+.bbq .zava { height: 22px; width: auto; display: block; }
+.bbq .hero-arte img { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; border-radius: 18px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); transform: rotate(2deg); }
+
+/* Seções */
+.bbq .claro { background: var(--fumaca); color: var(--carvao); padding: 72px 0; }
+.bbq .escuro { background: var(--carvao); color: #fff; padding: 72px 0; }
+.bbq .defumado { background: var(--defumado); color: #fff; padding: 72px 0; }
+@media (min-width: 768px) { .bbq .claro, .bbq .escuro, .bbq .defumado { padding: 112px 0; } }
+.bbq .num { font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--vermelho); }
+.bbq .escuro .num, .bbq .brasa .num, .bbq .defumado .num { color: var(--vermelho-vivo); }
+.bbq h2 { margin-top: 16px; font-family: Roadhawk, 'Oswald', Impact, sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(2rem, 4.2vw, 2.9rem); line-height: 1; letter-spacing: .005em; text-wrap: balance; }
+.bbq h2.grande { font-size: clamp(2.6rem, 6.4vw, 4.4rem); max-width: 16ch; }
+.bbq .duas p:not(.num) { margin-top: 18px; line-height: 1.7; font-size: 16px; }
+.bbq .claro .duas p:not(.num) { color: #45403f; }
+.bbq .intro { margin-top: 18px; max-width: 40rem; line-height: 1.7; color: rgba(255,255,255,.82); }
+.bbq .bloco-txt { margin-top: 14px; max-width: 42rem; font-size: 16px; line-height: 1.7; color: #45403f; }
+.bbq .duas { display: grid; gap: 48px; }
+@media (min-width: 900px) { .bbq .duas { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.bbq .sub-h { margin-top: 64px; font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+.bbq .claro .sub-h { color: #5a5352; }
+.bbq .escuro .sub-h, .bbq .defumado .sub-h, .bbq .brasa .sub-h { color: rgba(255,255,255,.75); }
+
+/* Prato */
+.bbq .prato { align-items: center; }
+.bbq .prato-img img { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; border-radius: 18px; box-shadow: 0 30px 60px -24px rgba(0,0,0,.7); transform: rotate(-2deg); }
+.bbq .receita { margin-top: 20px; font-size: 17px; line-height: 1.75; color: rgba(255,255,255,.88); }
+.bbq .fatos { list-style: none; padding: 0; margin: 32px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.bbq .fatos li { border-top: 3px solid var(--vermelho-vivo); padding-top: 12px; }
+.bbq .fatos b { display: block; font-family: Roadhawk, 'Oswald', Impact, sans-serif; font-weight: 900; font-size: clamp(1.3rem, 2.6vw, 1.9rem); line-height: 1; text-transform: uppercase; }
+.bbq .fatos span { display: block; margin-top: 6px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.65); }
+
+/* Identidade */
+.bbq .logo-palco { margin-top: 48px; border-radius: 24px; padding: clamp(48px, 9vw, 120px) clamp(24px, 6vw, 96px); display: grid; place-items: center; background: var(--carvao); }
+.bbq .logo-palco img { width: 100%; max-width: 760px; height: auto; }
+.bbq .anatomia { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
+@media (min-width: 900px) { .bbq .anatomia { grid-template-columns: repeat(3, 1fr); } }
+.bbq .anatomia li { background: #fff; border-radius: 16px; padding: 22px; border: 1px solid rgba(0,0,0,.06); }
+.bbq .anatomia > li > span { display: block; min-height: 52px; color: var(--vermelho); }
+.bbq .anatomia img.script { display: block; height: 46px; width: auto; }
+.bbq .anatomia .rh { font-size: 52px; line-height: 1; }
+.bbq .tarja { display: flex !important; flex-direction: column; align-items: flex-start; gap: 4px; padding-top: 6px; }
+.bbq .tarja i { font-style: normal; font-size: 13px; letter-spacing: .38em; color: var(--vermelho); }
+.bbq .tarja em { font-style: normal; font-size: 13px; letter-spacing: .38em; color: #fff; background: var(--vermelho); padding: 3px 8px 3px 10px; }
+.bbq .anatomia p { margin-top: 10px; font-size: 14px; line-height: 1.6; color: #45403f; }
+.bbq .anatomia b { color: var(--carvao); }
+.bbq .versoes { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
+@media (min-width: 900px) { .bbq .versoes { grid-template-columns: repeat(3, 1fr); } }
+.bbq .versoes li { overflow: hidden; border-radius: 16px; border: 1px solid rgba(0,0,0,.08); }
+.bbq .versoes img { display: block; width: 100%; height: auto; }
+.bbq .texas { margin-top: 20px; display: grid; gap: 12px; }
+@media (min-width: 900px) { .bbq .texas { grid-template-columns: 1.5fr 1fr; } }
+.bbq .texas-selos { border-radius: 24px; padding: clamp(28px, 5vw, 56px); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(20px, 4vw, 48px); }
+.bbq .texas-selos img { height: auto; filter: drop-shadow(0 14px 18px rgba(0,0,0,.45)); }
+.bbq .selo-bbq { width: clamp(150px, 22vw, 240px); transform: rotate(-3deg); }
+.bbq .selo-irr { width: clamp(200px, 26vw, 300px); transform: rotate(3deg); }
+.bbq .texas-neon { overflow: hidden; border-radius: 24px; background: #000; }
+.bbq .texas-neon img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 5; }
+.bbq .paleta { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 900px) { .bbq .paleta { grid-template-columns: repeat(4, 1fr); } }
+.bbq .paleta li { overflow: hidden; border-radius: 16px; background: #fff; border: 1px solid rgba(0,0,0,.08); }
+.bbq .amostra { display: block; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); height: clamp(72px, 12vw, 120px); border-bottom: 1px solid rgba(0,0,0,.06); }
+.bbq .paleta li > div { padding: 16px 18px 20px; }
+.bbq .cor-nome { font-weight: 700; font-size: 16px; }
+.bbq .cor-cod { margin-top: 4px; font-size: 12px; letter-spacing: .04em; color: #5a5352; font-variant-numeric: tabular-nums; }
+.bbq .cor-uso { margin-top: 8px; font-size: 13px; line-height: 1.5; color: #45403f; }
+.bbq .tipos { margin-top: 20px; display: grid; gap: 12px; }
+@media (min-width: 900px) { .bbq .tipos { grid-template-columns: 1fr 1fr; } }
+.bbq .tipo { background: #fff; border-radius: 20px; padding: clamp(24px, 4vw, 40px); border: 1px solid rgba(0,0,0,.06); }
+.bbq .tipo-aa { font-size: clamp(5rem, 11vw, 8rem); line-height: .9; color: var(--vermelho); }
+.bbq .tipo-aa.acumin { font-weight: 600; letter-spacing: -.03em; color: var(--carvao); }
+.bbq .tipo-nome { margin-top: 18px; font-size: 24px; font-weight: 800; }
+.bbq .tipo-desc { margin-top: 8px; font-size: 15px; line-height: 1.65; color: #45403f; }
+.bbq .tipo-amostra { margin-top: 20px; font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1; color: var(--carvao); }
+.bbq .tipo-reg { margin-top: 20px; font-size: 18px; line-height: 1.4; color: var(--carvao); }
+
+/* Pré-lançamento */
+.bbq .prelanc { margin-top: 48px; display: grid; gap: 24px; align-items: start; }
+@media (min-width: 900px) { .bbq .prelanc { grid-template-columns: 1.1fr 1fr; gap: 40px; } }
+.bbq .cartaz img { display: block; width: 100%; max-width: 480px; height: auto; border-radius: 6px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); }
+.bbq .prelanc-lado { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.bbq .prelanc-lado img { display: block; width: 100%; height: auto; border-radius: 16px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.6); }
+
+/* Voucher */
+.bbq .voucher { margin-top: 64px; display: grid; gap: 24px; align-items: center; }
+@media (min-width: 900px) { .bbq .voucher { grid-template-columns: 1fr 2fr; gap: 48px; } }
+.bbq .voucher h3 { font-family: Roadhawk, 'Oswald', Impact, sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1; }
+.bbq .voucher p { margin-top: 14px; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.85); }
+.bbq .voucher-img { display: block; width: 100%; height: auto; border-radius: 6px; box-shadow: 0 30px 60px -24px rgba(0,0,0,.8); transform: rotate(-1.5deg); }
+
+/* Selos flutuando */
+.bbq main > section { position: relative; overflow: hidden; }
+.bbq main > section > .wrap { position: relative; z-index: 2; }
+.bbq .flutua { position: absolute; z-index: 1; width: var(--w); pointer-events: none; will-change: transform; }
+.bbq .flutua img { display: block; width: 100%; height: auto; filter: drop-shadow(0 14px 18px rgba(0,0,0,.35)); transform: rotate(var(--r)); animation: bbq-boia 7s ease-in-out var(--d) infinite; }
+@keyframes bbq-boia { 0%, 100% { transform: translateY(0) rotate(var(--r)); } 50% { transform: translateY(-12px) rotate(calc(var(--r) + 4deg)); } }
+@media (max-width: 899px) { .bbq .so-desk { display: none; } .bbq .flutua { opacity: .9; } }
+@media (prefers-reduced-motion: reduce) { .bbq .flutua img { animation: none; } }
+
+/* Trilhos horizontais (feed, stories e vídeos) */
+.bbq .trilho { list-style: none; margin: 20px -20px 0; padding: 4px 20px 16px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.4) transparent; }
+@media (min-width: 768px) { .bbq .trilho { margin: 20px -32px 0; padding: 4px 32px 16px; } }
+.bbq .trilho li { flex: none; scroll-snap-align: start; }
+.bbq .trilho img { display: block; height: auto; border-radius: 14px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.6); }
+.bbq .feed li { width: min(78vw, 340px); }
+.bbq .feed img { width: 100%; }
+.bbq .stories li { width: min(58vw, 250px); }
+.bbq .stories img { width: 100%; }
+.bbq .videos { margin-top: 56px; }
+.bbq .videos li { width: min(62vw, 260px); }
+.bbq video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 16px; background: #000; }
+.bbq .legenda { margin-top: 10px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85); }
+.bbq .legenda-txt { margin-top: 4px; font-size: 13px; line-height: 1.5; color: rgba(255,255,255,.65); }
+
+/* Vídeo oficial */
+.bbq .oficial { margin-top: 48px; display: grid; gap: 32px; align-items: center; }
+@media (min-width: 900px) { .bbq .oficial { grid-template-columns: 360px 1fr; gap: 56px; } }
+.bbq .oficial-video { max-width: 360px; width: 100%; margin: 0 auto; }
+.bbq .oficial-video video { box-shadow: 0 30px 60px -24px rgba(0,0,0,.8); outline: 2px solid var(--vermelho); outline-offset: 6px; }
+.bbq .selo-oficial { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: #fff; background: var(--vermelho); padding: 4px 10px 4px 12px; }
+.bbq .oficial h3 { margin-top: 18px; font-family: Roadhawk, 'Oswald', Impact, sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(1.8rem, 3.6vw, 2.6rem); line-height: 1; }
+.bbq .oficial p:not(.selo-oficial) { margin-top: 16px; max-width: 34rem; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.85); }
+.bbq .tags { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.bbq .tags li { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.3); color: rgba(255,255,255,.9); }
+
+/* Telão de LED */
+.bbq .led { margin-top: 72px; display: grid; gap: 24px; align-items: center; }
+@media (min-width: 900px) { .bbq .led { grid-template-columns: 1.6fr 1fr; gap: 48px; } }
+.bbq .led-tela { padding: 10px; border-radius: 10px; background: #050505; border: 1px solid rgba(255,255,255,.12); box-shadow: 0 30px 60px -24px rgba(0,0,0,.8); }
+.bbq .led-tela video { aspect-ratio: 2 / 1; border-radius: 4px; }
+.bbq .led-txt h3 { font-family: Roadhawk, 'Oswald', Impact, sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1; }
+.bbq .led-txt p { margin-top: 14px; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.85); }
+
+/* Ensaio */
+.bbq .ensaio { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 900px) { .bbq .ensaio { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+.bbq .ensaio li { overflow: hidden; border-radius: 14px; }
+.bbq .ensaio img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3 / 4; }
+
+/* Créditos */
+.bbq .creditos .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.bbq .creditos p { max-width: 40rem; font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.8); }
+.bbq .creditos b { color: #fff; }
+.bbq .botao { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: var(--vermelho); color: #fff; font-weight: 700; font-size: 15px; text-decoration: none; transition: transform .2s, background .2s; }
+.bbq .botao:hover { transform: translateY(-2px); background: #d80000; }
+</style>
