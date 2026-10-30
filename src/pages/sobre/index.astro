@@ -1,7 +1,8 @@
 ---
 /* SOBRE MIM: quem sou, o que faço, como trabalho e minhas skills.
-   Textos e listas ficam nas constantes abaixo. Para trocar a foto, coloque o arquivo em
-   src/assets/sobre/ e importe no lugar do bloco "retrato". */
+   Textos e listas ficam nas constantes abaixo. Foto em src/assets/sobre/jonathan.png. */
+import { Image } from 'astro:assets';
+import foto from '../../assets/sobre/jonathan.png';
 import Base from '../../layouts/Base.astro';
 import Fox from '../../components/Fox.astro';
 import Redes from '../../components/Redes.astro';
@@ -93,11 +94,10 @@ const jsonld = {
       <h1>Oi, eu sou o Jonathan. <span>Eu transformo ideias em marcas, vídeos e sites.</span></h1>
       <p class="lead">Sou designer gráfico em Limeira, interior de São Paulo. Há mais de 14 anos trabalho com agências e empresas, do B2B ao B2C, criando o que uma marca precisa para ser vista e lembrada.</p>
     </div>
-    <!-- retrato: troque este bloco por uma foto quando tiver (ver comentário no topo) -->
-    <div class="retrato" aria-hidden="true">
-      <Fox cor="#9B7BFF" class="retrato-fox" />
-      <p class="retrato-txt">design · vídeo · web · IA</p>
-    </div>
+    <figure class="retrato">
+      <Image src={foto} alt="Retrato de Jonathan Menino, de perfil, sobre fundo roxo" widths={[400, 640]} sizes="(max-width: 760px) 100vw, 420px" loading="eager" fetchpriority="high" />
+      <figcaption>design · vídeo · web · IA</figcaption>
+    </figure>
   </section>
 
   <section class="wrap historia">
@@ -207,10 +207,10 @@ main > section.hero { margin-top: 56px; }
 h1 { margin-top: 16px; font-size: clamp(2.25rem, 5.5vw, 4rem); font-weight: 700; line-height: 1.05; letter-spacing: -.03em; text-wrap: balance; }
 h1 span { display: block; color: var(--roxo-claro); }
 .lead { margin-top: 24px; max-width: 34rem; font-size: 18px; line-height: 1.6; color: var(--texto2); }
-.retrato { aspect-ratio: 4 / 5; border-radius: 24px; border: 1px solid rgba(255,255,255,.1); background: radial-gradient(90% 70% at 30% 20%, rgba(110,68,255,.35), transparent 70%), var(--grafite); display: grid; place-items: center; align-content: center; gap: 20px; }
-.retrato-fox { width: 38%; height: auto; }
-.retrato-txt { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); }
-@media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 32px; } .retrato { aspect-ratio: 16 / 9; } .retrato-fox { width: 18%; } }
+.retrato { position: relative; margin: 0; aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); background: #2a1450; }
+.retrato img { width: 100%; height: 100%; object-fit: cover; object-position: 38% center; display: block; }
+.retrato figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 20px 18px; background: linear-gradient(transparent, rgba(11,10,13,.75)); font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.8); }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 32px; } .retrato { aspect-ratio: 1 / 1; } }
 
 .colunas { columns: 2 320px; column-gap: 48px; }
 .colunas p { break-inside: avoid; margin-bottom: 20px; font-size: 17px; line-height: 1.7; color: var(--texto2); }
