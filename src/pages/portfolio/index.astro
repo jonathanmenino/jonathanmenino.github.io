@@ -1,0 +1,138 @@
+---
+/* PORTFÓLIO: todos os projetos com filtro por categoria.
+   Projetos e categorias em src/data/portfolio.ts. O filtro funciona com ?categoria=video
+   (ou sites, campanhas, identidade, ia); sem JavaScript aparecem todos. */
+import Base from '../../layouts/Base.astro';
+import Fox from '../../components/Fox.astro';
+import Redes from '../../components/Redes.astro';
+import CardProjeto from '../../components/CardProjeto.astro';
+import { PROJETOS, CATEGORIAS, type Categoria } from '../../data/portfolio';
+import { SITE, url, linkWhatsApp } from '../../data/site';
+
+const contagem = (c: Categoria) => PROJETOS.filter((p) => p.categorias.includes(c)).length;
+const filtros = (Object.keys(CATEGORIAS) as Categoria[]).filter((c) => contagem(c) > 0);
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Portfólio · Jonathan Menino',
+  author: { '@type': 'Person', name: SITE.nome },
+  hasPart: PROJETOS.map((p) => ({ '@type': 'CreativeWork', name: p.titulo, url: new URL(url(p.link), Astro.site).href })),
+};
+---
+<Base
+  title="Portfólio · Jonathan Menino"
+  description="Portfólio de Jonathan Menino: campanhas, identidade visual, edição de vídeo e motion, sites e projetos com IA generativa."
+  jsonld={jsonld}
+>
+<header class="nav">
+  <a href={url()} class="marca" aria-label="Jonathan Menino, início">
+    <Fox cor="#9B7BFF" class="raposa" />
+    <span>Jonathan Menino</span>
+  </a>
+  <nav class="nav-links" aria-label="Páginas">
+    <a href={url('sobre/')}>Sobre mim</a>
+    <a href={url('curriculo/')}>Currículo</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <p class="rotulo">Portfólio</p>
+  <h1>Projetos <span>selecionados.</span></h1>
+  <p class="lead">Campanhas, identidades, vídeos e sites que criei para agências, marcas e projetos próprios.</p>
+
+  <div class="filtros" role="group" aria-label="Filtrar por categoria">
+    <button type="button" data-filtro="todos" aria-pressed="true">Todos <span>{PROJETOS.length}</span></button>
+    {filtros.map((c) => (
+      <button type="button" data-filtro={c} aria-pressed="false">{CATEGORIAS[c]} <span>{contagem(c)}</span></button>
+    ))}
+  </div>
+
+  <ul class="grade" aria-live="polite">
+    {PROJETOS.map((p, i) => (
+      <li data-categorias={p.categorias.join(' ')}><CardProjeto p={p} eager={i < 2} /></li>
+    ))}
+  </ul>
+
+  <section class="fim">
+    <h2>Gostou de algum projeto?</h2>
+    <p>Estou aberto a vagas de design gráfico, UI, edição de vídeo e criação de sites.</p>
+    <div class="acoes">
+      <a class="btn" href={linkWhatsApp('Olá, Jonathan! Vi seu portfólio e quero conversar.')}>Chamar no WhatsApp</a>
+      <a class="btn sec" href={url('curriculo/')}>Ver currículo</a>
+      <a class="btn sec" href={url('sobre/')}>Sobre mim</a>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap rodape">
+  <Redes whatsapp class="redes" />
+  <p>© {new Date().getFullYear()} Jonathan Menino</p>
+</footer>
+</Base>
+
+<script>
+  const botoes = [...document.querySelectorAll<HTMLButtonElement>('[data-filtro]')];
+  const itens = [...document.querySelectorAll<HTMLElement>('.grade > li')];
+  const aplicar = (filtro: string, salvar = true) => {
+    if (!botoes.some((b) => b.dataset.filtro === filtro)) filtro = 'todos';
+    botoes.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filtro === filtro)));
+    itens.forEach((li) => { li.hidden = filtro !== 'todos' && !li.dataset.categorias!.split(' ').includes(filtro); });
+    if (salvar) {
+      const u = new URL(location.href);
+      filtro === 'todos' ? u.searchParams.delete('categoria') : u.searchParams.set('categoria', filtro);
+      history.replaceState(null, '', u);
+    }
+  };
+  botoes.forEach((b) => b.addEventListener('click', () => aplicar(b.dataset.filtro!)));
+  aplicar(new URLSearchParams(location.search).get('categoria') || 'todos', false);
+</script>
+
+<style is:global>
+:root { --roxo: #6E44FF; --roxo-claro: #9B7BFF; --carvao: #0B0A0D; --grafite: #151317; --texto2: rgba(255,255,255,.72); }
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--carvao); color: #fff; font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; background: radial-gradient(70% 50% at 90% 0%, rgba(110,68,255,.22), transparent 70%); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--roxo-claro); outline-offset: 3px; border-radius: 8px; }
+.wrap { position: relative; width: 100%; max-width: 1180px; margin-left: auto; margin-right: auto; padding: 0 20px; }
+
+.nav { position: relative; max-width: 1180px; margin: 0 auto; padding: 24px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; }
+.raposa { height: 32px; width: auto; }
+.nav-links { display: flex; gap: 20px; font-size: 14px; }
+.nav-links a { text-decoration: none; color: var(--texto2); transition: color .2s; }
+.nav-links a:hover { color: #fff; }
+
+main { padding-top: 48px; }
+.rotulo { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--roxo-claro); }
+h1 { margin-top: 16px; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.02; letter-spacing: -.03em; }
+h1 span { color: var(--roxo-claro); }
+.lead { margin-top: 20px; max-width: 34rem; font-size: 18px; line-height: 1.6; color: var(--texto2); }
+
+.filtros { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 8px; }
+.filtros button { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.16); background: transparent; color: rgba(255,255,255,.85); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
+.filtros button span { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; color: rgba(255,255,255,.5); }
+.filtros button:hover { border-color: var(--roxo-claro); }
+.filtros button[aria-pressed="true"] { background: var(--roxo); border-color: var(--roxo); color: #fff; }
+.filtros button[aria-pressed="true"] span { color: rgba(255,255,255,.8); }
+@media (max-width: 600px) { .filtros { flex-wrap: nowrap; overflow-x: auto; margin-left: -20px; margin-right: -20px; padding: 0 20px 4px; scrollbar-width: none; } .filtros button { flex-shrink: 0; } }
+
+.grade { list-style: none; padding: 0; margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.grade > li[hidden] { display: none; }
+@media (max-width: 400px) { .grade { grid-template-columns: 1fr; } }
+
+.fim { margin-top: 104px; text-align: center; padding: 64px 20px; border-radius: 28px; background: radial-gradient(80% 100% at 50% 0%, rgba(110,68,255,.28), transparent 70%), var(--grafite); }
+.fim h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -.02em; }
+.fim p { margin: 14px auto 0; max-width: 32rem; line-height: 1.6; color: var(--texto2); }
+.acoes { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 22px; border-radius: 999px; background: var(--roxo); color: #fff; font-weight: 600; font-size: 15px; text-decoration: none; transition: background .2s, border-color .2s; }
+.btn:hover { background: #5A30EE; }
+.btn.sec { background: transparent; border: 1px solid rgba(255,255,255,.22); }
+.btn.sec:hover { border-color: var(--roxo-claro); }
+@media (max-width: 600px) { .fim { margin-left: -20px; margin-right: -20px; border-radius: 0; } .btn { width: 100%; } }
+
+.rodape { margin-top: 64px; padding-top: 24px; padding-bottom: 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 12px; color: rgba(255,255,255,.6); }
+.redes { display: flex; flex-wrap: wrap; gap: 8px; }
+</style>
