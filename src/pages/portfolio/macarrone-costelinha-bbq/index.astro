@@ -41,7 +41,7 @@ const video = (nome: string) => `${base}videos/${nome}`;
 const ficha = [
   ['Cliente', 'Macarrone in Box'],
   ['Ocasião', 'Lançamento do sabor Costelinha BBQ'],
-  ['Meu papel', 'Conceito e identidade da campanha, direção de arte, peças e vídeos'],
+  ['Meu papel', 'Identidade da campanha, direção de arte, peças e vídeos'],
   ['Período', 'Setembro de 2025'],
 ];
 
@@ -111,7 +111,7 @@ const jsonld = {
           <p class="eyebrow">Campanha · Lançamento de sabor</p>
           <h1 class="sr-only">Macarrone Costelinha BBQ</h1>
           <Image src={logo} alt="Logo Macarrone BBQ, Absolutamente Irresistível" widths={[600, 882]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
-          <p class="lead">Um sabor novo com sotaque texano. Criei a campanha de lançamento do Costelinha BBQ, do teaser com a data de estreia ao vídeo oficial.</p>
+          <p class="lead">Um sabor novo com sotaque texano. Criei a identidade e as peças da campanha de lançamento do Costelinha BBQ, do teaser com a data de estreia ao vídeo oficial.</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
             <div class="agencia">
