@@ -1,0 +1,482 @@
+---
+/* CASE DE CAMPANHA: Escalados Macarrone (Macarrone in Box, Copa do Mundo 2026).
+   A página usa a identidade da própria campanha (verde, amarelo, branco e Poppins).
+   Ainda não está linkada em nenhum lugar: quando a seção Portfólio existir,
+   troque o link "Portfólio" do topo e do rodapé (const portfolio). */
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import Fox from '../../../components/Fox.astro';
+import { url } from '../../../data/site';
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-800.css';
+
+import logo from '../../../assets/portfolio/escalados-macarrone/logo.png';
+import keyVisual from '../../../assets/portfolio/escalados-macarrone/key-visual.jpg';
+import bannerSite from '../../../assets/portfolio/escalados-macarrone/banner-site.png';
+import bannerDelivery from '../../../assets/portfolio/escalados-macarrone/banner-delivery.jpg';
+import landing from '../../../assets/portfolio/escalados-macarrone/landing.jpg';
+import postSabores from '../../../assets/portfolio/escalados-macarrone/post-sabores.jpg';
+import display from '../../../assets/portfolio/escalados-macarrone/display-a4.jpg';
+import capa from '../../../assets/portfolio/escalados-macarrone/capa.jpg';
+import car1 from '../../../assets/portfolio/escalados-macarrone/carrossel-01.jpg';
+import car2 from '../../../assets/portfolio/escalados-macarrone/carrossel-02.jpg';
+import car3 from '../../../assets/portfolio/escalados-macarrone/carrossel-03.jpg';
+import car4 from '../../../assets/portfolio/escalados-macarrone/carrossel-04.jpg';
+import st1 from '../../../assets/portfolio/escalados-macarrone/story-01.jpg';
+import st2 from '../../../assets/portfolio/escalados-macarrone/story-02.jpg';
+import st3 from '../../../assets/portfolio/escalados-macarrone/story-03.jpg';
+import st4 from '../../../assets/portfolio/escalados-macarrone/story-04.jpg';
+import stDisplay from '../../../assets/portfolio/escalados-macarrone/story-display.jpg';
+import assinatura from '../../../assets/portfolio/escalados-macarrone/assinatura.png';
+import zava from '../../../assets/agencias/zava-branco.svg';
+
+const portfolio = url(); // TODO: trocar por url('portfolio/') quando a página existir
+const video = (nome: string) => url(`portfolio/escalados-macarrone/videos/${nome}`);
+
+const ficha = [
+  ['Cliente', 'Macarrone in Box'],
+  ['Ocasião', 'Copa do Mundo 2026'],
+  ['Meu papel', 'Identidade da campanha, direção de arte, peças e vídeos'],
+  ['Período', '12 de maio a 30 de junho'],
+];
+
+const paleta = [
+  { nome: 'Verde Gramado', hex: '#0C843B', rgb: '12 132 59', uso: 'Fundo principal, campo e selos' },
+  { nome: 'Amarelo Taça', hex: '#FEC302', rgb: '254 195 2', uso: 'Estrelas, "Macarrone" e chamadas' },
+  { nome: 'Branco', hex: '#FFFFFF', rgb: '255 255 255', uso: 'Lettering "Escalados" e textos' },
+  { nome: 'Preto', hex: '#111111', rgb: '17 17 17', uso: 'Fundo da landing e textos longos' },
+];
+
+const pratos = [
+  { nome: 'Parmigiano', massa: 'Penne', texto: 'Molho cremoso de parmesão, frango grelhado e alho frito.', img: car2 },
+  { nome: 'Peito de Peru', massa: 'Penne', texto: 'Requeijão cremoso da casa, peito de peru defumado e ervilhas.', img: car3 },
+  { nome: 'Pepperoni', massa: 'Caracol', texto: 'Provolone defumado, parmesão fresco e pepperoni italiano.', img: car4 },
+];
+
+const grupos = [
+  {
+    titulo: 'Chamadas da campanha',
+    texto: 'Vídeos de lançamento que apresentam os escalados, o sorteio e onde pedir.',
+    videos: [
+      { arquivo: 'chamada-oficial', legenda: 'Chamada oficial' },
+      { arquivo: 'chamada-chef', legenda: 'Chamada com o chef' },
+      { arquivo: 'chamada-carro', legenda: 'Chamada com creator' },
+    ],
+  },
+  {
+    titulo: 'Reels com creators',
+    texto: 'O chef e a creator provando cada sabor, com a marca da campanha nas legendas e no prato.',
+    videos: [
+      { arquivo: 'chef-parmigiano', legenda: 'Chef · Parmigiano' },
+      { arquivo: 'lari-parmigiano', legenda: 'Creator · Parmigiano' },
+    ],
+  },
+  {
+    titulo: 'Trends',
+    texto: 'Formatos curtos de tendência para alcance orgânico.',
+    videos: [
+      { arquivo: 'trend-sabores', legenda: 'Trend dos sabores' },
+      { arquivo: 'trend-nome', legenda: 'Trend do nome do prato' },
+    ],
+  },
+  {
+    titulo: 'Vídeos para tráfego pago',
+    texto: 'Close no prato e na box, com nome do sabor, descrição e "Peça agora". Um por sabor.',
+    videos: [
+      { arquivo: 'box-parmigiano', legenda: 'Box Parmigiano' },
+      { arquivo: 'box-peito-de-peru', legenda: 'Box Peito de Peru' },
+      { arquivo: 'box-pepperoni', legenda: 'Box Pepperoni' },
+    ],
+  },
+];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'Escalados Macarrone',
+  description: 'Campanha da Macarrone in Box para a Copa do Mundo 2026, feita para a Agência Zava.',
+  creator: { '@type': 'Person', name: 'Jonathan Menino' },
+  inLanguage: 'pt-BR',
+};
+---
+<Base
+  title="Escalados Macarrone · Campanha · Jonathan Menino"
+  description="Campanha Escalados Macarrone para a Copa do Mundo 2026: identidade, posts, stories, vídeos, landing page e ponto de venda. Feita para a Agência Zava."
+  image="og/escalados-macarrone.jpg"
+  tipo="article"
+  themeColor="#0C843B"
+  jsonld={jsonld}
+>
+<div class="em">
+  <header class="topo">
+    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+      <Fox cor="#FEC302" class="raposa" />
+      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+    </a>
+    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+  </header>
+
+  <main>
+    <!-- ============ TOPO ============ -->
+    <section class="hero gramado">
+      <div class="campo" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Campanha · Copa do Mundo 2026</p>
+          <h1 class="sr-only">Escalados Macarrone</h1>
+          <Image src={logo} alt="Logo Escalados Macarrone" widths={[600, 1200]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
+          <p class="lead">Três sabores exclusivos convocados para a Copa. Criei a identidade da campanha e todas as peças, do feed ao balcão da loja.</p>
+          <dl class="ficha">
+            {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
+            <div class="agencia">
+              <dt>Feito para</dt>
+              <dd><Image src={zava} alt="Agência Zava" height={28} class="zava" /></dd>
+            </div>
+          </dl>
+        </div>
+        <div class="hero-arte">
+          <Image src={keyVisual} alt="Key visual da campanha com os três pratos sobre um campo de futebol" widths={[480, 960]} sizes="(min-width: 1024px) 480px, 90vw" loading="eager" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DESAFIO E IDEIA ============ -->
+    <section class="claro">
+      <div class="wrap duas">
+        <div>
+          <p class="num">01 · O desafio</p>
+          <h2>Entrar no clima da Copa sem perder o sabor da marca.</h2>
+          <p>A Macarrone in Box queria lançar três pratos que só existiriam durante a Copa, com sorteio de bolas oficiais nas unidades de Americana, Piracicaba e Limeira e no delivery. A campanha precisava falar a língua da torcida e funcionar em tudo: feed, stories, reels, iFood, site e ponto de venda.</p>
+        </div>
+        <div>
+          <p class="num">02 · A ideia</p>
+          <h2>Os pratos são a seleção. Eles foram escalados.</h2>
+          <p>"Escalados" trata os três sabores como o time convocado. O nome em letras de camisa de futebol divide espaço com o "Macarrone" manuscrito, que puxa a assinatura da marca. Cinco estrelas lembram os títulos do Brasil e a estrela dentro do O é a sexta: rumo ao hexa.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ O TIME ============ -->
+    <section class="escuro">
+      <div class="wrap">
+        <p class="num">03 · O time escalado</p>
+        <h2 class="grande">Parmigiano, Peito de Peru e Pepperoni.</h2>
+        <ul class="pratos">
+          {pratos.map((p) => (
+            <li>
+              <Image src={p.img} alt={`Post do Macarrone ${p.nome}`} widths={[400, 800]} sizes="(min-width: 900px) 380px, 90vw" />
+              <div class="prato-txt">
+                <h3>{p.nome}</h3>
+                <p class="massa">Massa {p.massa}</p>
+                <p>{p.texto}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ IDENTIDADE ============ -->
+    <section class="claro">
+      <div class="wrap">
+        <p class="num">04 · Identidade da campanha</p>
+        <h2 class="grande">Um uniforme próprio para a Copa.</h2>
+
+        <div class="logo-palco gramado">
+          <Image src={logo} alt="Logo Escalados Macarrone sobre o verde da campanha" widths={[800, 1600]} sizes="(min-width: 1200px) 900px, 90vw" />
+        </div>
+        <ul class="anatomia">
+          <li><span>★★★★★</span><p><b>Cinco estrelas</b> em arco, como o escudo da seleção.</p></li>
+          <li><span>ESCALADOS</span><p><b>Lettering de camisa</b>, condensado e com letras em alturas diferentes, como uma escalação.</p></li>
+          <li><Image src={assinatura} alt="Macarrone" width={300} class="script" /><p><b>Assinatura manuscrita</b> em amarelo, que mantém o laço com a marca.</p></li>
+        </ul>
+
+        <h3 class="sub-h">Paleta</h3>
+        <ul class="paleta">
+          {paleta.map((c) => (
+            <li>
+              <span class="amostra" style={`background:${c.hex}`}></span>
+              <div>
+                <p class="cor-nome">{c.nome}</p>
+                <p class="cor-cod">{c.hex} · RGB {c.rgb}</p>
+                <p class="cor-uso">{c.uso}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <h3 class="sub-h">Tipografia</h3>
+        <div class="tipo">
+          <div class="tipo-aa" aria-hidden="true">Aa</div>
+          <div>
+            <p class="tipo-nome">Poppins</p>
+            <p class="tipo-desc">Família usada só na campanha: Bold e ExtraBold nas chamadas, Regular nos textos e espaçada em caixa alta para selos como "por tempo limitado".</p>
+            <p class="tipo-amostra"><b>COMPRE &amp; CONCORRA</b></p>
+            <p class="tipo-esp">POR TEMPO LIMITADO</p>
+            <p class="tipo-reg">Macarrone Parmigiano · Peito de Peru · Pepperoni</p>
+          </div>
+        </div>
+
+        <h3 class="sub-h">Adesivos e selos</h3>
+        <div class="adesivos">
+          <Image src={bannerSite} alt="Peça com os adesivos Vai Brasil, Golaçooo de Sabor e A Taça do Mundo é Nossa" widths={[600, 1242]} sizes="(min-width: 900px) 560px, 90vw" />
+          <p>Selos de torcida que aparecem nas peças, no jogo americano e na embalagem: "Vai Brasil", "Golaçooo de Sabor", "A Taça do Mundo é Nossa", "Rumo ao Hexa" e uma etiqueta para cada sabor colada no prato.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REDES ============ -->
+    <section class="gramado secao">
+      <div class="wrap">
+        <p class="num">05 · Redes sociais</p>
+        <h2 class="grande">Feed e stories.</h2>
+        <p class="intro">Carrossel de lançamento com o preço e um card por sabor, adaptado para stories.</p>
+
+        <h3 class="sub-h">Feed · 1080 × 1350</h3>
+        <ul class="trilho feed">
+          {[car1, car2, car3, car4, postSabores].map((img, i) => (
+            <li><Image src={img} alt={`Post de feed ${i + 1}`} widths={[360, 720]} sizes="320px" /></li>
+          ))}
+        </ul>
+
+        <h3 class="sub-h">Stories · 1080 × 1920</h3>
+        <ul class="trilho stories">
+          {[capa, st1, st2, st3, st4, stDisplay].map((img, i) => (
+            <li><Image src={img} alt={`Story ${i + 1}`} widths={[270, 540]} sizes="240px" /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ VÍDEOS ============ -->
+    <section class="escuro">
+      <div class="wrap">
+        <p class="num">06 · Vídeos</p>
+        <h2 class="grande">Reels, trends e anúncios.</h2>
+        <p class="intro">Edição e motion de todos os vídeos da campanha. Toque em um vídeo para ouvir.</p>
+        {grupos.map((g) => (
+          <div class="grupo">
+            <div class="grupo-cab">
+              <h3>{g.titulo}</h3>
+              <p>{g.texto}</p>
+            </div>
+            <ul class="trilho videos">
+              {g.videos.map((v) => (
+                <li>
+                  <video src={video(`${v.arquivo}.mp4`)} poster={video(`${v.arquivo}.jpg`)} muted loop playsinline controls preload="none" aria-label={v.legenda}></video>
+                  <p class="legenda">{v.legenda}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ============ SITE E DELIVERY ============ -->
+    <section class="claro">
+      <div class="wrap duas site">
+        <div>
+          <p class="num">07 · Site e delivery</p>
+          <h2>Landing page do sorteio e banners para o iFood.</h2>
+          <p>A página reúne os sabores, como participar, o prêmio, as unidades, o formulário de cadastro e o regulamento completo. Os banners levam a campanha para o site da marca e para o app de delivery.</p>
+          <div class="banners">
+            <Image src={bannerDelivery} alt="Banner horizontal para delivery" widths={[500, 850]} sizes="(min-width: 900px) 500px, 90vw" />
+          </div>
+        </div>
+        <div class="navegador">
+          <div class="nav-barra"><span></span><span></span><span></span><em>macarrone.com.br/escalados-macarrone</em></div>
+          <div class="nav-rolagem" tabindex="0" aria-label="Landing page, role para ver tudo">
+            <Image src={landing} alt="Landing page completa da campanha Escalados Macarrone" widths={[520, 1033]} sizes="(min-width: 900px) 520px, 90vw" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PONTO DE VENDA ============ -->
+    <section class="gramado secao">
+      <div class="wrap duas pdv">
+        <div class="pdv-img">
+          <Image src={display} alt="Display impresso A4 da campanha para o balcão" widths={[500, 1000]} sizes="(min-width: 900px) 460px, 90vw" />
+        </div>
+        <div>
+          <p class="num">08 · Ponto de venda</p>
+          <h2>Display A4 para o balcão.</h2>
+          <p>Peça impressa para as três lojas, com os sabores, o "Compre &amp; Concorra" e as regras do sorteio no rodapé.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CRÉDITOS ============ -->
+    <section class="escuro creditos">
+      <div class="wrap">
+        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>.</p>
+        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+</div>
+</Base>
+
+<script>
+  // Vídeos tocam sem som quando aparecem na tela e pausam quando saem.
+  const videos = document.querySelectorAll<HTMLVideoElement>('.em video');
+  const reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduzir && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((itens) => {
+      for (const i of itens) {
+        const v = i.target as HTMLVideoElement;
+        if (i.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      }
+    }, { threshold: 0.6 });
+    videos.forEach((v) => obs.observe(v));
+  }
+</script>
+
+<style is:global>
+.em {
+  --verde: #0C843B; --verde-fundo: #0A7434; --amarelo: #FEC302; --preto: #111111; --creme: #F6F4EC;
+  font-family: Poppins, ui-sans-serif, system-ui, sans-serif;
+  background: var(--preto); color: #fff; -webkit-font-smoothing: antialiased;
+}
+.em * { box-sizing: border-box; }
+.em .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 768px) { .em .wrap { padding: 0 32px; } }
+.em .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.em a:focus-visible, .em video:focus-visible, .em [tabindex]:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 3px; }
+
+/* Topo */
+.em .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(10,116,52,.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,.12); }
+@media (min-width: 768px) { .em .topo { padding: 14px 32px; } }
+.em .marca { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+.em .raposa { height: 32px; width: auto; }
+.em .nome { display: block; font-weight: 600; font-size: 15px; line-height: 1.2; }
+.em .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.75); }
+.em .voltar { font-size: 14px; font-weight: 600; color: #fff; text-decoration: none; }
+.em .voltar:hover { color: var(--amarelo); }
+
+/* Fundo gramado: verde com textura leve, como as peças */
+.em .gramado { position: relative; background-color: var(--verde); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.em .secao { padding: 72px 0; }
+@media (min-width: 768px) { .em .secao { padding: 112px 0; } }
+
+/* Hero */
+.em .hero { overflow: hidden; padding: 48px 0 64px; }
+@media (min-width: 1024px) { .em .hero { padding: 72px 0 96px; } }
+.em .campo { position: absolute; inset: 0; pointer-events: none; opacity: .14;
+  background:
+    radial-gradient(circle at 78% 50%, transparent 159px, #fff 160px, #fff 162px, transparent 163px),
+    linear-gradient(90deg, transparent calc(78% - 1px), #fff calc(78% - 1px), #fff calc(78% + 1px), transparent calc(78% + 1px)); }
+.em .hero-grid { position: relative; display: grid; gap: 48px; align-items: center; }
+@media (min-width: 1024px) { .em .hero-grid { grid-template-columns: 1.2fr 1fr; gap: 64px; } }
+.em .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--amarelo); }
+.em .hero-logo { display: block; width: 100%; max-width: 560px; height: auto; margin-top: 24px; }
+.em .lead { margin-top: 28px; max-width: 34rem; font-size: 17px; line-height: 1.65; color: rgba(255,255,255,.9); }
+@media (min-width: 768px) { .em .lead { font-size: 19px; } }
+.em .ficha { margin: 36px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.25); }
+.em .ficha dt { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.75); }
+.em .ficha dd { margin: 6px 0 0; font-size: 14px; font-weight: 600; line-height: 1.4; }
+.em .agencia { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; }
+.em .agencia dd { margin: 0; }
+.em .zava { height: 22px; width: auto; display: block; }
+.em .hero-arte img { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; border-radius: 20px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.5); transform: rotate(2deg); }
+
+/* Seções */
+.em .claro { background: var(--creme); color: var(--preto); padding: 72px 0; }
+.em .escuro { background: var(--preto); color: #fff; padding: 72px 0; }
+@media (min-width: 768px) { .em .claro, .em .escuro { padding: 112px 0; } }
+.em .num { font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--verde); }
+.em .escuro .num, .em .gramado .num { color: var(--amarelo); }
+.em h2 { margin-top: 16px; font-size: clamp(1.6rem, 3.4vw, 2.25rem); font-weight: 800; line-height: 1.15; letter-spacing: -.01em; text-wrap: balance; }
+.em h2.grande { font-size: clamp(2rem, 5vw, 3.25rem); max-width: 18ch; }
+.em h2 + p, .em .duas p:not(.num) { margin-top: 18px; line-height: 1.7; font-size: 16px; }
+.em .claro .duas p:not(.num) { color: #4a4a4a; }
+.em .intro { margin-top: 18px; max-width: 40rem; line-height: 1.7; color: rgba(255,255,255,.85); }
+.em .duas { display: grid; gap: 48px; }
+@media (min-width: 900px) { .em .duas { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.em .sub-h { margin-top: 64px; font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+.em .claro .sub-h { color: #555; }
+.em .gramado .sub-h, .em .escuro .sub-h { color: rgba(255,255,255,.8); }
+
+/* Pratos */
+.em .pratos { list-style: none; padding: 0; margin: 48px 0 0; display: grid; gap: 20px; }
+@media (min-width: 900px) { .em .pratos { grid-template-columns: repeat(3, 1fr); } }
+.em .pratos li { overflow: hidden; border-radius: 20px; background: #1b1b1b; border: 1px solid rgba(255,255,255,.08); }
+.em .pratos img { display: block; width: 100%; height: auto; }
+.em .prato-txt { padding: 22px 24px 26px; border-top: 4px solid var(--amarelo); }
+.em .prato-txt h3 { font-size: 22px; font-weight: 800; color: var(--amarelo); }
+.em .massa { margin-top: 2px; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.65); }
+.em .prato-txt p:last-child { margin-top: 12px; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.85); }
+
+/* Identidade */
+.em .logo-palco { margin-top: 48px; border-radius: 24px; padding: clamp(40px, 8vw, 110px) clamp(24px, 6vw, 96px); display: grid; place-items: center; }
+.em .logo-palco img { width: 100%; max-width: 860px; height: auto; }
+.em .anatomia { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
+@media (min-width: 900px) { .em .anatomia { grid-template-columns: repeat(3, 1fr); } }
+.em .anatomia li { background: #fff; border-radius: 16px; padding: 22px; border: 1px solid rgba(0,0,0,.06); }
+.em .anatomia span { display: block; font-size: 22px; font-weight: 800; letter-spacing: .04em; color: var(--verde); }
+.em .anatomia img.script { display: block; height: 34px; width: auto; background: var(--verde); padding: 6px 10px; border-radius: 8px; box-sizing: content-box; }
+.em .anatomia p { margin-top: 10px; font-size: 14px; line-height: 1.6; color: #4a4a4a; }
+.em .anatomia b { color: var(--preto); }
+.em .paleta { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 900px) { .em .paleta { grid-template-columns: repeat(4, 1fr); } }
+.em .paleta li { overflow: hidden; border-radius: 16px; background: #fff; border: 1px solid rgba(0,0,0,.08); }
+.em .amostra { display: block; height: clamp(72px, 12vw, 120px); border-bottom: 1px solid rgba(0,0,0,.06); }
+.em .paleta li > div { padding: 16px 18px 20px; }
+.em .cor-nome { font-weight: 700; font-size: 16px; }
+.em .cor-cod { margin-top: 4px; font-size: 12px; letter-spacing: .04em; color: #555; font-variant-numeric: tabular-nums; }
+.em .cor-uso { margin-top: 8px; font-size: 13px; line-height: 1.5; color: #4a4a4a; }
+.em .tipo { margin-top: 20px; display: grid; gap: 24px; background: #fff; border-radius: 20px; padding: clamp(24px, 4vw, 48px); border: 1px solid rgba(0,0,0,.06); }
+@media (min-width: 900px) { .em .tipo { grid-template-columns: 260px 1fr; gap: 48px; align-items: center; } }
+.em .tipo-aa { font-size: clamp(6rem, 14vw, 10rem); font-weight: 800; line-height: .9; color: var(--verde); }
+.em .tipo-nome { font-size: 28px; font-weight: 800; }
+.em .tipo-desc { margin-top: 10px; max-width: 36rem; font-size: 15px; line-height: 1.65; color: #4a4a4a; }
+.em .tipo-amostra { margin-top: 24px; font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 800; line-height: 1; color: #C99A00; }
+.em .tipo-esp { margin-top: 8px; font-size: 14px; letter-spacing: .4em; color: var(--preto); }
+.em .tipo-reg { margin-top: 16px; font-size: 16px; color: #4a4a4a; }
+.em .adesivos { margin-top: 20px; display: grid; gap: 24px; align-items: center; }
+@media (min-width: 900px) { .em .adesivos { grid-template-columns: 1.1fr 1fr; gap: 48px; } }
+.em .adesivos img { display: block; width: 100%; height: auto; }
+.em .adesivos p { font-size: 16px; line-height: 1.7; color: #4a4a4a; }
+
+/* Trilhos horizontais (feed, stories e vídeos) */
+.em .trilho { list-style: none; margin: 20px -20px 0; padding: 4px 20px 16px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.4) transparent; }
+@media (min-width: 768px) { .em .trilho { margin: 20px -32px 0; padding: 4px 32px 16px; } }
+.em .trilho li { flex: none; scroll-snap-align: start; }
+.em .trilho img { display: block; height: auto; border-radius: 14px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.55); }
+.em .feed li { width: min(78vw, 320px); }
+.em .feed img { width: 100%; }
+.em .stories li { width: min(58vw, 240px); }
+.em .stories img { width: 100%; }
+.em .videos li { width: min(62vw, 260px); }
+.em video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 16px; background: #000; }
+.em .legenda { margin-top: 10px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.8); }
+.em .grupo { margin-top: 56px; }
+.em .grupo-cab h3 { font-size: 20px; font-weight: 800; color: var(--amarelo); }
+.em .grupo-cab p { margin-top: 6px; max-width: 40rem; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.75); }
+
+/* Site e delivery */
+.em .site { align-items: start; }
+.em .banners { margin-top: 28px; }
+.em .banners img { display: block; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 18px 40px -20px rgba(0,0,0,.35); }
+.em .navegador { overflow: hidden; border-radius: 16px; background: #fff; border: 1px solid rgba(0,0,0,.1); box-shadow: 0 30px 60px -30px rgba(0,0,0,.4); }
+.em .nav-barra { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: #ebe9e1; border-bottom: 1px solid rgba(0,0,0,.08); }
+.em .nav-barra span { width: 10px; height: 10px; border-radius: 50%; background: #cfccc2; }
+.em .nav-barra em { margin-left: 10px; font-style: normal; font-size: 12px; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.em .nav-rolagem { height: min(70vh, 640px); overflow-y: auto; overscroll-behavior: contain; }
+.em .nav-rolagem img { display: block; width: 100%; height: auto; }
+
+/* Ponto de venda */
+.em .pdv { align-items: center; }
+.em .pdv-img img { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; border-radius: 6px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.55); transform: rotate(-2deg); }
+.em .gramado .duas p:not(.num) { color: rgba(255,255,255,.9); }
+
+/* Créditos */
+.em .creditos .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.em .creditos p { max-width: 40rem; font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.8); }
+.em .creditos b { color: #fff; }
+.em .botao { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: var(--amarelo); color: var(--preto); font-weight: 700; font-size: 15px; text-decoration: none; transition: transform .2s; }
+.em .botao:hover { transform: translateY(-2px); }
+</style>

@@ -24,6 +24,8 @@ npm run build    # gera o site final em dist/
 | Cases (textos, notas, imagens) | `src/content/cases/*.yaml` |
 | Imagens dos cases | `src/assets/cases/<case>/` |
 | Modelo da página de case | `src/pages/white-label/projetos/[slug].astro` |
+| Case de campanha Escalados Macarrone (ainda sem link) | `src/pages/portfolio/escalados-macarrone/index.astro` |
+| Imagens e vídeos desse case | `src/assets/portfolio/escalados-macarrone/` e `public/portfolio/escalados-macarrone/videos/` |
 | Imagens de compartilhamento (1200x630) | `public/og/` |
 
 ### Novo case
