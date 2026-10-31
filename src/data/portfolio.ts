@@ -37,6 +37,16 @@ export const PROJETOS: Projeto[] = [
     destaque: true,
   },
   {
+    titulo: 'Gois & Silva Advocacia',
+    cliente: 'Escritório de advocacia · Limeira/SP',
+    tipo: 'Identidade visual',
+    resumo: 'Monograma refinado, versões do logo, cores, tipografia, grafismo e aplicações.',
+    link: 'portfolio/gois-e-silva/',
+    capa: 'og/gois-e-silva.jpg',
+    categorias: ['identidade'],
+    destaque: true,
+  },
+  {
     titulo: 'Escalados Macarrone',
     cliente: 'Macarrone in Box · Agência Zava',
     tipo: 'Campanha · Copa do Mundo 2026',
