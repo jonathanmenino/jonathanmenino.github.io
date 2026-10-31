@@ -1,0 +1,304 @@
+---
+/* CASE DE PRODUTO PRÓPRIO: Omuch (app para freelancers criativos, em lançamento só com convite).
+   Jonathan criou a marca (logo, cor e tipografia), definiu a aparência da interface e ajustou UI e UX
+   tela a tela. As telas foram construídas com IA (Claude) sob a direção dele.
+   SIGILO: a ideia ainda não foi lançada. Não explicar o que o app calcula nem como funciona.
+   Mostrar interfaces, mas não as telas de custos e de composição do preço.
+   Cores e fonte vêm do próprio Omuch: Mandarina #F26B1D e Outfit. */
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import Fox from '../../../components/Fox.astro';
+import LogoOmuch from '../../../components/LogoOmuch.astro';
+import { url } from '../../../data/site';
+import '@fontsource-variable/outfit';
+
+import lateral from '../../../assets/portfolio/omuch/painel-lateral.png';
+import meta from '../../../assets/portfolio/omuch/painel-meta.png';
+import proposta from '../../../assets/portfolio/omuch/cliente.png';
+import propostaCel from '../../../assets/portfolio/omuch/cliente-celular.png';
+import simbolo from '../../../assets/portfolio/omuch/simbolo.svg';
+
+const portfolio = url('portfolio/');
+
+const ficha = [
+  ['Tipo', 'Produto próprio · app web'],
+  ['Para quem', 'Freelancers criativos'],
+  ['Meu papel', 'Marca, direção de interface, UX e site'],
+  ['Status', 'Lançamento só com convite'],
+];
+
+const paleta = [
+  { nome: 'Mandarina', hex: '#F26B1D' },
+  { nome: 'Tinta', hex: '#1D1A17' },
+  { nome: 'Areia', hex: '#FAF6F2', clara: true },
+  { nome: 'Noite', hex: '#0E0F1E' },
+];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'Omuch',
+  description: 'Marca, direção de interface e site de lançamento do Omuch, app para freelancers criativos. Produto próprio de Jonathan Menino.',
+  creator: { '@type': 'Person', name: 'Jonathan Menino' },
+  dateCreated: '2026',
+  inLanguage: 'pt-BR',
+};
+---
+<Base
+  title="Omuch · Marca e interface de produto · Jonathan Menino"
+  description="Omuch é um produto próprio: um app para freelancers criativos. Criei a marca, dirigi a interface e a experiência, e fiz o site de lançamento."
+  image="og/omuch.jpg"
+  tipo="article"
+  themeColor="#FAF6F2"
+  jsonld={jsonld}
+>
+<div class="om">
+  <header class="topo">
+    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+      <Fox cor="#F26B1D" class="raposa" />
+      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+    </a>
+    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+  </header>
+
+  <main>
+    <!-- ============ TOPO ============ -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Produto próprio · 2026</p>
+          <h1 class="sr-only">Omuch</h1>
+          <LogoOmuch class="hero-logo" />
+          <p class="lead">Um app para freelancers criativos cuidarem do lado comercial do trabalho, com a mesma atenção que dão ao lado criativo. Criei a marca, defini como a interface deveria ser e ajustei a experiência tela a tela.</p>
+          <dl class="ficha">
+            {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
+          </dl>
+        </div>
+        <div class="hero-arte">
+          <div class="janela">
+            <span class="pontos" aria-hidden="true"><i></i><i></i><i></i></span>
+            <Image src={meta} alt="Painel do Omuch: meta do mês com anel de progresso e gráfico de aprovados por mês" widths={[300, 600]} sizes="300px" loading="eager" fetchpriority="high" />
+          </div>
+          <span class="anel" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ IDEIA E PAPEL ============ -->
+    <section class="areia">
+      <div class="wrap duas">
+        <div>
+          <p class="num">01 · A ideia</p>
+          <h2>Criativo é bom de criar. O comercial costuma ficar no improviso.</h2>
+          <p>Designers, fotógrafos, videomakers e ilustradores sabem entregar um bom trabalho, mas a parte de negócio quase sempre fica em planilhas soltas e mensagens. O Omuch nasce para organizar isso num só lugar. Os detalhes do produto ficam para o lançamento.</p>
+        </div>
+        <div>
+          <p class="num">02 · Minha parte</p>
+          <h2>Da marca à última tela.</h2>
+          <p>Criei a identidade do zero: logo, cor e tipografia. Na interface, defini a aparência e fui corrigindo os problemas de UI e de UX em cada tela. As telas foram construídas com IA sob a minha direção, o que deixou o projeto andar no ritmo de um time, comigo decidindo cada detalhe.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MARCA ============ -->
+    <section class="tinta">
+      <div class="wrap">
+        <p class="num">03 · Marca</p>
+        <h2 class="grande">Um anel laranja e um nome <em>fácil de dizer</em>.</h2>
+        <p class="intro">Um símbolo redondo e cheio abre a palavra, em minúsculas e com cantos suaves. A marca precisava parecer próxima e confiável ao mesmo tempo: o laranja Mandarina traz energia, e a tinta quase preta dá o peso de uma ferramenta séria.</p>
+
+        <div class="marca-grid">
+          <div class="cartao claro"><LogoOmuch class="logo-g" /></div>
+          <div class="cartao escuro"><LogoOmuch class="logo-g" /></div>
+          <div class="cartao laranja"><Image src={simbolo} alt="Símbolo do Omuch: anel laranja" width={160} class="simbolo" /></div>
+          <div class="cartao tipo">
+            <p class="tipo-nome">Outfit</p>
+            <p class="tipo-aa" aria-hidden="true">Aa</p>
+            <p class="tipo-desc">Geométrica e amigável. Do título ao número no painel, a mesma família.</p>
+          </div>
+        </div>
+
+        <ul class="paleta">
+          {paleta.map((c) => (
+            <li class={c.clara ? 'clara' : ''} style={`--c:${c.hex}`}><span>{c.nome}</span><span class="hex">{c.hex}</span></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ INTERFACE ============ -->
+    <section class="areia">
+      <div class="wrap">
+        <p class="num">04 · Interface</p>
+        <h2 class="grande">Números que dá vontade de <em>acompanhar</em>.</h2>
+        <p class="intro">Cartões arredondados, muito respiro e o laranja guardado para o que importa. O painel mostra o mês de um jeito leve, para quem não gosta de planilha.</p>
+
+        <div class="telas">
+          <ul class="principios">
+            {[
+              ['Um laranja só', 'A cor da marca aparece no que pede ação ou mostra progresso. O resto fica em tons de areia, para os números respirarem.'],
+              ['Cartões em vez de tabelas', 'Cada informação mora num cartão arredondado, com título curto e um número em destaque. Dá para entender o mês numa olhada.'],
+              ['Tom de conversa', '"Boa noite, Marina." Textos curtos e próximos, como um colega que ajuda a organizar o mês, não um sistema.'],
+              ['Feito para o celular também', 'Os cartões se empilham numa coluna só, sem perder nada no caminho.'],
+            ].map(([t, d]) => (<li><h3>{t}</h3><p>{d}</p></li>))}
+          </ul>
+          <figure class="tela estreita">
+            <Image src={lateral} alt="Coluna do painel: meta do mês, gráfico de aprovados por mês e aprovados recentemente" widths={[300, 600]} sizes="300px" />
+            <figcaption>Painel · meta e histórico</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ O QUE O CLIENTE VÊ ============ -->
+    <section class="laranja-sec">
+      <div class="wrap duas-tela">
+        <div>
+          <p class="num">05 · O que o cliente recebe</p>
+          <h2 class="grande">Com a marca de quem envia.</h2>
+          <p class="intro">O freelancer manda para o cliente uma página com a própria marca e as próprias cores, não as do Omuch. No exemplo, um estúdio fictício em azul. A página foi pensada primeiro para o celular, onde o cliente costuma abrir.</p>
+          <figure class="tela desk">
+            <Image src={proposta} alt="Página que o cliente recebe, com a marca do estúdio fictício Studio Lume em azul" widths={[600, 900]} sizes="(min-width: 1000px) 560px, 92vw" />
+            <figcaption>Desktop · exemplo com estúdio fictício</figcaption>
+          </figure>
+        </div>
+        <figure class="celular">
+          <div class="rolagem">
+            <Image src={propostaCel} alt="A mesma página no celular, do topo ao botão de aprovar" widths={[390, 780]} sizes="300px" />
+          </div>
+          <figcaption>Celular · role a tela</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ CRÉDITOS ============ -->
+    <section class="tinta creditos">
+      <div class="wrap">
+        <p>Projeto próprio. A marca, a direção da interface e as decisões de UX são minhas; as telas foram construídas com IA a partir dessa direção. Os nomes e valores nas telas são de exemplo.</p>
+        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+</div>
+</Base>
+
+<style is:global>
+.om {
+  --mandarina: #F26B1D; --mandarina-texto: #AD470B; --mandarina-suave: #FDEBE0;
+  --tinta: #1D1A17; --areia: #FAF6F2; --linha: #ECE4DC; --cinza: #6B625A; --noite: #0E0F1E;
+  font-family: 'Outfit Variable', ui-sans-serif, system-ui, sans-serif;
+  background: #fff; color: var(--tinta); -webkit-font-smoothing: antialiased;
+}
+.om * { box-sizing: border-box; }
+.om .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 768px) { .om .wrap { padding: 0 32px; } }
+.om .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.om a:focus-visible { outline: 3px solid var(--mandarina-texto); outline-offset: 3px; }
+.om img { display: block; max-width: 100%; height: auto; }
+
+/* Topo */
+.om .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--linha); }
+@media (min-width: 768px) { .om .topo { padding: 14px 32px; } }
+.om .marca { display: flex; align-items: center; gap: 10px; color: var(--tinta); text-decoration: none; }
+.om .raposa { height: 32px; width: auto; }
+.om .nome { display: block; font-weight: 600; font-size: 15px; line-height: 1.2; }
+.om .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--cinza); }
+.om .voltar { font-size: 14px; font-weight: 600; color: var(--tinta); text-decoration: none; }
+.om .voltar:hover { color: var(--mandarina-texto); }
+
+/* Fundos */
+.om main > section { position: relative; overflow: hidden; padding: 72px 0; }
+@media (min-width: 768px) { .om main > section { padding: 112px 0; } }
+.om .areia { background: var(--areia); }
+.om .tinta { background: var(--tinta); color: #fff; }
+.om .laranja-sec { background: var(--mandarina-suave); }
+
+/* Hero */
+.om .hero { padding: 48px 0 64px !important; background: #fff; }
+@media (min-width: 1024px) { .om .hero { padding: 80px 0 104px !important; } }
+.om .hero-grid { display: grid; gap: 56px; align-items: center; }
+@media (min-width: 1024px) { .om .hero-grid { grid-template-columns: 1.3fr 1fr; gap: 64px; } }
+.om .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--mandarina-texto); }
+.om .hero-logo { display: block; width: 100%; max-width: 480px; height: auto; margin-top: 22px; color: var(--tinta); }
+.om .lead { margin-top: 30px; max-width: 34rem; font-size: 18px; line-height: 1.6; }
+@media (min-width: 768px) { .om .lead { font-size: 20px; } }
+.om .ficha { margin: 36px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; padding-top: 24px; border-top: 1px solid var(--linha); }
+.om .ficha dt { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--cinza); }
+.om .ficha dd { margin: 6px 0 0; font-size: 15px; font-weight: 600; line-height: 1.4; }
+.om .hero-arte { position: relative; display: grid; justify-items: center; }
+.om .janela { position: relative; z-index: 2; width: min(80vw, 320px); padding: 34px 10px 10px; border-radius: 22px; background: #E9E5E1; box-shadow: 0 30px 70px -35px rgba(70,35,10,.5); transform: rotate(-2deg); }
+.om .janela img { border-radius: 14px; }
+.om .pontos { position: absolute; top: 13px; left: 16px; display: flex; gap: 6px; }
+.om .pontos i { width: 9px; height: 9px; border-radius: 50%; background: #CFC8C1; }
+.om .anel { position: absolute; z-index: 1; right: max(0px, calc(50% - 250px)); top: -30px; width: 190px; aspect-ratio: 1; border-radius: 50%; border: 38px solid var(--mandarina); opacity: .95; animation: om-boia 8s ease-in-out infinite; }
+@keyframes om-boia { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(14px); } }
+@media (prefers-reduced-motion: reduce) { .om .anel { animation: none; } }
+
+/* Títulos */
+.om .num { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mandarina-texto); }
+.om .tinta .num { color: var(--mandarina); }
+.om h2 { margin-top: 16px; font-weight: 800; letter-spacing: -.02em; font-size: clamp(1.9rem, 3.6vw, 2.6rem); line-height: 1.08; text-wrap: balance; }
+.om h2.grande { font-size: clamp(2.3rem, 5.6vw, 4rem); max-width: 18ch; }
+.om h2 em { font-style: normal; color: var(--mandarina-texto); }
+.om .tinta h2 em { color: var(--mandarina); }
+.om .duas { display: grid; gap: 48px; }
+@media (min-width: 900px) { .om .duas { grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; } }
+.om .duas p:not(.num) { margin-top: 18px; line-height: 1.7; font-size: 17px; color: #3b352f; }
+.om .intro { margin-top: 18px; max-width: 42rem; line-height: 1.7; font-size: 17px; color: #3b352f; }
+.om .tinta .intro { color: rgba(255,255,255,.8); }
+
+/* Marca */
+.om .marca-grid { margin-top: 48px; display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 700px) { .om .marca-grid { grid-template-columns: 1fr 1fr; } }
+.om .cartao { border-radius: 24px; min-height: 220px; display: grid; place-items: center; padding: 32px; }
+.om .cartao.claro { background: #fff; color: var(--tinta); }
+.om .cartao.escuro { background: var(--noite); color: #ECEEFF; border: 1px solid #272944; }
+.om .cartao.laranja { background: var(--mandarina); }
+.om .cartao.laranja .simbolo { width: 120px; filter: brightness(0) invert(1); }
+.om .logo-g { width: min(100%, 320px); height: auto; }
+.om .cartao.tipo { background: #2A2622; place-items: start; align-content: space-between; gap: 12px; }
+.om .tipo-nome { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mandarina); }
+.om .tipo-aa { font-size: 88px; font-weight: 800; line-height: 1; }
+.om .tipo-desc { font-size: 15px; line-height: 1.55; color: rgba(255,255,255,.75); max-width: 30ch; }
+.om .paleta { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 700px) { .om .paleta { grid-template-columns: repeat(4, 1fr); } }
+.om .paleta li { height: 96px; border-radius: 18px; background: var(--c); display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); color: #fff; }
+.om .paleta li.clara { color: var(--tinta); }
+.om .paleta span { font-size: 14px; font-weight: 700; }
+.om .paleta .hex { font-size: 12px; font-weight: 500; opacity: .75; }
+
+/* Interface */
+.om .telas { margin-top: 48px; display: grid; gap: 24px; align-items: start; }
+@media (min-width: 1000px) { .om .telas { grid-template-columns: 1fr 300px; gap: 64px; } }
+.om .principios { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+@media (min-width: 700px) { .om .principios { grid-template-columns: 1fr 1fr; } }
+.om .principios li { background: #fff; border: 1px solid var(--linha); border-radius: 20px; padding: 24px; }
+.om .principios h3 { font-size: 19px; font-weight: 700; }
+.om .principios h3::before { content: ''; display: block; width: 22px; height: 22px; border-radius: 50%; border: 6px solid var(--mandarina); margin-bottom: 14px; }
+.om .principios p { margin-top: 8px; font-size: 15px; line-height: 1.6; color: #3b352f; }
+.om .tela { margin: 0; }
+.om .tela img { border-radius: 20px; box-shadow: 0 30px 70px -35px rgba(70,35,10,.45); border: 1px solid var(--linha); }
+.om .tela.estreita { max-width: 300px; margin: 0 auto; }
+.om figcaption { margin-top: 12px; font-size: 13px; font-weight: 600; color: var(--cinza); }
+
+/* O que o cliente recebe */
+.om .duas-tela { display: grid; gap: 48px; align-items: start; }
+@media (min-width: 1000px) { .om .duas-tela { grid-template-columns: 1fr 320px; gap: 64px; } }
+.om .tela.desk { margin-top: 40px; }
+.om .celular { margin: 0 auto; width: min(80vw, 320px); }
+.om .rolagem { height: 620px; overflow-y: auto; padding: 10px; border-radius: 36px; background: var(--tinta); box-shadow: 0 30px 70px -30px rgba(70,35,10,.55); scrollbar-width: none; }
+.om .rolagem::-webkit-scrollbar { display: none; }
+.om .rolagem img { border-radius: 26px; }
+.om .celular figcaption { text-align: center; }
+
+/* Tags */
+.om .tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; align-content: start; }
+@media (min-width: 900px) { .om .tags { margin-top: 44px; } }
+.om .tags li { font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 999px; background: #fff; border: 1px solid var(--linha); }
+
+/* Créditos */
+.om .creditos .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.om .creditos p { max-width: 42rem; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.8); }
+.om .botao { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: var(--mandarina); color: var(--tinta); font-weight: 700; font-size: 15px; text-decoration: none; transition: transform .2s; }
+.om .botao:hover { transform: translateY(-2px); }
+</style>

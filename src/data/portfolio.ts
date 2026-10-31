@@ -27,6 +27,16 @@ export interface Projeto {
 
 export const PROJETOS: Projeto[] = [
   {
+    titulo: 'Omuch',
+    cliente: 'Produto próprio',
+    tipo: 'Marca e interface de produto',
+    resumo: 'Marca, direção de interface, UX e site de lançamento de um app para freelancers criativos.',
+    link: 'portfolio/omuch/',
+    capa: 'og/omuch.jpg',
+    categorias: ['identidade', 'sites', 'ia'],
+    destaque: true,
+  },
+  {
     titulo: 'Escalados Macarrone',
     cliente: 'Macarrone in Box · Agência Zava',
     tipo: 'Campanha · Copa do Mundo 2026',
