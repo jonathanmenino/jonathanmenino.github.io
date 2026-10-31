@@ -96,9 +96,13 @@ const jsonld = {
 <main>
   <section class="hero wrap">
     <div class="hero-txt">
-      <p class="rotulo">Sobre mim</p>
+      <p class="selo"><span class="pulso" aria-hidden="true"></span>Disponível para vagas e freelas</p>
       <h1>Oi, eu sou o Jonathan. <span>Eu transformo ideias em marcas, vídeos e sites.</span></h1>
       <p class="lead">Sou designer gráfico em Limeira, interior de São Paulo. Há mais de 13 anos trabalho com agências e empresas, do B2B ao B2C, criando o que uma marca precisa para ser vista e lembrada.</p>
+      <div class="acoes-topo">
+        <a class="btn" href={url('portfolio/')}>Ver portfólio <span aria-hidden="true">→</span></a>
+        <a class="btn sec" href={linkWhatsApp('Olá, Jonathan! Vi seu site e quero conversar.')}>Falar comigo no WhatsApp</a>
+      </div>
     </div>
     <figure class="retrato">
       <Image src={foto} alt="Retrato de Jonathan Menino, de perfil, sobre fundo roxo" widths={[400, 640]} sizes="(max-width: 760px) 100vw, 420px" loading="eager" fetchpriority="high" />
@@ -225,6 +229,14 @@ main > section.hero { margin-top: 56px; }
 .hero { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: center; }
 h1 { margin-top: 16px; font-size: clamp(2.25rem, 5.5vw, 4rem); font-weight: 700; line-height: 1.05; letter-spacing: -.03em; text-wrap: balance; }
 h1 span { display: block; color: var(--roxo-claro); }
+.selo { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 12px; border-radius: 999px; border: 1px solid rgba(74,222,128,.35); background: rgba(74,222,128,.08); color: #86EFAC; font-size: 13px; font-weight: 600; }
+.pulso { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #4ADE80; }
+.pulso::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #4ADE80; animation: pulso 2s ease-out infinite; }
+@keyframes pulso { from { transform: scale(1); opacity: .7; } to { transform: scale(2.6); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pulso::after { animation: none; } }
+.hero h1 { margin-top: 18px; }
+.acoes-topo { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
+.acoes-topo .btn span { margin-left: 8px; }
 .lead { margin-top: 24px; max-width: 34rem; font-size: 18px; line-height: 1.6; color: var(--texto2); }
 .retrato { position: relative; margin: 0; aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); background: #2a1450; }
 .retrato img { width: 100%; height: 100%; object-fit: cover; object-position: 38% center; display: block; }
