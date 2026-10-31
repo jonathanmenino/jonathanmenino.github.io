@@ -10,6 +10,7 @@ import Redes from '../components/Redes.astro';
 import { SITE, url, linkWhatsApp } from '../data/site';
 import CardProjeto from '../components/CardProjeto.astro';
 import { PROJETOS } from '../data/portfolio';
+import '../styles/pagina.css';
 
 const DESTAQUES = PROJETOS.filter((p) => p.destaque);
 
@@ -89,7 +90,8 @@ const jsonld = {
   <nav class="nav-links" aria-label="Páginas">
     <a href={url('portfolio/')}>Portfólio</a>
     <a href={url('curriculo/')}>Currículo</a>
-    <a href={url('white-label/')}>Para agências</a>
+    <a href={url('empresas/')}><span class="longo">Para empresas</span><span class="curto">Empresas</span></a>
+    <a href={url('white-label/')}><span class="longo">Para agências</span><span class="curto">Agências</span></a>
   </nav>
 </header>
 
@@ -182,7 +184,12 @@ const jsonld = {
     <p class="mais"><a href={url('curriculo/')}>Ver o currículo completo <span aria-hidden="true">→</span></a></p>
   </section>
 
-  <section class="wrap">
+  <section class="wrap atalhos">
+    <a class="agencias" href={url('empresas/')}>
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
+      <span><span class="ag-rotulo">Para empresas</span><span class="ag-t">Design para a sua marca</span><span class="ag-d">Identidade visual, campanhas, vídeos e sites feitos direto com quem cria.</span></span>
+      <span class="ag-seta" aria-hidden="true">→</span>
+    </a>
     <a class="agencias" href={url('white-label/')}>
       <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8M12 18v3"/></svg></span>
       <span><span class="ag-rotulo">Para agências</span><span class="ag-t">Sites White Label</span><span class="ag-d">Desenvolvo sites e landing pages para a sua agência entregar com a própria marca.</span></span>
@@ -206,117 +213,3 @@ const jsonld = {
   <p>© {new Date().getFullYear()} Jonathan Menino</p>
 </footer>
 </Base>
-
-<style is:global>
-/* Página escura no padrão da home: carvão, roxo, Inter e JetBrains Mono. */
-:root { --roxo: #6E44FF; --roxo-claro: #9B7BFF; --carvao: #0B0A0D; --grafite: #151317; --texto2: rgba(255,255,255,.72); }
-* { box-sizing: border-box; margin: 0; }
-html { -webkit-text-size-adjust: 100%; }
-body { background: var(--carvao); color: #fff; font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-body::before { content: ""; position: fixed; inset: 0; pointer-events: none; background: radial-gradient(70% 50% at 90% 0%, rgba(110,68,255,.22), transparent 70%); }
-a { color: inherit; }
-:focus-visible { outline: 2px solid var(--roxo-claro); outline-offset: 3px; border-radius: 8px; }
-.wrap { position: relative; width: 100%; max-width: 1080px; margin-left: auto; margin-right: auto; padding: 0 20px; }
-main > section { margin-top: 104px; }
-main > section.hero { margin-top: 56px; }
-@media (max-width: 600px) { main > section { margin-top: 72px; } main > section.hero { margin-top: 32px; } }
-
-.nav { position: relative; max-width: 1080px; margin: 0 auto; padding: 24px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; }
-.raposa { height: 32px; width: auto; }
-.nav-links { display: flex; gap: 20px; font-size: 14px; }
-.nav-links a { text-decoration: none; color: var(--texto2); transition: color .2s; }
-.nav-links a:hover { color: #fff; }
-
-.rotulo, .titulo, .grupo, .num, .ano { font-family: "JetBrains Mono", ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
-.rotulo { font-size: 11px; color: var(--roxo-claro); }
-.titulo { font-size: 12px; font-weight: 500; color: rgba(255,255,255,.6); padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.1); margin-bottom: 32px; }
-
-.hero { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: center; }
-h1 { margin-top: 16px; font-size: clamp(2.25rem, 5.5vw, 4rem); font-weight: 700; line-height: 1.05; letter-spacing: -.03em; text-wrap: balance; }
-h1 span { display: block; color: var(--roxo-claro); }
-.selo { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 12px; border-radius: 999px; border: 1px solid rgba(74,222,128,.35); background: rgba(74,222,128,.08); color: #86EFAC; font-size: 13px; font-weight: 600; }
-.pulso { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #4ADE80; }
-.pulso::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #4ADE80; animation: pulso 2s ease-out infinite; }
-@keyframes pulso { from { transform: scale(1); opacity: .7; } to { transform: scale(2.6); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .pulso::after { animation: none; } }
-.hero h1 { margin-top: 18px; }
-.acoes-topo { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
-.acoes-topo .btn span { margin-left: 8px; }
-.lead { margin-top: 24px; max-width: 34rem; font-size: 18px; line-height: 1.6; color: var(--texto2); }
-.reel video { display: block; width: 100%; aspect-ratio: 16 / 9; margin-top: 24px; border-radius: 20px; border: 1px solid rgba(255,255,255,.1); background: #0B0A0D; }
-.retrato { position: relative; margin: 0; aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); background: #2a1450; }
-.retrato img { width: 100%; height: 100%; object-fit: cover; object-position: 38% center; display: block; }
-.retrato figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 20px 18px; background: linear-gradient(transparent, rgba(11,10,13,.75)); font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.8); }
-@media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 32px; } .retrato { aspect-ratio: 1 / 1; } }
-
-.colunas { columns: 2 320px; column-gap: 48px; }
-.colunas p { break-inside: avoid; margin-bottom: 20px; font-size: 17px; line-height: 1.7; color: var(--texto2); }
-.colunas a { color: var(--roxo-claro); text-decoration: underline; text-underline-offset: 3px; }
-
-.titulo-link { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
-.titulo-link h2 { font: inherit; letter-spacing: inherit; }
-.titulo-link a { color: var(--roxo-claro); text-decoration: none; font-weight: 500; }
-.titulo-link a:hover { color: #fff; }
-.ver-todos { margin-top: 28px; display: flex; justify-content: center; }
-.ver-todos .btn span { margin-left: 8px; transition: transform .2s; }
-.ver-todos .btn:hover span { transform: translateX(3px); }
-.destaques { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-@media (max-width: 700px) { .destaques { grid-template-columns: 1fr; } }
-.agencias { display: flex; align-items: center; gap: 20px; padding: 28px; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: var(--grafite); text-decoration: none; transition: border-color .2s, transform .2s; }
-.agencias:hover { border-color: rgba(155,123,255,.6); transform: translateY(-2px); }
-.agencias > span:nth-child(2) { display: grid; gap: 4px; flex: 1; }
-.ag-rotulo { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--roxo-claro); }
-.ag-t { font-size: 20px; font-weight: 650; }
-.ag-d { font-size: 15px; line-height: 1.55; color: var(--texto2); }
-.ag-seta { font-size: 22px; color: var(--roxo-claro); transition: transform .2s; }
-.agencias:hover .ag-seta { transform: translateX(4px); }
-@media (max-width: 600px) { .agencias { align-items: flex-start; padding: 22px; } .ag-seta { display: none; } .nav-links { gap: 16px; font-size: 14px; } .nav-links a { white-space: nowrap; } .marca > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
-.frentes { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-.frente { display: flex; flex-direction: column; padding: 24px; border: 1px solid rgba(255,255,255,.1); border-radius: 18px; background: var(--grafite); transition: border-color .2s, transform .2s; }
-.frente:hover { border-color: rgba(155,123,255,.6); transform: translateY(-2px); }
-.ic { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(110,68,255,.16); color: var(--roxo-claro); }
-.ic svg { width: 22px; height: 22px; }
-.frente h3 { margin-top: 20px; font-size: 18px; font-weight: 650; }
-.frente p { margin-top: 10px; font-size: 15px; line-height: 1.6; color: var(--texto2); flex: 1; }
-.exemplo { margin-top: 20px; font-size: 14px; font-weight: 600; color: var(--roxo-claro); text-decoration: none; }
-.exemplo span { display: inline-block; transition: transform .2s; }
-.exemplo:hover span { transform: translateX(3px); }
-
-.jeito { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
-.num { font-size: 12px; color: var(--roxo-claro); }
-.jeito h3 { margin-top: 10px; font-size: 18px; font-weight: 650; }
-.jeito p { margin-top: 8px; font-size: 15px; line-height: 1.6; color: var(--texto2); }
-
-.skills { display: grid; gap: 20px; }
-.skill { display: grid; grid-template-columns: 140px 1fr; gap: 16px; align-items: start; }
-.grupo { font-size: 12px; padding-top: 8px; color: rgba(255,255,255,.6); }
-.chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.chips li { padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); font-size: 14px; color: rgba(255,255,255,.9); }
-@media (max-width: 600px) { .skill { grid-template-columns: 1fr; gap: 8px; } .grupo { padding-top: 0; } }
-
-.linha { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border-top: 1px solid rgba(255,255,255,.1); }
-.linha li { padding: 20px 20px 0 0; display: grid; gap: 10px; position: relative; }
-.linha li::before { content: ""; position: absolute; top: -5px; left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--roxo-claro); }
-.linha li:last-child::before { box-shadow: 0 0 0 5px rgba(155,123,255,.25); }
-.ano { font-size: 12px; color: var(--roxo-claro); }
-.linha h3 { font-size: 17px; font-weight: 650; }
-.linha p { margin-top: 4px; font-size: 14px; line-height: 1.55; color: var(--texto2); }
-.mais { margin-top: 32px; }
-.mais a { font-weight: 600; color: var(--roxo-claro); text-decoration: none; }
-@media (max-width: 760px) { .linha { border-top: 0; border-left: 1px solid rgba(255,255,255,.1); margin-left: 4px; } .linha li { padding: 0 0 24px 24px; } .linha li::before { top: 4px; left: -5px; } }
-
-.fim { text-align: center; padding-top: 64px; padding-bottom: 64px; border-radius: 28px; background: radial-gradient(80% 100% at 50% 0%, rgba(110,68,255,.28), transparent 70%), var(--grafite); max-width: 1040px; }
-.fim h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -.02em; }
-.fim p { margin: 14px auto 0; max-width: 32rem; line-height: 1.6; color: var(--texto2); }
-.acoes { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-.btn { display: inline-flex; align-items: center; min-height: 46px; padding: 0 22px; border-radius: 999px; background: var(--roxo); color: #fff; font-weight: 600; font-size: 15px; text-decoration: none; transition: background .2s, border-color .2s; }
-.btn:hover { background: #5A30EE; }
-.btn.sec { background: transparent; border: 1px solid rgba(255,255,255,.22); }
-.btn.sec:hover { border-color: var(--roxo-claro); }
-@media (max-width: 600px) { .fim { border-radius: 0; } .btn { width: 100%; justify-content: center; } }
-
-.rodape { margin-top: 64px; padding-top: 24px; padding-bottom: 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 12px; color: rgba(255,255,255,.6); }
-.redes { display: flex; flex-wrap: wrap; gap: 8px; }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-</style>
