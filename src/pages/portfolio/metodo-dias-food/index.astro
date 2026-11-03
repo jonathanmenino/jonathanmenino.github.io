@@ -1,0 +1,295 @@
+---
+/* CASE DE SITE: Método Dias Food (landing page de vendas do curso de Patrik Dias, 2025).
+   Feita para a Agência Zava. O site saiu do ar: as imagens são os prints do projeto no Behance.
+   A página usa a identidade da própria landing (vermelho, preto, dourado, verde do botão, Josefin Sans). */
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import Fox from '../../../components/Fox.astro';
+import { url } from '../../../data/site';
+import '@fontsource/josefin-sans/400.css';
+import '@fontsource/josefin-sans/600.css';
+import '@fontsource/josefin-sans/700.css';
+import '@fontsource/josefin-sans/700-italic.css';
+
+import mockupHero from '../../../assets/portfolio/metodo-dias-food/mockup-hero.jpg';
+import mockupCelular from '../../../assets/portfolio/metodo-dias-food/mockup-celular.jpg';
+import paginaInteira from '../../../assets/portfolio/metodo-dias-food/pagina-inteira.jpg';
+import objecao from '../../../assets/portfolio/metodo-dias-food/objecao.jpg';
+import depoimentos from '../../../assets/portfolio/metodo-dias-food/depoimentos.jpg';
+import modulos from '../../../assets/portfolio/metodo-dias-food/modulos.jpg';
+import bonus from '../../../assets/portfolio/metodo-dias-food/bonus.jpg';
+import investimento from '../../../assets/portfolio/metodo-dias-food/investimento.jpg';
+import mentor from '../../../assets/portfolio/metodo-dias-food/mentor.jpg';
+import zava from '../../../assets/agencias/zava-branco.svg';
+
+const portfolio = url('portfolio/');
+
+const ficha = [
+  ['Cliente', 'Patrik Dias · Método Dias Food'],
+  ['Projeto', 'Landing page de vendas de curso'],
+  ['Meu papel', 'Design e desenvolvimento da página'],
+  ['Ano', '2025'],
+];
+
+const dobras = [
+  { img: objecao, alt: 'Dobra com a objeção: Mas eu não tenho tempo, tenho feito de tudo e mesmo assim minhas vendas estão travadas', titulo: 'A objeção em voz alta', texto: 'Logo abaixo do vídeo, a página repete o que o dono de delivery pensa antes de comprar e responde na mesma hora.', largo: true },
+  { img: depoimentos, alt: 'Prints de conversas de WhatsApp de alunos contando os primeiros pedidos', titulo: 'Prova em print de WhatsApp', texto: 'Os depoimentos aparecem como conversas reais com o Patrik, que é como o público já está acostumado a ver resultado.', largo: true },
+  { img: modulos, alt: 'Seis módulos do curso com ícones 3D: moto de entrega, alfinete, quebra-cabeça, caderno, etiqueta de preço e panela', titulo: 'Módulos com ícones 3D', texto: 'Seis cards com ícones em 3D deixam o conteúdo do curso fácil de escanear no celular.' },
+  { img: bonus, alt: 'Seis bônus exclusivos em cards brancos e o bônus das fotos profissionais do cardápio', titulo: 'Bônus empilhados', texto: 'Cards brancos sobre o vermelho para os cinco bônus, e uma faixa preta para o bônus mais valioso: as fotos do cardápio.' },
+  { img: investimento, alt: 'Bloco de investimento: oferta por tempo limitado, 12 vezes de R$ 6,57 ou R$ 63,50 à vista', titulo: 'Preço que cabe na parcela', texto: 'O preço aparece parcelado em destaque, com o valor cheio riscado e o botão verde logo abaixo.' },
+  { img: mentor, alt: 'Garantia de 7 dias e a apresentação do mentor Patrik Dias em um card de Instagram', titulo: 'Garantia e mentor', texto: 'Garantia de 7 dias para tirar o risco, e o Patrik apresentado dentro de um post de Instagram, perto de quem vai comprar.', largo: true },
+];
+
+const paleta = [
+  { nome: 'Vermelho Dias', cod: '#A60000', uso: 'Fundos e gradientes', cor: '#A60000' },
+  { nome: 'Preto Carvão', cod: '#0F0000', uso: 'Base da página', cor: '#0F0000' },
+  { nome: 'Dourado', cod: '#E7A22E', uso: 'Palavras de destaque', cor: '#E7A22E' },
+  { nome: 'Verde Compra', cod: '#00CD67', uso: 'Botões de compra', cor: '#00CD67' },
+];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'Método Dias Food',
+  description: 'Landing page de vendas do curso Método Dias Food, de Patrik Dias, feita para a Agência Zava.',
+  creator: { '@type': 'Person', name: 'Jonathan Menino' },
+  dateCreated: '2025',
+  inLanguage: 'pt-BR',
+};
+---
+<Base
+  title="Método Dias Food · Landing page · Jonathan Menino"
+  description="Landing page de vendas do curso Método Dias Food, de Patrik Dias, para donos de delivery que querem vender marmitas no iFood: vídeo de vendas, depoimentos, módulos, bônus, oferta e garantia. Feita para a Agência Zava."
+  image="og/metodo-dias-food.jpg"
+  tipo="article"
+  themeColor="#0F0000"
+  jsonld={jsonld}
+>
+<div class="mdf">
+  <header class="topo">
+    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+      <Fox cor="#E7A22E" class="raposa" />
+      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+    </a>
+    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+  </header>
+
+  <main>
+    <!-- ============ TOPO ============ -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Landing page · Curso online</p>
+          <h1>Método <span class="ouro">Dias Food</span></h1>
+          <p class="lead">Página de vendas do curso do Patrik Dias, que ensina a começar do zero e faturar vendendo marmitas no iFood. Fiz o design e o desenvolvimento da página, do vídeo no topo ao botão de compra.</p>
+          <dl class="ficha">
+            {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
+            <div class="agencia">
+              <dt>Feito para</dt>
+              <dd><Image src={zava} alt="Agência Zava" height={28} class="zava" /></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="wrap">
+        <Image src={mockupHero} alt="Topo da landing page em um notebook: Bem-vindo ao treinamento que irá mudar o seu delivery, com o vídeo Aperte o play" widths={[700, 1100, 1400]} sizes="(min-width: 1200px) 1100px, 100vw" class="hero-mockup" loading="eager" fetchpriority="high" />
+      </div>
+    </section>
+
+    <!-- ============ DESAFIO E SOLUÇÃO ============ -->
+    <section class="preto">
+      <div class="wrap duas">
+        <div>
+          <p class="num">01 · O desafio</p>
+          <h2>Vender um curso para quem acha que <span class="ouro">não tem tempo</span>.</h2>
+          <p>O público do Método Dias Food é o dono de delivery pequeno, que trabalha na cozinha o dia inteiro e acha que precisa de muito dinheiro para crescer. A página tinha que fazer essa pessoa dar play no vídeo e chegar até a compra sem desistir no caminho.</p>
+        </div>
+        <div>
+          <p class="num">02 · A solução</p>
+          <h2>Uma página longa que <span class="ouro">responde cada dúvida</span>.</h2>
+          <p>O vídeo de vendas abre a página, com um "Aperte o play" que não deixa dúvida. Depois, cada dobra derruba uma objeção: depoimentos, o que se aprende, bônus, preço parcelado, garantia, o mentor e as perguntas frequentes. O botão verde aparece sempre que a decisão está perto.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ A PÁGINA INTEIRA ============ -->
+    <section class="vermelho">
+      <div class="wrap">
+        <p class="num">03 · A página</p>
+        <h2 class="grande">Do play ao <span class="ouro">botão verde</span>.</h2>
+        <p class="intro">A landing page inteira, de cima a baixo. Role dentro da janela para ver todas as dobras.</p>
+        <div class="pagina">
+          <div class="navegador">
+            <div class="barra" aria-hidden="true"><i></i><i></i><i></i><span>Método Dias Food</span></div>
+            <div class="rolagem" tabindex="0" aria-label="Landing page completa do Método Dias Food">
+              <Image src={paginaInteira} alt="Landing page completa: topo com vídeo, objeção, depoimentos, módulos, bônus, investimento, garantia, mentor e perguntas frequentes" widths={[700, 1018]} sizes="(min-width: 1100px) 760px, 92vw" />
+            </div>
+          </div>
+          <div class="celular">
+            <Image src={mockupCelular} alt="Seção Quem será seu mentor na versão para celular" widths={[300, 430]} sizes="(min-width: 900px) 300px, 70vw" />
+            <p class="legenda">Versão para celular</p>
+            <p class="legenda-txt">A maior parte do público chega pelo Instagram, então cada dobra foi pensada primeiro na tela do celular.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DOBRAS ============ -->
+    <section class="preto">
+      <div class="wrap">
+        <p class="num">04 · Dobra a dobra</p>
+        <h2 class="grande">Cada parte com <span class="ouro">um trabalho</span>.</h2>
+        <ul class="dobras">
+          {dobras.map((d) => (
+            <li class:list={[d.largo && 'largo']}>
+              <Image src={d.img} alt={d.alt} widths={[600, 1018]} sizes={d.largo ? '(min-width: 1100px) 1100px, 92vw' : '(min-width: 900px) 540px, 92vw'} />
+              <h3>{d.titulo}</h3>
+              <p>{d.texto}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ IDENTIDADE ============ -->
+    <section class="claro">
+      <div class="wrap">
+        <p class="num">05 · Base visual</p>
+        <h2 class="grande">Vermelho de cozinha, <span class="ouro-escuro">dourado de destaque</span>.</h2>
+        <p class="bloco-txt">A página segue o vermelho e o preto da marca do Patrik. O dourado marca as palavras que vendem, como "treinamento", "delivery" e "investimento", e o verde fica reservado só para os botões de compra.</p>
+        <h3 class="sub-h">Paleta</h3>
+        <ul class="paleta">
+          {paleta.map((c) => (
+            <li>
+              <span class="amostra" style={`background:${c.cor}`}></span>
+              <div><p class="cor-nome">{c.nome}</p><p class="cor-cod">{c.cod}</p><p class="cor-uso">{c.uso}</p></div>
+            </li>
+          ))}
+        </ul>
+        <h3 class="sub-h">Tipografia</h3>
+        <div class="tipo">
+          <p class="tipo-aa" aria-hidden="true">Aa</p>
+          <div>
+            <p class="tipo-nome">Josefin Sans</p>
+            <p class="tipo-desc">Geométrica e com cara de cartaz em caixa alta. Em negrito nos títulos, em itálico nos subtítulos e fina no texto corrido.</p>
+            <p class="tipo-amostra">Aperte o <span>play</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CRÉDITOS ============ -->
+    <section class="preto creditos">
+      <div class="wrap">
+        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Patrik Dias, Método Dias Food</b>. Fiz o design e o desenvolvimento da landing page. O site não está mais no ar; as imagens são do projeto publicado no Behance.</p>
+        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+</div>
+</Base>
+
+<style is:global>
+.mdf {
+  --vermelho: #A60000; --vinho: #5A0000; --carvao: #0F0000; --ouro: #E7A22E; --verde: #00CD67; --papel: #F7F3F0; --tinta: #1A0A0A;
+  font-family: 'Josefin Sans', ui-sans-serif, system-ui, sans-serif;
+  background: var(--carvao); color: #fff; -webkit-font-smoothing: antialiased;
+}
+.mdf * { box-sizing: border-box; }
+.mdf .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 768px) { .mdf .wrap { padding: 0 32px; } }
+.mdf a:focus-visible, .mdf .rolagem:focus-visible { outline: 3px solid var(--ouro); outline-offset: 3px; }
+.mdf .ouro { color: var(--ouro); }
+.mdf .ouro-escuro { color: #9A5A00; }
+
+/* Topo */
+.mdf .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(15,0,0,.9); backdrop-filter: blur(8px); border-bottom: 2px solid var(--vermelho); }
+@media (min-width: 768px) { .mdf .topo { padding: 14px 32px; } }
+.mdf .marca { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+.mdf .raposa { height: 32px; width: auto; }
+.mdf .nome { display: block; font-weight: 700; font-size: 15px; line-height: 1.2; }
+.mdf .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.75); }
+.mdf .voltar { font-size: 14px; font-weight: 700; color: #fff; text-decoration: none; }
+.mdf .voltar:hover { color: var(--ouro); }
+
+/* Seções */
+.mdf main > section { position: relative; overflow: hidden; padding: 72px 0; }
+@media (min-width: 768px) { .mdf main > section { padding: 112px 0; } }
+.mdf .preto { background: var(--carvao); }
+.mdf .vermelho { background: radial-gradient(ellipse at 15% 0%, var(--vermelho) 0%, var(--vinho) 45%, var(--carvao) 100%); }
+.mdf .claro { background: var(--papel); color: var(--tinta); }
+
+/* Hero */
+.mdf .hero { background: radial-gradient(ellipse at 0% 0%, var(--vermelho) 0%, var(--vinho) 35%, var(--carvao) 75%); padding-bottom: 0 !important; }
+.mdf .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--ouro); }
+.mdf h1 { margin-top: 18px; font-weight: 700; text-transform: uppercase; font-size: clamp(2.6rem, 7vw, 5rem); line-height: .95; letter-spacing: -.01em; }
+.mdf .lead { margin-top: 24px; max-width: 38rem; font-size: 18px; line-height: 1.6; color: rgba(255,255,255,.92); }
+@media (min-width: 768px) { .mdf .lead { font-size: 20px; } }
+.mdf .ficha { margin: 36px 0 0; max-width: 40rem; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.2); }
+.mdf .ficha dt { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.75); }
+.mdf .ficha dd { margin: 6px 0 0; font-size: 16px; font-weight: 600; line-height: 1.35; }
+.mdf .agencia { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; }
+.mdf .agencia dd { margin: 0; }
+.mdf .zava { height: 22px; width: auto; display: block; }
+.mdf .hero-mockup { display: block; width: 100%; max-width: 1100px; height: auto; margin: 48px auto 0; border-radius: 20px 20px 0 0; }
+
+/* Títulos */
+.mdf .num { font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--ouro); }
+.mdf .claro .num { color: var(--vermelho); }
+.mdf h2 { margin-top: 16px; font-weight: 700; text-transform: uppercase; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.05; text-wrap: balance; }
+.mdf h2.grande { font-size: clamp(2rem, 5vw, 3.4rem); max-width: 20ch; }
+.mdf .duas { display: grid; gap: 48px; }
+@media (min-width: 900px) { .mdf .duas { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.mdf .duas p:not(.num) { margin-top: 18px; line-height: 1.7; font-size: 17px; color: rgba(255,255,255,.88); }
+.mdf .intro { margin-top: 18px; max-width: 40rem; line-height: 1.7; font-size: 17px; color: rgba(255,255,255,.9); }
+.mdf .bloco-txt { margin-top: 18px; max-width: 42rem; font-size: 17px; line-height: 1.7; color: #4a3a3a; }
+.mdf .sub-h { margin-top: 64px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #4a3a3a; }
+
+/* Página inteira */
+.mdf .pagina { margin-top: 48px; display: grid; gap: 40px; align-items: start; }
+@media (min-width: 900px) { .mdf .pagina { grid-template-columns: 1fr 300px; gap: 56px; } }
+.mdf .navegador { border-radius: 14px; overflow: hidden; background: #1c1010; box-shadow: 0 40px 80px -30px rgba(0,0,0,.8); border: 1px solid rgba(255,255,255,.1); }
+.mdf .barra { display: flex; align-items: center; gap: 7px; padding: 12px 16px; background: #241515; }
+.mdf .barra i { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.25); }
+.mdf .barra span { margin-left: 12px; flex: 1; max-width: 340px; padding: 5px 14px; border-radius: 999px; background: rgba(255,255,255,.08); font-size: 13px; color: rgba(255,255,255,.75); }
+.mdf .rolagem { max-height: min(78vh, 760px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--vermelho) #1c1010; }
+.mdf .rolagem::-webkit-scrollbar { width: 10px; }
+.mdf .rolagem::-webkit-scrollbar-track { background: #1c1010; }
+.mdf .rolagem::-webkit-scrollbar-thumb { background: var(--vermelho); border-radius: 999px; border: 2px solid #1c1010; }
+.mdf .rolagem img { display: block; width: 100%; height: auto; }
+.mdf .celular img { display: block; width: 100%; max-width: 300px; height: auto; margin: 0 auto; border-radius: 22px; box-shadow: 0 30px 60px -24px rgba(0,0,0,.8); }
+.mdf .legenda { margin-top: 16px; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.mdf .legenda-txt { margin-top: 6px; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,.85); }
+
+/* Dobras */
+.mdf .dobras { list-style: none; padding: 0; margin: 48px 0 0; display: grid; gap: 48px 32px; }
+@media (min-width: 900px) { .mdf .dobras { grid-template-columns: 1fr 1fr; } .mdf .dobras .largo { grid-column: 1 / -1; } }
+.mdf .dobras img { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid rgba(255,255,255,.08); }
+.mdf .dobras h3 { margin-top: 18px; font-size: 20px; font-weight: 700; text-transform: uppercase; color: var(--ouro); }
+.mdf .dobras p { margin-top: 8px; max-width: 44rem; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.85); }
+
+/* Identidade */
+.mdf .paleta { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 900px) { .mdf .paleta { grid-template-columns: repeat(4, 1fr); } }
+.mdf .paleta li { overflow: hidden; border-radius: 16px; background: #fff; border: 1px solid rgba(0,0,0,.08); }
+.mdf .amostra { display: block; height: clamp(72px, 12vw, 120px); }
+.mdf .paleta li > div { padding: 16px 18px 20px; }
+.mdf .cor-nome { font-weight: 700; font-size: 17px; }
+.mdf .cor-cod { margin-top: 4px; font-size: 13px; letter-spacing: .04em; color: #5a4a4a; font-variant-numeric: tabular-nums; }
+.mdf .cor-uso { margin-top: 8px; font-size: 14px; line-height: 1.5; color: #4a3a3a; }
+.mdf .tipo { margin-top: 20px; background: #fff; border-radius: 20px; padding: clamp(24px, 4vw, 40px); border: 1px solid rgba(0,0,0,.06); display: grid; gap: 24px; align-items: center; }
+@media (min-width: 900px) { .mdf .tipo { grid-template-columns: auto 1fr; gap: 48px; } }
+.mdf .tipo-aa { font-size: clamp(5rem, 11vw, 8rem); font-weight: 700; line-height: .9; color: var(--vermelho); }
+.mdf .tipo-nome { font-size: 26px; font-weight: 700; }
+.mdf .tipo-desc { margin-top: 8px; max-width: 36rem; font-size: 16px; line-height: 1.6; color: #4a3a3a; }
+.mdf .tipo-amostra { margin-top: 18px; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; text-transform: uppercase; color: var(--tinta); }
+.mdf .tipo-amostra span { color: var(--vermelho); }
+
+/* Créditos */
+.mdf .creditos { border-top: 1px solid rgba(255,255,255,.08); }
+.mdf .creditos .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.mdf .creditos p { max-width: 42rem; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.85); }
+.mdf .creditos b { color: #fff; }
+.mdf .botao { display: inline-flex; align-items: center; gap: 8px; padding: 15px 26px; border-radius: 999px; background: var(--verde); color: #04140b; font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; text-decoration: none; transition: transform .2s, background .2s; }
+.mdf .botao:hover { transform: translateY(-2px); background: #2be08a; }
+</style>

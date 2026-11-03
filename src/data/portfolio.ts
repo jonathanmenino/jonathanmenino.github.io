@@ -87,6 +87,15 @@ export const PROJETOS: Projeto[] = [
     destaque: true,
   },
   {
+    titulo: 'Método Dias Food',
+    cliente: 'Patrik Dias · Agência Zava',
+    tipo: 'Landing page de curso',
+    resumo: 'Página de vendas de um curso para donos de delivery, do vídeo no topo ao botão de compra.',
+    link: 'portfolio/metodo-dias-food/',
+    capa: 'og/metodo-dias-food.jpg',
+    categorias: ['sites'],
+  },
+  {
     titulo: 'Sentinela',
     cliente: 'Sentinela Serviços de Proteção',
     tipo: 'Site institucional',
