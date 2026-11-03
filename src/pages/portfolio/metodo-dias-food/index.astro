@@ -1,7 +1,8 @@
 ---
 /* CASE DE SITE: Método Dias Food (landing page de vendas do curso de Patrik Dias, 2025).
    Feita para a Agência Zava. O site saiu do ar: as imagens são os prints do projeto no Behance.
-   A página usa a identidade da própria landing (vermelho, preto, dourado, verde do botão, Josefin Sans). */
+   A página usa a identidade da própria landing (vermelho, preto, dourado, verde do botão,
+   Palmore nos títulos e Josefin Sans no texto). */
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Fox from '../../../components/Fox.astro';
@@ -20,6 +21,11 @@ import modulos from '../../../assets/portfolio/metodo-dias-food/modulos.jpg';
 import bonus from '../../../assets/portfolio/metodo-dias-food/bonus.jpg';
 import investimento from '../../../assets/portfolio/metodo-dias-food/investimento.jpg';
 import mentor from '../../../assets/portfolio/metodo-dias-food/mentor.jpg';
+import logoVertical from '../../../assets/portfolio/metodo-dias-food/logo-vertical.png';
+import logoHorizontal from '../../../assets/portfolio/metodo-dias-food/logo-horizontal.png';
+import seloMdf from '../../../assets/portfolio/metodo-dias-food/selo-mdf.png';
+import nomePatrik from '../../../assets/portfolio/metodo-dias-food/nome-patrik.png';
+import patrik from '../../../assets/portfolio/metodo-dias-food/patrik.png';
 import zava from '../../../assets/agencias/zava-branco.svg';
 
 const portfolio = url('portfolio/');
@@ -77,10 +83,11 @@ const jsonld = {
   <main>
     <!-- ============ TOPO ============ -->
     <section class="hero">
+      <Image src={seloMdf} alt="" widths={[500]} class="marca-dagua" aria-hidden="true" />
       <div class="wrap hero-grid">
         <div>
           <p class="eyebrow">Landing page · Curso online</p>
-          <h1>Método <span class="ouro">Dias Food</span></h1>
+          <h1>Método<br /><span class="ouro">Dias Food</span></h1>
           <p class="lead">Página de vendas do curso do Patrik Dias, que ensina a começar do zero e faturar vendendo marmitas no iFood. Fiz o design e o desenvolvimento da página, do vídeo no topo ao botão de compra.</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
@@ -89,6 +96,10 @@ const jsonld = {
               <dd><Image src={zava} alt="Agência Zava" height={28} class="zava" /></dd>
             </div>
           </dl>
+        </div>
+        <div class="hero-foto">
+          <Image src={patrik} alt="Patrik Dias, criador do Método Dias Food" widths={[400, 600]} sizes="(min-width: 1024px) 420px, 70vw" loading="eager" />
+          <Image src={nomePatrik} alt="" widths={[400, 800]} sizes="320px" class="hero-nome" aria-hidden="true" />
         </div>
       </div>
       <div class="wrap">
@@ -157,6 +168,12 @@ const jsonld = {
         <p class="num">05 · Base visual</p>
         <h2 class="grande">Vermelho de cozinha, <span class="ouro-escuro">dourado de destaque</span>.</h2>
         <p class="bloco-txt">A página segue o vermelho e o preto da marca do Patrik. O dourado marca as palavras que vendem, como "treinamento", "delivery" e "investimento", e o verde fica reservado só para os botões de compra.</p>
+        <h3 class="sub-h">Marca</h3>
+        <div class="marcas">
+          <div class="marca-card branco"><Image src={logoVertical} alt="Logo vertical do Método Dias Food" widths={[300, 397]} sizes="220px" /></div>
+          <div class="marca-card branco"><Image src={logoHorizontal} alt="Assinatura MDF Patrik Dias" widths={[500, 814]} sizes="(min-width: 900px) 420px, 80vw" /></div>
+          <div class="marca-card escuro-card"><Image src={nomePatrik} alt="Nome Patrik Dias em Palmore" widths={[500, 924]} sizes="(min-width: 900px) 420px, 80vw" /></div>
+        </div>
         <h3 class="sub-h">Paleta</h3>
         <ul class="paleta">
           {paleta.map((c) => (
@@ -167,12 +184,22 @@ const jsonld = {
           ))}
         </ul>
         <h3 class="sub-h">Tipografia</h3>
-        <div class="tipo">
-          <p class="tipo-aa" aria-hidden="true">Aa</p>
-          <div>
-            <p class="tipo-nome">Josefin Sans</p>
-            <p class="tipo-desc">Geométrica e com cara de cartaz em caixa alta. Em negrito nos títulos, em itálico nos subtítulos e fina no texto corrido.</p>
-            <p class="tipo-amostra">Aperte o <span>play</span></p>
+        <div class="tipos">
+          <div class="tipo">
+            <p class="tipo-aa pal" aria-hidden="true">Aa</p>
+            <div>
+              <p class="tipo-nome">Palmore</p>
+              <p class="tipo-desc">Serifa alta e estreita, com cara de letreiro antigo de restaurante. É a letra do nome do Patrik e das chamadas grandes.</p>
+              <p class="tipo-amostra pal">Faturar vendendo <span>marmitas</span></p>
+            </div>
+          </div>
+          <div class="tipo">
+            <p class="tipo-aa" aria-hidden="true">Aa</p>
+            <div>
+              <p class="tipo-nome">Josefin Sans</p>
+              <p class="tipo-desc">Geométrica, em caixa alta nos títulos das dobras, em itálico nos subtítulos e fina no texto corrido.</p>
+              <p class="tipo-amostra">Aperte o <span>play</span></p>
+            </div>
           </div>
         </div>
       </div>
@@ -190,6 +217,8 @@ const jsonld = {
 </Base>
 
 <style is:global>
+@font-face { font-family: 'Palmore'; src: url('/portfolio/metodo-dias-food/fonts/palmore-regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Palmore'; src: url('/portfolio/metodo-dias-food/fonts/palmore-bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 .mdf {
   --vermelho: #A60000; --vinho: #5A0000; --carvao: #0F0000; --ouro: #E7A22E; --verde: #00CD67; --papel: #F7F3F0; --tinta: #1A0A0A;
   font-family: 'Josefin Sans', ui-sans-serif, system-ui, sans-serif;
@@ -222,7 +251,8 @@ const jsonld = {
 /* Hero */
 .mdf .hero { background: radial-gradient(ellipse at 0% 0%, var(--vermelho) 0%, var(--vinho) 35%, var(--carvao) 75%); padding-bottom: 0 !important; }
 .mdf .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--ouro); }
-.mdf h1 { margin-top: 18px; font-weight: 700; text-transform: uppercase; font-size: clamp(2.6rem, 7vw, 5rem); line-height: .95; letter-spacing: -.01em; }
+.mdf h1, .mdf h2, .mdf .pal { font-family: 'Palmore', Georgia, serif; }
+.mdf h1 { margin-top: 18px; font-weight: 700; text-transform: uppercase; font-size: clamp(3.6rem, 9vw, 7rem); line-height: .9; }
 .mdf .lead { margin-top: 24px; max-width: 38rem; font-size: 18px; line-height: 1.6; color: rgba(255,255,255,.92); }
 @media (min-width: 768px) { .mdf .lead { font-size: 20px; } }
 .mdf .ficha { margin: 36px 0 0; max-width: 40rem; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.2); }
@@ -231,13 +261,29 @@ const jsonld = {
 .mdf .agencia { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; }
 .mdf .agencia dd { margin: 0; }
 .mdf .zava { height: 22px; width: auto; display: block; }
+.mdf .hero .wrap { position: relative; z-index: 2; }
+.mdf .hero-grid { display: grid; gap: 40px; align-items: end; }
+@media (min-width: 1024px) { .mdf .hero-grid { grid-template-columns: 1.3fr 1fr; } }
+.mdf .marca-dagua { position: absolute; z-index: 1; top: 40px; right: -120px; width: min(70vw, 760px); height: auto; opacity: .14; pointer-events: none; }
+.mdf .hero-foto { position: relative; max-width: 420px; width: 100%; margin: 0 auto; }
+.mdf .hero-foto > img:first-child { display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(#000 75%, transparent); mask-image: linear-gradient(#000 75%, transparent); }
+.mdf .hero-nome { position: absolute; left: -12%; bottom: 14%; width: 78%; height: auto; filter: drop-shadow(0 6px 18px rgba(0,0,0,.6)); }
+@media (max-width: 1023px) { .mdf .hero-nome { left: 0; } }
+.mdf .marcas { margin-top: 20px; display: grid; gap: 12px; }
+@media (min-width: 900px) { .mdf .marcas { grid-template-columns: .7fr 1fr 1fr; } }
+.mdf .marca-card { border-radius: 20px; padding: 40px 32px; display: grid; place-items: center; min-height: 220px; }
+.mdf .marca-card img { width: 100%; height: auto; }
+.mdf .marca-card.branco { background: #fff; border: 1px solid rgba(0,0,0,.06); }
+.mdf .marca-card.branco:first-child img { max-width: 200px; }
+.mdf .escuro-card { background: radial-gradient(ellipse at 0% 0%, var(--vermelho), var(--carvao) 80%); }
+.mdf .tipos { margin-top: 20px; display: grid; gap: 12px; }
 .mdf .hero-mockup { display: block; width: 100%; max-width: 1100px; height: auto; margin: 48px auto 0; border-radius: 20px 20px 0 0; }
 
 /* Títulos */
 .mdf .num { font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--ouro); }
 .mdf .claro .num { color: var(--vermelho); }
-.mdf h2 { margin-top: 16px; font-weight: 700; text-transform: uppercase; font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.05; text-wrap: balance; }
-.mdf h2.grande { font-size: clamp(2rem, 5vw, 3.4rem); max-width: 20ch; }
+.mdf h2 { margin-top: 16px; font-weight: 700; text-transform: uppercase; font-size: clamp(2.2rem, 4.4vw, 3.2rem); line-height: 1; text-wrap: balance; }
+.mdf h2.grande { font-size: clamp(2.6rem, 6.4vw, 4.6rem); max-width: 18ch; }
 .mdf .duas { display: grid; gap: 48px; }
 @media (min-width: 900px) { .mdf .duas { grid-template-columns: 1fr 1fr; gap: 64px; } }
 .mdf .duas p:not(.num) { margin-top: 18px; line-height: 1.7; font-size: 17px; color: rgba(255,255,255,.88); }
@@ -277,12 +323,14 @@ const jsonld = {
 .mdf .cor-nome { font-weight: 700; font-size: 17px; }
 .mdf .cor-cod { margin-top: 4px; font-size: 13px; letter-spacing: .04em; color: #5a4a4a; font-variant-numeric: tabular-nums; }
 .mdf .cor-uso { margin-top: 8px; font-size: 14px; line-height: 1.5; color: #4a3a3a; }
-.mdf .tipo { margin-top: 20px; background: #fff; border-radius: 20px; padding: clamp(24px, 4vw, 40px); border: 1px solid rgba(0,0,0,.06); display: grid; gap: 24px; align-items: center; }
-@media (min-width: 900px) { .mdf .tipo { grid-template-columns: auto 1fr; gap: 48px; } }
+.mdf .tipo { background: #fff; border-radius: 20px; padding: clamp(24px, 4vw, 40px); border: 1px solid rgba(0,0,0,.06); display: grid; gap: 24px; align-items: center; }
+@media (min-width: 900px) { .mdf .tipo { grid-template-columns: 200px 1fr; gap: 48px; } }
+.mdf .tipo-aa.pal { font-size: clamp(6rem, 13vw, 10rem); font-weight: 400; }
 .mdf .tipo-aa { font-size: clamp(5rem, 11vw, 8rem); font-weight: 700; line-height: .9; color: var(--vermelho); }
 .mdf .tipo-nome { font-size: 26px; font-weight: 700; }
 .mdf .tipo-desc { margin-top: 8px; max-width: 36rem; font-size: 16px; line-height: 1.6; color: #4a3a3a; }
 .mdf .tipo-amostra { margin-top: 18px; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; text-transform: uppercase; color: var(--tinta); }
+.mdf .tipo-amostra.pal { font-size: clamp(2rem, 4.6vw, 3rem); line-height: 1; }
 .mdf .tipo-amostra span { color: var(--vermelho); }
 
 /* Créditos */
