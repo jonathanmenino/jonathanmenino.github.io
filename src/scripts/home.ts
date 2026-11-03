@@ -18,6 +18,15 @@ export function initHome() {
   const pad = (n) => String(Math.round(n)).padStart(4, '0');
   window.addEventListener('pointermove', (e) => { coord.textContent = `X:${pad(e.clientX)} Y:${pad(e.clientY + scrollY)} · Limeira/SP`; }, { passive: true });
 
+  // No fundo líquido do topo, o círculo do cursor do site some para não cobrir a grade (volta em links e botões).
+  const heroiEl = document.getElementById('topo');
+  window.addEventListener('pointermove', (e) => {
+    const el = e.target;
+    const sobre = !!(el && el.closest && el.closest('#topo') && !el.closest('a, button, .selo, h1, .nota-mao, .retrato-mini'));
+    document.documentElement.classList.toggle('sem-cursor', sobre);
+  }, { passive: true });
+  heroiEl.addEventListener('pointerleave', () => document.documentElement.classList.remove('sem-cursor'));
+
   // Copiar e-mail
   document.querySelectorAll('[data-copiar]').forEach((b) => b.addEventListener('click', () => {
     const ok = () => { b.textContent = 'Copiado'; setTimeout(() => (b.textContent = 'Copiar'), 1800); };
