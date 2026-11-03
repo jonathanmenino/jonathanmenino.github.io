@@ -1,0 +1,388 @@
+---
+/* CASE DE CAMPANHA: É o BR no Kombina (Kombina Burgers House, lançamento de três burgers, 2025).
+   Jonathan criou a campanha e editou os vídeos, para a Agência Zava.
+   A página usa a identidade da própria campanha (verde e amarelo da bandeira, azul da Kombi,
+   laranja da marca, Stretch Pro nos títulos). Inter entra no texto corrido. */
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import Fox from '../../../components/Fox.astro';
+import { url } from '../../../data/site';
+import '@fontsource-variable/inter';
+
+import titulo from '../../../assets/portfolio/br-no-kombina/titulo.png';
+import keyVisual from '../../../assets/portfolio/br-no-kombina/key-visual.jpg';
+import carrossel1 from '../../../assets/portfolio/br-no-kombina/carrossel-01.jpg';
+import carrossel2 from '../../../assets/portfolio/br-no-kombina/carrossel-02.jpg';
+import zava from '../../../assets/agencias/zava-branco.svg';
+
+const portfolio = url('portfolio/');
+const base = url('portfolio/br-no-kombina/');
+const video = (nome: string) => `${base}videos/${nome}`;
+
+const ficha = [
+  ['Cliente', 'Kombina Burgers House'],
+  ['Ocasião', 'Lançamento de três burgers'],
+  ['Meu papel', 'Criação da campanha e edição dos vídeos'],
+  ['Ano', '2025'],
+];
+
+const burgers = [
+  { estado: 'Rio de Janeiro', nome: 'Kom Carioca', arquivo: 'carioca', texto: 'Calabresa acebolada, hambúrguer de 180 g, muçarela e molho de mostarda e mel. Na edição, os ingredientes entram escritos na tela, com o Cristo e o Pão de Açúcar em recorte de cartão-postal.' },
+  { estado: 'São Paulo', nome: 'Kom Paulista', arquivo: 'paulista', texto: 'A Ponte Estaiada e o Monumento às Bandeiras entram em recorte, no mesmo ritmo do burger sendo montado.' },
+  { estado: 'Minas Gerais', nome: 'Kom Minêro', arquivo: 'mineiro', texto: 'Roda de carro de boi, viola, pão de queijo e café: o sotaque mineiro contado pelos objetos.' },
+];
+
+const spoilers = [
+  { arquivo: 'spoiler1', titulo: 'Spoiler 1', texto: 'A bandeira na tela e o título surgindo na roupa da apresentadora.' },
+  { arquivo: 'spoiler2', titulo: 'Spoiler 2', texto: 'Ela entra na Kombina e anuncia: "Aqui, Brasil se escreve com S".' },
+];
+
+const paleta = [
+  { nome: 'Verde Bandeira', cod: '#018434', uso: 'Fundo principal', cor: '#018434' },
+  { nome: 'Amarelo Ouro', cod: '#FFE600', uso: 'Título e chamadas', cor: '#FFE600' },
+  { nome: 'Azul Kombi', cod: '#414668', uso: 'Kombi, palmeiras e selos', cor: '#414668' },
+  { nome: 'Laranja Kombina', cod: '#F07A1A', uso: 'Moldura e assinatura da marca', cor: '#F07A1A' },
+];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'É o BR no Kombina',
+  description: 'Campanha de lançamento dos burgers Kom Carioca, Kom Paulista e Kom Minêro da Kombina Burgers House, feita para a Agência Zava.',
+  creator: { '@type': 'Person', name: 'Jonathan Menino' },
+  dateCreated: '2025',
+  inLanguage: 'pt-BR',
+};
+---
+<Base
+  title="É o BR no Kombina · Campanha · Jonathan Menino"
+  description="Campanha de lançamento de três burgers com sotaque, Kom Carioca, Kom Paulista e Kom Minêro, da Kombina Burgers House: identidade, peças e edição dos vídeos. Feita para a Agência Zava."
+  image="og/br-no-kombina.jpg"
+  tipo="article"
+  themeColor="#016E2B"
+  jsonld={jsonld}
+>
+<div class="kbr">
+  <header class="topo">
+    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+      <Fox cor="#FFE600" class="raposa" />
+      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+    </a>
+    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+  </header>
+
+  <main>
+    <!-- ============ TOPO ============ -->
+    <section class="hero verde">
+      <span class="flutua so-desk" data-v="-0.06" style="top:40px;right:-30px;--w:clamp(140px,14vw,210px);--r:-6deg;--d:0s" aria-hidden="true">
+        <Image src={titulo} alt="" widths={[240, 420]} sizes="210px" />
+      </span>
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Campanha · Lançamento de cardápio</p>
+          <h1 class="sr-only">É o BR no Kombina</h1>
+          <Image src={titulo} alt="É o BR no Kombina, título da campanha em amarelo" widths={[300, 600, 900]} sizes="(min-width: 1024px) 340px, 60vw" class="hero-titulo" loading="eager" fetchpriority="high" />
+          <p class="lead">Três burgers novos, cada um com o sotaque de um estado. Criei a campanha de lançamento da Kombina, da identidade às peças, e editei todos os vídeos.</p>
+          <dl class="ficha">
+            {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
+            <div class="agencia">
+              <dt>Feito para</dt>
+              <dd><Image src={zava} alt="Agência Zava" height={28} class="zava" /></dd>
+            </div>
+          </dl>
+        </div>
+        <div class="hero-arte">
+          <Image src={keyVisual} alt="Arte principal da campanha: título amarelo sobre verde, com a Kombi azul e os três burgers" widths={[400, 720]} sizes="(min-width: 1024px) 380px, 80vw" loading="eager" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DESAFIO E IDEIA ============ -->
+    <section class="amarelo">
+      <div class="wrap duas">
+        <div>
+          <p class="num">01 · O desafio</p>
+          <h2>Três burgers novos, um de cada canto.</h2>
+          <p>O cardápio da Kombina ganhava um burger carioca, um paulista e um mineiro. A campanha precisava apresentar os três juntos, dar personalidade para cada um e deixar claro que esse Brasil inteiro estava em um lugar só.</p>
+        </div>
+        <div>
+          <p class="num">02 · A ideia</p>
+          <h2>O Brasil inteiro cabe numa Kombi.</h2>
+          <p>"É o BR no Kombina" junta as cores da bandeira, a Kombi da marca e as palmeiras de cartão-postal. Cada burger virou um "Kom" com sotaque: Kom Carioca, Kom Paulista e Kom Minêro. Montei o título empilhado como uma placa, com letras tremidas de carimbo feito à mão.</p>
+        </div>
+      </div>
+      <p class="faixa" aria-label="Aqui, Brasil se escreve com S">
+        <span>Aqui, Brasil se escreve com <b>S</b></span>
+      </p>
+    </section>
+
+    <!-- ============ VÍDEOS ============ -->
+    <section class="verde-escuro">
+      <div class="wrap">
+        <p class="num">03 · Vídeos</p>
+        <h2 class="grande">Um reels para cada sotaque.</h2>
+        <p class="intro">Editei todos os vídeos da campanha: dois spoilers, o vídeo oficial e um reels para cada burger. Na edição entram os recortes de cartão-postal de cada estado, os ingredientes escritos na tela e o ritmo de cada sotaque. Toque em um vídeo para ouvir.</p>
+
+        <div class="oficial">
+          <div class="oficial-video">
+            <video src={video('oficial.mp4')} poster={video('oficial.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo oficial da campanha É o BR no Kombina"></video>
+          </div>
+          <div>
+            <p class="selo-oficial">Vídeo oficial</p>
+            <h3>Os três burgers na mesma viagem.</h3>
+            <p>O filme principal apresenta o cardápio novo de uma vez. A apresentadora passa pelos três estados e cada burger chega com seus cartões-postais, montados sobre o material gravado na Kombina.</p>
+            <ul class="tags">
+              <li>Edição</li><li>Motion e lettering</li><li>Recortes de cartão-postal</li><li>Ritmo e trilha</li>
+            </ul>
+          </div>
+        </div>
+
+        <ul class="grade-videos">
+          {burgers.map((b) => (
+            <li>
+              <video src={video(`${b.arquivo}.mp4`)} poster={video(`${b.arquivo}.jpg`)} muted loop playsinline controls preload="none" aria-label={`Reels do ${b.nome}`}></video>
+              <p class="estado">{b.estado}</p>
+              <p class="legenda">{b.nome}</p>
+              <p class="legenda-txt">{b.texto}</p>
+            </li>
+          ))}
+        </ul>
+
+        <h3 class="sub-h">Antes do lançamento</h3>
+        <ul class="grade-videos spoilers">
+          {spoilers.map((v) => (
+            <li>
+              <video src={video(`${v.arquivo}.mp4`)} poster={video(`${v.arquivo}.jpg`)} muted loop playsinline controls preload="none" aria-label={v.titulo}></video>
+              <p class="legenda">{v.titulo}</p>
+              <p class="legenda-txt">{v.texto}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ IDENTIDADE ============ -->
+    <section class="claro">
+      <div class="wrap">
+        <p class="num">04 · Identidade da campanha</p>
+        <h2 class="grande">Bandeira, Kombi e palmeira.</h2>
+        <p class="bloco-txt">Criei a identidade a partir de três coisas que já eram da Kombina ou do Brasil: o verde e amarelo da bandeira, o azul da Kombi da marca e o laranja da assinatura. O título quebra "Kombina" em três linhas para caber como uma placa em qualquer formato, do story ao reels.</p>
+
+        <div class="titulo-palco">
+          <Image src={titulo} alt="Título É o BR no Kombina em amarelo sobre verde" widths={[400, 800]} sizes="(min-width: 900px) 380px, 70vw" />
+        </div>
+
+        <h3 class="sub-h">Paleta</h3>
+        <ul class="paleta">
+          {paleta.map((c) => (
+            <li>
+              <span class="amostra" style={`background:${c.cor}`}></span>
+              <div><p class="cor-nome">{c.nome}</p><p class="cor-cod">{c.cod}</p><p class="cor-uso">{c.uso}</p></div>
+            </li>
+          ))}
+        </ul>
+
+        <h3 class="sub-h">Tipografia</h3>
+        <div class="tipo">
+          <p class="tipo-aa sp" aria-hidden="true">BR</p>
+          <div>
+            <p class="tipo-nome">Stretch Pro</p>
+            <p class="tipo-desc">Fonte bem larga, usada em caixa alta nos títulos, nos nomes dos burgers e nos ingredientes que aparecem na tela dos vídeos.</p>
+            <p class="tipo-amostra sp">Kom Minêro</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REDES ============ -->
+    <section class="azul">
+      <div class="wrap">
+        <p class="num">05 · Redes sociais</p>
+        <h2 class="grande">Feed com cara de bandeira.</h2>
+        <p class="intro">Carrossel de lançamento com os três burgers e a arte principal, no mesmo verde dos vídeos para o perfil virar uma vitrine só.</p>
+        <ul class="pecas">
+          <li><Image src={carrossel1} alt="Carrossel, card 1: É o BR no Kombina com a Kombi, a palmeira e os três burgers" widths={[360, 720]} sizes="(min-width: 900px) 360px, 80vw" /><p class="legenda">Carrossel · card 1</p></li>
+          <li><Image src={carrossel2} alt="Carrossel, card 2 com os burgers da campanha" widths={[360, 720]} sizes="(min-width: 900px) 360px, 80vw" /><p class="legenda">Carrossel · card 2</p></li>
+          <li><Image src={keyVisual} alt="Arte principal em formato de story" widths={[300, 600]} sizes="(min-width: 900px) 280px, 70vw" /><p class="legenda">Arte principal · story</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ CRÉDITOS ============ -->
+    <section class="escuro creditos">
+      <div class="wrap">
+        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Kombina Burgers House</b>. Criei a campanha, da identidade às peças, e editei todos os vídeos.</p>
+        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+</div>
+</Base>
+
+<script>
+  // Vídeos tocam sem som quando aparecem na tela e pausam quando saem.
+  const videos = document.querySelectorAll<HTMLVideoElement>('.kbr video');
+  const reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduzir && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((itens) => {
+      for (const i of itens) {
+        const v = i.target as HTMLVideoElement;
+        if (i.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      }
+    }, { threshold: 0.6 });
+    videos.forEach((v) => obs.observe(v));
+  }
+
+  // Parallax leve no título flutuante.
+  const flutuam = [...document.querySelectorAll<HTMLElement>('.kbr .flutua')];
+  if (!reduzir && flutuam.length) {
+    let pendente = false;
+    const mover = () => {
+      pendente = false;
+      const meio = innerHeight / 2;
+      for (const f of flutuam) {
+        const caixa = f.parentElement!.getBoundingClientRect();
+        if (caixa.bottom < 0 || caixa.top > innerHeight) continue;
+        const dist = caixa.top + caixa.height / 2 - meio;
+        f.style.transform = `translate3d(0, ${(dist * Number(f.dataset.v)).toFixed(1)}px, 0)`;
+      }
+    };
+    addEventListener('scroll', () => { if (!pendente) { pendente = true; requestAnimationFrame(mover); } }, { passive: true });
+    mover();
+  }
+</script>
+
+<style is:global>
+@font-face { font-family: 'Stretch Pro'; src: url('/portfolio/br-no-kombina/fonts/stretch-pro.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+
+.kbr {
+  --verde: #018434; --verde-escuro: #016E2B; --verde-noite: #0B3B1E; --amarelo: #FFE600; --azul: #414668; --laranja: #F07A1A; --tinta: #10221A; --papel: #F6F4EC;
+  font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  background: var(--verde-noite); color: #fff; -webkit-font-smoothing: antialiased;
+}
+.kbr * { box-sizing: border-box; }
+.kbr .sp { font-family: 'Stretch Pro', 'Archivo Black', Impact, sans-serif; font-weight: 400; text-transform: uppercase; }
+.kbr .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 768px) { .kbr .wrap { padding: 0 32px; } }
+.kbr .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.kbr a:focus-visible, .kbr video:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 3px; }
+
+/* Topo */
+.kbr .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(1,110,43,.92); backdrop-filter: blur(8px); border-bottom: 3px solid var(--amarelo); }
+@media (min-width: 768px) { .kbr .topo { padding: 14px 32px; } }
+.kbr .marca { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+.kbr .raposa { height: 32px; width: auto; }
+.kbr .nome { display: block; font-weight: 600; font-size: 15px; line-height: 1.2; }
+.kbr .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.8); }
+.kbr .voltar { font-size: 14px; font-weight: 600; color: #fff; text-decoration: none; }
+.kbr .voltar:hover { color: var(--amarelo); }
+
+/* Fundos */
+.kbr .verde { background: var(--verde); }
+.kbr .verde-escuro { background: var(--verde-escuro); }
+.kbr .amarelo { background: var(--amarelo); color: var(--tinta); }
+.kbr .azul { background: var(--azul); }
+.kbr .claro { background: var(--papel); color: var(--tinta); }
+.kbr .escuro { background: var(--verde-noite); }
+.kbr main > section { position: relative; overflow: hidden; padding: 72px 0; }
+@media (min-width: 768px) { .kbr main > section { padding: 112px 0; } }
+.kbr main > section > .wrap { position: relative; z-index: 2; }
+
+/* Hero */
+.kbr .hero { padding: 48px 0 64px !important; border-bottom: 10px solid var(--laranja); }
+@media (min-width: 1024px) { .kbr .hero { padding: 72px 0 96px !important; } }
+.kbr .hero-grid { display: grid; gap: 48px; align-items: center; }
+@media (min-width: 1024px) { .kbr .hero-grid { grid-template-columns: 1.2fr 1fr; gap: 64px; } }
+.kbr .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--amarelo); }
+.kbr .hero-titulo { display: block; width: 100%; max-width: 340px; height: auto; margin-top: 24px; }
+.kbr .lead { margin-top: 28px; max-width: 34rem; font-size: 17px; line-height: 1.65; color: #fff; }
+@media (min-width: 768px) { .kbr .lead { font-size: 19px; } }
+.kbr .ficha { margin: 36px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.3); }
+.kbr .ficha dt { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.85); }
+.kbr .ficha dd { margin: 6px 0 0; font-size: 14px; font-weight: 600; line-height: 1.4; }
+.kbr .agencia { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; }
+.kbr .agencia dd { margin: 0; }
+.kbr .zava { height: 22px; width: auto; display: block; }
+.kbr .hero-arte img { display: block; width: 100%; max-width: 380px; height: auto; margin: 0 auto; border-radius: 18px; box-shadow: 14px 14px 0 var(--verde-escuro), 0 30px 60px -20px rgba(0,0,0,.5); transform: rotate(2deg); }
+
+/* Títulos */
+.kbr .num { font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amarelo); }
+.kbr .amarelo .num, .kbr .claro .num { color: var(--verde-escuro); }
+.kbr h2 { margin-top: 16px; font-family: 'Stretch Pro', 'Archivo Black', Impact, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(1.4rem, 2.8vw, 2rem); line-height: 1.15; text-wrap: balance; }
+.kbr h2.grande { font-size: clamp(1.7rem, 4.2vw, 3rem); max-width: 18ch; }
+.kbr .verde h2, .kbr .verde-escuro h2, .kbr .azul h2 { color: var(--amarelo); }
+.kbr .amarelo h2 { color: var(--verde-escuro); }
+.kbr .claro h2 { color: var(--verde); }
+.kbr .duas { display: grid; gap: 48px; }
+@media (min-width: 900px) { .kbr .duas { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.kbr .duas p:not(.num) { margin-top: 18px; line-height: 1.7; font-size: 16px; }
+.kbr .intro { margin-top: 18px; max-width: 42rem; line-height: 1.7; color: rgba(255,255,255,.92); }
+.kbr .bloco-txt { margin-top: 18px; max-width: 42rem; font-size: 16px; line-height: 1.7; color: #33433a; }
+.kbr .sub-h { margin-top: 72px; font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+.kbr .claro .sub-h { color: #33433a; }
+.kbr .verde-escuro .sub-h { color: rgba(255,255,255,.85); }
+
+/* Faixa com a frase da campanha */
+.kbr .faixa { margin: 72px 0 -72px; background: var(--verde); color: var(--amarelo); padding: 28px 20px; text-align: center; transform: rotate(-1.5deg) scale(1.04); }
+@media (min-width: 768px) { .kbr .faixa { margin-bottom: -112px; } }
+.kbr .faixa span { font-family: 'Stretch Pro', 'Archivo Black', Impact, sans-serif; text-transform: uppercase; font-size: clamp(1rem, 2.6vw, 1.8rem); }
+.kbr .faixa b { font-weight: 400; color: #fff; }
+
+/* Vídeos */
+.kbr video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 16px; background: #000; }
+.kbr .oficial { margin-top: 48px; display: grid; gap: 32px; align-items: center; }
+@media (min-width: 900px) { .kbr .oficial { grid-template-columns: 360px 1fr; gap: 56px; } }
+.kbr .oficial-video { max-width: 360px; width: 100%; margin: 0 auto; }
+.kbr .oficial-video video { box-shadow: 0 30px 60px -24px rgba(0,0,0,.6); outline: 3px solid var(--amarelo); outline-offset: 6px; }
+.kbr .selo-oficial { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--tinta); background: var(--amarelo); padding: 4px 10px 4px 12px; }
+.kbr .oficial h3 { margin-top: 18px; font-family: 'Stretch Pro', 'Archivo Black', Impact, sans-serif; text-transform: uppercase; font-size: clamp(1.2rem, 2.4vw, 1.7rem); line-height: 1.2; }
+.kbr .oficial p:not(.selo-oficial) { margin-top: 16px; max-width: 34rem; font-size: 16px; line-height: 1.7; color: rgba(255,255,255,.92); }
+.kbr .tags { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.kbr .tags li { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.45); }
+.kbr .grade-videos { list-style: none; padding: 0; margin: 64px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; }
+.kbr .grade-videos.spoilers { margin-top: 20px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+@media (min-width: 900px) { .kbr .grade-videos.spoilers { grid-template-columns: repeat(3, 1fr); } }
+.kbr .estado { margin-top: 14px; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--amarelo); }
+.kbr .legenda { margin-top: 10px; font-family: 'Stretch Pro', 'Archivo Black', Impact, sans-serif; text-transform: uppercase; font-size: 15px; }
+.kbr .estado + .legenda { margin-top: 4px; }
+.kbr .legenda-txt { margin-top: 8px; font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.88); }
+
+/* Identidade */
+.kbr .titulo-palco { margin-top: 48px; border-radius: 24px; padding: clamp(40px, 7vw, 88px) 24px; display: grid; place-items: center; background: var(--verde); border-bottom: 10px solid var(--laranja); }
+.kbr .titulo-palco img { width: 100%; max-width: 360px; height: auto; }
+.kbr .paleta { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 900px) { .kbr .paleta { grid-template-columns: repeat(4, 1fr); } }
+.kbr .paleta li { overflow: hidden; border-radius: 16px; background: #fff; border: 1px solid rgba(0,0,0,.08); }
+.kbr .amostra { display: block; height: clamp(72px, 12vw, 120px); }
+.kbr .paleta li > div { padding: 16px 18px 20px; }
+.kbr .cor-nome { font-weight: 700; font-size: 16px; }
+.kbr .cor-cod { margin-top: 4px; font-size: 12px; letter-spacing: .04em; color: #4a5650; font-variant-numeric: tabular-nums; }
+.kbr .cor-uso { margin-top: 8px; font-size: 13px; line-height: 1.5; color: #33433a; }
+.kbr .tipo { margin-top: 20px; background: #fff; border-radius: 20px; padding: clamp(24px, 4vw, 40px); border: 1px solid rgba(0,0,0,.06); display: grid; gap: 24px; align-items: center; }
+@media (min-width: 900px) { .kbr .tipo { grid-template-columns: auto 1fr; gap: 48px; } }
+.kbr .tipo-aa { font-size: clamp(4rem, 10vw, 7rem); line-height: 1; color: var(--verde); }
+.kbr .tipo-nome { font-size: 24px; font-weight: 800; }
+.kbr .tipo-desc { margin-top: 8px; max-width: 36rem; font-size: 15px; line-height: 1.65; color: #33433a; }
+.kbr .tipo-amostra { margin-top: 18px; font-size: clamp(1.2rem, 3vw, 2rem); color: var(--tinta); }
+
+/* Redes */
+.kbr .pecas { list-style: none; padding: 0; margin: 48px 0 0; display: grid; gap: 24px; align-items: start; }
+@media (min-width: 900px) { .kbr .pecas { grid-template-columns: 1fr 1fr 0.78fr; } }
+.kbr .pecas img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.6); }
+.kbr .pecas .legenda { font-family: inherit; text-transform: none; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.9); }
+
+/* Título flutuante */
+.kbr .flutua { position: absolute; z-index: 1; width: var(--w); pointer-events: none; will-change: transform; opacity: .18; }
+.kbr .flutua img { display: block; width: 100%; height: auto; transform: rotate(var(--r)); animation: kbr-boia 8s ease-in-out var(--d) infinite; }
+@keyframes kbr-boia { 0%, 100% { transform: translateY(0) rotate(var(--r)); } 50% { transform: translateY(-12px) rotate(calc(var(--r) + 3deg)); } }
+@media (max-width: 1199px) { .kbr .so-desk { display: none; } }
+@media (prefers-reduced-motion: reduce) { .kbr .flutua img { animation: none; } }
+
+/* Créditos */
+.kbr .creditos .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.kbr .creditos p { max-width: 40rem; font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.85); }
+.kbr .creditos b { color: #fff; }
+.kbr .botao { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: var(--amarelo); color: var(--tinta); font-weight: 700; font-size: 15px; text-decoration: none; transition: transform .2s, background .2s; }
+.kbr .botao:hover { transform: translateY(-2px); background: #fff; }
+</style>
