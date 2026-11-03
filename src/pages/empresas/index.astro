@@ -1,17 +1,23 @@
 ---
 /* PARA EMPRESAS: serviços diretos para marcas, como funciona e perguntas frequentes.
-   Textos e listas ficam nas constantes abaixo. Estilo base em src/styles/pagina.css.
+   Textos e listas ficam nas constantes abaixo. Mesmo visual da home (src/styles/home.css e src/scripts/home.ts).
    Mensagem do WhatsApp: MENSAGENS.empresa em src/data/site.ts. */
 import Base from '../../layouts/Base.astro';
-import Fox from '../../components/Fox.astro';
-import Redes from '../../components/Redes.astro';
-import CardProjeto from '../../components/CardProjeto.astro';
+import Prancheta from '../../components/novo/Prancheta.astro';
+import BarraMob from '../../components/novo/BarraMob.astro';
+import MenuTopo from '../../components/novo/MenuTopo.astro';
+import Mural from '../../components/novo/Mural.astro';
+import FundoLiquido from '../../components/novo/FundoLiquido.astro';
 import { SITE, MENSAGENS, url, linkWhatsApp } from '../../data/site';
-import { PROJETOS } from '../../data/portfolio';
-import '../../styles/pagina.css';
+import { PROJETOS, CATEGORIAS } from '../../data/portfolio';
+import '@fontsource/anton/latin-400.css';
+import '@fontsource/caveat-brush/latin-400.css';
+import '../../styles/home.css';
 
 const wa = linkWhatsApp(MENSAGENS.empresa);
-const DESTAQUES = PROJETOS.filter((p) => p.destaque).slice(0, 4);
+const DESTAQUES = PROJETOS.filter((p) => p.destaque);
+const EMAIL = 'jmeninodesign@gmail.com';
+const capa = (link: string) => PROJETOS.find((p) => p.link === link)?.capa ?? 'og/home.jpg';
 
 const SERVICOS = [
   {
@@ -19,28 +25,24 @@ const SERVICOS = [
     texto: 'Para quem está começando ou quer arrumar a casa. Uma marca com cara própria, que funciona do cartão ao Instagram.',
     itens: ['Logo e versões', 'Cores e tipografia', 'Grafismos', 'Papelaria e aplicações', 'Guia de uso da marca'],
     exemplo: { nome: 'Gois & Silva', link: 'portfolio/gois-e-silva/' },
-    icone: '<path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9h9"/><path d="M15.5 3.7A9 9 0 0 1 20.3 8.5"/>',
   },
   {
     titulo: 'Campanhas e redes sociais',
     texto: 'Lançamentos, datas sazonais e o dia a dia das redes. Todas as peças falando a mesma língua.',
     itens: ['Posts e stories', 'Anúncios', 'Conceito de campanha', 'Impressos', 'Ponto de venda'],
     exemplo: { nome: 'Escalados Macarrone', link: 'portfolio/escalados-macarrone/' },
-    icone: '<path d="M4 11v2a1 1 0 0 0 1 1h2l5 4V6L7 10H5a1 1 0 0 0-1 1Z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/>',
   },
   {
     titulo: 'Vídeo e motion',
     texto: 'Vídeos curtos que prendem a atenção nos primeiros segundos, com ritmo e acabamento.',
     itens: ['Reels e TikTok', 'Vídeos para anúncio', 'Motion design', 'Telão de LED', 'Cenas com IA'],
     exemplo: { nome: 'Costelinha BBQ', link: 'portfolio/macarrone-costelinha-bbq/' },
-    icone: '<rect x="3" y="5" width="14" height="14" rx="2"/><path d="m17 10 4-2.5v9L17 14"/>',
   },
   {
     titulo: 'Sites e landing pages',
     texto: 'Desenho no Figma e desenvolvo em código. Sites rápidos, que abrem bem no celular e levam o cliente até o contato.',
     itens: ['Landing pages', 'Sites institucionais', 'Interface no Figma', 'Versão para celular', 'Botão de WhatsApp'],
     exemplo: { nome: 'Omuch', link: 'portfolio/omuch/' },
-    icone: '<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8M12 18v3"/>',
   },
 ];
 
@@ -84,135 +86,113 @@ const jsonld = {
   description="Identidade visual, campanhas, vídeos e sites para a sua empresa, feitos direto com o designer. Atendo todo o Brasil a partir de Limeira/SP."
   jsonld={jsonld}
 >
-<header class="nav">
-  <a href={url()} class="marca" aria-label="Jonathan Menino, início">
-    <Fox cor="#9B7BFF" class="raposa" />
-    <span>Jonathan Menino</span>
-  </a>
-  <nav class="nav-links" aria-label="Páginas">
-    <a href={url('portfolio/')}>Portfólio</a>
-    <a href={url('empresas/')} aria-current="page"><span class="longo">Para empresas</span><span class="curto">Empresas</span></a>
-    <a href={url('white-label/')}><span class="longo">Para agências</span><span class="curto">Agências</span></a>
-  </nav>
+<Prancheta />
+<BarraMob links={[['Portfólio', url('portfolio/')], ['Orçamento', '#contato']]} />
+
+<header class="heroi" id="topo">
+  <FundoLiquido />
+  <MenuTopo sub="Para empresas · Todo o Brasil" itens={[['Início', url()], ['Portfólio', url('portfolio/')], ['Empresas', url('empresas/'), true], ['Agências', url('white-label/')], ['Orçamento', '#contato']]} />
+  <div></div>
+  <div class="base">
+    <p class="selo"><span class="pulso" aria-hidden="true"></span>Orçamento sem compromisso</p>
+    <div class="linha-nome">
+      <p class="mao nota-mao" aria-hidden="true">↙ direto com quem cria, do briefing à entrega</p>
+      <h1 class="tt nome nome-longo"><span class="l">Design para a sua</span> <span class="l">marca ser vista.</span> <span class="l"><em>E lembrada.</em></span></h1>
+    </div>
+    <div class="sob-nome">
+      <div class="esq">
+        <a class="mao desce" href="#servicos">↓ veja o que eu faço</a>
+        <svg class="risco" id="risco-heroi" viewBox="0 0 600 18" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 120 4, 260 14, 380 8 S 560 6, 596 10"/></svg>
+      </div>
+      <div class="acoes">
+        <a class="btn" href={wa}>Pedir orçamento no WhatsApp</a>
+        <a class="btn sec" href={url('portfolio/')}>Ver portfólio <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
 </header>
 
-<main>
-  <section class="wrap topo-emp">
-    <p class="rotulo">Para empresas</p>
-    <h1>Design para a sua marca ser vista. <span>E lembrada.</span></h1>
-    <p class="lead">Crio identidade visual, campanhas, vídeos e sites para empresas que querem se comunicar bem. Você fala direto com quem cria, do briefing à entrega.</p>
-    <div class="acoes-topo">
-      <a class="btn" href={wa}>Pedir orçamento no WhatsApp</a>
-      <a class="btn sec" href={url('portfolio/')}>Ver portfólio <span aria-hidden="true">→</span></a>
-    </div>
-  </section>
+<div class="corpo solo">
+  <main>
+    <section class="secao" id="servicos" aria-labelledby="t-serv">
+      <h2 class="tt titulo-sec" id="t-serv">O que eu faço pela <em>sua empresa</em></h2>
+      <p class="mao sub-mao">→ crio identidade visual, campanhas, vídeos e sites para empresas que querem se comunicar bem</p>
+      <ul class="frentes">
+        {SERVICOS.map((s, i) => (
+          <li>
+            <a href={url(s.exemplo.link)} data-previa={url(capa(s.exemplo.link))}><h3 class="tt"><span class="num">0{i + 1}</span>{s.titulo}</h3></a>
+            <p class="txt">{s.texto}</p>
+            <div class="tags mono">{s.itens.map((x) => <span>{x}</span>)}</div>
+            <a class="mao ex" href={url(s.exemplo.link)}>→ ver {s.exemplo.nome}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-  <section class="wrap">
-    <h2 class="titulo">O que eu faço pela sua empresa</h2>
-    <ul class="servicos">
-      {SERVICOS.map((s) => (
-        <li class="servico">
-          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={s.icone} /></span>
-          <h3>{s.titulo}</h3>
-          <p>{s.texto}</p>
-          <ul class="chips">{s.itens.map((i) => <li>{i}</li>)}</ul>
-          <a class="exemplo" href={url(s.exemplo.link)}>Ver {s.exemplo.nome} <span aria-hidden="true">→</span></a>
-        </li>
-      ))}
-    </ul>
-  </section>
+    <section class="secao" id="como" aria-labelledby="t-como">
+      <div class="cab"><h2 class="tt" id="t-como">Como <em>funciona</em></h2><p class="mao">→ tudo combinado antes de começar</p></div>
+      <ol class="linha-tempo cinco">
+        {ETAPAS.map((e, i) => <li><span class="ano">0{i + 1}</span><h3>{e.t}</h3><p>{e.d}</p></li>)}
+      </ol>
+    </section>
 
-  <section class="wrap">
-    <h2 class="titulo">Como funciona</h2>
-    <ol class="etapas">
-      {ETAPAS.map((e, i) => (
-        <li>
-          <span class="num">{String(i + 1).padStart(2, '0')}</span>
-          <h3>{e.t}</h3>
-          <p>{e.d}</p>
-        </li>
-      ))}
-    </ol>
-  </section>
+    <section class="secao" aria-labelledby="t-por">
+      <h2 class="tt titulo-sec" id="t-por">Por que <em>comigo</em></h2>
+      <svg class="risco" viewBox="0 0 600 18" preserveAspectRatio="none" aria-hidden="true" style="width:min(100%,520px);height:14px;margin-top:10px;color:var(--lilas)"><path d="M4 10 C 140 15, 300 3, 450 9 S 570 12, 596 7"/></svg>
+      <ul class="motivos">
+        {MOTIVOS.map((m) => <li><h3 class="tt">{m.t}</h3><p>{m.d}</p></li>)}
+      </ul>
+    </section>
 
-  <section class="wrap">
-    <h2 class="titulo">Por que comigo</h2>
-    <ul class="jeito">
-      {MOTIVOS.map((m) => (
-        <li>
-          <h3>{m.t}</h3>
-          <p>{m.d}</p>
-        </li>
-      ))}
-    </ul>
-  </section>
+    <section class="secao" id="trabalhos" aria-labelledby="t-trab">
+      <div class="cab"><h2 class="tt" id="t-trab">Alguns <em>projetos</em></h2><p class="mao">→ arraste para o lado</p></div>
+      <div class="trilho-area" id="trilho-area"><div class="trilho" id="trilho">
+        {DESTAQUES.map((p) => (
+          <a class="card" href={url(p.link)} draggable="false">
+            <div class="foto"><img src={url(p.capa)} alt={`Capa do projeto ${p.titulo}`} width="1200" height="630" loading="lazy" draggable="false"></div>
+            <div class="meta"><div><h3 class="tt">{p.titulo}</h3><p class="cli">{p.cliente}</p></div><span class="mono tag">{CATEGORIAS[p.categorias[0]]}</span></div>
+          </a>
+        ))}
+      </div></div>
+      <div class="trilho-pe"><div class="barra"><i id="barra"></i></div><a class="mono" href={url('portfolio/')}>Ver todos os projetos →</a></div>
+    </section>
 
-  <section class="wrap">
-    <div class="titulo titulo-link"><h2>Alguns projetos</h2><a href={url('portfolio/')}>Ver todos <span aria-hidden="true">→</span></a></div>
-    <ul class="destaques">{DESTAQUES.map((p) => <li><CardProjeto p={p} /></li>)}</ul>
-    <p class="ver-todos"><a class="btn sec" href={url('portfolio/')}>Ver todos os projetos <span aria-hidden="true">→</span></a></p>
-  </section>
+    <section class="secao" aria-labelledby="t-faq">
+      <h2 class="tt titulo-sec" id="t-faq">Perguntas <em>frequentes</em></h2>
+      <div class="faq">
+        {PERGUNTAS.map((p) => (
+          <details>
+            <summary>{p.q}</summary>
+            <p>{p.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
 
-  <section class="wrap">
-    <h2 class="titulo">Perguntas frequentes</h2>
-    <div class="faq">
-      {PERGUNTAS.map((p) => (
-        <details>
-          <summary>{p.q}</summary>
-          <p>{p.r}</p>
-        </details>
-      ))}
-    </div>
-  </section>
+    <section class="pergunta" aria-labelledby="t-perg">
+      <h2 class="tt" id="t-perg">Vamos tirar a sua ideia<br><em>do papel?</em></h2>
+    </section>
+  </main>
+</div>
 
-  <section class="wrap fim">
-    <h2>Vamos tirar a sua ideia do papel?</h2>
-    <p>Me conta o que a sua empresa precisa. Respondo rápido e envio uma proposta sem compromisso.</p>
-    <div class="acoes">
-      <a class="btn" href={wa}>Pedir orçamento no WhatsApp</a>
-      <a class="btn sec" href="mailto:jmeninodesign@gmail.com">jmeninodesign@gmail.com</a>
-    </div>
-  </section>
-</main>
+<Mural titulo="Pedir orçamento">
+  <h2 class="tt"><em>Me conta</em> o que você precisa</h2>
+  <svg class="risco" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 7 C 90 3, 180 10, 297 6"/></svg>
+  <p class="txt">Respondo rápido e envio uma proposta sem compromisso, com prazo e valor fechados.</p>
+  <div class="caixa-email"><span>{EMAIL}</span><button type="button" data-copiar={EMAIL}>Copiar</button></div>
+  <div class="acoes" style="justify-content:center">
+    <a class="btn" href={wa}>Pedir orçamento no WhatsApp</a>
+    <a class="btn sec" href={url('portfolio/')}>Ver portfólio</a>
+  </div>
+</Mural>
 
-<footer class="wrap rodape">
-  <Redes whatsapp class="redes" />
-  <p>© {new Date().getFullYear()} Jonathan Menino</p>
+<footer class="rodape">
+  <span>© {new Date().getFullYear()} Jonathan Menino</span>
+  <span><a href={url()}>Início</a> · <a href={url('white-label/')}>Para agências</a></span>
 </footer>
 </Base>
 
-<style is:global>
-.nav-links a[aria-current="page"] { color: #fff; }
-.topo-emp { margin-top: 56px; }
-.topo-emp h1 { max-width: 15ch; }
-.topo-emp h1 span { display: inline; }
-.topo-emp .lead { max-width: 38rem; }
-
-.servicos { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-@media (max-width: 760px) { .servicos { grid-template-columns: 1fr; } }
-.servico { display: flex; flex-direction: column; padding: 28px; border: 1px solid rgba(255,255,255,.1); border-radius: 20px; background: var(--grafite); }
-.servico h3 { margin-top: 20px; font-size: 20px; font-weight: 650; }
-.servico > p { margin-top: 10px; font-size: 15px; line-height: 1.6; color: var(--texto2); }
-.servico .chips { margin-top: 18px; flex: 1; align-content: flex-start; }
-.servico .chips li { font-size: 13px; padding: 6px 12px; }
-
-.etapas { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-top: 1px solid rgba(255,255,255,.1); }
-.etapas li { position: relative; padding: 24px 20px 0 0; }
-.etapas li::before { content: ""; position: absolute; top: -5px; left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--roxo-claro); }
-.etapas h3 { margin-top: 10px; font-size: 18px; font-weight: 650; }
-.etapas p { margin-top: 8px; font-size: 14px; line-height: 1.6; color: var(--texto2); }
-@media (max-width: 860px) {
-  .etapas { grid-template-columns: 1fr; border-top: 0; border-left: 1px solid rgba(255,255,255,.1); margin-left: 4px; }
-  .etapas li { padding: 0 0 28px 24px; }
-  .etapas li::before { top: 4px; left: -5px; }
-}
-
-.faq { display: grid; gap: 10px; max-width: 760px; }
-.faq details { border: 1px solid rgba(255,255,255,.1); border-radius: 16px; background: var(--grafite); transition: border-color .2s; }
-.faq details[open] { border-color: rgba(155,123,255,.45); }
-.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; font-size: 16px; font-weight: 600; }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; flex: none; font-size: 22px; font-weight: 400; color: var(--roxo-claro); transition: transform .2s; }
-.faq details[open] summary::after { transform: rotate(45deg); }
-.faq details p { padding: 0 22px 20px; font-size: 15px; line-height: 1.65; color: var(--texto2); }
-</style>
+<script>
+  import { initHome } from '../../scripts/home';
+  initHome();
+</script>

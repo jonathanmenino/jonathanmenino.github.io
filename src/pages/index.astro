@@ -11,11 +11,13 @@ import { PROJETOS, CATEGORIAS } from '../data/portfolio';
 import '@fontsource/anton/latin-400.css';
 import '@fontsource/caveat-brush/latin-400.css';
 import '../styles/home.css';
+import Prancheta from '../components/novo/Prancheta.astro';
+import BarraMob from '../components/novo/BarraMob.astro';
+import MenuTopo from '../components/novo/MenuTopo.astro';
+import Mural from '../components/novo/Mural.astro';
+import FundoLiquido from '../components/novo/FundoLiquido.astro';
 
 const DESTAQUES = PROJETOS.filter((p) => p.destaque);
-// Capas do mural do contato e da grade do topo: todos os projetos.
-const CAPAS = PROJETOS.map((p) => url(p.capa));
-const MURAL = Array.from({ length: 48 }, (_, i) => CAPAS[(i * 5 + Math.floor(i / 8)) % CAPAS.length]);
 
 const FRENTES = [
   { t: 'Design gráfico & identidade', tags: ['Identidade visual', 'Direção de arte', 'Social media', 'Campanhas', 'Impressos e PDV'], ex: 'Escalados Macarrone', capa: 'og/escalados-macarrone.jpg', link: 'portfolio/escalados-macarrone/' },
@@ -61,22 +63,12 @@ const jsonld = {
   tipo="article"
   jsonld={jsonld}
 >
-<div class="moldura" aria-hidden="true"><i class="cruz a"></i><i class="cruz b"></i><i class="cruz c"></i><i class="cruz d"></i><span class="mono coord" id="coord">X:0000 Y:0000 · Limeira/SP</span></div>
-<div class="grao" aria-hidden="true"></div>
+<Prancheta />
+<BarraMob links={[['Portfólio', url('portfolio/')], ['Contato', '#contato']]} />
 
-<div class="barra-mob" id="barra-mob">
-  <a class="tt" href="#topo">Jonathan <em>Menino</em></a>
-  <nav aria-label="Atalhos"><a href={url('portfolio/')}>Portfólio</a><a href="#contato">Contato</a></nav>
-</div>
-
-<header class="heroi" id="topo" data-capas={JSON.stringify(CAPAS)}>
-  <canvas id="liquido" aria-hidden="true"></canvas>
-  <div class="topo">
-    <div><p class="tt">Design / Vídeo / Web / IA</p><p class="mono sub">Índice · Portfólio / 2026</p></div>
-    <nav aria-label="Seções"><ul class="menu">
-      {MENU.map(([id, nome], i) => <li><a href={`#${id}`}><small>0{i + 1}</small>{nome}</a></li>)}
-    </ul></nav>
-  </div>
+<header class="heroi" id="topo">
+  <FundoLiquido />
+  <MenuTopo itens={MENU.map(([id, nome]) => [nome, `#${id}`])} />
   <div></div>
   <div class="base">
     <p class="selo"><span class="pulso" aria-hidden="true"></span>Disponível para vagas e freelas</p>
@@ -183,31 +175,22 @@ const jsonld = {
   </aside>
 </div>
 
-<section class="mural" id="contato" aria-labelledby="t-contato">
-  <div class="mural-trilho" id="mural" aria-hidden="true">
-    {MURAL.map((c) => <img src={c} alt="" width="1200" height="630" loading="lazy" draggable="false">)}
+<Mural titulo="Contato">
+  <h2 class="tt" id="t-contato"><em>Chama</em> com a sua ideia</h2>
+  <svg class="risco" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 7 C 90 3, 180 10, 297 6"/></svg>
+  <div class="caixa-email"><span>{EMAIL}</span><button type="button" data-copiar={EMAIL}>Copiar</button></div>
+  <div class="acoes" style="justify-content:center">
+    <a class="btn" href={whats}>Chamar no WhatsApp</a>
+    <a class="btn sec" href={url('curriculo/')}>Ver currículo</a>
   </div>
-  <div class="contato">
-    <h2 class="tt" id="t-contato"><em>Chama</em> com a sua ideia</h2>
-    <svg class="risco" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 7 C 90 3, 180 10, 297 6"/></svg>
-    <div class="caixa-email"><span>{EMAIL}</span><button type="button" data-copiar={EMAIL}>Copiar</button></div>
-    <div class="acoes" style="justify-content:center">
-      <a class="btn" href={whats}>Chamar no WhatsApp</a>
-      <a class="btn sec" href={url('curriculo/')}>Ver currículo</a>
-    </div>
-    <p class="mono disp">Disponível para vagas e freelas</p>
-  </div>
-  <p class="mao dica esq" aria-hidden="true">arraste ↗</p>
-  <button class="mao topo-btn" type="button" id="topo-btn">voltar ao topo ↑</button>
-</section>
+  <p class="mono disp">Disponível para vagas e freelas</p>
+</Mural>
 
 <footer class="rodape">
   <span>© {new Date().getFullYear()} Jonathan Menino</span>
   <span><a href={url('empresas/')}>Para empresas</a> · <a href={url('white-label/')}>Para agências</a></span>
 </footer>
 
-<div class="previa" id="previa" aria-hidden="true"><img alt="" id="previa-img"></div>
-<div class="cursor-arraste" id="cursor" aria-hidden="true">Arraste</div>
 </Base>
 
 <script>

@@ -1,5 +1,6 @@
 // @ts-nocheck
-/* Movimento da home: grade de projetos em "líquido" (WebGL), carrossel e mural arrastáveis,
+/* Movimento das páginas no visual novo (home, Para empresas e Portfólio). Cada parte só roda se o elemento existir na página.
+   Home: grade de projetos em "líquido" (WebGL), carrossel e mural arrastáveis,
    prévia de capa que segue o mouse, menu lateral ativo e animações de entrada (GSAP). */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -16,19 +17,19 @@ export function initHome() {
   // Coordenadas do mouse na moldura
   const coord = document.getElementById('coord');
   const pad = (n) => String(Math.round(n)).padStart(4, '0');
-  window.addEventListener('pointermove', (e) => { coord.textContent = `X:${pad(e.clientX)} Y:${pad(e.clientY + scrollY)} · Limeira/SP`; }, { passive: true });
+  if (coord) window.addEventListener('pointermove', (e) => { coord.textContent = `X:${pad(e.clientX)} Y:${pad(e.clientY + scrollY)} · Limeira/SP`; }, { passive: true });
 
   // O círculo do cursor do site some no fundo líquido do topo, onde aparece o "Arraste" e onde a prévia da capa segue o mouse.
   const heroiEl = document.getElementById('topo');
   window.addEventListener('pointermove', (e) => {
     const el = e.target;
     const c = (q) => !!(el && el.closest && el.closest(q));
-    const fundo = c('#topo') && !c('a, button, .selo, h1, .nota-mao, .retrato-mini');
+    const fundo = c('.heroi') && !c('a, button, .selo, h1, .nota-mao, .retrato-mini');
     const arraste = (c('#trilho-area') || c('#contato')) && !c('.contato, .topo-btn');
     const sobre = fundo || arraste || c('[data-previa]');
     document.documentElement.classList.toggle('sem-cursor', sobre);
   }, { passive: true });
-  heroiEl.addEventListener('pointerleave', () => document.documentElement.classList.remove('sem-cursor'));
+  heroiEl?.addEventListener('pointerleave', () => document.documentElement.classList.remove('sem-cursor'));
 
   // Copiar e-mail
   document.querySelectorAll('[data-copiar]').forEach((b) => b.addEventListener('click', () => {
@@ -39,17 +40,17 @@ export function initHome() {
 
   // Showreel
   const rv = document.getElementById('reel-video'), rp = document.getElementById('reel-pausa');
-  if (reduz) { rv.removeAttribute('autoplay'); rv.pause(); rp.textContent = 'Tocar'; }
-  rp.addEventListener('click', () => { if (rv.paused) { rv.play(); rp.textContent = 'Pausar'; } else { rv.pause(); rp.textContent = 'Tocar'; } });
+  if (rv && rp && reduz) { rv.removeAttribute('autoplay'); rv.pause(); rp.textContent = 'Tocar'; }
+  if (rv && rp) rp.addEventListener('click', () => { if (rv.paused) { rv.play(); rp.textContent = 'Pausar'; } else { rv.pause(); rp.textContent = 'Tocar'; } });
 
-  document.getElementById('topo-btn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduz ? 'auto' : 'smooth' }));
+  document.getElementById('topo-btn')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduz ? 'auto' : 'smooth' }));
 
   // Barra do celular e item ativo do menu lateral
   const bm = document.getElementById('barra-mob'), heroi = document.getElementById('topo');
   const links = [...document.querySelectorAll('#menu-lateral a')];
   const secoes = links.map((a) => document.querySelector(a.getAttribute('href')));
   const aoRolar = () => {
-    bm.classList.toggle('on', scrollY > heroi.offsetHeight - 80);
+    if (bm && heroi) bm.classList.toggle('on', scrollY > heroi.offsetHeight - 80);
     let at = 0; secoes.forEach((s, i) => { if (s && s.getBoundingClientRect().top < innerHeight * .45) at = i; });
     links.forEach((a, i) => a.classList.toggle('ativo', i === at));
   };
@@ -57,7 +58,7 @@ export function initHome() {
 
   // ---------- Prévia que segue o cursor (só com mouse) ----------
   const previa = document.getElementById('previa'), pImg = document.getElementById('previa-img');
-  if (temG && mouseFino) {
+  if (previa && mouseFino) {
     gsap.set(previa, { xPercent: -50, yPercent: -50 });
     const px = gsap.quickTo(previa, 'x', { duration: .55, ease: 'power3' }), py = gsap.quickTo(previa, 'y', { duration: .55, ease: 'power3' });
     let atual = null;
@@ -76,17 +77,18 @@ export function initHome() {
 
   // ---------- Carrossel e mural com inércia ----------
   const cursor = document.getElementById('cursor');
-  if (temG && mouseFino) {
+  if (cursor && mouseFino) {
     const cx = gsap.quickTo(cursor, 'x', { duration: .35, ease: 'power3' }), cy = gsap.quickTo(cursor, 'y', { duration: .35, ease: 'power3' });
     window.addEventListener('pointermove', (e) => { cx(e.clientX); cy(e.clientY); }, { passive: true });
   }
   const area = document.getElementById('trilho-area'), trilho = document.getElementById('trilho'), barra = document.getElementById('barra');
   const atualizaBarra = () => {
+    if (!area || !trilho || !barra) return;
     const max = Math.max(1, trilho.scrollWidth - area.clientWidth), vis = Math.min(1, area.clientWidth / trilho.scrollWidth);
     const x = -(temG ? gsap.getProperty(trilho, 'x') : area.scrollLeft);
     barra.style.transform = `scaleX(${Math.min(1, vis + (1 - vis) * (x / max))})`;
   };
-    if (temG && mouseFino) {
+  if (cursor && mouseFino) {
     let mx = -1, my = -1, ligado = false;
     const regiao = () => {
       const el = mx < 0 ? null : document.elementFromPoint(mx, my);
@@ -97,7 +99,7 @@ export function initHome() {
     window.addEventListener('scroll', regiao, { passive: true });
     document.documentElement.addEventListener('pointerleave', () => { mx = -1; regiao(); });
   }
-  if (temG) {
+  if (area && trilho) {
     let arrastou = false;
     const d = Draggable.create(trilho, {
       type: 'x', zIndexBoost: false, inertia: true, edgeResistance: .85, dragClickables: true, bounds: { minX: 0, maxX: 0 },
@@ -111,46 +113,48 @@ export function initHome() {
     limites(); window.addEventListener('resize', limites);
     window.addEventListener('click', (e) => { if (arrastou && trilho.contains(e.target)) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
 
-    const mural = document.getElementById('contato'), mt = document.getElementById('mural');
+  }
+  const mural = document.getElementById('contato'), mt = document.getElementById('mural');
+  if (mural && mt) {
     const centro = () => { gsap.set(mt, { x: (mural.clientWidth - mt.scrollWidth) / 2, y: (mural.clientHeight - mt.scrollHeight) / 2 }); };
     const dm = Draggable.create(mt, { type: 'x,y', trigger: mural, inertia: true, edgeResistance: .9, allowEventDefault: false,
       zIndexBoost: false, onPress(e) { if (e.target.closest('.contato, .topo-btn')) { this.endDrag(e); } } })[0];
     const limM = () => { dm.applyBounds({ minX: mural.clientWidth - mt.scrollWidth, maxX: 0, minY: mural.clientHeight - mt.scrollHeight, maxY: 0 }); };
     centro(); limM(); dm.update(); window.addEventListener('resize', () => { limM(); dm.update(); });
     mural.querySelectorAll('.contato, .topo-btn').forEach((el) => el.addEventListener('pointerdown', (e) => e.stopPropagation()));
-  } else { area.style.overflowX = 'auto'; area.addEventListener('scroll', atualizaBarra); }
+  }
   atualizaBarra();
 
   // ---------- Movimento ----------
   const riscar = (path, opts = {}) => { const L = path.getTotalLength(); gsap.fromTo(path, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut', ...opts }); };
   if (temG && !reduz) {
-    {
+    if (document.querySelector('.nome .l')) {
       const s = new SplitText('.nome .l', { type: 'chars' });
       gsap.from(s.chars, { yPercent: 110, duration: 1.2, ease: 'expo.out', stagger: .03, delay: .2 });
     }
     gsap.from('.nota-mao, .desce, .selo, .sob-nome .acoes, .retrato-mini', { y: 20, autoAlpha: 0, duration: 1, ease: 'expo.out', stagger: .08, delay: .8 });
-    riscar(document.querySelector('#risco-heroi path'), { delay: 1 });
+    const rh = document.querySelector('#risco-heroi path'); if (rh) riscar(rh, { delay: 1 });
     {
       document.querySelectorAll('main .risco path, .contato .risco path').forEach((p) => riscar(p, { scrollTrigger: { trigger: p.closest('svg'), start: 'top 88%' } }));
       document.querySelectorAll('main h2.tt, .frentes h3, .contato h2').forEach((h) => {
         gsap.from(h, { filter: 'blur(14px)', opacity: .15, y: 30, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: h, start: 'top 90%' } });
       });
-      gsap.from('.frentes .tags, .numeros > *', { filter: 'blur(8px)', opacity: .2, duration: .9, stagger: .05, scrollTrigger: { trigger: '.numeros', start: 'top 90%' } });
-      gsap.fromTo('#reel', { scale: .9 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '#reel', start: 'top 95%', end: 'top 35%', scrub: true } });
-      gsap.to('.nome', { yPercent: 25, opacity: .4, ease: 'none', scrollTrigger: { trigger: '.heroi', start: 'top top', end: 'bottom top', scrub: true } });
+      if (document.querySelector('.numeros')) gsap.from('.frentes .tags, .numeros > *', { filter: 'blur(8px)', opacity: .2, duration: .9, stagger: .05, scrollTrigger: { trigger: '.numeros', start: 'top 90%' } });
+      if (document.getElementById('reel')) gsap.fromTo('#reel', { scale: .9 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '#reel', start: 'top 95%', end: 'top 35%', scrub: true } });
+      if (document.querySelector('.heroi .nome')) gsap.to('.nome', { yPercent: 25, opacity: .4, ease: 'none', scrollTrigger: { trigger: '.heroi', start: 'top top', end: 'bottom top', scrub: true } });
     }
   }
 
   // ---------- Cena WebGL: showreel revelado em líquido ----------
   const cv = document.getElementById('liquido');
-  const gl = cv.getContext('webgl', { antialias: false });
+  const gl = cv ? cv.getContext('webgl', { antialias: false }) : null;
   if (gl) {
     // Grade com as capas dos projetos, desenhada uma vez num canvas 2048x1024 que se repete sem emenda
     const G = document.createElement('canvas'); G.width = 2048; G.height = 1024; const gc = G.getContext('2d');
     gc.fillStyle = '#070609'; gc.fillRect(0, 0, 2048, 1024);
     let gradePronta = false, faltam = 0;
     const capas = {};
-    const MURAL = JSON.parse(heroi.dataset.capas || '[]');
+    const MURAL = JSON.parse(cv.dataset.capas || '[]');
     MURAL.forEach((m) => { const im = new Image(); faltam++; im.onload = im.onerror = () => { if (--faltam === 0) montaGrade(); }; im.src = m; capas[m] = im; });
     function montaGrade() {
       for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {

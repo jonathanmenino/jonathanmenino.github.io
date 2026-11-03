@@ -1,0 +1,7 @@
+---
+// Fundo do topo: grade com as capas dos projetos revelada em "líquido" (WebGL) por onde o mouse passa.
+import { PROJETOS } from '../../data/portfolio';
+import { url } from '../../data/site';
+const CAPAS = PROJETOS.map((p) => url(p.capa));
+---
+<canvas id="liquido" aria-hidden="true" data-capas={JSON.stringify(CAPAS)}></canvas>
