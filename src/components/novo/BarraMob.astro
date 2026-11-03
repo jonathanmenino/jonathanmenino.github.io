@@ -1,0 +1,9 @@
+---
+// Barra compacta do celular, que aparece depois do topo. links: [texto, endereço].
+interface Props { links: [string, string][] }
+const { links } = Astro.props;
+---
+<div class="barra-mob" id="barra-mob">
+  <a class="tt" href="#topo">Jonathan <em>Menino</em></a>
+  <nav aria-label="Atalhos">{links.map(([t, h]) => <a href={h}>{t}</a>)}</nav>
+</div>

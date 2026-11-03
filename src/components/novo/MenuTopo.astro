@@ -1,0 +1,11 @@
+---
+// Barra do topo: rótulo à esquerda e menu numerado à direita. itens: [texto, endereço, ativo?].
+interface Props { itens: [string, string, boolean?][]; sub?: string }
+const { itens, sub = 'Índice · Portfólio / 2026' } = Astro.props;
+---
+<div class="topo">
+  <div><p class="tt">Design / Vídeo / Web / IA</p><p class="mono sub">{sub}</p></div>
+  <nav aria-label="Páginas e seções"><ul class="menu">
+    {itens.map(([nome, href, ativo], i) => <li><a href={href} class:list={{ ativo }} aria-current={ativo ? 'page' : undefined}><small>0{i + 1}</small>{nome}</a></li>)}
+  </ul></nav>
+</div>

@@ -1,0 +1,19 @@
+---
+// Contato no meio de um mural arrastável com as capas de todos os projetos. O conteúdo do cartão vem pelo slot.
+import { PROJETOS } from '../../data/portfolio';
+import { url } from '../../data/site';
+const CAPAS = PROJETOS.map((p) => url(p.capa));
+const MURAL = Array.from({ length: 48 }, (_, i) => CAPAS[(i * 5 + Math.floor(i / 8)) % CAPAS.length]);
+interface Props { titulo: string }
+const { titulo } = Astro.props;
+---
+<section class="mural" id="contato" aria-label={titulo}>
+  <div class="mural-trilho" id="mural" aria-hidden="true">
+    {MURAL.map((c) => <img src={c} alt="" width="1200" height="630" loading="lazy" draggable="false">)}
+  </div>
+  <div class="contato">
+    <slot />
+  </div>
+  <p class="mao dica esq" aria-hidden="true">arraste ↗</p>
+  <button class="mao topo-btn" type="button" id="topo-btn">voltar ao topo ↑</button>
+</section>
