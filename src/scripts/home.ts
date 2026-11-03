@@ -18,6 +18,18 @@ export function initHome() {
   const pad = (n) => String(Math.round(n)).padStart(4, '0');
   window.addEventListener('pointermove', (e) => { coord.textContent = `X:${pad(e.clientX)} Y:${pad(e.clientY + scrollY)} · Limeira/SP`; }, { passive: true });
 
+  // O círculo do cursor do site some no fundo líquido do topo, onde aparece o "Arraste" e onde a prévia da capa segue o mouse.
+  const heroiEl = document.getElementById('topo');
+  window.addEventListener('pointermove', (e) => {
+    const el = e.target;
+    const c = (q) => !!(el && el.closest && el.closest(q));
+    const fundo = c('#topo') && !c('a, button, .selo, h1, .nota-mao, .retrato-mini');
+    const arraste = (c('#trilho-area') || c('#contato')) && !c('.contato, .topo-btn');
+    const sobre = fundo || arraste || c('[data-previa]');
+    document.documentElement.classList.toggle('sem-cursor', sobre);
+  }, { passive: true });
+  heroiEl.addEventListener('pointerleave', () => document.documentElement.classList.remove('sem-cursor'));
+
   // Copiar e-mail
   document.querySelectorAll('[data-copiar]').forEach((b) => b.addEventListener('click', () => {
     const ok = () => { b.textContent = 'Copiado'; setTimeout(() => (b.textContent = 'Copiar'), 1800); };
@@ -133,7 +145,6 @@ export function initHome() {
   const cv = document.getElementById('liquido');
   const gl = cv.getContext('webgl', { antialias: false });
   if (gl) {
-    cv.previousElementSibling.hidden = true;
     // Grade com as capas dos projetos, desenhada uma vez num canvas 2048x1024 que se repete sem emenda
     const G = document.createElement('canvas'); G.width = 2048; G.height = 1024; const gc = G.getContext('2d');
     gc.fillStyle = '#070609'; gc.fillRect(0, 0, 2048, 1024);

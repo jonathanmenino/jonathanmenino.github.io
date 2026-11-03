@@ -47,8 +47,7 @@ p { margin: 0; }
 
 /* ---------- Herói ---------- */
 .heroi { position: relative; min-height: min(100svh, 940px); padding: 28px var(--gr) 84px var(--gl); display: grid; grid-template-rows: auto 1fr auto; grid-template-columns: minmax(0, 1fr); overflow: hidden; isolation: isolate; }
-.heroi canvas, .heroi .fallback { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
-.heroi .fallback { object-fit: cover; opacity: .3; }
+.heroi canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
 .topo { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; padding-inline: 16px; width: 100%; max-width: 1760px; margin-inline: auto; }
 .topo .tt { font-size: 18px; letter-spacing: .02em; }
 .topo .sub { color: var(--papel-2); margin-top: 4px; }
@@ -200,3 +199,4 @@ p { margin: 0; }
 @media (hover: none), (pointer: coarse) { .cursor-arraste, .previa { display: none; } }
 @media (prefers-reduced-motion: reduce) { .pulso { animation: none; } html { scroll-behavior: auto; } }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.sem-cursor .cursor-circulo, .sem-cursor .cursor-anel { opacity: 0 !important; }
