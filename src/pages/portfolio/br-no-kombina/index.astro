@@ -262,6 +262,8 @@ const jsonld = {
   background: var(--verde-noite); color: #fff; -webkit-font-smoothing: antialiased;
 }
 .kbr * { box-sizing: border-box; }
+/* A Stretch Pro junta letras repetidas (EE, LL) numa ligadura longa: desligada para ler FEED, não FED. */
+.kbr, .kbr * { font-variant-ligatures: none; font-feature-settings: 'liga' 0, 'dlig' 0; }
 .kbr .sp { font-family: 'Stretch Pro', 'Archivo Black', Impact, sans-serif; font-weight: 400; text-transform: uppercase; }
 .kbr .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 @media (min-width: 768px) { .kbr .wrap { padding: 0 32px; } }
