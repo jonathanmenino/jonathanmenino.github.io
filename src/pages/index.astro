@@ -1,67 +1,46 @@
 ---
-/* HOME (Sobre mim): quem sou, o que faço, projetos em destaque, como trabalho e minhas skills.
-   O endereço antigo /sobre/ redireciona para cá (astro.config.mjs).
-   Textos e listas ficam nas constantes abaixo. Foto em src/assets/sobre/jonathan.png. */
+/* HOME: quem sou, o que faço, showreel, trabalhos, trajetória e contato.
+   Layout inspirado no portfólio de Daniel Kiss: herói com grade de projetos revelada em "líquido" (WebGL),
+   barra lateral fixa no desktop e mural arrastável no contato. Estilos em src/styles/home.css.
+   O endereço antigo /sobre/ redireciona para cá (astro.config.mjs). Foto em src/assets/sobre/jonathan.png. */
 import { Image } from 'astro:assets';
 import foto from '../assets/sobre/jonathan.png';
 import Base from '../layouts/Base.astro';
-import Fox from '../components/Fox.astro';
-import Redes from '../components/Redes.astro';
 import { SITE, url, linkWhatsApp } from '../data/site';
-import CardProjeto from '../components/CardProjeto.astro';
-import { PROJETOS } from '../data/portfolio';
-import '../styles/pagina.css';
+import { PROJETOS, CATEGORIAS } from '../data/portfolio';
+import '@fontsource/anton/latin-400.css';
+import '@fontsource/caveat-brush/latin-400.css';
+import '../styles/home.css';
 
 const DESTAQUES = PROJETOS.filter((p) => p.destaque);
+// Capas do mural do contato e da grade do topo: todos os projetos.
+const CAPAS = PROJETOS.map((p) => url(p.capa));
+const MURAL = Array.from({ length: 48 }, (_, i) => CAPAS[(i * 5 + Math.floor(i / 8)) % CAPAS.length]);
 
 const FRENTES = [
-  {
-    titulo: 'Design gráfico e identidade',
-    texto: 'Identidades visuais, direção de arte e campanhas completas: posts, stories, anúncios, impressos e ponto de venda. Cada peça falando a mesma língua da marca.',
-    exemplo: { nome: 'Escalados Macarrone', link: 'portfolio/escalados-macarrone/' },
-    icone: '<path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9h9"/><path d="M15.5 3.7A9 9 0 0 1 20.3 8.5"/>',
-  },
-  {
-    titulo: 'Vídeo e motion',
-    texto: 'Edição de vídeo e motion design para Reels, anúncios e telões de LED. Ritmo, corte e movimento pensados para prender a atenção nos primeiros segundos.',
-    exemplo: { nome: 'Costelinha BBQ', link: 'portfolio/macarrone-costelinha-bbq/' },
-    icone: '<rect x="3" y="5" width="14" height="14" rx="2"/><path d="m17 10 4-2.5v9L17 14"/>',
-  },
-  {
-    titulo: 'UI e sites',
-    texto: 'Desenho a interface no Figma e desenvolvo o site em código: landing pages e sites institucionais rápidos, responsivos e fáceis de usar.',
-    exemplo: { nome: 'Sites White Label', link: 'white-label/' },
-    icone: '<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8M12 18v3"/>',
-  },
-  {
-    titulo: 'Fluxos com IA',
-    texto: 'Uso IA generativa no dia a dia para criar cenários, objetos e variações, e para ganhar tempo na produção. A ferramenta acelera; a direção continua sendo minha.',
-    exemplo: { nome: 'Doces da Fer · Páscoa', link: 'portfolio/doces-da-fer-pascoa/' },
-    icone: '<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/>',
-  },
-];
-
-const JEITO = [
-  { t: 'Ideia antes da ferramenta', d: 'Primeiro entendo o que a marca precisa dizer e para quem. Só depois abro o Illustrator, o Premiere ou o Figma.' },
-  { t: 'Bonito e claro', d: 'Gosto de design que chama atenção sem deixar de lado a funcionalidade e a clareza da mensagem.' },
-  { t: 'Do começo ao fim', d: 'Consigo levar uma ideia da peça estática ao vídeo e ao site, mantendo tudo coerente.' },
-  { t: 'Ritmo de agência', d: 'Estou acostumado a prazos curtos e várias marcas ao mesmo tempo, sem abrir mão do acabamento.' },
-];
-
-const SKILLS = [
-  { grupo: 'Design', itens: ['Identidade visual', 'Direção de arte', 'Social media', 'Campanhas digitais', 'Impressos e PDV', 'Apresentações'] },
-  { grupo: 'Vídeo', itens: ['Edição de vídeo', 'Motion design', 'Reels e anúncios', 'Chroma key', 'Telão de LED'] },
-  { grupo: 'Web', itens: ['UI design', 'Landing pages', 'Sites institucionais', 'HTML e CSS', 'JavaScript'] },
-  { grupo: 'IA', itens: ['IA generativa para imagem', 'IA generativa para vídeo', 'IA no fluxo de criação'] },
-  { grupo: 'Ferramentas', itens: ['Photoshop', 'Illustrator', 'InDesign', 'Premiere Pro', 'Figma'] },
+  { t: 'Design gráfico & identidade', tags: ['Identidade visual', 'Direção de arte', 'Social media', 'Campanhas', 'Impressos e PDV'], ex: 'Escalados Macarrone', capa: 'og/escalados-macarrone.jpg', link: 'portfolio/escalados-macarrone/' },
+  { t: 'Vídeo & motion', tags: ['Edição', 'Motion design', 'Reels e anúncios', 'Chroma key', 'Telão de LED'], ex: 'Costelinha BBQ', capa: 'og/macarrone-costelinha-bbq.jpg', link: 'portfolio/macarrone-costelinha-bbq/' },
+  { t: 'UI & sites', tags: ['Figma', 'Landing pages', 'Sites institucionais', 'HTML, CSS e JS'], ex: 'Sentinela', capa: 'og/sentinela.jpg', link: 'white-label/projetos/sentinela/' },
+  { t: 'Fluxos com IA', tags: ['Imagem generativa', 'Vídeo generativo', 'IA no fluxo de criação'], ex: 'Doces da Fer', capa: 'og/doces-da-fer-pascoa.jpg', link: 'portfolio/doces-da-fer-pascoa/' },
 ];
 
 const TRAJETORIA = [
-  { ano: '2019', onde: 'BluePex', oque: 'Analista de marketing em segurança digital: campanhas, CRM e landing pages.' },
-  { ano: '2021', onde: 'DISEMP', oque: 'Designer pleno em marketing automotivo, já com motion e edição de vídeo.' },
-  { ano: '2023', onde: 'Acade', oque: 'Designer pleno em educação para o mercado fitness: campanhas, PDV e eventos.' },
-  { ano: '2025', onde: 'Agência Zava', oque: 'Designer gráfico sênior: identidade, campanhas, vídeos e IA para várias marcas.' },
+  { ano: '2019', onde: 'BluePex', oque: 'Analista de marketing em segurança digital.' },
+  { ano: '2021', onde: 'DISEMP', oque: 'Designer pleno, marketing automotivo, motion e vídeo.' },
+  { ano: '2023', onde: 'Acade', oque: 'Designer pleno, educação fitness: campanhas, PDV e eventos.' },
+  { ano: '2025', onde: 'Agência Zava', oque: 'Designer gráfico sênior: identidade, campanhas, vídeos e IA.' },
 ];
+
+const MENU = [
+  ['sobre', 'Sobre'],
+  ['frentes', 'Frentes'],
+  ['trabalhos', 'Trabalhos'],
+  ['trajetoria', 'Trajetória'],
+  ['contato', 'Contato'],
+];
+
+const EMAIL = 'jmeninodesign@gmail.com';
+const whats = linkWhatsApp('Olá, Jonathan! Vi seu site e quero conversar.');
 
 const jsonld = {
   '@context': 'https://schema.org',
@@ -82,134 +61,157 @@ const jsonld = {
   tipo="article"
   jsonld={jsonld}
 >
-<header class="nav">
-  <a href={url()} class="marca" aria-label="Jonathan Menino, início">
-    <Fox cor="#9B7BFF" class="raposa" />
-    <span>Jonathan Menino</span>
-  </a>
-  <nav class="nav-links" aria-label="Páginas">
-    <a href={url('portfolio/')}>Portfólio</a>
-    <a href={url('curriculo/')}>Currículo</a>
-    <a href={url('empresas/')}><span class="longo">Para empresas</span><span class="curto">Empresas</span></a>
-    <a href={url('white-label/')}><span class="longo">Para agências</span><span class="curto">Agências</span></a>
-  </nav>
-</header>
+<div class="moldura" aria-hidden="true"><i class="cruz a"></i><i class="cruz b"></i><i class="cruz c"></i><i class="cruz d"></i><span class="mono coord" id="coord">X:0000 Y:0000 · Limeira/SP</span></div>
+<div class="grao" aria-hidden="true"></div>
 
-<main>
-  <section class="hero wrap">
-    <div class="hero-txt">
-      <p class="selo"><span class="pulso" aria-hidden="true"></span>Disponível para vagas e freelas</p>
-      <h1>Oi, eu sou o Jonathan. <span>Eu transformo ideias em marcas, vídeos e sites.</span></h1>
-      <p class="lead">Sou designer gráfico em Limeira, interior de São Paulo. Há mais de 13 anos trabalho com agências e empresas, do B2B ao B2C, criando o que uma marca precisa para ser vista e lembrada.</p>
-      <div class="acoes-topo">
+<div class="barra-mob" id="barra-mob">
+  <a class="tt" href="#topo">Jonathan <em>Menino</em></a>
+  <nav aria-label="Atalhos"><a href={url('portfolio/')}>Portfólio</a><a href="#contato">Contato</a></nav>
+</div>
+
+<header class="heroi" id="topo" data-capas={JSON.stringify(CAPAS)}>
+  <img class="fallback" src={url('og/escalados-macarrone.jpg')} alt="" aria-hidden="true">
+  <canvas id="liquido" aria-hidden="true"></canvas>
+  <div class="topo">
+    <div><p class="tt">Design / Vídeo / Web / IA</p><p class="mono sub">Índice · Portfólio / 2026</p></div>
+    <nav aria-label="Seções"><ul class="menu">
+      {MENU.map(([id, nome], i) => <li><a href={`#${id}`}><small>0{i + 1}</small>{nome}</a></li>)}
+    </ul></nav>
+  </div>
+  <div></div>
+  <div class="base">
+    <p class="selo"><span class="pulso" aria-hidden="true"></span>Disponível para vagas e freelas</p>
+    <div class="linha-nome">
+      <p class="mao nota-mao" aria-hidden="true">↙ transformo ideias em marcas, vídeos e sites</p>
+      <h1 class="tt nome"><span class="sr">Jonathan Menino, designer gráfico. Eu transformo ideias em marcas, vídeos e sites.</span><span class="l" aria-hidden="true">Jonathan</span> <span class="l" aria-hidden="true"><em>Menino</em></span></h1>
+      <Image class="retrato-mini" src={foto} alt="Retrato de Jonathan Menino" widths={[180, 320]} sizes="160px" loading="eager" fetchpriority="high" />
+    </div>
+    <div class="sob-nome">
+      <div class="esq">
+        <a class="mao desce" href="#sobre">↓ continua descendo</a>
+        <svg class="risco" id="risco-heroi" viewBox="0 0 600 18" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 120 4, 260 14, 380 8 S 560 6, 596 10"/></svg>
+      </div>
+      <div class="acoes">
         <a class="btn" href={url('portfolio/')}>Ver portfólio <span aria-hidden="true">→</span></a>
-        <a class="btn sec" href={linkWhatsApp('Olá, Jonathan! Vi seu site e quero conversar.')}>Falar comigo no WhatsApp</a>
+        <a class="btn sec" href={whats}>Falar comigo no WhatsApp</a>
       </div>
     </div>
-    <figure class="retrato">
-      <Image src={foto} alt="Retrato de Jonathan Menino, de perfil, sobre fundo roxo" widths={[400, 640]} sizes="(max-width: 760px) 100vw, 420px" loading="eager" fetchpriority="high" />
-      <figcaption>design · vídeo · web · IA</figcaption>
-    </figure>
-  </section>
+  </div>
+</header>
 
-  <section class="wrap reel" aria-labelledby="reel-titulo">
-    <h2 class="titulo" id="reel-titulo">Showreel</h2>
-    <video src={url('showreel/showreel.mp4')} poster={url('showreel/showreel.jpg')} muted loop playsinline autoplay controls preload="metadata" aria-label="Showreel com trechos dos vídeos de Escalados Macarrone, Costelinha BBQ e Doces da Fer"></video>
-    <script is:inline>if (matchMedia('(prefers-reduced-motion: reduce)').matches) { var v = document.currentScript.previousElementSibling; v.removeAttribute('autoplay'); v.pause(); }</script>
-  </section>
-
-  <section class="wrap historia">
-    <h2 class="titulo">Quem sou eu</h2>
-    <div class="colunas">
-      <p>Estudei Design Gráfico na FAAL e, ao longo da carreira, passei por agências e empresas de segmentos bem diferentes: segurança digital, marketing automotivo, educação fitness e, hoje, a Agência Zava, onde atendo marcas de alimentação e varejo.</p>
-      <p>Essa variedade me fez um designer de muitas frentes. Num mesmo dia posso estar criando uma identidade, editando um Reels, montando uma landing page ou testando um fluxo de IA para gerar um cenário. O que une tudo é a mesma vontade: fazer algo bonito que também seja claro e funcione para quem vê.</p>
-    </div>
-  </section>
-
-  <section class="wrap">
-    <h2 class="titulo">O que eu faço</h2>
-    <ul class="frentes">
-      {FRENTES.map((f) => (
-        <li class="frente">
-          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={f.icone} /></span>
-          <h3>{f.titulo}</h3>
-          <p>{f.texto}</p>
-          <a class="exemplo" href={url(f.exemplo.link)}>Ver {f.exemplo.nome} <span aria-hidden="true">→</span></a>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section class="wrap">
-    <div class="titulo titulo-link"><h2>Projetos em destaque</h2><a href={url('portfolio/')}>Ver todos <span aria-hidden="true">→</span></a></div>
-    <ul class="destaques">{DESTAQUES.map((p) => <li><CardProjeto p={p} /></li>)}</ul>
-    <p class="ver-todos"><a class="btn sec" href={url('portfolio/')}>Ver todos os projetos <span aria-hidden="true">→</span></a></p>
-  </section>
-
-  <section class="wrap">
-    <h2 class="titulo">Como eu trabalho</h2>
-    <ol class="jeito">
-      {JEITO.map((j, i) => (
-        <li>
-          <span class="num">{String(i + 1).padStart(2, '0')}</span>
-          <h3>{j.t}</h3>
-          <p>{j.d}</p>
-        </li>
-      ))}
-    </ol>
-  </section>
-
-  <section class="wrap">
-    <h2 class="titulo">Skills</h2>
-    <div class="skills">
-      {SKILLS.map((s) => (
-        <div class="skill">
-          <p class="grupo">{s.grupo}</p>
-          <ul class="chips">{s.itens.map((i) => <li>{i}</li>)}</ul>
+<div class="corpo">
+  <main>
+    <section class="secao" id="sobre" aria-labelledby="t-sobre">
+      <h2 class="tt manifesto" id="t-sobre">Primeiro a ideia,<br><em>depois a ferramenta…</em></h2>
+      <svg class="risco" viewBox="0 0 600 18" preserveAspectRatio="none" aria-hidden="true" style="width:min(100%,640px);height:14px;margin-top:10px;color:var(--lilas)"><path d="M4 10 C 140 15, 300 3, 450 9 S 570 12, 596 7"/></svg>
+      <p class="intro-txt">Sou designer gráfico em Limeira, interior de São Paulo. Gosto de design que chama atenção sem deixar de lado a clareza da mensagem, e consigo levar uma ideia da peça estática ao vídeo e ao site.</p>
+      <div class="numeros">
+        <span class="seta" aria-hidden="true">↗</span>
+        <div><strong>13+</strong><span>anos<br>de design</span></div>
+        <div><strong>{PROJETOS.length}</strong><span>projetos<br>no portfólio</span></div>
+        <div><strong>4</strong><span>frentes: design,<br>vídeo, web e IA</span></div>
+      </div>
+      <div class="quem">
+        <p>Estudei Design Gráfico na FAAL e passei por segurança digital, marketing automotivo, educação fitness e, hoje, a Agência Zava, onde atendo marcas de alimentação e varejo.</p>
+        <p>Num mesmo dia posso criar uma identidade, editar um Reels, montar uma landing page ou testar um fluxo de IA. O que une tudo é fazer algo bonito que funcione para quem vê.</p>
+      </div>
+      <div class="reel">
+        <div class="rotulo"><p class="mao">→ 36 segundos do que eu faço</p><span class="mono" style="color:var(--papel-2)">Showreel</span></div>
+        <div class="reel-caixa" id="reel">
+          <video id="reel-video" src={url('showreel/showreel.mp4')} poster={url('showreel/showreel.jpg')} muted loop playsinline autoplay preload="metadata" aria-label="Showreel com trechos de Escalados Macarrone, Costelinha BBQ e Doces da Fer"></video>
+          <button class="reel-pausa" id="reel-pausa" type="button">Pausar</button>
         </div>
-      ))}
+      </div>
+    </section>
+
+    <section class="secao" id="frentes" aria-labelledby="t-frentes">
+      <h2 class="tt" id="t-frentes" style="font-size:clamp(52px,7vw,116px)">O que eu <em>faço</em></h2>
+      <p class="mao sub-mao">→ quatro frentes, a mesma vontade de fazer bonito e claro</p>
+      <ul class="frentes">
+        {FRENTES.map((f, i) => (
+          <li>
+            <a href={url(f.link)} data-previa={url(f.capa)}><h3 class="tt"><span class="num">0{i + 1}</span>{f.t}</h3></a>
+            <div class="tags mono">{f.tags.map((x) => <span>{x}</span>)}</div>
+            <a class="mao ex" href={url(f.link)}>→ ver {f.ex}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="secao" id="trabalhos" aria-labelledby="t-trab">
+      <div class="cab"><h2 class="tt" id="t-trab">Trabalhos <em>recentes</em></h2><p class="mao">→ arraste para o lado</p></div>
+      <div class="trilho-area" id="trilho-area"><div class="trilho" id="trilho">
+        {DESTAQUES.map((p) => (
+          <a class="card" href={url(p.link)} draggable="false">
+            <div class="foto"><img src={url(p.capa)} alt={`Capa do projeto ${p.titulo}`} width="1200" height="630" loading="lazy" draggable="false"></div>
+            <div class="meta"><div><h3 class="tt">{p.titulo}</h3><p class="cli">{p.cliente}</p></div><span class="mono tag">{CATEGORIAS[p.categorias[0]]}</span></div>
+          </a>
+        ))}
+      </div></div>
+      <div class="trilho-pe"><div class="barra"><i id="barra"></i></div><a class="mono" href={url('portfolio/')}>Ver todos os projetos →</a></div>
+    </section>
+
+    <section class="secao" id="trajetoria" aria-labelledby="t-traj">
+      <div class="cab"><h2 class="tt" id="t-traj">Trajetória</h2><a class="mono" href={url('curriculo/')}>Currículo completo →</a></div>
+      <ol class="linha-tempo">
+        {TRAJETORIA.map((t) => <li><span class="ano">{t.ano}</span><h3>{t.onde}</h3><p>{t.oque}</p></li>)}
+      </ol>
+    </section>
+
+    <section class="pergunta" aria-labelledby="t-perg">
+      <h2 class="tt" id="t-perg">E aí… bora criar<br><em>algo juntos?</em></h2>
+    </section>
+  </main>
+
+  <aside class="lateral" aria-label="Jonathan Menino">
+    <div>
+      <p class="tt marca">Jonathan <em>Menino</em></p>
+      <svg class="risco" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 8 C 80 3, 160 10, 297 5"/></svg>
     </div>
-  </section>
-
-  <section class="wrap">
-    <h2 class="titulo">Trajetória recente</h2>
-    <ol class="linha">
-      {TRAJETORIA.map((t) => (
-        <li>
-          <span class="ano">{t.ano}</span>
-          <div><h3>{t.onde}</h3><p>{t.oque}</p></div>
-        </li>
-      ))}
-    </ol>
-    <p class="mais"><a href={url('curriculo/')}>Ver o currículo completo <span aria-hidden="true">→</span></a></p>
-  </section>
-
-  <section class="wrap atalhos">
-    <a class="agencias" href={url('empresas/')}>
-      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
-      <span><span class="ag-rotulo">Para empresas</span><span class="ag-t">Design para a sua marca</span><span class="ag-d">Identidade visual, campanhas, vídeos e sites feitos direto com quem cria.</span></span>
-      <span class="ag-seta" aria-hidden="true">→</span>
-    </a>
-    <a class="agencias" href={url('white-label/')}>
-      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8M12 18v3"/></svg></span>
-      <span><span class="ag-rotulo">Para agências</span><span class="ag-t">Sites White Label</span><span class="ag-d">Desenvolvo sites e landing pages para a sua agência entregar com a própria marca.</span></span>
-      <span class="ag-seta" aria-hidden="true">→</span>
-    </a>
-  </section>
-
-  <section class="wrap fim">
-    <h2>Bora criar algo juntos?</h2>
-    <p>Estou aberto a vagas de design gráfico, UI, edição de vídeo e criação de sites, e a projetos com agências.</p>
-    <div class="acoes">
-      <a class="btn" href={url('portfolio/')}>Ver portfólio</a>
-      <a class="btn sec" href={linkWhatsApp('Olá, Jonathan! Vi sua página e quero conversar.')}>Chamar no WhatsApp</a>
-      <a class="btn sec" href="mailto:jmeninodesign@gmail.com">jmeninodesign@gmail.com</a>
+    <p class="tt" style="font-size:15px;letter-spacing:.04em">Design / Vídeo / Web / IA</p>
+    <div class="redes">
+      {SITE.redes.linkedin && <a href={SITE.redes.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>}
+      {SITE.redes.behance && <a href={SITE.redes.behance} target="_blank" rel="noopener">Behance ↗</a>}
+      {SITE.redes.instagram && <a href={SITE.redes.instagram} target="_blank" rel="noopener">Instagram ↗</a>}
+      {SITE.redes.github && <a href={SITE.redes.github} target="_blank" rel="noopener">GitHub ↗</a>}
     </div>
-  </section>
-</main>
+    <p class="bio">Designer gráfico sênior na Agência Zava. Identidade, campanhas, vídeo, sites e IA.<br><span class="mono" style="color:var(--papel-2)">● Limeira/SP · Remoto ou híbrido</span></p>
+    <ul class="menu" id="menu-lateral">
+      {MENU.map(([id, nome], i) => <li><a href={`#${id}`}><small>0{i + 1}</small>{nome}</a></li>)}
+    </ul>
+    <figure><Image src={foto} alt="Retrato de Jonathan Menino" widths={[300, 560]} sizes="270px" loading="lazy" /><span class="mono">Retrato / 01</span><span class="mono vert">13+ anos / design</span></figure>
+    <div class="caixa-email"><span>{EMAIL}</span><button type="button" data-copiar={EMAIL}>Copiar</button></div>
+  </aside>
+</div>
 
-<footer class="wrap rodape">
-  <Redes whatsapp class="redes" />
-  <p>© {new Date().getFullYear()} Jonathan Menino</p>
+<section class="mural" id="contato" aria-labelledby="t-contato">
+  <div class="mural-trilho" id="mural" aria-hidden="true">
+    {MURAL.map((c) => <img src={c} alt="" width="1200" height="630" loading="lazy" draggable="false">)}
+  </div>
+  <div class="contato">
+    <h2 class="tt" id="t-contato"><em>Chama</em> com a sua ideia</h2>
+    <svg class="risco" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 7 C 90 3, 180 10, 297 6"/></svg>
+    <div class="caixa-email"><span>{EMAIL}</span><button type="button" data-copiar={EMAIL}>Copiar</button></div>
+    <div class="acoes" style="justify-content:center">
+      <a class="btn" href={whats}>Chamar no WhatsApp</a>
+      <a class="btn sec" href={url('curriculo/')}>Ver currículo</a>
+    </div>
+    <p class="mono disp">Disponível para vagas e freelas</p>
+  </div>
+  <p class="mao dica esq" aria-hidden="true">arraste ↗</p>
+  <button class="mao topo-btn" type="button" id="topo-btn">voltar ao topo ↑</button>
+</section>
+
+<footer class="rodape">
+  <span>© {new Date().getFullYear()} Jonathan Menino</span>
+  <span><a href={url('empresas/')}>Para empresas</a> · <a href={url('white-label/')}>Para agências</a></span>
 </footer>
+
+<div class="previa" id="previa" aria-hidden="true"><img alt="" id="previa-img"></div>
+<div class="cursor-arraste" id="cursor" aria-hidden="true">Arraste</div>
 </Base>
+
+<script>
+  import { initHome } from '../scripts/home';
+  initHome();
+</script>
