@@ -77,6 +77,16 @@ export const PROJETOS: Projeto[] = [
     destaque: true,
   },
   {
+    titulo: 'É o BR no Kombina',
+    cliente: 'Kombina Burgers House · Agência Zava',
+    tipo: 'Campanha · Lançamento de cardápio',
+    resumo: 'Campanha de três burgers com sotaque: identidade, peças e edição de todos os vídeos.',
+    link: 'portfolio/br-no-kombina/',
+    capa: 'og/br-no-kombina.jpg',
+    categorias: ['campanhas', 'identidade', 'video'],
+    destaque: true,
+  },
+  {
     titulo: 'Sentinela',
     cliente: 'Sentinela Serviços de Proteção',
     tipo: 'Site institucional',
