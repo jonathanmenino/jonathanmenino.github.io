@@ -47,8 +47,7 @@ p { margin: 0; }
 
 /* ---------- Herói ---------- */
 .heroi { position: relative; min-height: min(100svh, 940px); padding: 28px var(--gr) 84px var(--gl); display: grid; grid-template-rows: auto 1fr auto; grid-template-columns: minmax(0, 1fr); overflow: hidden; isolation: isolate; }
-.heroi canvas, .heroi .fallback { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
-.heroi .fallback { object-fit: cover; opacity: .3; }
+.heroi canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
 .topo { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; padding-inline: 16px; width: 100%; max-width: 1760px; margin-inline: auto; }
 .topo .tt { font-size: 18px; letter-spacing: .02em; }
 .topo .sub { color: var(--papel-2); margin-top: 4px; }

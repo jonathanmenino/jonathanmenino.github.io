@@ -133,7 +133,6 @@ export function initHome() {
   const cv = document.getElementById('liquido');
   const gl = cv.getContext('webgl', { antialias: false });
   if (gl) {
-    cv.previousElementSibling.hidden = true;
     // Grade com as capas dos projetos, desenhada uma vez num canvas 2048x1024 que se repete sem emenda
     const G = document.createElement('canvas'); G.width = 2048; G.height = 1024; const gc = G.getContext('2d');
     gc.fillStyle = '#070609'; gc.fillRect(0, 0, 2048, 1024);
