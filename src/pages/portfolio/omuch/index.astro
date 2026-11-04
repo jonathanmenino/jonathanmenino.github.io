@@ -9,7 +9,8 @@ import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Fox from '../../../components/Fox.astro';
 import LogoOmuch from '../../../components/LogoOmuch.astro';
-import { url } from '../../../data/site';
+import TrocaIdioma from '../../../components/TrocaIdioma.astro';
+import { idioma, pagina } from '../../../i18n';
 import '@fontsource-variable/outfit';
 
 import lateral from '../../../assets/portfolio/omuch/painel-lateral.png';
@@ -18,9 +19,17 @@ import proposta from '../../../assets/portfolio/omuch/cliente.png';
 import propostaCel from '../../../assets/portfolio/omuch/cliente-celular.png';
 import simbolo from '../../../assets/portfolio/omuch/simbolo.svg';
 
-const portfolio = url('portfolio/');
+// Inglês em /en/portfolio/omuch/ (mesmo sigilo: nada sobre o que o app calcula).
+const L = idioma(Astro.url);
+const EN = L === 'en';
+const portfolio = pagina(L, 'portfolio/');
 
-const ficha = [
+const ficha = EN ? [
+  ['Type', 'Own product · web app'],
+  ['For', 'Creative freelancers'],
+  ['My role', 'Brand, interface direction, UX and website'],
+  ['Status', 'Invite-only launch'],
+] : [
   ['Tipo', 'Produto próprio · app web'],
   ['Para quem', 'Freelancers criativos'],
   ['Meu papel', 'Marca, direção de interface, UX e site'],
@@ -28,25 +37,37 @@ const ficha = [
 ];
 
 const paleta = [
-  { nome: 'Mandarina', hex: '#F26B1D' },
-  { nome: 'Tinta', hex: '#1D1A17' },
-  { nome: 'Areia', hex: '#FAF6F2', clara: true },
-  { nome: 'Noite', hex: '#0E0F1E' },
+  { nome: EN ? 'Mandarin' : 'Mandarina', hex: '#F26B1D' },
+  { nome: EN ? 'Ink' : 'Tinta', hex: '#1D1A17' },
+  { nome: EN ? 'Sand' : 'Areia', hex: '#FAF6F2', clara: true },
+  { nome: EN ? 'Night' : 'Noite', hex: '#0E0F1E' },
+];
+
+const PRINCIPIOS = EN ? [
+  ['One orange only', 'The brand color shows up on what asks for action or shows progress. Everything else stays in sand tones, so the numbers can breathe.'],
+  ['Cards instead of tables', 'Each piece of information lives in a rounded card, with a short title and a highlighted number. You can understand the month at a glance.'],
+  ['Conversational tone', '"Good evening, Marina." Short, friendly copy, like a colleague helping organize the month, not a system.'],
+  ['Made for phones too', 'The cards stack into a single column without losing anything along the way.'],
+] : [
+  ['Um laranja só', 'A cor da marca aparece no que pede ação ou mostra progresso. O resto fica em tons de areia, para os números respirarem.'],
+  ['Cartões em vez de tabelas', 'Cada informação mora num cartão arredondado, com título curto e um número em destaque. Dá para entender o mês numa olhada.'],
+  ['Tom de conversa', '"Boa noite, Marina." Textos curtos e próximos, como um colega que ajuda a organizar o mês, não um sistema.'],
+  ['Feito para o celular também', 'Os cartões se empilham numa coluna só, sem perder nada no caminho.'],
 ];
 
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: 'Omuch',
-  description: 'Marca, direção de interface e site de lançamento do Omuch, app para freelancers criativos. Produto próprio de Jonathan Menino.',
+  description: EN ? 'Brand, interface direction and launch website for Omuch, an app for creative freelancers. An own product by Jonathan Menino.' : 'Marca, direção de interface e site de lançamento do Omuch, app para freelancers criativos. Produto próprio de Jonathan Menino.',
   creator: { '@type': 'Person', name: 'Jonathan Menino' },
   dateCreated: '2026',
-  inLanguage: 'pt-BR',
+  inLanguage: EN ? 'en' : 'pt-BR',
 };
 ---
 <Base
-  title="Omuch · Marca e interface de produto · Jonathan Menino"
-  description="Omuch é um produto próprio: um app para freelancers criativos. Criei a marca, dirigi a interface e a experiência, e fiz o site de lançamento."
+  title={EN ? 'Omuch · Brand and product interface · Jonathan Menino' : 'Omuch · Marca e interface de produto · Jonathan Menino'}
+  description={EN ? 'Omuch is my own product: an app for creative freelancers. I created the brand, directed the interface and the experience, and built the launch website.' : 'Omuch é um produto próprio: um app para freelancers criativos. Criei a marca, dirigi a interface e a experiência, e fiz o site de lançamento.'}
   image="og/omuch.jpg"
   tipo="article"
   themeColor="#FAF6F2"
@@ -54,11 +75,11 @@ const jsonld = {
 >
 <div class="om">
   <header class="topo">
-    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
       <Fox cor="#F26B1D" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
     </a>
-    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
   </header>
 
   <main>
@@ -66,10 +87,10 @@ const jsonld = {
     <section class="hero">
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Produto próprio · 2026</p>
+          <p class="eyebrow">{EN ? <>Own product · 2026</> : <>Produto próprio · 2026</>}</p>
           <h1 class="sr-only">Omuch</h1>
           <LogoOmuch class="hero-logo" />
-          <p class="lead">Um app para freelancers criativos cuidarem do lado comercial do trabalho, com a mesma atenção que dão ao lado criativo. Criei a marca, defini como a interface deveria ser e ajustei a experiência tela a tela.</p>
+          <p class="lead">{EN ? <>An app that helps creative freelancers take care of the business side of their work with the same attention they give the creative side. I created the brand, defined how the interface should look and refined the experience screen by screen.</> : <>Um app para freelancers criativos cuidarem do lado comercial do trabalho, com a mesma atenção que dão ao lado criativo. Criei a marca, defini como a interface deveria ser e ajustei a experiência tela a tela.</>}</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
           </dl>
@@ -77,7 +98,7 @@ const jsonld = {
         <div class="hero-arte">
           <div class="janela">
             <span class="pontos" aria-hidden="true"><i></i><i></i><i></i></span>
-            <Image src={meta} alt="Painel do Omuch: meta do mês com anel de progresso e gráfico de aprovados por mês" widths={[300, 600]} sizes="300px" loading="eager" fetchpriority="high" />
+            <Image src={meta} alt={EN ? "Omuch dashboard: monthly goal with a progress ring and a chart of approvals per month" : "Painel do Omuch: meta do mês com anel de progresso e gráfico de aprovados por mês"} widths={[300, 600]} sizes="300px" loading="eager" fetchpriority="high" />
           </div>
           <span class="anel" aria-hidden="true"></span>
         </div>
@@ -88,14 +109,14 @@ const jsonld = {
     <section class="areia">
       <div class="wrap duas">
         <div>
-          <p class="num">01 · A ideia</p>
-          <h2>Criativo é bom de criar. O comercial costuma ficar no improviso.</h2>
-          <p>Designers, fotógrafos, videomakers e ilustradores sabem entregar um bom trabalho, mas a parte de negócio quase sempre fica em planilhas soltas e mensagens. O Omuch nasce para organizar isso num só lugar. Os detalhes do produto ficam para o lançamento.</p>
+          <p class="num">{EN ? <>01 · The idea</> : <>01 · A ideia</>}</p>
+          <h2>{EN ? <>Creatives are great at creating. The business side is usually improvised.</> : <>Criativo é bom de criar. O comercial costuma ficar no improviso.</>}</h2>
+          <p>{EN ? <>Designers, photographers, videomakers and illustrators know how to deliver great work, but the business side usually ends up in scattered spreadsheets and messages. Omuch was born to bring it all into one place. The product details will come with the launch.</> : <>Designers, fotógrafos, videomakers e ilustradores sabem entregar um bom trabalho, mas a parte de negócio quase sempre fica em planilhas soltas e mensagens. O Omuch nasce para organizar isso num só lugar. Os detalhes do produto ficam para o lançamento.</>}</p>
         </div>
         <div>
-          <p class="num">02 · Minha parte</p>
-          <h2>Da marca à última tela.</h2>
-          <p>Criei a identidade do zero: logo, cor e tipografia. Na interface, defini a aparência e fui corrigindo os problemas de UI e de UX em cada tela. As telas foram construídas com IA sob a minha direção, o que deixou o projeto andar no ritmo de um time, comigo decidindo cada detalhe.</p>
+          <p class="num">{EN ? <>02 · My part</> : <>02 · Minha parte</>}</p>
+          <h2>{EN ? <>From the brand to the last screen.</> : <>Da marca à última tela.</>}</h2>
+          <p>{EN ? <>I created the identity from scratch: logo, color and typography. In the interface, I defined the look and fixed UI and UX issues on every screen. The screens were built with AI under my direction, which let the project move at the pace of a team, with me deciding every detail.</> : <>Criei a identidade do zero: logo, cor e tipografia. Na interface, defini a aparência e fui corrigindo os problemas de UI e de UX em cada tela. As telas foram construídas com IA sob a minha direção, o que deixou o projeto andar no ritmo de um time, comigo decidindo cada detalhe.</>}</p>
         </div>
       </div>
     </section>
@@ -103,18 +124,18 @@ const jsonld = {
     <!-- ============ MARCA ============ -->
     <section class="tinta">
       <div class="wrap">
-        <p class="num">03 · Marca</p>
-        <h2 class="grande">Um anel laranja e um nome <em>fácil de dizer</em>.</h2>
-        <p class="intro">Um símbolo redondo e cheio abre a palavra, em minúsculas e com cantos suaves. A marca precisava parecer próxima e confiável ao mesmo tempo: o laranja Mandarina traz energia, e a tinta quase preta dá o peso de uma ferramenta séria.</p>
+        <p class="num">{EN ? <>03 · Brand</> : <>03 · Marca</>}</p>
+        <h2 class="grande">{EN ? <>An orange ring and a name that’s <em>easy to say</em>.</> : <>Um anel laranja e um nome <em>fácil de dizer</em>.</>}</h2>
+        <p class="intro">{EN ? <>A round, solid symbol opens the word, set in lowercase with soft corners. The brand had to feel friendly and trustworthy at the same time: Mandarin orange brings energy, and the almost-black ink gives the weight of a serious tool.</> : <>Um símbolo redondo e cheio abre a palavra, em minúsculas e com cantos suaves. A marca precisava parecer próxima e confiável ao mesmo tempo: o laranja Mandarina traz energia, e a tinta quase preta dá o peso de uma ferramenta séria.</>}</p>
 
         <div class="marca-grid">
           <div class="cartao claro"><LogoOmuch class="logo-g" /></div>
           <div class="cartao escuro"><LogoOmuch class="logo-g" /></div>
-          <div class="cartao laranja"><Image src={simbolo} alt="Símbolo do Omuch: anel laranja" width={160} class="simbolo" /></div>
+          <div class="cartao laranja"><Image src={simbolo} alt={EN ? "Omuch symbol: orange ring" : "Símbolo do Omuch: anel laranja"} width={160} class="simbolo" /></div>
           <div class="cartao tipo">
             <p class="tipo-nome">Outfit</p>
             <p class="tipo-aa" aria-hidden="true">Aa</p>
-            <p class="tipo-desc">Geométrica e amigável. Do título ao número no painel, a mesma família.</p>
+            <p class="tipo-desc">{EN ? <>Geometric and friendly. From headlines to dashboard numbers, the same family.</> : <>Geométrica e amigável. Do título ao número no painel, a mesma família.</>}</p>
           </div>
         </div>
 
@@ -129,22 +150,18 @@ const jsonld = {
     <!-- ============ INTERFACE ============ -->
     <section class="areia">
       <div class="wrap">
-        <p class="num">04 · Interface</p>
-        <h2 class="grande">Números que dá vontade de <em>acompanhar</em>.</h2>
-        <p class="intro">Cartões arredondados, muito respiro e o laranja guardado para o que importa. O painel mostra o mês de um jeito leve, para quem não gosta de planilha.</p>
+        <p class="num">{EN ? <>04 · Interface</> : <>04 · Interface</>}</p>
+        <h2 class="grande">{EN ? <>Numbers you actually want to <em>keep an eye on</em>.</> : <>Números que dá vontade de <em>acompanhar</em>.</>}</h2>
+        <p class="intro">{EN ? <>Rounded cards, plenty of breathing room and orange saved for what matters. The dashboard shows the month in a light way, for people who don’t like spreadsheets.</> : <>Cartões arredondados, muito respiro e o laranja guardado para o que importa. O painel mostra o mês de um jeito leve, para quem não gosta de planilha.</>}</p>
 
         <div class="telas">
           <ul class="principios">
-            {[
-              ['Um laranja só', 'A cor da marca aparece no que pede ação ou mostra progresso. O resto fica em tons de areia, para os números respirarem.'],
-              ['Cartões em vez de tabelas', 'Cada informação mora num cartão arredondado, com título curto e um número em destaque. Dá para entender o mês numa olhada.'],
-              ['Tom de conversa', '"Boa noite, Marina." Textos curtos e próximos, como um colega que ajuda a organizar o mês, não um sistema.'],
-              ['Feito para o celular também', 'Os cartões se empilham numa coluna só, sem perder nada no caminho.'],
-            ].map(([t, d]) => (<li><h3>{t}</h3><p>{d}</p></li>))}
+            {PRINCIPIOS.map(([t, d]) => (<li><h3>{t}</h3><p>{d}</p></li>))}
+
           </ul>
           <figure class="tela estreita">
-            <Image src={lateral} alt="Coluna do painel: meta do mês, gráfico de aprovados por mês e aprovados recentemente" widths={[300, 600]} sizes="300px" />
-            <figcaption>Painel · meta e histórico</figcaption>
+            <Image src={lateral} alt={EN ? "Dashboard column: monthly goal, chart of approvals per month and recent approvals" : "Coluna do painel: meta do mês, gráfico de aprovados por mês e aprovados recentemente"} widths={[300, 600]} sizes="300px" />
+            <figcaption>{EN ? <>Dashboard · goal and history</> : <>Painel · meta e histórico</>}</figcaption>
           </figure>
         </div>
       </div>
@@ -154,19 +171,19 @@ const jsonld = {
     <section class="laranja-sec">
       <div class="wrap duas-tela">
         <div>
-          <p class="num">05 · O que o cliente recebe</p>
-          <h2 class="grande">Com a marca de quem envia.</h2>
-          <p class="intro">O freelancer manda para o cliente uma página com a própria marca e as próprias cores, não as do Omuch. No exemplo, um estúdio fictício em azul. A página foi pensada primeiro para o celular, onde o cliente costuma abrir.</p>
+          <p class="num">{EN ? <>05 · What the client gets</> : <>05 · O que o cliente recebe</>}</p>
+          <h2 class="grande">{EN ? <>With the sender’s brand.</> : <>Com a marca de quem envia.</>}</h2>
+          <p class="intro">{EN ? <>The freelancer sends the client a page with their own brand and colors, not Omuch’s. In the example, a fictional studio in blue. The page was designed mobile-first, since that’s where clients usually open it.</> : <>O freelancer manda para o cliente uma página com a própria marca e as próprias cores, não as do Omuch. No exemplo, um estúdio fictício em azul. A página foi pensada primeiro para o celular, onde o cliente costuma abrir.</>}</p>
           <figure class="tela desk">
-            <Image src={proposta} alt="Página que o cliente recebe, com a marca do estúdio fictício Studio Lume em azul" widths={[600, 900]} sizes="(min-width: 1000px) 560px, 92vw" />
-            <figcaption>Desktop · exemplo com estúdio fictício</figcaption>
+            <Image src={proposta} alt={EN ? "Page the client receives, branded for the fictional studio Studio Lume in blue" : "Página que o cliente recebe, com a marca do estúdio fictício Studio Lume em azul"} widths={[600, 900]} sizes="(min-width: 1000px) 560px, 92vw" />
+            <figcaption>{EN ? <>Desktop · example with a fictional studio</> : <>Desktop · exemplo com estúdio fictício</>}</figcaption>
           </figure>
         </div>
         <figure class="celular">
           <div class="rolagem">
-            <Image src={propostaCel} alt="A mesma página no celular, do topo ao botão de aprovar" widths={[390, 780]} sizes="300px" />
+            <Image src={propostaCel} alt={EN ? "The same page on a phone, from the top to the approve button" : "A mesma página no celular, do topo ao botão de aprovar"} widths={[390, 780]} sizes="300px" />
           </div>
-          <figcaption>Celular · role a tela</figcaption>
+          <figcaption>{EN ? <>Mobile · scroll the screen</> : <>Celular · role a tela</>}</figcaption>
         </figure>
       </div>
     </section>
@@ -174,8 +191,8 @@ const jsonld = {
     <!-- ============ CRÉDITOS ============ -->
     <section class="tinta creditos">
       <div class="wrap">
-        <p>Projeto próprio. A marca, a direção da interface e as decisões de UX são minhas; as telas foram construídas com IA a partir dessa direção. Os nomes e valores nas telas são de exemplo.</p>
-        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+        <p>{EN ? <>Own project. The brand, the interface direction and the UX decisions are mine; the screens were built with AI from that direction. Names and values on the screens are examples.</> : <>Projeto próprio. A marca, a direção da interface e as decisões de UX são minhas; as telas foram construídas com IA a partir dessa direção. Os nomes e valores nas telas são de exemplo.</>}</p>
+        <a href={portfolio} class="botao">{EN ? <>See other projects</> : <>Ver outros projetos</>} <span aria-hidden="true">→</span></a>
       </div>
     </section>
   </main>

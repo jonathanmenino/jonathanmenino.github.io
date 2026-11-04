@@ -6,7 +6,9 @@
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Fox from '../../../components/Fox.astro';
+import TrocaIdioma from '../../../components/TrocaIdioma.astro';
 import { url } from '../../../data/site';
+import { idioma, tradutor, pagina } from '../../../i18n';
 import '@fontsource/josefin-sans/400.css';
 import '@fontsource/josefin-sans/600.css';
 import '@fontsource/josefin-sans/700.css';
@@ -28,16 +30,32 @@ import nomePatrik from '../../../assets/portfolio/metodo-dias-food/nome-patrik.p
 import patrik from '../../../assets/portfolio/metodo-dias-food/patrik.png';
 import zava from '../../../assets/agencias/zava-branco.svg';
 
-const portfolio = url('portfolio/');
+// Inglês em /en/: textos com T('pt', 'en') e {EN ? <>inglês</> : <>português</>}. A landing mostrada fica em português.
+const L = idioma(Astro.url);
+const EN = L === 'en';
+const T = tradutor(L);
+const portfolio = pagina(L, 'portfolio/');
 
-const ficha = [
+const ficha = T([
   ['Cliente', 'Patrik Dias · Método Dias Food'],
   ['Projeto', 'Landing page de vendas de curso'],
   ['Meu papel', 'Design e desenvolvimento da página'],
   ['Ano', '2025'],
-];
+], [
+  ['Client', 'Patrik Dias · Método Dias Food'],
+  ['Project', 'Course sales landing page'],
+  ['My role', 'Page design and development'],
+  ['Year', '2025'],
+]);
 
-const dobras = [
+const dobras = EN ? [
+  { img: objecao, alt: 'Section with the objection: "But I don’t have time, I’ve tried everything and my sales are still stuck"', titulo: 'The objection, out loud', texto: 'Right below the video, the page repeats what the delivery business owner thinks before buying and answers it on the spot.', largo: true },
+  { img: depoimentos, alt: 'WhatsApp chat screenshots of students sharing their first orders', titulo: 'Proof in WhatsApp screenshots', texto: 'Testimonials show up as real chats with Patrik, which is how this audience is used to seeing results.', largo: true },
+  { img: modulos, alt: 'Six course modules with 3D icons: delivery motorbike, pin, puzzle piece, notebook, price tag and pot', titulo: 'Modules with 3D icons', texto: 'Six cards with 3D icons make the course content easy to scan on a phone.' },
+  { img: bonus, alt: 'Six exclusive bonuses in white cards and the professional menu photos bonus', titulo: 'Stacked bonuses', texto: 'White cards on red for the five bonuses, and a black band for the most valuable one: the menu photos.' },
+  { img: investimento, alt: 'Pricing block: limited-time offer, 12 installments of R$ 6.57 or R$ 63.50 upfront', titulo: 'A price that fits the installment', texto: 'The installment price is highlighted, with the full price crossed out and the green button right below.' },
+  { img: mentor, alt: '7-day guarantee and mentor Patrik Dias introduced in an Instagram-style card', titulo: 'Guarantee and mentor', texto: 'A 7-day guarantee to remove the risk, and Patrik introduced inside an Instagram post, close to the buyer’s world.', largo: true },
+] : [
   { img: objecao, alt: 'Dobra com a objeção: Mas eu não tenho tempo, tenho feito de tudo e mesmo assim minhas vendas estão travadas', titulo: 'A objeção em voz alta', texto: 'Logo abaixo do vídeo, a página repete o que o dono de delivery pensa antes de comprar e responde na mesma hora.', largo: true },
   { img: depoimentos, alt: 'Prints de conversas de WhatsApp de alunos contando os primeiros pedidos', titulo: 'Prova em print de WhatsApp', texto: 'Os depoimentos aparecem como conversas reais com o Patrik, que é como o público já está acostumado a ver resultado.', largo: true },
   { img: modulos, alt: 'Seis módulos do curso com ícones 3D: moto de entrega, alfinete, quebra-cabeça, caderno, etiqueta de preço e panela', titulo: 'Módulos com ícones 3D', texto: 'Seis cards com ícones em 3D deixam o conteúdo do curso fácil de escanear no celular.' },
@@ -47,25 +65,25 @@ const dobras = [
 ];
 
 const paleta = [
-  { nome: 'Vermelho Dias', cod: '#A60000', uso: 'Fundos e gradientes', cor: '#A60000' },
-  { nome: 'Preto Carvão', cod: '#0F0000', uso: 'Base da página', cor: '#0F0000' },
-  { nome: 'Dourado', cod: '#E7A22E', uso: 'Palavras de destaque', cor: '#E7A22E' },
-  { nome: 'Verde Compra', cod: '#00CD67', uso: 'Botões de compra', cor: '#00CD67' },
+  { nome: T('Vermelho Dias', 'Dias Red'), cod: '#A60000', uso: T('Fundos e gradientes', 'Backgrounds and gradients'), cor: '#A60000' },
+  { nome: T('Preto Carvão', 'Charcoal Black'), cod: '#0F0000', uso: T('Base da página', 'Page base'), cor: '#0F0000' },
+  { nome: T('Dourado', 'Gold'), cod: '#E7A22E', uso: T('Palavras de destaque', 'Highlighted words'), cor: '#E7A22E' },
+  { nome: T('Verde Compra', 'Buy Green'), cod: '#00CD67', uso: T('Botões de compra', 'Buy buttons'), cor: '#00CD67' },
 ];
 
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: 'Método Dias Food',
-  description: 'Landing page de vendas do curso Método Dias Food, de Patrik Dias, feita para a Agência Zava.',
+  description: T('Landing page de vendas do curso Método Dias Food, de Patrik Dias, feita para a Agência Zava.', 'Sales landing page for Patrik Dias’s Método Dias Food course, made for Agência Zava.'),
   creator: { '@type': 'Person', name: 'Jonathan Menino' },
   dateCreated: '2025',
-  inLanguage: 'pt-BR',
+  inLanguage: T('pt-BR', 'en'),
 };
 ---
 <Base
   title="Método Dias Food · Landing page · Jonathan Menino"
-  description="Landing page de vendas do curso Método Dias Food, de Patrik Dias, para donos de delivery que querem vender marmitas no iFood: vídeo de vendas, depoimentos, módulos, bônus, oferta e garantia. Feita para a Agência Zava."
+  description={T('Landing page de vendas do curso Método Dias Food, de Patrik Dias, para donos de delivery que querem vender marmitas no iFood: vídeo de vendas, depoimentos, módulos, bônus, oferta e garantia. Feita para a Agência Zava.', 'Sales landing page for Patrik Dias’s Método Dias Food course, for delivery business owners who want to sell meal boxes on iFood: sales video, testimonials, modules, bonuses, offer and guarantee. Made for Agência Zava.')}
   image="og/metodo-dias-food.jpg"
   tipo="article"
   themeColor="#0F0000"
@@ -73,11 +91,12 @@ const jsonld = {
 >
 <div class="mdf">
   <header class="topo">
-    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
       <Fox cor="#E7A22E" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
     </a>
-    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
+
   </header>
 
   <main>
@@ -86,24 +105,24 @@ const jsonld = {
       <Image src={seloMdf} alt="" widths={[500]} class="marca-dagua" aria-hidden="true" />
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Landing page · Curso online</p>
+          <p class="eyebrow">{EN ? <>Landing page · Online course</> : <>Landing page · Curso online</>}</p>
           <h1>Método<br /><span class="ouro">Dias Food</span></h1>
-          <p class="lead">Página de vendas do curso do Patrik Dias, que ensina a começar do zero e faturar vendendo marmitas no iFood. Fiz o design e o desenvolvimento da página, do vídeo no topo ao botão de compra.</p>
+          <p class="lead">{EN ? <>Sales page for Patrik Dias’s course, which teaches how to start from scratch and make money selling meal boxes on iFood. I designed and built the page, from the video at the top to the buy button.</> : <>Página de vendas do curso do Patrik Dias, que ensina a começar do zero e faturar vendendo marmitas no iFood. Fiz o design e o desenvolvimento da página, do vídeo no topo ao botão de compra.</>}</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
             <div class="agencia">
-              <dt>Feito para</dt>
+              <dt>{EN ? <>Made for</> : <>Feito para</>}</dt>
               <dd><Image src={zava} alt="Agência Zava" height={28} class="zava" /></dd>
             </div>
           </dl>
         </div>
         <div class="hero-foto">
-          <Image src={patrik} alt="Patrik Dias, criador do Método Dias Food" widths={[400, 600]} sizes="(min-width: 1024px) 420px, 70vw" loading="eager" />
+          <Image src={patrik} alt={EN ? "Patrik Dias, creator of Método Dias Food" : "Patrik Dias, criador do Método Dias Food"} widths={[400, 600]} sizes="(min-width: 1024px) 420px, 70vw" loading="eager" />
           <Image src={nomePatrik} alt="" widths={[400, 800]} sizes="320px" class="hero-nome" aria-hidden="true" />
         </div>
       </div>
       <div class="wrap">
-        <Image src={mockupHero} alt="Topo da landing page em um notebook: Bem-vindo ao treinamento que irá mudar o seu delivery, com o vídeo Aperte o play" widths={[700, 1100, 1400]} sizes="(min-width: 1200px) 1100px, 100vw" class="hero-mockup" loading="eager" fetchpriority="high" />
+        <Image src={mockupHero} alt={EN ? "Top of the landing page on a laptop: \"Welcome to the training that will change your delivery business\", with the \"Press play\" video" : "Topo da landing page em um notebook: Bem-vindo ao treinamento que irá mudar o seu delivery, com o vídeo Aperte o play"} widths={[700, 1100, 1400]} sizes="(min-width: 1200px) 1100px, 100vw" class="hero-mockup" loading="eager" fetchpriority="high" />
       </div>
     </section>
 
@@ -111,14 +130,14 @@ const jsonld = {
     <section class="preto">
       <div class="wrap duas">
         <div>
-          <p class="num">01 · O desafio</p>
-          <h2>Vender um curso para quem acha que <span class="ouro">não tem tempo</span>.</h2>
-          <p>O público do Método Dias Food é o dono de delivery pequeno, que trabalha na cozinha o dia inteiro e acha que precisa de muito dinheiro para crescer. A página tinha que fazer essa pessoa dar play no vídeo e chegar até a compra sem desistir no caminho.</p>
+          <p class="num">{EN ? <>01 · The challenge</> : <>01 · O desafio</>}</p>
+          <h2>{EN ? <>Selling a course to people who think they <span class="ouro">don’t have time</span>.</> : <>Vender um curso para quem acha que <span class="ouro">não tem tempo</span>.</>}</h2>
+          <p>{EN ? <>Método Dias Food’s audience is the small delivery business owner who works in the kitchen all day and thinks they need a lot of money to grow. The page had to get this person to press play and make it to the purchase without giving up along the way.</> : <>O público do Método Dias Food é o dono de delivery pequeno, que trabalha na cozinha o dia inteiro e acha que precisa de muito dinheiro para crescer. A página tinha que fazer essa pessoa dar play no vídeo e chegar até a compra sem desistir no caminho.</>}</p>
         </div>
         <div>
-          <p class="num">02 · A solução</p>
-          <h2>Uma página longa que <span class="ouro">responde cada dúvida</span>.</h2>
-          <p>O vídeo de vendas abre a página, com um "Aperte o play" que não deixa dúvida. Depois, cada dobra derruba uma objeção: depoimentos, o que se aprende, bônus, preço parcelado, garantia, o mentor e as perguntas frequentes. O botão verde aparece sempre que a decisão está perto.</p>
+          <p class="num">{EN ? <>02 · The solution</> : <>02 · A solução</>}</p>
+          <h2>{EN ? <>A long page that <span class="ouro">answers every question</span>.</> : <>Uma página longa que <span class="ouro">responde cada dúvida</span>.</>}</h2>
+          <p>{EN ? <>The sales video opens the page, with a "Press play" that leaves no doubt. Then each section knocks down an objection: testimonials, what you’ll learn, bonuses, installment price, guarantee, the mentor and FAQs. The green button appears whenever the decision is close.</> : <>O vídeo de vendas abre a página, com um "Aperte o play" que não deixa dúvida. Depois, cada dobra derruba uma objeção: depoimentos, o que se aprende, bônus, preço parcelado, garantia, o mentor e as perguntas frequentes. O botão verde aparece sempre que a decisão está perto.</>}</p>
         </div>
       </div>
     </section>
@@ -126,20 +145,20 @@ const jsonld = {
     <!-- ============ A PÁGINA INTEIRA ============ -->
     <section class="vermelho">
       <div class="wrap">
-        <p class="num">03 · A página</p>
-        <h2 class="grande">Do play ao <span class="ouro">botão verde</span>.</h2>
-        <p class="intro">A landing page inteira, de cima a baixo. Role dentro da janela para ver todas as dobras.</p>
+        <p class="num">{EN ? <>03 · The page</> : <>03 · A página</>}</p>
+        <h2 class="grande">{EN ? <>From play to the <span class="ouro">green button</span>.</> : <>Do play ao <span class="ouro">botão verde</span>.</>}</h2>
+        <p class="intro">{EN ? <>The whole landing page, top to bottom. Scroll inside the window to see every section.</> : <>A landing page inteira, de cima a baixo. Role dentro da janela para ver todas as dobras.</>}</p>
         <div class="pagina">
           <div class="navegador">
             <div class="barra" aria-hidden="true"><i></i><i></i><i></i><span>Método Dias Food</span></div>
-            <div class="rolagem" tabindex="0" aria-label="Landing page completa do Método Dias Food">
-              <Image src={paginaInteira} alt="Landing page completa: topo com vídeo, objeção, depoimentos, módulos, bônus, investimento, garantia, mentor e perguntas frequentes" widths={[700, 1018]} sizes="(min-width: 1100px) 760px, 92vw" />
+            <div class="rolagem" tabindex="0" aria-label={EN ? "Full Método Dias Food landing page" : "Landing page completa do Método Dias Food"}>
+              <Image src={paginaInteira} alt={EN ? "Full landing page: hero with video, objection, testimonials, modules, bonuses, pricing, guarantee, mentor and FAQs" : "Landing page completa: topo com vídeo, objeção, depoimentos, módulos, bônus, investimento, garantia, mentor e perguntas frequentes"} widths={[700, 1018]} sizes="(min-width: 1100px) 760px, 92vw" />
             </div>
           </div>
           <div class="celular">
-            <Image src={mockupCelular} alt="Seção Quem será seu mentor na versão para celular" widths={[300, 430]} sizes="(min-width: 900px) 300px, 70vw" />
-            <p class="legenda">Versão para celular</p>
-            <p class="legenda-txt">A maior parte do público chega pelo Instagram, então cada dobra foi pensada primeiro na tela do celular.</p>
+            <Image src={mockupCelular} alt={EN ? "\"Who will be your mentor\" section on the mobile version" : "Seção Quem será seu mentor na versão para celular"} widths={[300, 430]} sizes="(min-width: 900px) 300px, 70vw" />
+            <p class="legenda">{EN ? <>Mobile version</> : <>Versão para celular</>}</p>
+            <p class="legenda-txt">{EN ? <>Most of the audience arrives from Instagram, so every section was designed for the phone screen first.</> : <>A maior parte do público chega pelo Instagram, então cada dobra foi pensada primeiro na tela do celular.</>}</p>
           </div>
         </div>
       </div>
@@ -148,8 +167,8 @@ const jsonld = {
     <!-- ============ DOBRAS ============ -->
     <section class="preto">
       <div class="wrap">
-        <p class="num">04 · Dobra a dobra</p>
-        <h2 class="grande">Cada parte com <span class="ouro">um trabalho</span>.</h2>
+        <p class="num">{EN ? <>04 · Section by section</> : <>04 · Dobra a dobra</>}</p>
+        <h2 class="grande">{EN ? <>Each part has <span class="ouro">a job</span>.</> : <>Cada parte com <span class="ouro">um trabalho</span>.</>}</h2>
         <ul class="dobras">
           {dobras.map((d) => (
             <li class:list={[d.largo && 'largo']}>
@@ -165,16 +184,16 @@ const jsonld = {
     <!-- ============ IDENTIDADE ============ -->
     <section class="claro">
       <div class="wrap">
-        <p class="num">05 · Base visual</p>
-        <h2 class="grande">Vermelho de cozinha, <span class="ouro-escuro">dourado de destaque</span>.</h2>
-        <p class="bloco-txt">A página segue o vermelho e o preto da marca do Patrik. O dourado marca as palavras que vendem, como "treinamento", "delivery" e "investimento", e o verde fica reservado só para os botões de compra.</p>
-        <h3 class="sub-h">Marca</h3>
+        <p class="num">{EN ? <>05 · Visual foundation</> : <>05 · Base visual</>}</p>
+        <h2 class="grande">{EN ? <>Kitchen red, <span class="ouro-escuro">highlight gold</span>.</> : <>Vermelho de cozinha, <span class="ouro-escuro">dourado de destaque</span>.</>}</h2>
+        <p class="bloco-txt">{EN ? <>The page follows the red and black of Patrik’s brand. Gold marks the words that sell, like "treinamento" (training), "delivery" and "investimento" (investment), and green is reserved for the buy buttons only.</> : <>A página segue o vermelho e o preto da marca do Patrik. O dourado marca as palavras que vendem, como "treinamento", "delivery" e "investimento", e o verde fica reservado só para os botões de compra.</>}</p>
+        <h3 class="sub-h">{EN ? <>Brand</> : <>Marca</>}</h3>
         <div class="marcas">
-          <div class="marca-card branco"><Image src={logoVertical} alt="Logo vertical do Método Dias Food" widths={[300, 397]} sizes="220px" /></div>
-          <div class="marca-card branco"><Image src={logoHorizontal} alt="Assinatura MDF Patrik Dias" widths={[500, 814]} sizes="(min-width: 900px) 420px, 80vw" /></div>
-          <div class="marca-card escuro-card"><Image src={nomePatrik} alt="Nome Patrik Dias em Palmore" widths={[500, 924]} sizes="(min-width: 900px) 420px, 80vw" /></div>
+          <div class="marca-card branco"><Image src={logoVertical} alt={EN ? "Método Dias Food vertical logo" : "Logo vertical do Método Dias Food"} widths={[300, 397]} sizes="220px" /></div>
+          <div class="marca-card branco"><Image src={logoHorizontal} alt={EN ? "MDF Patrik Dias signature" : "Assinatura MDF Patrik Dias"} widths={[500, 814]} sizes="(min-width: 900px) 420px, 80vw" /></div>
+          <div class="marca-card escuro-card"><Image src={nomePatrik} alt={EN ? "The name Patrik Dias set in Palmore" : "Nome Patrik Dias em Palmore"} widths={[500, 924]} sizes="(min-width: 900px) 420px, 80vw" /></div>
         </div>
-        <h3 class="sub-h">Paleta</h3>
+        <h3 class="sub-h">{EN ? <>Palette</> : <>Paleta</>}</h3>
         <ul class="paleta">
           {paleta.map((c) => (
             <li>
@@ -183,13 +202,13 @@ const jsonld = {
             </li>
           ))}
         </ul>
-        <h3 class="sub-h">Tipografia</h3>
+        <h3 class="sub-h">{EN ? <>Typography</> : <>Tipografia</>}</h3>
         <div class="tipos">
           <div class="tipo">
             <p class="tipo-aa pal" aria-hidden="true">Aa</p>
             <div>
               <p class="tipo-nome">Palmore</p>
-              <p class="tipo-desc">Serifa alta e estreita, com cara de letreiro antigo de restaurante. É a letra do nome do Patrik e das chamadas grandes.</p>
+              <p class="tipo-desc">{EN ? <>A tall, narrow serif that looks like an old restaurant sign. It’s the typeface for Patrik’s name and the big headlines.</> : <>Serifa alta e estreita, com cara de letreiro antigo de restaurante. É a letra do nome do Patrik e das chamadas grandes.</>}</p>
               <p class="tipo-amostra pal">Faturar vendendo <span>marmitas</span></p>
             </div>
           </div>
@@ -197,7 +216,7 @@ const jsonld = {
             <p class="tipo-aa" aria-hidden="true">Aa</p>
             <div>
               <p class="tipo-nome">Josefin Sans</p>
-              <p class="tipo-desc">Geométrica, em caixa alta nos títulos das dobras, em itálico nos subtítulos e fina no texto corrido.</p>
+              <p class="tipo-desc">{EN ? <>Geometric, in capitals for section titles, italic for subtitles and light for body text.</> : <>Geométrica, em caixa alta nos títulos das dobras, em itálico nos subtítulos e fina no texto corrido.</>}</p>
               <p class="tipo-amostra">Aperte o <span>play</span></p>
             </div>
           </div>
@@ -208,8 +227,8 @@ const jsonld = {
     <!-- ============ CRÉDITOS ============ -->
     <section class="preto creditos">
       <div class="wrap">
-        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Patrik Dias, Método Dias Food</b>. Fiz o design e o desenvolvimento da landing page. O site não está mais no ar; as imagens são do projeto publicado no Behance.</p>
-        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+        <p>{EN ? <>Project developed for <b>Agência Zava</b>. Client: <b>Patrik Dias, Método Dias Food</b>. I designed and built the landing page. The site is no longer live; the images come from the project published on Behance.</> : <>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Patrik Dias, Método Dias Food</b>. Fiz o design e o desenvolvimento da landing page. O site não está mais no ar; as imagens são do projeto publicado no Behance.</>}</p>
+        <a href={portfolio} class="botao">{EN ? <>See other projects</> : <>Ver outros projetos</>} <span aria-hidden="true">→</span></a>
       </div>
     </section>
   </main>

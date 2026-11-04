@@ -103,3 +103,68 @@ telas:
       legenda: Serviços
     - imagem: ../../assets/cases/agencia-zava/mobile-cases.jpg
       legenda: Resultado em destaque
+
+# ---------- Inglês (/en/): só os textos, na mesma ordem das listas acima ----------
+en:
+  tipo: Corporate website · Marketing agency
+  resumo: Website for Agência Zava, from Limeira, Brazil. The home page presents the agency’s 360° Marketing, its six services and client results, and leads visitors to request a proposal or chat on WhatsApp.
+  descricaoSeo: "Corporate website for Agência Zava, a marketing agency from Limeira, Brazil, built in WordPress with Elementor: services, case studies and proposal requests on one page."
+  card:
+    tags: [Corporate website, WordPress, Elementor]
+    descricao: Website for a marketing agency from Limeira, Brazil, with services, case studies and a direct path to request a proposal.
+  ficha:
+    - rotulo: Client
+      valor: Agência Zava · Limeira, Brazil
+    - rotulo: Platform
+    - rotulo: My role
+      valor: Layout and development
+    - rotulo: Timeline
+      valor: 5 days
+  agencia:
+    rotulo: Website built for
+  desafio:
+    titulo: Showing the agency does it all, without turning into a confusing list.
+    texto: Zava covers everything from social media to paid traffic, websites, design, photography and consulting. The website had to convey this full-marketing vision, prove it with client results and turn visits into proposal requests.
+  solucao:
+    titulo: A clear promise at the top and a direct path to the proposal.
+    texto: "The hero sums up the agency in one sentence and immediately offers two paths: request a proposal or talk to a specialist. Services sit in matching cards, each with its own contact, and the case studies show client logos and a highlighted result before the final call."
+  estrutura:
+    titulo: From promise to proposal in six blocks.
+    texto: The home page tells who the agency is, what it does and what it has delivered, always with a contact button close by.
+    secoes:
+      - nome: Hero with the promise
+        texto: '"360° Marketing that turns strategies into sales", with a proposal button and a shortcut to a specialist on WhatsApp.'
+      - nome: About us
+        texto: Positions Zava as a growth partner, not just social media, and opens the services with a highlight block.
+      - nome: Services
+        texto: "Six services in cards with an icon, short description and contact link: social media, paid traffic, websites, visual identity, content and consulting."
+      - nome: Success stories
+        texto: A strip with logos of clients served, such as Parque Hippolyto, Jardim Sul, Papa Rica, Kyoto and Macarrone.
+      - nome: Highlighted result
+        texto: The launch of Jardim Emília, with over R$ 8 million in sales on the first day, and the services involved.
+      - nome: Final call and contact
+        texto: An orange block to request a proposal and a footer with address, map, email, phone and links to each service.
+  desempenho:
+    titulo: Light for visitors, well rated by Google.
+    texto: Top score in best practices, SEO above 90 and a page that responds to touch without freezing, even with a background video at the top.
+    metricas:
+      - valor: 0 ms on mobile and desktop
+        texto: "No script blocks the page: visitors scroll and tap without waiting."
+      - valor: 0.5 s on desktop
+        texto: The hero shows up in half a second on a computer.
+    observacao: Scores measured on PageSpeed Insights on Oct 13, 2026.
+    otimizacoes:
+      - titulo: Page cache
+        texto: With WP Rocket, visitors get the page ready-made instead of WordPress building everything on every visit.
+      - titulo: Lazy load
+        texto: Photos, videos and the map only load when they get close to the screen, and the top shows up first.
+      - titulo: Minification
+        texto: Lean CSS and JavaScript, without spaces and comments, so fewer and lighter files are downloaded.
+      - titulo: JavaScript under control
+        texto: Scripts the page doesn’t use were removed or deferred, so it responds quickly to touch.
+  telas:
+    titulo: The same experience on mobile
+    imagens:
+      - legenda: Hero with the promise
+      - legenda: Services
+      - legenda: Highlighted result

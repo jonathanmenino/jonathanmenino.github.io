@@ -1,5 +1,7 @@
 ---
 // Página para endereços que não existem (o GitHub Pages usa o 404.html gerado daqui).
+// É uma página só para os dois idiomas: um script troca os textos para inglês quando o endereço
+// começa com /en/, quando a pessoa escolheu inglês ou quando o navegador não está em português.
 import Base from '../layouts/Base.astro';
 import Fox from '../components/Fox.astro';
 import { url } from '../data/site';
@@ -9,13 +11,26 @@ import { url } from '../data/site';
   <main class="grid min-h-[100dvh] place-items-center bg-ink px-5 text-center text-white">
     <div>
       <Fox cor="#9B7BFF" class="mx-auto h-14 w-auto" />
-      <p class="mt-8 font-mono text-xs uppercase tracking-[.14em] text-white/60">Erro 404</p>
-      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Esta página não existe.</h1>
-      <p class="mt-4 text-white/70">O endereço pode ter mudado ou foi digitado errado.</p>
+      <p class="mt-8 font-mono text-xs uppercase tracking-[.14em] text-white/60" data-en="Error 404">Erro 404</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl" data-en="This page doesn’t exist.">Esta página não existe.</h1>
+      <p class="mt-4 text-white/70" data-en="The address may have changed or been mistyped.">O endereço pode ter mudado ou foi digitado errado.</p>
       <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-        <a href={url()} class="rounded-full bg-brand px-6 py-3.5 text-sm font-semibold transition hover:bg-brand-dark">Ir para o início</a>
-        <a href={url('white-label/')} class="rounded-full border border-white/20 px-6 py-3.5 text-sm font-semibold transition hover:border-white/50">White Label para agências</a>
+        <a href={url()} data-en-href={url('en/')} class="rounded-full bg-brand px-6 py-3.5 text-sm font-semibold transition hover:bg-brand-dark" data-en="Go to the home page">Ir para o início</a>
+        <a href={url('white-label/')} data-en-href={url('en/white-label/')} class="rounded-full border border-white/20 px-6 py-3.5 text-sm font-semibold transition hover:border-white/50" data-en="White Label for agencies">White Label para agências</a>
       </div>
     </div>
   </main>
+  <script is:inline>
+    (function () {
+      var salvo = null;
+      try { salvo = localStorage.getItem('idioma'); } catch (e) {}
+      var l = (navigator.languages && navigator.languages[0]) || navigator.language || 'pt';
+      var en = /^\/en(\/|$)/.test(location.pathname) || salvo === 'en' || (!salvo && !/^pt/i.test(l));
+      if (!en) return;
+      document.documentElement.lang = 'en';
+      document.title = 'Page not found · Jonathan Menino';
+      document.querySelectorAll('[data-en]').forEach(function (el) { el.textContent = el.getAttribute('data-en'); });
+      document.querySelectorAll('[data-en-href]').forEach(function (el) { el.setAttribute('href', el.getAttribute('data-en-href')); });
+    })();
+  </script>
 </Base>

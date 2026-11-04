@@ -5,25 +5,34 @@
    Para atualizar: edite os dados abaixo e gere o PDF de novo (veja o README). */
 import Base from '../../layouts/Base.astro';
 import Fox from '../../components/Fox.astro';
+import TrocaIdioma from '../../components/TrocaIdioma.astro';
 import { SITE, url } from '../../data/site';
+import { idioma, tradutor, pagina } from '../../i18n';
+
+// Versão em inglês em /en/curriculo/ (mesma página, textos da segunda coluna de cada T()).
+// O PDF em inglês é public/curriculo/jonathan-menino-resume.pdf, gerado do mesmo jeito.
+const L = idioma(Astro.url);
+const T = tradutor(L);
 
 const CONTATO = {
-  cidade: 'Limeira, SP',
+  cidade: T('Limeira, SP', 'Limeira, SP, Brazil'),
   telefone: '+55 (19) 99436-6334',
   email: 'jmeninodesign@gmail.com',
-  portfolio: 'https://jonathanmenino.github.io/portfolio/',
+  portfolio: new URL(pagina(L, 'portfolio/'), 'https://jonathanmenino.github.io').href,
   linkedin: SITE.redes.linkedin,
   behance: SITE.redes.behance,
   github: SITE.redes.github,
 };
 const curto = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 
-const CARGOS = ['Designer Gráfico', 'UI Designer', 'Editor de Vídeo', 'Criação de Sites'];
+const CARGOS = T(['Designer Gráfico', 'UI Designer', 'Editor de Vídeo', 'Criação de Sites'], ['Graphic Designer', 'UI Designer', 'Video Editor', 'Web Design']);
 
-const RESUMO =
-  'Designer gráfico com mais de 13 anos de experiência em agências e empresas B2B e B2C. Crio identidades visuais e campanhas para redes sociais, mídia paga, impressos e PDV, edito vídeos e motion para Reels e anúncios, e desenho e desenvolvo sites e interfaces, do Figma ao código. Uso fluxos de IA generativa no dia a dia para produzir imagens e vídeos com mais agilidade, sem perder o cuidado com a marca. Hoje sou designer gráfico sênior na Agência Zava.';
+const RESUMO = T(
+  'Designer gráfico com mais de 13 anos de experiência em agências e empresas B2B e B2C. Crio identidades visuais e campanhas para redes sociais, mídia paga, impressos e PDV, edito vídeos e motion para Reels e anúncios, e desenho e desenvolvo sites e interfaces, do Figma ao código. Uso fluxos de IA generativa no dia a dia para produzir imagens e vídeos com mais agilidade, sem perder o cuidado com a marca. Hoje sou designer gráfico sênior na Agência Zava.',
+  'Graphic designer with over 13 years of experience at agencies and B2B and B2C companies. I create visual identities and campaigns for social media, paid media, print and point of sale, edit videos and motion for Reels and ads, and design and build websites and interfaces, from Figma to code. I use generative AI workflows every day to produce images and videos faster without losing care for the brand. I currently work as a senior graphic designer at Agência Zava.',
+);
 
-const EXPERIENCIA = [
+const EXPERIENCIA_PT = [
   {
     empresa: 'Agência Zava',
     cargo: 'Designer Gráfico Sênior',
@@ -70,14 +79,66 @@ const EXPERIENCIA = [
   },
 ];
 
+const EXPERIENCIA_EN: typeof EXPERIENCIA_PT = [
+  {
+    empresa: 'Agência Zava',
+    cargo: 'Senior Graphic Designer',
+    periodo: 'Jun 2025 – present',
+    sobre: 'digital marketing agency',
+    itens: [
+      'Visual identity and art direction for campaigns for food and retail brands.',
+      'Pieces for social media, ads, print and points of sale.',
+      'Video editing and motion design for Reels, ads and LED screens.',
+      'Generative AI workflows to create sets, props and assets for videos.',
+    ],
+  },
+  {
+    empresa: 'Acade',
+    cargo: 'Mid-level Graphic Designer',
+    periodo: 'Mar 2023 – Feb 2025',
+    sobre: 'education for the fitness market',
+    itens: [
+      'Creatives for digital marketing and social media campaigns.',
+      'Offline materials: print ads and point-of-sale pieces.',
+      'Visual identity and presentations for events and training sessions.',
+    ],
+  },
+  {
+    empresa: 'DISEMP',
+    cargo: 'Mid-level Graphic Designer',
+    periodo: 'Nov 2021 – Jan 2023',
+    sobre: 'automotive marketing, DISEMP Group',
+    itens: [
+      'Digital and print pieces for car dealerships and automotive campaigns.',
+      'Motion design and video editing for digital campaigns.',
+    ],
+  },
+  {
+    empresa: 'BluePex',
+    cargo: 'Marketing Analyst',
+    periodo: 'Sep 2019 – May 2021',
+    sobre: 'B2B cybersecurity',
+    itens: [
+      'Pieces for digital and print campaigns.',
+      'Landing pages and sales funnel automation.',
+      'Management of marketing platforms and CRM, and videos for internal training.',
+    ],
+  },
+];
+const EXPERIENCIA = T(EXPERIENCIA_PT, EXPERIENCIA_EN);
+
 // Experiências mais antigas: uma linha cada, sem tópicos.
-const ANTERIORES = [
+const ANTERIORES = T([
   { cargo: 'Designer Gráfico (estágio)', empresa: 'Apice do Brasil', periodo: 'dez 2017 – ago 2018', texto: 'Agência de publicidade: layouts de sites, e-mail marketing, embalagens e edição de vídeo.' },
   { cargo: 'Arte-finalista', empresa: 'MSix Gráfica Rápida', periodo: 'ago 2016 – dez 2017', texto: 'Layouts para impressão digital e offset.' },
   { cargo: 'Arte-finalista', empresa: 'Gráfica Mais Cores', periodo: 'ago 2013 – dez 2015', texto: 'Embalagens para semijoias e fechamento de arquivos para offset.' },
-];
+], [
+  { cargo: 'Graphic Design Intern', empresa: 'Apice do Brasil', periodo: 'Dec 2017 – Aug 2018', texto: 'Advertising agency: website layouts, email marketing, packaging and video editing.' },
+  { cargo: 'Prepress Artist', empresa: 'MSix Gráfica Rápida', periodo: 'Aug 2016 – Dec 2017', texto: 'Layouts for digital and offset printing.' },
+  { cargo: 'Prepress Artist', empresa: 'Gráfica Mais Cores', periodo: 'Aug 2013 – Dec 2015', texto: 'Packaging for fashion jewelry and print-ready files for offset.' },
+]);
 
-const PROJETOS = [
+const PROJETOS = T([
   { nome: 'Escalados Macarrone', contexto: 'Agência Zava', texto: 'Campanha da Copa 2026: identidade, posts, stories, vídeos, landing page e PDV.', link: 'portfolio/escalados-macarrone/' },
   { nome: 'Costelinha BBQ · Macarrone in Box', contexto: 'Agência Zava', texto: 'Vídeos com chroma key, telão de LED e peças.', link: 'portfolio/macarrone-costelinha-bbq/' },
   { nome: 'Os Doces da Fer · Páscoa 2026', contexto: 'Agência Zava', texto: 'Edição dos vídeos com cenários e objetos gerados por IA, e peças.', link: 'portfolio/doces-da-fer-pascoa/' },
@@ -85,51 +146,70 @@ const PROJETOS = [
   { nome: 'Método Dias Food · Patrik Dias', contexto: 'Agência Zava', texto: 'Landing page de vendas de curso: design e desenvolvimento.', link: 'portfolio/metodo-dias-food/' },
   { nome: 'menin0 lo-fi', contexto: 'Projeto pessoal', texto: 'Identidade, UI no Figma e site desenvolvido em HTML e CSS.', link: 'portfolio/menin0-lofi/' },
   { nome: 'Sites White Label para agências', contexto: 'Freelance', texto: 'Sites e landing pages: Agência Zava, Jardim Sul Residencial e Sentinela.', link: 'white-label/' },
-];
+], [
+  { nome: 'Escalados Macarrone', contexto: 'Agência Zava', texto: '2026 World Cup campaign: identity, posts, stories, videos, landing page and POS.', link: 'portfolio/escalados-macarrone/' },
+  { nome: 'Costelinha BBQ · Macarrone in Box', contexto: 'Agência Zava', texto: 'Videos with chroma key, LED screen and pieces.', link: 'portfolio/macarrone-costelinha-bbq/' },
+  { nome: 'Os Doces da Fer · Easter 2026', contexto: 'Agência Zava', texto: 'Video editing with AI-generated sets and props, plus pieces.', link: 'portfolio/doces-da-fer-pascoa/' },
+  { nome: 'É o BR no Kombina · Kombina Burgers House', contexto: 'Agência Zava', texto: 'Launch campaign for three burgers: identity, pieces and video editing.', link: 'portfolio/br-no-kombina/' },
+  { nome: 'Método Dias Food · Patrik Dias', contexto: 'Agência Zava', texto: 'Sales landing page for a course: design and development.', link: 'portfolio/metodo-dias-food/' },
+  { nome: 'menin0 lo-fi', contexto: 'Personal project', texto: 'Identity, UI in Figma and website built in HTML and CSS.', link: 'portfolio/menin0-lofi/' },
+  { nome: 'White Label websites for agencies', contexto: 'Freelance', texto: 'Websites and landing pages: Agência Zava, Jardim Sul Residencial and Sentinela.', link: 'white-label/' },
+]);
 
-const COMPETENCIAS = [
+const COMPETENCIAS = T([
   { area: 'Design gráfico', itens: 'Identidade visual, direção de arte, social media, anúncios, impressos, PDV, apresentações' },
   { area: 'Vídeo e motion', itens: 'Edição de vídeo, motion design, Reels, anúncios em vídeo, chroma key, telão de LED' },
   { area: 'UI e sites', itens: 'UI design, landing pages, sites institucionais, design responsivo, HTML, CSS, JavaScript' },
   { area: 'IA generativa', itens: 'Fluxos de IA para imagem e vídeo, geração de cenários e objetos, IA na criação e no código' },
   { area: 'Ferramentas', itens: 'Photoshop, Illustrator, InDesign, Premiere Pro, Figma' },
-];
+], [
+  { area: 'Graphic design', itens: 'Visual identity, art direction, social media, ads, print, point of sale, presentations' },
+  { area: 'Video and motion', itens: 'Video editing, motion design, Reels, video ads, chroma key, LED screens' },
+  { area: 'UI and web', itens: 'UI design, landing pages, corporate websites, responsive design, HTML, CSS, JavaScript' },
+  { area: 'Generative AI', itens: 'AI workflows for image and video, generating sets and props, AI in design and code' },
+  { area: 'Tools', itens: 'Photoshop, Illustrator, InDesign, Premiere Pro, Figma' },
+]);
 
-const CURSOS = [
+const CURSOS = T([
   { nome: 'UI Design Avançado', escola: 'Origamid' },
   { nome: 'JavaScript', escola: 'Origamid' },
   { nome: 'HTML e CSS', escola: 'Coderhouse' },
-];
+], [
+  { nome: 'Advanced UI Design', escola: 'Origamid' },
+  { nome: 'JavaScript', escola: 'Origamid' },
+  { nome: 'HTML and CSS', escola: 'Coderhouse' },
+]);
 
-const PDF = url('curriculo/jonathan-menino-curriculo.pdf');
+const PDF = url(T('curriculo/jonathan-menino-curriculo.pdf', 'curriculo/jonathan-menino-resume.pdf'));
 
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: SITE.nome,
-  jobTitle: 'Designer Gráfico',
+  jobTitle: T('Designer Gráfico', 'Graphic Designer'),
   email: `mailto:${CONTATO.email}`,
   telephone: '+5519994366334',
   address: { '@type': 'PostalAddress', addressLocality: 'Limeira', addressRegion: 'SP', addressCountry: 'BR' },
   worksFor: { '@type': 'Organization', name: 'Agência Zava' },
   knowsLanguage: ['pt-BR', 'en'],
-  url: new URL(url('curriculo/'), Astro.site).href,
+  url: new URL(pagina(L, 'curriculo/'), Astro.site).href,
   sameAs: Object.values(SITE.redes).filter(Boolean),
 };
 ---
 <Base
-  title="Currículo · Jonathan Menino, Designer Gráfico"
-  description="Currículo de Jonathan Menino: designer gráfico, UI designer e editor de vídeo em Limeira/SP, com mais de 13 anos de experiência em identidade visual, campanhas, motion, sites e fluxos de IA."
+  title={T('Currículo · Jonathan Menino, Designer Gráfico', 'Résumé · Jonathan Menino, Graphic Designer')}
+  description={T('Currículo de Jonathan Menino: designer gráfico, UI designer e editor de vídeo em Limeira/SP, com mais de 13 anos de experiência em identidade visual, campanhas, motion, sites e fluxos de IA.', 'Résumé of Jonathan Menino: graphic designer, UI designer and video editor based in Limeira, Brazil, with over 13 years of experience in visual identity, campaigns, motion, websites and AI workflows.')}
   jsonld={jsonld}
 >
 <div class="barra no-print">
-  <a href={url()} class="voltar" aria-label="Voltar ao início">
+  <a href={pagina(L)} class="voltar" aria-label={T('Voltar ao início', 'Back to home')}>
     <Fox cor="#9B7BFF" class="raposa" />
     <span>Jonathan Menino</span>
   </a>
   <div class="acoes">
-    <a class="btn" href={PDF} download>Baixar PDF</a>
-    <a class="btn sec" href={CONTATO.portfolio}>Ver portfólio</a>
+    <a class="btn" href={PDF} download>{T('Baixar PDF', 'Download PDF')}</a>
+    <a class="btn sec" href={pagina(L, 'portfolio/')}>{T('Ver portfólio', 'View portfolio')}</a>
+    <TrocaIdioma />
   </div>
 </div>
 
@@ -141,7 +221,7 @@ const jsonld = {
       <li>{CONTATO.cidade}</li>
       <li><a href={`https://wa.me/${SITE.whatsapp}`}>{CONTATO.telefone}</a></li>
       <li><a href={`mailto:${CONTATO.email}`}>{CONTATO.email}</a></li>
-      <li><strong>Portfólio:</strong> <a href={CONTATO.portfolio}>{curto(CONTATO.portfolio)}</a></li>
+      <li><strong>{T('Portfólio:', 'Portfolio:')}</strong> <a href={CONTATO.portfolio}>{curto(CONTATO.portfolio)}</a></li>
       <li><a href={CONTATO.linkedin}>{curto(CONTATO.linkedin)}</a></li>
       <li><a href={CONTATO.behance}>{curto(CONTATO.behance)}</a></li>
       <li><a href={CONTATO.github}>{curto(CONTATO.github)}</a></li>
@@ -149,12 +229,12 @@ const jsonld = {
   </header>
 
   <section>
-    <h2>Resumo</h2>
+    <h2>{T('Resumo', 'Summary')}</h2>
     <p class="resumo">{RESUMO}</p>
   </section>
 
   <section>
-    <h2>Experiência profissional</h2>
+    <h2>{T('Experiência profissional', 'Work experience')}</h2>
     {EXPERIENCIA.map((e) => (
       <article class="exp">
         <div class="exp-topo">
@@ -164,7 +244,7 @@ const jsonld = {
         <ul class="itens">{e.itens.map((i) => <li>{i}</li>)}</ul>
       </article>
     ))}
-    <h3 class="ant-titulo">Experiências anteriores</h3>
+    <h3 class="ant-titulo">{T('Experiências anteriores', 'Earlier experience')}</h3>
     <ul class="anteriores">
       {ANTERIORES.map((a) => (
         <li><strong>{a.cargo}</strong> · {a.empresa} <span class="periodo">({a.periodo})</span>. {a.texto}</li>
@@ -173,11 +253,11 @@ const jsonld = {
   </section>
 
   <section>
-    <h2>Projetos em destaque</h2>
+    <h2>{T('Projetos em destaque', 'Featured projects')}</h2>
     <ul class="projetos">
       {PROJETOS.map((p) => (
         <li>
-          <a href={new URL(url(p.link), Astro.site).href}><strong>{p.nome}</strong></a>
+          <a href={new URL(pagina(L, p.link), Astro.site).href}><strong>{p.nome}</strong></a>
           <span class="contexto"> · {p.contexto}.</span> {p.texto}
         </li>
       ))}
@@ -185,7 +265,7 @@ const jsonld = {
   </section>
 
   <section>
-    <h2>Competências</h2>
+    <h2>{T('Competências', 'Skills')}</h2>
     <dl class="comp">
       {COMPETENCIAS.map((c) => (<div><dt>{c.area}</dt><dd>{c.itens}</dd></div>))}
     </dl>
@@ -193,20 +273,21 @@ const jsonld = {
 
   <div class="duas">
     <section>
-      <h2>Formação</h2>
-      <p><strong>Bacharelado em Design Gráfico</strong></p>
-      <p>FAAL · 2017 – 2021 <span class="periodo">(incompleto)</span></p>
+      <h2>{T('Formação', 'Education')}</h2>
+      <p><strong>{T('Bacharelado em Design Gráfico', 'Bachelor’s in Graphic Design')}</strong></p>
+      <p>FAAL · 2017 – 2021 <span class="periodo">{T('(incompleto)', '(not completed)')}</span></p>
     </section>
     <section>
-      <h2>Cursos</h2>
+      <h2>{T('Cursos', 'Courses')}</h2>
       <ul class="lista">{CURSOS.map((c) => <li><strong>{c.nome}</strong> · {c.escola}</li>)}</ul>
     </section>
     <section>
-      <h2>Idiomas</h2>
+      <h2>{T('Idiomas', 'Languages')}</h2>
       <ul class="lista">
-        <li><strong>Português</strong> · nativo</li>
-        <li><strong>Inglês</strong> · intermediário (<a href="https://cert.efset.org/qKgw2L">certificado EF SET</a>)</li>
+        <li><strong>{T('Português', 'Portuguese')}</strong> · {T('nativo', 'native')}</li>
+        <li><strong>{T('Inglês', 'English')}</strong> · {T('intermediário', 'intermediate')} (<a href="https://cert.efset.org/qKgw2L">{T('certificado EF SET', 'EF SET certificate')}</a>)</li>
       </ul>
+
     </section>
   </div>
 </main>
@@ -224,7 +305,7 @@ a { color: inherit; }
 .barra { max-width: 860px; margin: 0 auto; padding: 24px 16px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; color: #fff; }
 .voltar { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; }
 .raposa { height: 32px; width: auto; }
-.acoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.acoes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .btn { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 999px; background: var(--roxo); color: #fff; text-decoration: none; font-weight: 600; font-size: 14px; transition: background .2s; }
 .btn:hover { background: var(--roxo-esc); }
 .btn.sec { background: transparent; border: 1px solid rgba(255,255,255,.25); }

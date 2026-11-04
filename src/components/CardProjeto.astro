@@ -1,18 +1,21 @@
 ---
 // Card de um projeto do portfólio (dados em src/data/portfolio.ts).
-import { CATEGORIAS, type Projeto } from '../data/portfolio';
+import { categoria, type Projeto } from '../data/portfolio';
 import { url } from '../data/site';
+import { idioma, pagina, em } from '../i18n';
 interface Props { p: Projeto; eager?: boolean }
-const { p, eager = false } = Astro.props;
+const L = idioma(Astro.url);
+const { eager = false } = Astro.props;
+const p = em(Astro.props.p, L);
 ---
-<a class="pj" href={url(p.link)} data-categorias={p.categorias.join(' ')}>
+<a class="pj" href={pagina(L, p.link)} data-categorias={p.categorias.join(' ')}>
   <span class="pj-capa"><img src={url(p.capa)} alt="" width="1200" height="630" loading={eager ? 'eager' : 'lazy'} decoding="async" /></span>
   <span class="pj-txt">
     <span class="pj-tipo">{p.tipo}</span>
     <span class="pj-titulo">{p.titulo} <span class="pj-seta" aria-hidden="true">→</span></span>
     <span class="pj-cliente">{p.cliente}</span>
     <span class="pj-resumo">{p.resumo}</span>
-    <span class="pj-tags">{p.categorias.map((c) => <span>{CATEGORIAS[c]}</span>)}</span>
+    <span class="pj-tags">{p.categorias.map((c) => <span>{categoria(c, L)}</span>)}</span>
   </span>
 </a>
 

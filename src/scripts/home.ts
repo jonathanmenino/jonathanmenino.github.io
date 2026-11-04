@@ -31,17 +31,21 @@ export function initHome() {
   }, { passive: true });
   heroiEl?.addEventListener('pointerleave', () => document.documentElement.classList.remove('sem-cursor'));
 
+  // Textos que o script escreve, no idioma da página
+  const en = document.documentElement.lang === 'en';
+  const TX = en ? { copiado: 'Copied', copiar: 'Copy', tocar: 'Play', pausar: 'Pause' } : { copiado: 'Copiado', copiar: 'Copiar', tocar: 'Tocar', pausar: 'Pausar' };
+
   // Copiar e-mail
   document.querySelectorAll('[data-copiar]').forEach((b) => b.addEventListener('click', () => {
-    const ok = () => { b.textContent = 'Copiado'; setTimeout(() => (b.textContent = 'Copiar'), 1800); };
+    const ok = () => { b.textContent = TX.copiado; setTimeout(() => (b.textContent = TX.copiar), 1800); };
     const falha = () => { const r = document.createRange(); r.selectNodeContents(b.previousElementSibling); getSelection().removeAllRanges(); getSelection().addRange(r); };
     if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.copiar).then(ok, falha); else falha();
   }));
 
   // Showreel
   const rv = document.getElementById('reel-video'), rp = document.getElementById('reel-pausa');
-  if (rv && rp && reduz) { rv.removeAttribute('autoplay'); rv.pause(); rp.textContent = 'Tocar'; }
-  if (rv && rp) rp.addEventListener('click', () => { if (rv.paused) { rv.play(); rp.textContent = 'Pausar'; } else { rv.pause(); rp.textContent = 'Tocar'; } });
+  if (rv && rp && reduz) { rv.removeAttribute('autoplay'); rv.pause(); rp.textContent = TX.tocar; }
+  if (rv && rp) rp.addEventListener('click', () => { if (rv.paused) { rv.play(); rp.textContent = TX.pausar; } else { rv.pause(); rp.textContent = TX.tocar; } });
 
   document.getElementById('topo-btn')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduz ? 'auto' : 'smooth' }));
 

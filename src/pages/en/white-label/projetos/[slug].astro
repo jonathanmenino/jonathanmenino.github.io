@@ -1,0 +1,11 @@
+---
+// Versão em inglês dos cases de site: mesma página e mesmos endereços, com os textos do bloco "en:" do YAML.
+import { getCollection } from 'astro:content';
+import Pagina from '../../../white-label/projetos/[slug].astro';
+
+export async function getStaticPaths() {
+  const cases = (await getCollection('cases')).sort((a, b) => a.data.ordem - b.data.ordem);
+  return cases.map((c, i) => ({ params: { slug: c.id }, props: { item: c, proximo: cases[(i + 1) % cases.length] } }));
+}
+---
+<Pagina {...Astro.props} />

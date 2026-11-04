@@ -97,3 +97,59 @@ telas:
       legenda: Serviços
     - imagem: ../../assets/cases/sentinela/mobile-processo.jpg
       legenda: Como trabalhamos
+
+# ---------- Inglês (/en/): só os textos, na mesma ordem das listas acima ----------
+en:
+  titulo: Sentinela Serviços de Proteção
+  tipo: Corporate website · Security services
+  resumo: Website for a company that provides concierge, access control and monitoring for residential buildings, wholesalers, hospitals and factories. A sober look in black and military green that conveys discipline and leads building and facility managers to request a proposal.
+  descricaoSeo: "Corporate website for Sentinela Serviços de Proteção, a concierge and security company, built in WordPress with Elementor: services, work method and proposal requests."
+  card:
+    tags: [Corporate website, WordPress, Elementor]
+    descricao: Website for a concierge and security company, with services, work method and proposal requests.
+  ficha:
+    - rotulo: Client
+    - rotulo: Platform
+    - rotulo: My role
+      valor: Layout and development
+    - rotulo: Timeline
+      valor: 5 days
+  desafio:
+    titulo: Selling trust before selling the service.
+    texto: Whoever hires concierge and security is handing over access to their building or company to another team. The website had to show who is behind Sentinela, prove there is a method and make clear the service follows the law, before asking for contact.
+  solucao:
+    titulo: A website that looks like a serious operation, from top to bottom.
+    texto: Real photos of the team and the control room, a dark palette with military green and direct copy. The page introduces the founder and his background, the three services, the reasons to choose the company and the five-step process, with proposal requests and WhatsApp at the start and at the end.
+  estrutura:
+    titulo: From credibility to proposal request.
+    texto: "Each block answers a question from someone about to hire security: who they are, what they do, why trust them and how they work."
+    secoes:
+      - nome: Hero with the offer
+        texto: Structured security for residential buildings, wholesalers, supermarkets, hospitals and factories, with buttons to request a proposal or chat on WhatsApp.
+      - nome: About us
+        texto: "The story of the company and its founder, with team photos and three badges: proven experience, technical qualification and federal accreditation."
+      - nome: Services
+        texto: Concierge for residential buildings, industrial concierge and access control, and CCTV monitoring in cards over a dark background with the brand’s crest.
+      - nome: Why choose Sentinela
+        texto: Legal compliance, selection and training, procedures for each post, supervision and confidentiality, next to a photo of the monitoring room.
+      - nome: How we work
+        texto: The five-step process, from the technical site analysis to ongoing supervision, in a vertical timeline.
+      - nome: Commitment to prevention
+        texto: Immediate replacement for absences, emergency response and direct contact with building and facility managers.
+      - nome: Final call and footer
+        texto: '"Your security deserves professional management", with quote and WhatsApp buttons, and a footer with social media.'
+  desempenho:
+    titulo: Well built on the inside.
+    texto: Top score in best practices, accessibility and SEO above 90, and a page that doesn’t freeze or shift while it loads.
+    metricas:
+      - valor: 0 ms on mobile and desktop
+        texto: "No script blocks the page: visitors scroll and tap without waiting."
+      - valor: 0 on mobile · 0.005 on desktop
+        texto: Nothing moves while the page loads, so nobody taps the wrong button.
+    observacao: Scores measured on PageSpeed Insights on Oct 13, 2026.
+  telas:
+    titulo: The same experience on mobile
+    imagens:
+      - legenda: Hero with the offer
+      - legenda: Services
+      - legenda: How we work

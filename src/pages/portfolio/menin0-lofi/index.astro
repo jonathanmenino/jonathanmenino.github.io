@@ -9,7 +9,9 @@
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Fox from '../../../components/Fox.astro';
+import TrocaIdioma from '../../../components/TrocaIdioma.astro';
 import { url } from '../../../data/site';
+import { idioma, tradutor, pagina } from '../../../i18n';
 import '@fontsource/heebo/latin-400.css';
 import '@fontsource/heebo/latin-500.css';
 import '@fontsource/heebo/latin-700.css';
@@ -27,7 +29,11 @@ import mar from '../../../assets/portfolio/menin0-lofi/cenarios/mar.png';
 import siteDesktop from '../../../assets/portfolio/menin0-lofi/site-desktop.jpg';
 import siteMobile from '../../../assets/portfolio/menin0-lofi/site-mobile.jpg';
 
-const portfolio = url('portfolio/');
+// Inglês em /en/: textos com T('pt', 'en') e {EN ? <>inglês</> : <>português</>}.
+const L = idioma(Astro.url);
+const EN = L === 'en';
+const T = tradutor(L);
+const portfolio = pagina(L, 'portfolio/');
 
 const links = {
   github: 'https://github.com/jonathanmenino/menin0-lofi',
@@ -35,28 +41,38 @@ const links = {
   spotify: 'https://open.spotify.com/intl-pt/artist/25aFd5MLcf5yOSRLMksbYa',
 };
 
-const ficha = [
+const ficha = T([
   ['Projeto', 'menin0, meu projeto de lo-fi hip hop'],
   ['Meu papel', 'Identidade, design no Figma e desenvolvimento'],
   ['Contexto', 'Curso de HTML e CSS da Coder House'],
   ['Resultado', 'Nota máxima na avaliação final'],
-];
+], [
+  ['Project', 'menin0, my lo-fi hip hop project'],
+  ['My role', 'Identity, Figma design and development'],
+  ['Context', 'Coder House HTML and CSS course'],
+  ['Result', 'Top grade in the final evaluation'],
+]);
 
-const cenas = [
+const cenas = EN ? [
+  { img: cidade, hora: 'Night', nome: 'City', secao: 'Listen now', texto: 'Buildings in the dark for the main invitation: pick a platform and press play.' },
+  { img: ceu, hora: 'Morning', nome: 'Sky', secao: 'Use the music', texto: 'Open sky to clear the tracks for creators and lo-fi radios.' },
+  { img: praia, hora: 'Afternoon', nome: 'Beach', secao: 'Newsletter', texto: 'Sand seen from above, for those who want to hear about the next release.' },
+  { img: mar, hora: 'Late afternoon', nome: 'Sea', secao: 'Contact', texto: 'The wave reaching the sand closes the page with the form.' },
+] : [
   { img: cidade, hora: 'Noite', nome: 'Cidade', secao: 'Ouça agora', texto: 'Prédios no escuro para o convite principal: escolher a plataforma e dar o play.' },
   { img: ceu, hora: 'Manhã', nome: 'Céu', secao: 'Use a música', texto: 'Céu aberto para liberar as faixas para criadores e rádios lo-fi.' },
   { img: praia, hora: 'Tarde', nome: 'Praia', secao: 'Newsletter', texto: 'Areia vista de cima, para quem quer saber do próximo lançamento.' },
   { img: mar, hora: 'Fim de tarde', nome: 'Mar', secao: 'Contato', texto: 'A onda chegando na areia fecha a página com o formulário.' },
 ];
 
-// Paleta da identidade, na proporção em que aparece no guia (w = largura relativa).
+// Paleta da identidade, na proporção em que aparece no guia (w = largura relativa). id: usado na faixa de proporção.
 const paleta = [
-  { nome: 'Areia', hex: '#FFE6B5', uso: 'Fundos claros e calor das cenas de dia', w: 3.5 },
-  { nome: 'Céu', hex: '#49B0ED', uso: 'Céu e mar, o lado fresco do dia', w: 3 },
-  { nome: 'Vinil', hex: '#DB3E51', uso: 'Destaques, traço dos títulos e botões', w: 1 },
-  { nome: 'Musgo', hex: '#2B3F3D', uso: 'Superfícies escuras e detalhes', w: 1 },
-  { nome: 'Névoa', hex: '#F3FEFB', uso: 'Textos sobre o escuro e caixas claras', w: 1 },
-  { nome: 'Noite', hex: '#152524', uso: 'Fundo base da marca', w: 0 },
+  { id: 'areia', nome: T('Areia', 'Sand'), hex: '#FFE6B5', uso: T('Fundos claros e calor das cenas de dia', 'Light backgrounds and the warmth of the daytime scenes'), w: 3.5 },
+  { id: 'ceu', nome: T('Céu', 'Sky'), hex: '#49B0ED', uso: T('Céu e mar, o lado fresco do dia', 'Sky and sea, the cool side of the day'), w: 3 },
+  { id: 'vinil', nome: T('Vinil', 'Vinyl'), hex: '#DB3E51', uso: T('Destaques, traço dos títulos e botões', 'Highlights, title strokes and buttons'), w: 1 },
+  { id: 'musgo', nome: T('Musgo', 'Moss'), hex: '#2B3F3D', uso: T('Superfícies escuras e detalhes', 'Dark surfaces and details'), w: 1 },
+  { id: 'nevoa', nome: T('Névoa', 'Mist'), hex: '#F3FEFB', uso: T('Textos sobre o escuro e caixas claras', 'Text on dark and light boxes'), w: 1 },
+  { id: 'noite', nome: T('Noite', 'Night'), hex: '#152524', uso: T('Fundo base da marca', 'Brand base background'), w: 0 },
 ];
 
 // Personagens flutuando pela página (decorativos). pos: posição no CSS; w: largura; v: velocidade do parallax.
@@ -70,14 +86,14 @@ const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: 'menin0 · Lo-fi Hip Hop',
-  description: 'Site do menin0, projeto de lo-fi hip hop de Jonathan Menino: design no Figma e desenvolvimento em HTML e CSS.',
+  description: T('Site do menin0, projeto de lo-fi hip hop de Jonathan Menino: design no Figma e desenvolvimento em HTML e CSS.', 'Website for menin0, Jonathan Menino’s lo-fi hip hop project: design in Figma and development in HTML and CSS.'),
   creator: { '@type': 'Person', name: 'Jonathan Menino' },
-  inLanguage: 'pt-BR',
+  inLanguage: T('pt-BR', 'en'),
 };
 ---
 <Base
-  title="menin0 · Site de artista lo-fi · Jonathan Menino"
-  description="Site do menin0, meu projeto de lo-fi hip hop: uma página que atravessa um dia, da cidade à noite até o mar. Identidade, design no Figma e desenvolvimento em HTML e CSS."
+  title={T('menin0 · Site de artista lo-fi · Jonathan Menino', 'menin0 · Lo-fi artist website · Jonathan Menino')}
+  description={T('Site do menin0, meu projeto de lo-fi hip hop: uma página que atravessa um dia, da cidade à noite até o mar. Identidade, design no Figma e desenvolvimento em HTML e CSS.', 'Website for menin0, my lo-fi hip hop project: a page that moves through a day, from the city at night to the sea. Identity, Figma design and development in HTML and CSS.')}
   image="og/menin0-lofi.jpg"
   tipo="article"
   themeColor="#0E1918"
@@ -89,11 +105,11 @@ const jsonld = {
 </Fragment>
 <div class="mn">
   <header class="topo">
-    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
       <Fox cor="#DB3E51" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
     </a>
-    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
   </header>
 
   <main>
@@ -102,20 +118,20 @@ const jsonld = {
       <div class="hero-luz" aria-hidden="true"><Image src={capaBlur} alt="" widths={[900]} sizes="100vw" loading="eager" /></div>
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Site · Artista de lo-fi hip hop</p>
+          <p class="eyebrow">{EN ? <>Website · Lo-fi hip hop artist</> : <>Site · Artista de lo-fi hip hop</>}</p>
           <h1 class="sr-only">menin0</h1>
-          <Image src={logo} alt="Logo menin0, escrito à mão" class="hero-logo" loading="eager" />
-          <p class="lead">Um site para o meu projeto musical que atravessa um dia inteiro: começa na cidade à noite, sobe para o céu, desce na praia e termina no mar. Do jeito que uma playlist lo-fi acompanha o dia.</p>
+          <Image src={logo} alt={EN ? "menin0 logo, handwritten" : "Logo menin0, escrito à mão"} class="hero-logo" loading="eager" />
+          <p class="lead">{EN ? <>A website for my music project that moves through a whole day: it starts in the city at night, rises to the sky, comes down to the beach and ends at the sea. The way a lo-fi playlist keeps you company all day.</> : <>Um site para o meu projeto musical que atravessa um dia inteiro: começa na cidade à noite, sobe para o céu, desce na praia e termina no mar. Do jeito que uma playlist lo-fi acompanha o dia.</>}</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
           </dl>
           <div class="hero-links">
-            <a class="botao" href={links.github} target="_blank" rel="noopener">Ver o código <span aria-hidden="true">↗</span></a>
-            <a class="botao fantasma" href={links.figma} target="_blank" rel="noopener">Ver no Figma <span aria-hidden="true">↗</span></a>
+            <a class="botao" href={links.github} target="_blank" rel="noopener">{EN ? <>View the code</> : <>Ver o código</>} <span aria-hidden="true">↗</span></a>
+            <a class="botao fantasma" href={links.figma} target="_blank" rel="noopener">{EN ? <>View in Figma</> : <>Ver no Figma</>} <span aria-hidden="true">↗</span></a>
           </div>
         </div>
         <div class="hero-arte">
-          <Image src={mockup} alt="O site do menin0 aberto em um iPad e em um iPhone" widths={[560, 888]} sizes="(min-width: 1024px) 560px, 92vw" loading="eager" fetchpriority="high" />
+          <Image src={mockup} alt={EN ? "The menin0 website open on an iPad and an iPhone" : "O site do menin0 aberto em um iPad e em um iPhone"} widths={[560, 888]} sizes="(min-width: 1024px) 560px, 92vw" loading="eager" fetchpriority="high" />
         </div>
       </div>
     </section>
@@ -125,14 +141,14 @@ const jsonld = {
       {flutuam.ideia.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="220px" /></span>)}
       <div class="wrap duas">
         <div>
-          <p class="num">01 · O desafio</p>
-          <h2>Dar uma casa para a música fora das plataformas.</h2>
-          <p>As faixas do menin0 estão espalhadas por Spotify, Apple Music, YouTube, Amazon e Deezer. O site precisava juntar tudo em um lugar só e ainda abrir espaço para o que as plataformas não fazem: liberar a música para criadores, receber apoio, captar e-mails e falar comigo.</p>
+          <p class="num">{EN ? <>01 · The challenge</> : <>01 · O desafio</>}</p>
+          <h2>{EN ? <>Giving the music a home outside the platforms.</> : <>Dar uma casa para a música fora das plataformas.</>}</h2>
+          <p>{EN ? <>menin0’s tracks are spread across Spotify, Apple Music, YouTube, Amazon and Deezer. The website had to bring it all together in one place and also make room for what the platforms don’t do: clear the music for creators, receive support, collect emails and get in touch with me.</> : <>As faixas do menin0 estão espalhadas por Spotify, Apple Music, YouTube, Amazon e Deezer. O site precisava juntar tudo em um lugar só e ainda abrir espaço para o que as plataformas não fazem: liberar a música para criadores, receber apoio, captar e-mails e falar comigo.</>}</p>
         </div>
         <div>
-          <p class="num">02 · A ideia</p>
-          <h2>Rolar a página é passar o dia ouvindo lo-fi.</h2>
-          <p>Cada seção ganhou uma cena ilustrada, da noite ao fim de tarde, e um bichinho que respira devagar no seu canto. Os títulos são manuscritos, como o logo, e as caixas brancas translúcidas deixam a cena aparecer por trás do texto. A estética é de propósito um pouco crua, como o próprio gênero.</p>
+          <p class="num">{EN ? <>02 · The idea</> : <>02 · A ideia</>}</p>
+          <h2>{EN ? <>Scrolling the page is like spending the day listening to lo-fi.</> : <>Rolar a página é passar o dia ouvindo lo-fi.</>}</h2>
+          <p>{EN ? <>Each section got an illustrated scene, from night to late afternoon, and a little creature breathing slowly in its corner. Titles are handwritten, like the logo, and translucent white boxes let the scene show behind the text. The aesthetic is deliberately a little raw, like the genre itself.</> : <>Cada seção ganhou uma cena ilustrada, da noite ao fim de tarde, e um bichinho que respira devagar no seu canto. Os títulos são manuscritos, como o logo, e as caixas brancas translúcidas deixam a cena aparecer por trás do texto. A estética é de propósito um pouco crua, como o próprio gênero.</>}</p>
         </div>
       </div>
     </section>
@@ -140,24 +156,24 @@ const jsonld = {
     <!-- ============ IDENTIDADE ============ -->
     <section class="noite identidade">
       <div class="wrap">
-        <p class="num">03 · Identidade</p>
-        <h2 class="script">A marca do menin0</h2>
-        <p class="intro">Também criei a identidade do projeto: o logo escrito à mão, a paleta e o par de fontes que o site usa.</p>
+        <p class="num">{EN ? <>03 · Identity</> : <>03 · Identidade</>}</p>
+        <h2 class="script">{EN ? <>The menin0 brand</> : <>A marca do menin0</>}</h2>
+        <p class="intro">{EN ? <>I also created the project’s identity: the handwritten logo, the palette and the pair of typefaces the website uses.</> : <>Também criei a identidade do projeto: o logo escrito à mão, a paleta e o par de fontes que o site usa.</>}</p>
 
         <div class="ident-grid">
           <div class="logo-palco">
-            <Image src={logo} alt="Logo menin0, escrito à mão" class="logo-grande" />
+            <Image src={logo} alt={EN ? "menin0 logo, handwritten" : "Logo menin0, escrito à mão"} class="logo-grande" />
           </div>
           <div class="logo-txt">
             <h3>Logo</h3>
-            <p>Um "menin0" escrito à mão, em traço contínuo, com o zero no lugar do "o" final. Solto e um pouco irregular, como um beat lo-fi.</p>
+            <p>{EN ? <>A handwritten "menin0" in a continuous stroke, with a zero in place of the final "o". Loose and a little irregular, like a lo-fi beat.</> : <>Um "menin0" escrito à mão, em traço contínuo, com o zero no lugar do "o" final. Solto e um pouco irregular, como um beat lo-fi.</>}</p>
           </div>
         </div>
 
-        <h3 class="sub-h">Paleta</h3>
-        <div class="paleta-barra" role="img" aria-label="Paleta: Areia, Céu, Vinil, Musgo e Névoa sobre o fundo Noite">
-          {paleta.filter((c) => c.w > 0 && c.nome !== 'Névoa').map((c) => (
-            c.nome === 'Musgo'
+        <h3 class="sub-h">{EN ? <>Palette</> : <>Paleta</>}</h3>
+        <div class="paleta-barra" role="img" aria-label={EN ? "Palette: Sand, Sky, Vinyl, Moss and Mist on the Night background" : "Paleta: Areia, Céu, Vinil, Musgo e Névoa sobre o fundo Noite"}>
+          {paleta.filter((c) => c.w > 0 && c.id !== 'nevoa').map((c) => (
+            c.id === 'musgo'
               ? <div class="par" style={`flex:${c.w}`}><span style={`background:${c.hex}`}></span><span style="background:#F3FEFB"></span></div>
               : <span style={`flex:${c.w};background:${c.hex}`}></span>
           ))}
@@ -175,18 +191,18 @@ const jsonld = {
           ))}
         </ul>
 
-        <h3 class="sub-h">Tipografia</h3>
+        <h3 class="sub-h">{EN ? <>Typography</> : <>Tipografia</>}</h3>
         <div class="tipos">
           <div class="tipo">
             <p class="tipo-aa script-aa" aria-hidden="true">Aa</p>
             <p class="tipo-nome">Hertine</p>
-            <p class="tipo-desc">Manuscrita nos títulos das seções, conversando com o logo.</p>
+            <p class="tipo-desc">{EN ? <>Handwritten for section titles, echoing the logo.</> : <>Manuscrita nos títulos das seções, conversando com o logo.</>}</p>
             <p class="tipo-amostra script-aa">Listen now</p>
           </div>
           <div class="tipo">
             <p class="tipo-aa" aria-hidden="true">Aa</p>
             <p class="tipo-nome">Heebo</p>
-            <p class="tipo-desc">Sem serifa para o resto: nome do lançamento, textos, formulários e botões.</p>
+            <p class="tipo-desc">{EN ? <>Sans serif for everything else: release name, text, forms and buttons.</> : <>Sem serifa para o resto: nome do lançamento, textos, formulários e botões.</>}</p>
             <p class="tipo-amostra"><b>Rainy Coffee</b></p>
           </div>
         </div>
@@ -196,19 +212,19 @@ const jsonld = {
     <!-- ============ O SITE ============ -->
     <section class="noite">
       <div class="wrap">
-        <p class="num">04 · O site</p>
-        <h2 class="script">Role e passe o dia</h2>
-        <p class="intro">A página inteira, no computador e no celular. Role dentro de cada tela.</p>
+        <p class="num">{EN ? <>04 · The website</> : <>04 · O site</>}</p>
+        <h2 class="script">{EN ? <>Scroll through the day</> : <>Role e passe o dia</>}</h2>
+        <p class="intro">{EN ? <>The whole page, on desktop and mobile. Scroll inside each screen.</> : <>A página inteira, no computador e no celular. Role dentro de cada tela.</>}</p>
         <div class="telas">
           <div class="navegador">
             <div class="nav-barra"><span></span><span></span><span></span><em>menin0 | Lo-fi Hip Hop</em></div>
-            <div class="nav-rolagem" tabindex="0" aria-label="Site no computador, role para ver tudo">
-              <Image src={siteDesktop} alt="Página completa do site do menin0 no computador" widths={[720, 1440]} sizes="(min-width: 1100px) 760px, 92vw" />
+            <div class="nav-rolagem" tabindex="0" aria-label={EN ? "Site on desktop, scroll to see it all" : "Site no computador, role para ver tudo"}>
+              <Image src={siteDesktop} alt={EN ? "Full menin0 website page on desktop" : "Página completa do site do menin0 no computador"} widths={[720, 1440]} sizes="(min-width: 1100px) 760px, 92vw" />
             </div>
           </div>
           <div class="celular">
-            <div class="cel-tela" tabindex="0" aria-label="Site no celular, role para ver tudo">
-              <Image src={siteMobile} alt="Página completa do site do menin0 no celular" widths={[300, 600]} sizes="280px" />
+            <div class="cel-tela" tabindex="0" aria-label={EN ? "Site on mobile, scroll to see it all" : "Site no celular, role para ver tudo"}>
+              <Image src={siteMobile} alt={EN ? "Full menin0 website page on mobile" : "Página completa do site do menin0 no celular"} widths={[300, 600]} sizes="280px" />
             </div>
           </div>
         </div>
@@ -219,13 +235,14 @@ const jsonld = {
     <section class="claro">
       {flutuam.cenas.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="180px" /></span>)}
       <div class="wrap">
-        <p class="num">05 · As cenas</p>
-        <h2 class="script escura">Um dia em quatro cenas</h2>
-        <p class="intro">Depois do lançamento mais recente no topo, cada cena sustenta uma parte do conteúdo.</p>
+        <p class="num">{EN ? <>05 · The scenes</> : <>05 · As cenas</>}</p>
+        <h2 class="script escura">{EN ? <>A day in four scenes</> : <>Um dia em quatro cenas</>}</h2>
+        <p class="intro">{EN ? <>After the latest release at the top, each scene holds one part of the content.</> : <>Depois do lançamento mais recente no topo, cada cena sustenta uma parte do conteúdo.</>}</p>
         <ol class="cenas">
           {cenas.map((c, i) => (
             <li>
-              <div class="cena-img"><Image src={c.img} alt={`Cenário ${c.nome}`} widths={[480, 960]} sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 90vw" /></div>
+              <div class="cena-img"><Image src={c.img} alt={T(`Cenário ${c.nome}`, `${c.nome} scene`)}
+ widths={[480, 960]} sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 90vw" /></div>
               <p class="cena-hora">{String(i + 1).padStart(2, '0')} · {c.hora}</p>
               <h3>{c.secao}</h3>
               <p>{c.texto}</p>
@@ -239,15 +256,15 @@ const jsonld = {
     <section class="ceu-rosa">
       <div class="wrap duas">
         <div>
-          <p class="num">06 · Bastidores</p>
-          <h2>Do Figma para o HTML, sem framework de design.</h2>
-          <p>Criei a identidade e desenhei o layout no Figma e construí a página com HTML e CSS, usando Bootstrap só no menu. O projeto foi a entrega final do curso de HTML e CSS da Coder House e recebeu a nota máxima.</p>
+          <p class="num">{EN ? <>06 · Behind the scenes</> : <>06 · Bastidores</>}</p>
+          <h2>{EN ? <>From Figma to HTML, with no design framework.</> : <>Do Figma para o HTML, sem framework de design.</>}</h2>
+          <p>{EN ? <>I created the identity, designed the layout in Figma and built the page with HTML and CSS, using Bootstrap only for the menu. The project was the final assignment of the Coder House HTML and CSS course and got the top grade.</> : <>Criei a identidade e desenhei o layout no Figma e construí a página com HTML e CSS, usando Bootstrap só no menu. O projeto foi a entrega final do curso de HTML e CSS da Coder House e recebeu a nota máxima.</>}</p>
         </div>
         <ul class="feito">
-          <li><b>Figma</b><span>Layout, cenas e responsivo</span></li>
-          <li><b>HTML e CSS</b><span>Estrutura, cenas em fundo e animação dos personagens</span></li>
-          <li><b>Bootstrap</b><span>Menu com versão recolhida no celular</span></li>
-          <li><b>GitHub</b><span>Código aberto no repositório menin0-lofi</span></li>
+          <li><b>Figma</b>{EN ? <><span>Layout, scenes and responsive design</span></> : <><span>Layout, cenas e responsivo</span></>}</li>
+          <li>{EN ? <><b>HTML and CSS</b><span>Structure, background scenes and character animation</span></> : <><b>HTML e CSS</b><span>Estrutura, cenas em fundo e animação dos personagens</span></>}</li>
+          <li><b>Bootstrap</b>{EN ? <><span>Menu with a collapsed version on mobile</span></> : <><span>Menu com versão recolhida no celular</span></>}</li>
+          <li><b>GitHub</b>{EN ? <><span>Open source in the menin0-lofi repository</span></> : <><span>Código aberto no repositório menin0-lofi</span></>}</li>
         </ul>
       </div>
     </section>
@@ -255,10 +272,10 @@ const jsonld = {
     <!-- ============ CRÉDITOS ============ -->
     <section class="noite creditos">
       <div class="wrap">
-        <p>Projeto pessoal. Música, design e código por <b>Jonathan Menino</b>, o menin0.</p>
+        <p>{EN ? <>Personal project. Music, design and code by <b>Jonathan Menino</b>, aka menin0.</> : <>Projeto pessoal. Música, design e código por <b>Jonathan Menino</b>, o menin0.</>}</p>
         <div class="creditos-links">
-          <a href={links.spotify} class="botao fantasma" target="_blank" rel="noopener">Ouvir no Spotify <span aria-hidden="true">↗</span></a>
-          <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+          <a href={links.spotify} class="botao fantasma" target="_blank" rel="noopener">{EN ? <>Listen on Spotify</> : <>Ouvir no Spotify</>} <span aria-hidden="true">↗</span></a>
+          <a href={portfolio} class="botao">{EN ? <>See other projects</> : <>Ver outros projetos</>} <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>

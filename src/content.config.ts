@@ -43,6 +43,8 @@ const cases = defineCollection({
       observacao: z.string().optional(),
       otimizacoes: z.union([z.literal(false), z.array(z.object({ titulo: z.string(), texto: z.string() }))]).optional(),
     }),
+    // Textos em inglês (versão /en/): mesmo formato, só com os campos de texto. Listas na mesma ordem.
+    en: z.any().optional(),
     telas: z.object({
       titulo: z.string().optional(),
       imagens: z.array(z.object({ imagem: image(), legenda: z.string().optional() })),

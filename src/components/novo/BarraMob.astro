@@ -1,9 +1,12 @@
 ---
 // Barra compacta do celular, que aparece depois do topo. links: [texto, endereço].
+import TrocaIdioma from '../TrocaIdioma.astro';
+import { idioma, tradutor } from '../../i18n';
+const T = tradutor(idioma(Astro.url));
 interface Props { links: [string, string][] }
 const { links } = Astro.props;
 ---
 <div class="barra-mob" id="barra-mob">
   <a class="tt" href="#topo">Jonathan <em>Menino</em></a>
-  <nav aria-label="Atalhos">{links.map(([t, h]) => <a href={h}>{t}</a>)}</nav>
+  <nav aria-label={T('Atalhos', 'Shortcuts')}>{links.map(([t, h]) => <a href={h}>{t}</a>)}<TrocaIdioma class="so-bandeira" /></nav>
 </div>

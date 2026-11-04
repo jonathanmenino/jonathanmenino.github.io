@@ -12,8 +12,12 @@ import '@fontsource/anton/latin-400.css';
 import '@fontsource/caveat-brush/latin-400.css';
 import '../../styles/home.css';
 import CardProjeto from '../../components/CardProjeto.astro';
-import { PROJETOS, CATEGORIAS, type Categoria } from '../../data/portfolio';
+import { PROJETOS, CATEGORIAS, categoria, type Categoria } from '../../data/portfolio';
 import { SITE, url, linkWhatsApp } from '../../data/site';
+import { idioma, tradutor, pagina, em } from '../../i18n';
+
+const L = idioma(Astro.url);
+const T = tradutor(L);
 
 const contagem = (c: Categoria) => PROJETOS.filter((p) => p.categorias.includes(c)).length;
 const filtros = (Object.keys(CATEGORIAS) as Categoria[]).filter((c) => contagem(c) > 0);
@@ -21,35 +25,35 @@ const filtros = (Object.keys(CATEGORIAS) as Categoria[]).filter((c) => contagem(
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Portfólio · Jonathan Menino',
+  name: T('Portfólio · Jonathan Menino', 'Portfolio · Jonathan Menino'),
   author: { '@type': 'Person', name: SITE.nome },
-  hasPart: PROJETOS.map((p) => ({ '@type': 'CreativeWork', name: p.titulo, url: new URL(url(p.link), Astro.site).href })),
+  hasPart: PROJETOS.map((p) => ({ '@type': 'CreativeWork', name: em(p, L).titulo, url: new URL(pagina(L, p.link), Astro.site).href })),
 };
 ---
 <Base
-  title="Portfólio · Jonathan Menino"
-  description="Portfólio de Jonathan Menino: campanhas, identidade visual, edição de vídeo e motion, sites e projetos com IA generativa."
+  title={T('Portfólio · Jonathan Menino', 'Portfolio · Jonathan Menino')}
+  description={T('Portfólio de Jonathan Menino: campanhas, identidade visual, edição de vídeo e motion, sites e projetos com IA generativa.', 'Jonathan Menino’s portfolio: campaigns, visual identity, video editing and motion, websites and generative AI projects.')}
   jsonld={jsonld}
 >
 <Prancheta />
-<BarraMob links={[['Início', url()], ['Contato', '#contato']]} />
+<BarraMob links={[[T('Início', 'Home'), pagina(L)], [T('Contato', 'Contact'), '#contato']]} />
 
 <header class="port-topo" id="topo">
-  <MenuTopo sub="Portfólio · Projetos selecionados" itens={[['Início', url()], ['Portfólio', url('portfolio/'), true], ['Currículo', url('curriculo/')], ['Empresas', url('empresas/')], ['Contato', '#contato']]} />
+  <MenuTopo sub={T('Portfólio · Projetos selecionados', 'Portfolio · Selected projects')} itens={[[T('Início', 'Home'), pagina(L)], [T('Portfólio', 'Portfolio'), pagina(L, 'portfolio/'), true], [T('Currículo', 'Résumé'), pagina(L, 'curriculo/')], [T('Empresas', 'Businesses'), pagina(L, 'empresas/')], [T('Contato', 'Contact'), '#contato']]} />
 </header>
 
 <div class="corpo solo">
   <main>
     <div class="port-cab">
-      <h1 class="tt">Projetos <sup id="total">{PROJETOS.length}</sup></h1>
+      <h1 class="tt">{T('Projetos', 'Projects')} <sup id="total">{PROJETOS.length}</sup></h1>
       <svg class="risco" viewBox="0 0 600 18" preserveAspectRatio="none" aria-hidden="true" style="width:min(100%,560px);height:14px;margin-top:6px;color:var(--lilas)"><path d="M4 10 C 140 15, 300 3, 450 9 S 570 12, 596 7"/></svg>
-      <p class="lead">Campanhas, identidades, vídeos e sites que criei para agências, marcas e projetos próprios.</p>
-      <p class="mao sub-mao">→ escolha uma categoria para filtrar</p>
+      <p class="lead">{T('Campanhas, identidades, vídeos e sites que criei para agências, marcas e projetos próprios.', 'Campaigns, identities, videos and websites I created for agencies, brands and my own projects.')}</p>
+      <p class="mao sub-mao">{T('→ escolha uma categoria para filtrar', '→ pick a category to filter')}</p>
 
-      <div class="filtros" role="group" aria-label="Filtrar por categoria">
-        <button type="button" data-filtro="todos" aria-pressed="true">Todos <span>{PROJETOS.length}</span></button>
+      <div class="filtros" role="group" aria-label={T('Filtrar por categoria', 'Filter by category')}>
+        <button type="button" data-filtro="todos" aria-pressed="true">{T('Todos', 'All')} <span>{PROJETOS.length}</span></button>
         {filtros.map((c) => (
-          <button type="button" data-filtro={c} aria-pressed="false">{CATEGORIAS[c]} <span>{contagem(c)}</span></button>
+          <button type="button" data-filtro={c} aria-pressed="false">{categoria(c, L)} <span>{contagem(c)}</span></button>
         ))}
       </div>
 
@@ -61,25 +65,26 @@ const jsonld = {
     </div>
 
     <section class="pergunta" aria-labelledby="t-perg">
-      <h2 class="tt" id="t-perg">Gostou de algum<br><em>projeto?</em></h2>
+      <h2 class="tt" id="t-perg">{T('Gostou de algum', 'Like any of')}<br><em>{T('projeto?', 'these projects?')}</em></h2>
     </section>
   </main>
 </div>
 
-<Mural titulo="Contato">
-  <h2 class="tt"><em>Bora</em> conversar</h2>
+<Mural titulo={T('Contato', 'Contact')}>
+  <h2 class="tt">{L === 'en' ? <><em>Let’s</em> talk</> : <><em>Bora</em> conversar</>}</h2>
   <svg class="risco" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 7 C 90 3, 180 10, 297 6"/></svg>
-  <p class="txt">Estou aberto a vagas de design gráfico, UI, edição de vídeo e criação de sites.</p>
-  <div class="caixa-email"><span>jmeninodesign@gmail.com</span><button type="button" data-copiar="jmeninodesign@gmail.com">Copiar</button></div>
+  <p class="txt">{T('Estou aberto a vagas de design gráfico, UI, edição de vídeo e criação de sites.', 'I’m open to roles in graphic design, UI, video editing and web design.')}</p>
+  <div class="caixa-email"><span>jmeninodesign@gmail.com</span><button type="button" data-copiar="jmeninodesign@gmail.com">{T('Copiar', 'Copy')}</button></div>
   <div class="acoes" style="justify-content:center">
-    <a class="btn" href={linkWhatsApp('Olá, Jonathan! Vi seu portfólio e quero conversar.')}>Chamar no WhatsApp</a>
-    <a class="btn sec" href={url('curriculo/')}>Ver currículo</a>
+    <a class="btn" href={linkWhatsApp(T('Olá, Jonathan! Vi seu portfólio e quero conversar.', 'Hi, Jonathan! I saw your portfolio and would like to talk.'))}>{T('Chamar no WhatsApp', 'Message on WhatsApp')}</a>
+    <a class="btn sec" href={pagina(L, 'curriculo/')}>{T('Ver currículo', 'View résumé')}</a>
   </div>
 </Mural>
 
 <footer class="rodape">
   <span>© {new Date().getFullYear()} Jonathan Menino</span>
-  <span><a href={url()}>Início</a> · <a href={url('empresas/')}>Para empresas</a> · <a href={url('white-label/')}>Para agências</a></span>
+  <span><a href={pagina(L)}>{T('Início', 'Home')}</a> · <a href={pagina(L, 'empresas/')}>{T('Para empresas', 'For businesses')}</a> · <a href={pagina(L, 'white-label/')}>{T('Para agências', 'For agencies')}</a></span>
+
 </footer>
 </Base>
 
