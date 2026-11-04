@@ -11,7 +11,9 @@
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Fox from '../../../components/Fox.astro';
+import TrocaIdioma from '../../../components/TrocaIdioma.astro';
 import { url } from '../../../data/site';
+import { idioma, tradutor, pagina } from '../../../i18n';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/fraunces';
 
@@ -31,18 +33,35 @@ import seloMarrom from '../../../assets/portfolio/doces-da-fer-pascoa/marca-selo
 import seloRosa from '../../../assets/portfolio/doces-da-fer-pascoa/selo-rosa.svg';
 import zava from '../../../assets/agencias/zava-branco.svg';
 
-const portfolio = url('portfolio/');
+// Inglês em /en/: textos com T('pt', 'en') e {EN ? <>inglês</> : <>português</>}. As peças da campanha ficam em português.
+const L = idioma(Astro.url);
+const EN = L === 'en';
+const T = tradutor(L);
+const portfolio = pagina(L, 'portfolio/');
 const base = url('portfolio/doces-da-fer-pascoa/');
 const video = (nome: string) => `${base}videos/${nome}`;
 
-const ficha = [
+const ficha = T([
   ['Cliente', 'Os Doces da Fer Espósito'],
   ['Ocasião', 'Páscoa de 2026'],
   ['Meu papel', 'Edição de vídeo, assets com IA generativa e parte das peças'],
   ['Canal', 'Instagram'],
-];
+], [
+  ['Client', 'Os Doces da Fer Espósito'],
+  ['Occasion', 'Easter 2026'],
+  ['My role', 'Video editing, generative AI assets and some of the pieces'],
+  ['Channel', 'Instagram'],
+]);
 
-const outros = [
+const outros = EN ? [
+  { arquivo: 'acao-pascoa', titulo: 'Easter promotion', texto: 'Fer handing out surprise eggs straight through the car window.' },
+  { arquivo: 'sabores-ineditos', titulo: 'New flavors', texto: 'The Easter menu launches in a single video.' },
+  { arquivo: 'pistache', titulo: 'Pistachio', texto: 'The pistachio egg in close-up, from shell to filling.' },
+  { arquivo: 'brulle', titulo: 'Brûlée', texto: 'The shell caramelized with a torch.' },
+  { arquivo: 'ovo-cookie', titulo: 'Cookieholic', texto: 'The cookie egg, also shipped all over Brazil.' },
+  { arquivo: 'ovo-kids', titulo: 'Kids Egg', texto: 'The kids’ version, with colorful sprinkles.' },
+  { arquivo: 'stop-motion-kinder', titulo: 'Stop motion', texto: 'The Kinder Bueno egg assembled frame by frame.' },
+] : [
   { arquivo: 'acao-pascoa', titulo: 'Ação de Páscoa', texto: 'A Fer entregando ovos de surpresa, direto na janela do carro.' },
   { arquivo: 'sabores-ineditos', titulo: 'Sabores inéditos', texto: 'Os lançamentos do cardápio de Páscoa num só vídeo.' },
   { arquivo: 'pistache', titulo: 'Pistache', texto: 'O ovo de pistache em close, da casca ao recheio.' },
@@ -64,15 +83,15 @@ const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: 'Doces da Fer · Temporada de Páscoa',
-  description: 'Vídeos e peças da campanha de Páscoa 2026 da confeitaria Os Doces da Fer Espósito, com assets gerados por IA. Feita para a Agência Zava.',
+  description: T('Vídeos e peças da campanha de Páscoa 2026 da confeitaria Os Doces da Fer Espósito, com assets gerados por IA. Feita para a Agência Zava.', 'Videos and pieces for the Easter 2026 campaign of the Os Doces da Fer Espósito confectionery, with AI-generated assets. Made for Agência Zava.'),
   creator: { '@type': 'Person', name: 'Jonathan Menino' },
   dateCreated: '2026',
-  inLanguage: 'pt-BR',
+  inLanguage: T('pt-BR', 'en'),
 };
 ---
 <Base
-  title="Doces da Fer · Temporada de Páscoa · Jonathan Menino"
-  description="Edição dos vídeos e parte das peças da campanha de Páscoa 2026 da confeitaria Os Doces da Fer, com cenários e objetos gerados por IA. Feita para a Agência Zava."
+  title={T('Doces da Fer · Temporada de Páscoa · Jonathan Menino', 'Doces da Fer · Easter Season · Jonathan Menino')}
+  description={T('Edição dos vídeos e parte das peças da campanha de Páscoa 2026 da confeitaria Os Doces da Fer, com cenários e objetos gerados por IA. Feita para a Agência Zava.', 'Video editing and some of the pieces for the Easter 2026 campaign of the Os Doces da Fer confectionery, with AI-generated sets and props. Made for Agência Zava.')}
   image="og/doces-da-fer-pascoa.jpg"
   tipo="article"
   themeColor="#FBF4EC"
@@ -80,11 +99,11 @@ const jsonld = {
 >
 <div class="fer">
   <header class="topo">
-    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
       <Fox cor="#C2456A" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
     </a>
-    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
   </header>
 
   <main>
@@ -92,27 +111,27 @@ const jsonld = {
     <section class="hero creme">
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Campanha · Páscoa 2026</p>
+          <p class="eyebrow">{EN ? <>Campaign · Easter 2026</> : <>Campanha · Páscoa 2026</>}</p>
           <h1 class="sr-only">Doces da Fer · Temporada de Páscoa</h1>
-          <Image src={temporada} alt="Lettering Temporada de Páscoa" widths={[600, 1000]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
-          <p class="lead">A Páscoa da confeitaria Os Doces da Fer, contada no Instagram. Editei os vídeos da campanha, criei com IA generativa os cenários e objetos dos vídeos de abertura e fiz parte das peças.</p>
+          <Image src={temporada} alt={EN ? "Temporada de Páscoa (Easter Season) lettering" : "Lettering Temporada de Páscoa"} widths={[600, 1000]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
+          <p class="lead">{EN ? <>Easter at the Os Doces da Fer confectionery, told on Instagram. I edited the campaign videos, created the sets and props for the opening videos with generative AI and made some of the pieces.</> : <>A Páscoa da confeitaria Os Doces da Fer, contada no Instagram. Editei os vídeos da campanha, criei com IA generativa os cenários e objetos dos vídeos de abertura e fiz parte das peças.</>}</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
             <div class="larga">
-              <dt>Identidade visual</dt>
-              <dd>Marca da cliente e campanha da Agência Zava (não são minhas)</dd>
+              <dt>{EN ? <>Visual identity</> : <>Identidade visual</>}</dt>
+              <dd>{EN ? <>Client’s brand and Agência Zava’s campaign identity (not mine)</> : <>Marca da cliente e campanha da Agência Zava (não são minhas)</>}</dd>
             </div>
             <div class="agencia">
-              <dt>Feito para</dt>
+              <dt>{EN ? <>Made for</> : <>Feito para</>}</dt>
               <dd><span class="zava-pill"><Image src={zava} alt="Agência Zava" height={28} class="zava" /></span></dd>
             </div>
           </dl>
         </div>
         <div class="hero-arte">
           <div class="celular">
-            <video src={video('ia-paraquedas.mp4')} poster={video('ia-paraquedas.jpg')} muted loop playsinline preload="metadata" aria-label="Vídeo gerado com IA: paraquedas com sacolas da Doces da Fer caindo sobre uma cidade em tons pastel"></video>
+            <video src={video('ia-paraquedas.mp4')} poster={video('ia-paraquedas.jpg')} muted loop playsinline preload="metadata" aria-label={EN ? "AI-generated video: parachutes with Doces da Fer bags falling over a pastel-toned city" : "Vídeo gerado com IA: paraquedas com sacolas da Doces da Fer caindo sobre uma cidade em tons pastel"}></video>
           </div>
-          <p class="selo-ia">Feito com IA generativa</p>
+          <p class="selo-ia">{EN ? <>Made with generative AI</> : <>Feito com IA generativa</>}</p>
         </div>
       </div>
     </section>
@@ -122,14 +141,14 @@ const jsonld = {
       {flutuam.desafio.map((f) => <span class="flutua so-desk" data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={seloRosa} alt="" width={240} /></span>)}
       <div class="wrap duas">
         <div>
-          <p class="num">01 · O desafio</p>
-          <h2>A época mais disputada do ano para uma confeitaria.</h2>
-          <p>Na Páscoa, todo mundo vende ovo e o feed fica cheio de chocolate. A Doces da Fer, confeitaria de Limeira (SP), precisava apresentar um cardápio com vários sabores, abrir as encomendas, anunciar o envio para todo o Brasil e ainda manter o ritmo de posts até o feriado.</p>
+          <p class="num">{EN ? <>01 · The challenge</> : <>01 · O desafio</>}</p>
+          <h2>{EN ? <>The most competitive season of the year for a confectionery.</> : <>A época mais disputada do ano para uma confeitaria.</>}</h2>
+          <p>{EN ? <>At Easter everyone sells chocolate eggs and the feed fills up with chocolate. Doces da Fer, a confectionery in Limeira, Brazil, had to present a menu with several flavors, open pre-orders, announce shipping all over Brazil and keep up the pace of posts until the holiday.</> : <>Na Páscoa, todo mundo vende ovo e o feed fica cheio de chocolate. A Doces da Fer, confeitaria de Limeira (SP), precisava apresentar um cardápio com vários sabores, abrir as encomendas, anunciar o envio para todo o Brasil e ainda manter o ritmo de posts até o feriado.</>}</p>
         </div>
         <div>
-          <p class="num">02 · Minha parte</p>
-          <h2>Dar movimento à campanha.</h2>
-          <p>Entrei na campanha com a identidade já definida. Meu trabalho foi transformar o material em vídeo: editar as captações da agência, gerar com IA os cenários e objetos dos vídeos de abertura e montar parte das peças para o feed e os stories.</p>
+          <p class="num">{EN ? <>02 · My part</> : <>02 · Minha parte</>}</p>
+          <h2>{EN ? <>Bringing the campaign to life in motion.</> : <>Dar movimento à campanha.</>}</h2>
+          <p>{EN ? <>I joined the campaign with the identity already defined. My job was to turn the material into video: edit the agency’s footage, generate the sets and props for the opening videos with AI and build some of the pieces for the feed and stories.</> : <>Entrei na campanha com a identidade já definida. Meu trabalho foi transformar o material em vídeo: editar as captações da agência, gerar com IA os cenários e objetos dos vídeos de abertura e montar parte das peças para o feed e os stories.</>}</p>
         </div>
       </div>
     </section>
@@ -137,32 +156,32 @@ const jsonld = {
     <!-- ============ IA GENERATIVA ============ -->
     <section class="marrom">
       <div class="wrap">
-        <p class="num">03 · IA generativa</p>
-        <h2 class="grande">Um mundo de Páscoa <em>sem sair da tela</em>.</h2>
-        <p class="intro">O destaque do projeto. Os dois vídeos que abriram a campanha foram feitos com IA generativa, usando as fotos reais dos produtos como base: uma trilha de madeira entre flores, a casinha rosa, as sacolas, as caixas e os ovos da marca, e uma cidade em tons pastel com sacolas descendo de paraquedas. Tudo seguindo as cores e o logo da Doces da Fer, sem precisar montar cenário.</p>
+        <p class="num">{EN ? <>03 · Generative AI</> : <>03 · IA generativa</>}</p>
+        <h2 class="grande">{EN ? <>An Easter world <em>without leaving the screen</em>.</> : <>Um mundo de Páscoa <em>sem sair da tela</em>.</>}</h2>
+        <p class="intro">{EN ? <>The highlight of the project. The two videos that opened the campaign were made with generative AI, using the real product photos as a base: a wooden trail among flowers, the pink little house, the brand’s bags, boxes and eggs, and a pastel-toned city with bags coming down on parachutes. All following Doces da Fer’s colors and logo, without having to build a set.</> : <>O destaque do projeto. Os dois vídeos que abriram a campanha foram feitos com IA generativa, usando as fotos reais dos produtos como base: uma trilha de madeira entre flores, a casinha rosa, as sacolas, as caixas e os ovos da marca, e uma cidade em tons pastel com sacolas descendo de paraquedas. Tudo seguindo as cores e o logo da Doces da Fer, sem precisar montar cenário.</>}</p>
 
         <div class="ia">
           <div class="ia-video">
-            <video src={video('ia-producao.mp4')} poster={video('ia-producao.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo gerado com IA: trilha de madeira entre flores com sacolas, caixas e ovos de Páscoa da Doces da Fer"></video>
-            <p class="legenda">Vídeo 01 · A trilha</p>
-            <p class="legenda-txt">A câmera percorre um caminho de ovos e sacolas até a casinha da marca.</p>
+            <video src={video('ia-producao.mp4')} poster={video('ia-producao.jpg')} muted loop playsinline controls preload="none" aria-label={EN ? "AI-generated video: a wooden trail among flowers with Doces da Fer bags, boxes and Easter eggs" : "Vídeo gerado com IA: trilha de madeira entre flores com sacolas, caixas e ovos de Páscoa da Doces da Fer"}></video>
+            <p class="legenda">{EN ? <>Video 01 · The trail</> : <>Vídeo 01 · A trilha</>}</p>
+            <p class="legenda-txt">{EN ? <>The camera travels along a path of eggs and bags to the brand’s little house.</> : <>A câmera percorre um caminho de ovos e sacolas até a casinha da marca.</>}</p>
           </div>
           <div class="ia-video">
-            <video src={video('ia-paraquedas.mp4')} poster={video('ia-paraquedas.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo gerado com IA: sacolas descendo de paraquedas sobre a cidade, com o texto Cardápio de Páscoa liberado"></video>
-            <p class="legenda">Vídeo 02 · Os paraquedas</p>
-            <p class="legenda-txt">Para anunciar o cardápio liberado e o envio para todo o Brasil.</p>
+            <video src={video('ia-paraquedas.mp4')} poster={video('ia-paraquedas.jpg')} muted loop playsinline controls preload="none" aria-label={EN ? "AI-generated video: bags coming down on parachutes over the city, with the text \"Cardápio de Páscoa liberado\" (Easter menu is out)" : "Vídeo gerado com IA: sacolas descendo de paraquedas sobre a cidade, com o texto Cardápio de Páscoa liberado"}></video>
+            <p class="legenda">{EN ? <>Video 02 · The parachutes</> : <>Vídeo 02 · Os paraquedas</>}</p>
+            <p class="legenda-txt">{EN ? <>To announce the menu release and shipping all over Brazil.</> : <>Para anunciar o cardápio liberado e o envio para todo o Brasil.</>}</p>
           </div>
           <div class="ia-txt">
-            <h3>Da geração à edição.</h3>
-            <p>As cenas foram geradas mantendo a paleta pastel e as embalagens da marca de um take para o outro. Na edição, os trechos ganharam os textos da campanha e o ritmo dos stories.</p>
+            <h3>{EN ? <>From generation to editing.</> : <>Da geração à edição.</>}</h3>
+            <p>{EN ? <>The scenes were generated keeping the pastel palette and the brand’s packaging consistent from one take to the next. In editing, the clips got the campaign copy and the pace of stories.</> : <>As cenas foram geradas mantendo a paleta pastel e as embalagens da marca de um take para o outro. Na edição, os trechos ganharam os textos da campanha e o ritmo dos stories.</>}</p>
             <ul class="tags">
-              <li>IA generativa</li><li>Consistência de marca</li><li>Edição</li><li>Instagram</li>
+              {EN ? <><li>Generative AI</li><li>Brand consistency</li><li>Editing</li></> : <><li>IA generativa</li><li>Consistência de marca</li><li>Edição</li></>}<li>Instagram</li>
             </ul>
             <ul class="frames">
-              <li><Image src={iaCasinha} alt="Frame gerado com IA: casinha rosa e verde da marca no fim da trilha, com ovo e morangos" widths={[240, 480]} sizes="(min-width: 900px) 180px, 42vw" /></li>
-              <li><Image src={iaTrilha} alt="Frame gerado com IA: sacola da Doces da Fer e ovos recheados sobre a trilha de madeira" widths={[240, 480]} sizes="(min-width: 900px) 180px, 42vw" /></li>
+              <li><Image src={iaCasinha} alt={EN ? "AI-generated frame: the brand’s pink and green little house at the end of the trail, with an egg and strawberries" : "Frame gerado com IA: casinha rosa e verde da marca no fim da trilha, com ovo e morangos"} widths={[240, 480]} sizes="(min-width: 900px) 180px, 42vw" /></li>
+              <li><Image src={iaTrilha} alt={EN ? "AI-generated frame: a Doces da Fer bag and filled eggs on the wooden trail" : "Frame gerado com IA: sacola da Doces da Fer e ovos recheados sobre a trilha de madeira"} widths={[240, 480]} sizes="(min-width: 900px) 180px, 42vw" /></li>
             </ul>
-            <p class="legenda-txt">Frames gerados com IA</p>
+            <p class="legenda-txt">{EN ? <>AI-generated frames</> : <>Frames gerados com IA</>}</p>
           </div>
         </div>
       </div>
@@ -172,9 +191,9 @@ const jsonld = {
     <section class="creme">
       {flutuam.videos.map((f) => <span class="flutua so-desk" data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={seloRosa} alt="" width={240} /></span>)}
       <div class="wrap">
-        <p class="num">04 · Vídeos</p>
-        <h2 class="grande">Um sabor por vídeo.</h2>
-        <p class="intro">Cada sabor do cardápio ganhou o seu vídeo, além de uma ação com a Fer na rua. As captações são da equipe da agência; eu fiz a edição. Toque em um vídeo para ouvir.</p>
+        <p class="num">{EN ? <>04 · Videos</> : <>04 · Vídeos</>}</p>
+        <h2 class="grande">{EN ? <>One flavor per video.</> : <>Um sabor por vídeo.</>}</h2>
+        <p class="intro">{EN ? <>Each flavor on the menu got its own video, plus a street promotion with Fer. The footage is by the agency team; I did the editing. Tap a video to hear it.</> : <>Cada sabor do cardápio ganhou o seu vídeo, além de uma ação com a Fer na rua. As captações são da equipe da agência; eu fiz a edição. Toque em um vídeo para ouvir.</>}</p>
         <ul class="trilho videos">
           {outros.map((v) => (
             <li>
@@ -191,16 +210,16 @@ const jsonld = {
     <section class="rosa">
       {flutuam.pecas.map((f) => <span class="flutua so-desk" data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={seloRosa} alt="" width={240} /></span>)}
       <div class="wrap">
-        <p class="num">05 · Peças</p>
-        <h2 class="grande">Feed e stories.</h2>
-        <p class="intro">Algumas das peças que fiz dentro da identidade da campanha: a capa com o fundo gerado por IA, a conversa para quem deixou a encomenda para a última hora e o post de Feliz Páscoa.</p>
+        <p class="num">{EN ? <>05 · Pieces</> : <>05 · Peças</>}</p>
+        <h2 class="grande">{EN ? <>Feed and stories.</> : <>Feed e stories.</>}</h2>
+        <p class="intro">{EN ? <>Some of the pieces I made within the campaign identity: the cover with the AI-generated background, the chat for people who left their order to the last minute and the Happy Easter post.</> : <>Algumas das peças que fiz dentro da identidade da campanha: a capa com o fundo gerado por IA, a conversa para quem deixou a encomenda para a última hora e o post de Feliz Páscoa.</>}</p>
 
         <h3 class="sub-h">Stories · 1080 × 1920</h3>
         <ul class="trilho stories">
           {[
-            { img: stCapa, alt: 'Story de capa Temporada de Páscoa com fundo de trilha e flores gerado por IA, sacola e ovo' },
-            { img: stUltima, alt: 'Story em formato de conversa: Deixei para a última hora, e agora? Tranquilo! Aproveite os sabores a pronta entrega' },
-            { img: stFeliz, alt: 'Story Feliz Páscoa com a Fer segurando ovos de Páscoa' },
+            { img: stCapa, alt: T('Story de capa Temporada de Páscoa com fundo de trilha e flores gerado por IA, sacola e ovo', 'Temporada de Páscoa cover story with an AI-generated trail and flowers background, a bag and an egg') },
+            { img: stUltima, alt: T('Story em formato de conversa: Deixei para a última hora, e agora? Tranquilo! Aproveite os sabores a pronta entrega', 'Chat-style story: I left it to the last minute, now what? No worries! Enjoy the ready-to-go flavors') },
+            { img: stFeliz, alt: T('Story Feliz Páscoa com a Fer segurando ovos de Páscoa', 'Happy Easter story with Fer holding Easter eggs') },
           ].map((s) => (
             <li><Image src={s.img} alt={s.alt} widths={[270, 540]} sizes="240px" /></li>
           ))}
@@ -209,8 +228,9 @@ const jsonld = {
         <h3 class="sub-h">Feed · 1080 × 1350</h3>
         <ul class="trilho feed">
           {[
-            { img: postUltima, alt: 'Post em formato de conversa sobre os sabores a pronta entrega, com o ovo de cookie de pistache' },
-            { img: postFeliz, alt: 'Post Feliz Páscoa com a Fer segurando ovos de Páscoa' },
+            { img: postUltima, alt: T('Post em formato de conversa sobre os sabores a pronta entrega, com o ovo de cookie de pistache', 'Chat-style post about the ready-to-go flavors, with the pistachio cookie egg') },
+            { img: postFeliz, alt: T('Post Feliz Páscoa com a Fer segurando ovos de Páscoa', 'Happy Easter post with Fer holding Easter eggs') },
+
           ].map((p) => (
             <li><Image src={p.img} alt={p.alt} widths={[360, 720]} sizes="320px" /></li>
           ))}
@@ -221,34 +241,34 @@ const jsonld = {
     <!-- ============ BASE VISUAL ============ -->
     <section class="creme">
       <div class="wrap">
-        <p class="num">06 · Base visual</p>
-        <h2 class="grande">A base que eu recebi.</h2>
-        <p class="bloco-txt nota">A campanha trabalha com duas identidades, e nenhuma delas foi criada por mim. Elas aparecem aqui porque são a base dos vídeos e das peças que fiz.</p>
+        <p class="num">{EN ? <>06 · Visual foundation</> : <>06 · Base visual</>}</p>
+        <h2 class="grande">{EN ? <>The foundation I received.</> : <>A base que eu recebi.</>}</h2>
+        <p class="bloco-txt nota">{EN ? <>The campaign works with two identities, and neither was created by me. They appear here because they’re the foundation of the videos and pieces I made.</> : <>A campanha trabalha com duas identidades, e nenhuma delas foi criada por mim. Elas aparecem aqui porque são a base dos vídeos e das peças que fiz.</>}</p>
 
         <div class="identidades">
           <div class="id-bloco">
-            <h3>A marca</h3>
-            <p class="id-autor">Os Doces da Fer Espósito · trazida pronta pela cliente</p>
-            <p>O símbolo junta um coração com três pessoas, a Fer e a família. Verde-sálvia, marrom e rosa formam a paleta.</p>
+            <h3>{EN ? <>The brand</> : <>A marca</>}</h3>
+            <p class="id-autor">{EN ? <>Os Doces da Fer Espósito · brought ready by the client</> : <>Os Doces da Fer Espósito · trazida pronta pela cliente</>}</p>
+            <p>{EN ? <>The symbol combines a heart with three people, Fer and her family. Sage green, brown and pink make up the palette.</> : <>O símbolo junta um coração com três pessoas, a Fer e a família. Verde-sálvia, marrom e rosa formam a paleta.</>}</p>
             <ul class="logos">
-              <li><Image src={marcaVerde} alt="Logo Os Doces da Fer Espósito em marrom e rosa sobre verde" width={400} /></li>
-              <li><Image src={seloVerde} alt="Selo circular Os Doces da Fer Espósito sobre verde" width={400} /></li>
-              <li><Image src={marcaRosa} alt="Logo Os Doces da Fer Espósito sobre rosa claro" width={400} /></li>
-              <li><Image src={seloMarrom} alt="Selo circular Os Doces da Fer Espósito em branco sobre marrom" width={400} /></li>
+              <li><Image src={marcaVerde} alt={EN ? "Os Doces da Fer Espósito logo in brown and pink on green" : "Logo Os Doces da Fer Espósito em marrom e rosa sobre verde"} width={400} /></li>
+              <li><Image src={seloVerde} alt={EN ? "Os Doces da Fer Espósito circular seal on green" : "Selo circular Os Doces da Fer Espósito sobre verde"} width={400} /></li>
+              <li><Image src={marcaRosa} alt={EN ? "Os Doces da Fer Espósito logo on light pink" : "Logo Os Doces da Fer Espósito sobre rosa claro"} width={400} /></li>
+              <li><Image src={seloMarrom} alt={EN ? "Os Doces da Fer Espósito circular seal in white on brown" : "Selo circular Os Doces da Fer Espósito em branco sobre marrom"} width={400} /></li>
             </ul>
             <ul class="paleta">
-              <li style="--c:#ADBC91"><span>Verde</span></li>
-              <li style="--c:#8B532E"><span>Marrom</span></li>
-              <li style="--c:#E99CA5"><span>Rosa</span></li>
-              <li style="--c:#F5D7D5" class="clara"><span>Rosa claro</span></li>
+              <li style="--c:#ADBC91">{EN ? <><span>Green</span></> : <><span>Verde</span></>}</li>
+              <li style="--c:#8B532E">{EN ? <><span>Brown</span></> : <><span>Marrom</span></>}</li>
+              <li style="--c:#E99CA5">{EN ? <><span>Pink</span></> : <><span>Rosa</span></>}</li>
+              <li style="--c:#F5D7D5" class="clara">{EN ? <><span>Light pink</span></> : <><span>Rosa claro</span></>}</li>
             </ul>
           </div>
           <div class="id-bloco">
             <h3>Temporada de Páscoa</h3>
-            <p class="id-autor">Identidade da campanha · criada pela Agência Zava</p>
-            <p>O lettering em rosa, o fundo creme pontilhado e o selo redondo da marca, aplicados em todas as peças da Páscoa.</p>
+            <p class="id-autor">{EN ? <>Campaign identity · created by Agência Zava</> : <>Identidade da campanha · criada pela Agência Zava</>}</p>
+            <p>{EN ? <>The pink lettering, the dotted cream background and the brand’s round seal, applied to every Easter piece.</> : <>O lettering em rosa, o fundo creme pontilhado e o selo redondo da marca, aplicados em todas as peças da Páscoa.</>}</p>
             <div class="kv">
-              <Image src={keyVisual} alt="Key visual Temporada de Páscoa: mão segurando um ovo de pistache sobre fundo creme pontilhado" widths={[400, 800]} sizes="(min-width: 900px) 420px, 90vw" />
+              <Image src={keyVisual} alt={EN ? "Temporada de Páscoa key visual: a hand holding a pistachio egg on a dotted cream background" : "Key visual Temporada de Páscoa: mão segurando um ovo de pistache sobre fundo creme pontilhado"} widths={[400, 800]} sizes="(min-width: 900px) 420px, 90vw" />
             </div>
           </div>
         </div>
@@ -258,8 +278,8 @@ const jsonld = {
     <!-- ============ CRÉDITOS ============ -->
     <section class="marrom creditos">
       <div class="wrap">
-        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Os Doces da Fer Espósito</b>. Fiz a edição dos vídeos, os assets gerados com IA e parte das peças. A identidade da marca é da cliente; a identidade Temporada de Páscoa, as captações e as fotos são da agência.</p>
-        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+        <p>{EN ? <>Project developed for <b>Agência Zava</b>. Client: <b>Os Doces da Fer Espósito</b>. I did the video editing, the AI-generated assets and some of the pieces. The brand identity belongs to the client; the Temporada de Páscoa identity, the footage and the photos are by the agency.</> : <>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Os Doces da Fer Espósito</b>. Fiz a edição dos vídeos, os assets gerados com IA e parte das peças. A identidade da marca é da cliente; a identidade Temporada de Páscoa, as captações e as fotos são da agência.</>}</p>
+        <a href={portfolio} class="botao">{EN ? <>See other projects</> : <>Ver outros projetos</>} <span aria-hidden="true">→</span></a>
       </div>
     </section>
   </main>

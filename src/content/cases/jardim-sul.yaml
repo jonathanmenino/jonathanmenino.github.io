@@ -102,3 +102,65 @@ telas:
       legenda: Evolução das obras
     - imagem: ../../assets/cases/jardim-sul/mobile-consultor.jpg
       legenda: Fale com um consultor
+
+# ---------- Inglês (/en/): só os textos, na mesma ordem das listas acima ----------
+en:
+  tipo: Landing page · Residential lots
+  resumo: Sales landing page for a residential lot development in Iperó, Brazil. A single page, organized in the order of the questions someone buying a lot has, with the sales consultant one tap away on WhatsApp.
+  descricaoSeo: "Landing page for a lot development in Iperó, Brazil, built in WordPress with Elementor: a structure designed to sell lots in a neighborhood under construction and take visitors straight to the consultant."
+  card:
+    descricao: Sales landing page for a lot development in Iperó, Brazil, organized in the order of the questions buyers have.
+  ficha:
+    - rotulo: Client
+      valor: Jardim Sul Residencial · Iperó, Brazil
+    - rotulo: Platform
+    - rotulo: My role
+      valor: Layout and development
+    - rotulo: Timeline
+      valor: 8 business days
+  desafio:
+    titulo: Selling lots in a neighborhood that is still being built.
+    texto: People buying a lot off-plan want to be sure the construction is moving, that the development is legally registered and that the location is worth it. The page had to answer all of this quickly and lead interested buyers to talk to a consultant.
+  solucao:
+    titulo: A page that follows the order of the buyer’s questions.
+    texto: Price and terms right at the top, construction progress with photos and drone video, distances to school, supermarket and health center, and the development’s registrations in the footer. WhatsApp shows up at the top and at the end, with the message already written.
+  estrutura:
+    titulo: Each section answers a question.
+    texto: "The page is long, but nothing is extra: each block removes an objection before calling for contact."
+    secoes:
+      - nome: Hero with the offer
+        texto: Lots from 140 m², easy down payment, construction well underway and installments from R$ 885. Visitors know in seconds if it fits their budget.
+      - nome: About the development
+        texto: Presents the planned neighborhood, leisure areas and infrastructure, with a video of the development.
+      - nome: Construction progress
+        texto: Construction stages (earthwork, water and sewage, paving, curbs, power grid) with photos and aerial video. It’s the proof the project is coming to life.
+      - nome: Location
+        texto: Travel time to daycare, school, health center, pharmacy and supermarket, an interactive map and the view of the balloon festival.
+      - nome: Talk to a consultant
+        texto: Final call with a button straight to WhatsApp.
+      - nome: Partners and registration
+        texto: Accredited real estate agencies and the approval numbers from the city, GRAPROHAB and the land registry, to build trust.
+  desempenho:
+    titulo: Optimized as far as the code allowed.
+    texto: "What depended on how the page was built scored well: accessibility, best practices, SEO and a layout that doesn’t move while it loads."
+    metricas:
+      - valor: 0 on mobile · 0.058 on desktop
+        texto: Nothing moves while the page loads, so visitors don’t tap the wrong button.
+      - valor: 190 ms on mobile
+        texto: The page responds quickly to touch, even with videos, a carousel and a map.
+    observacao: Scores measured on PageSpeed Insights on Oct 13, 2026. Hosting is the client’s and affects loading time.
+    otimizacoes:
+      - titulo: Page cache
+        texto: With WP Rocket, visitors get the page ready-made instead of WordPress building everything on every visit.
+      - titulo: Lazy load
+        texto: Photos, videos and the map only load when they get close to the screen, and the top shows up first.
+      - titulo: Minification
+        texto: Lean CSS and JavaScript, without spaces and comments, so fewer and lighter files are downloaded.
+      - titulo: JavaScript under control
+        texto: Scripts the page doesn’t use were removed or deferred, so it responds quickly to touch.
+  telas:
+    titulo: The same experience on mobile
+    imagens:
+      - legenda: Hero with the offer
+      - legenda: Construction progress
+      - legenda: Talk to a consultant

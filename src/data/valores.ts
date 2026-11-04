@@ -17,7 +17,7 @@ export const VALORES: { projeto: string; de: number | null; ate: number | null }
   { projeto: 'Página adicional', de: 350, ate: 800 },
 ];
 
-export const reais = (valor: number) => `R$ ${valor.toLocaleString('pt-BR')}`;
+export const reais = (valor: number, idioma: 'pt' | 'en' = 'pt') => `R$ ${valor.toLocaleString(idioma === 'en' ? 'en-US' : 'pt-BR')}`;
 export const sugerido = (valor: number) => Math.ceil((valor * (1 + MARGEM_SUGERIDA)) / 50) * 50;
 
 export const INCLUSO = [
@@ -37,4 +37,34 @@ export const OBSERVACOES = [
   'A venda sugerida é uma referência com 80% de margem sobre o valor de parceiro. O preço final para o seu cliente é definido pela sua agência.',
   'Prazo e valor final são confirmados após o briefing de cada projeto.',
   'Pagamento: 50% após a aprovação do orçamento e 50% na entrega.',
+];
+
+// ---------- Versão em inglês (/en/white-label/parceiros/): mesma ordem das listas acima ----------
+export const PROJETOS_EN = [
+  'High-converting landing page',
+  'One-page website (corporate)',
+  'Website with up to 3 pages',
+  'Website with up to 5 pages',
+  'Website with up to 8 pages',
+  'More than 8 pages',
+  'Additional page',
+];
+
+export const INCLUSO_EN = [
+  'Responsive layout (phone, tablet and desktop)',
+  'Basic technical SEO',
+  'Speed optimization',
+  'WhatsApp and contact form integration',
+  'Up to 2 rounds of revisions',
+  'Delivered with no branding of mine',
+];
+
+export const OBSERVACOES_EN = [
+  'Prices vary within the range depending on the number of sections on each page and the complexity of the layout.',
+  'If the agency sends a finished layout, the price drops by up to 30%.',
+  'Prices apply to websites with standard features. Advanced features, such as member areas, calculators, API integrations, e-commerce, booking systems or multilingual websites, are quoted separately.',
+  'Hosting, domain and licenses for paid plugins or tools are not included.',
+  'The suggested sale price is a reference with an 80% margin over the partner price. The final price for your client is set by your agency.',
+  'Timeline and final price are confirmed after the brief for each project.',
+  'Payment: 50% after the quote is approved and 50% on delivery.',
 ];

@@ -14,6 +14,16 @@ export const CATEGORIAS = {
 } as const;
 export type Categoria = keyof typeof CATEGORIAS;
 
+// Nomes das categorias em inglês (versão /en/ do site).
+export const CATEGORIAS_EN: Record<Categoria, string> = {
+  campanhas: 'Campaigns',
+  identidade: 'Identity',
+  video: 'Video & motion',
+  sites: 'Websites',
+  ia: 'AI',
+};
+export const categoria = (c: Categoria, idioma: 'pt' | 'en' = 'pt') => (idioma === 'en' ? CATEGORIAS_EN[c] : CATEGORIAS[c]);
+
 export interface Projeto {
   titulo: string;
   cliente: string;
@@ -23,6 +33,8 @@ export interface Projeto {
   capa: string;
   categorias: Categoria[];
   destaque?: boolean;
+  // Textos em inglês (o que não vier aqui fica igual ao português).
+  en?: Partial<Pick<Projeto, 'titulo' | 'cliente' | 'tipo' | 'resumo'>>;
 }
 
 export const PROJETOS: Projeto[] = [
@@ -35,6 +47,7 @@ export const PROJETOS: Projeto[] = [
     capa: 'og/omuch.jpg',
     categorias: ['identidade', 'sites', 'ia'],
     destaque: true,
+    en: { cliente: 'Own product', tipo: 'Brand and product interface', resumo: 'Brand, interface direction and UX for an app for creative freelancers.' },
   },
   {
     titulo: 'Gois & Silva Advocacia',
@@ -45,6 +58,7 @@ export const PROJETOS: Projeto[] = [
     capa: 'og/gois-e-silva.jpg',
     categorias: ['identidade'],
     destaque: true,
+    en: { cliente: 'Law firm · Limeira, Brazil', tipo: 'Visual identity', resumo: 'Refined monogram, logo versions, colors, typography, graphic elements and applications.' },
   },
   {
     titulo: 'Escalados Macarrone',
@@ -55,6 +69,7 @@ export const PROJETOS: Projeto[] = [
     capa: 'og/escalados-macarrone.jpg',
     categorias: ['campanhas', 'identidade', 'video', 'sites'],
     destaque: true,
+    en: { cliente: 'Macarrone in Box · Agência Zava', tipo: 'Campaign · 2026 World Cup', resumo: 'Campaign identity, posts, stories, videos, landing page and point of sale.' },
   },
   {
     titulo: 'Doces da Fer · Páscoa',
@@ -65,6 +80,7 @@ export const PROJETOS: Projeto[] = [
     capa: 'og/doces-da-fer-pascoa.jpg',
     categorias: ['campanhas', 'video', 'ia'],
     destaque: true,
+    en: { titulo: 'Doces da Fer · Easter', cliente: 'Os Doces da Fer · Agência Zava', tipo: 'Campaign · Easter 2026', resumo: 'Video editing with AI-generated sets and props, plus some of the pieces.' },
   },
   {
     titulo: 'Costelinha BBQ',
@@ -75,6 +91,7 @@ export const PROJETOS: Projeto[] = [
     capa: 'og/macarrone-costelinha-bbq.jpg',
     categorias: ['campanhas', 'video'],
     destaque: true,
+    en: { cliente: 'Macarrone in Box · Agência Zava', tipo: 'Flavor launch', resumo: 'Official video with chroma key, LED screen, teaser, ads and pieces.' },
   },
   {
     titulo: 'É o BR no Kombina',
@@ -85,6 +102,7 @@ export const PROJETOS: Projeto[] = [
     capa: 'og/br-no-kombina.jpg',
     categorias: ['campanhas', 'identidade', 'video'],
     destaque: true,
+    en: { cliente: 'Kombina Burgers House · Agência Zava', tipo: 'Campaign · Menu launch', resumo: 'A campaign for three burgers with regional accents: identity, pieces and editing of every video.' },
   },
   {
     titulo: 'Método Dias Food',
@@ -94,6 +112,7 @@ export const PROJETOS: Projeto[] = [
     link: 'portfolio/metodo-dias-food/',
     capa: 'og/metodo-dias-food.jpg',
     categorias: ['sites'],
+    en: { cliente: 'Patrik Dias · Agência Zava', tipo: 'Course landing page', resumo: 'Sales page for a course for delivery business owners, from the top video to the buy button.' },
   },
   {
     titulo: 'Sentinela',
@@ -104,6 +123,7 @@ export const PROJETOS: Projeto[] = [
     capa: 'og/sentinela.jpg',
     categorias: ['sites'],
     destaque: true,
+    en: { tipo: 'Corporate website', resumo: 'A sober site in black and military green that leads building managers to request a quote.' },
   },
   {
     titulo: 'Agência Zava',
@@ -113,6 +133,7 @@ export const PROJETOS: Projeto[] = [
     link: 'white-label/projetos/agencia-zava/',
     capa: 'og/agencia-zava.jpg',
     categorias: ['sites'],
+    en: { cliente: 'Agência Zava (agency)', tipo: 'Corporate website', resumo: 'Home page presenting the agency’s 360° Marketing, its services and client results.' },
   },
   {
     titulo: 'Jardim Sul Residencial',
@@ -122,6 +143,7 @@ export const PROJETOS: Projeto[] = [
     link: 'white-label/projetos/jardim-sul/',
     capa: 'og/jardim-sul.jpg',
     categorias: ['sites'],
+    en: { cliente: 'Residential lots in Iperó, Brazil', tipo: 'Landing page', resumo: 'A sales page that follows the questions of someone buying a lot, with the sales consultant one tap away.' },
   },
   {
     titulo: 'menin0',
@@ -131,5 +153,6 @@ export const PROJETOS: Projeto[] = [
     link: 'portfolio/menin0-lofi/',
     capa: 'og/menin0-lofi.jpg',
     categorias: ['sites', 'identidade'],
+    en: { cliente: 'Personal project', tipo: 'Website and identity', resumo: 'A lo-fi hip hop site that moves through a day, from the city at night to the sea.' },
   },
 ];

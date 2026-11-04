@@ -8,7 +8,9 @@
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Fox from '../../../components/Fox.astro';
+import TrocaIdioma from '../../../components/TrocaIdioma.astro';
 import { url } from '../../../data/site';
+import { idioma, tradutor, pagina } from '../../../i18n';
 import '@fontsource-variable/inter';
 
 import logo from '../../../assets/portfolio/macarrone-costelinha-bbq/logo.png';
@@ -27,31 +29,44 @@ import e59 from '../../../assets/portfolio/macarrone-costelinha-bbq/ensaio-59.jp
 import e62 from '../../../assets/portfolio/macarrone-costelinha-bbq/ensaio-62.jpg';
 import zava from '../../../assets/agencias/zava-branco.svg';
 
-const portfolio = url('portfolio/');
+// Inglês em /en/: textos com T('pt', 'en') e {EN ? <>inglês</> : <>português</>}. As peças da campanha ficam em português.
+const L = idioma(Astro.url);
+const EN = L === 'en';
+const T = tradutor(L);
+const portfolio = pagina(L, 'portfolio/');
 const base = url('portfolio/macarrone-costelinha-bbq/');
 const video = (nome: string) => `${base}videos/${nome}`;
 
-const ficha = [
+const ficha = T([
   ['Cliente', 'Macarrone in Box'],
   ['Ocasião', 'Lançamento do sabor Costelinha BBQ'],
   ['Meu papel', 'Vídeos (edição, motion e chroma key) e parte das peças'],
   ['Período', 'Setembro de 2025'],
-];
+], [
+  ['Client', 'Macarrone in Box'],
+  ['Occasion', 'Launch of the Costelinha BBQ (BBQ ribs) flavor'],
+  ['My role', 'Videos (editing, motion and chroma key) and some of the pieces'],
+  ['Period', 'September 2025'],
+]);
 
 
-const outros = [
+const outros = EN ? [
+  { arquivo: 'chef', titulo: 'Chef presenting', texto: 'Chef Andrade tells how the dish was created.' },
+  { arquivo: 'preparo', titulo: 'Preparation', texto: 'From the flame in the pan to the plated dish, with the ingredients in the captions.' },
+  { arquivo: 'anuncio-box', titulo: 'Paid traffic ad', texto: 'Close-up of the delivery box, to boost orders.' },
+] : [
   { arquivo: 'chef', titulo: 'Chef apresentando', texto: 'O chef Andrade conta como o prato foi criado.' },
   { arquivo: 'preparo', titulo: 'Preparo', texto: 'Do fogo da panela ao prato montado, com os ingredientes na legenda.' },
   { arquivo: 'anuncio-box', titulo: 'Anúncio para tráfego pago', texto: 'Close na box de delivery, para impulsionar o pedido.' },
 ];
 
 const ensaio = [
-  { img: e16, alt: 'Modelo de chapéu de cowboy na loja da Macarrone in Box', classe: 'alto' },
-  { img: e21, alt: 'Modelo à mesa com o prato Costelinha BBQ servido na bandeja' },
-  { img: e58, alt: 'Modelo em fundo verde segurando a box e o garfo com costelinha' },
-  { img: e33, alt: 'Modelo apresentando o prato na loja' },
-  { img: e59, alt: 'Modelo em fundo verde provando o Costelinha BBQ' },
-  { img: e62, alt: 'Modelo em fundo verde sorrindo com a box' },
+  { img: e16, alt: T('Modelo de chapéu de cowboy na loja da Macarrone in Box', 'Model in a cowboy hat at the Macarrone in Box store'), classe: 'alto' },
+  { img: e21, alt: T('Modelo à mesa com o prato Costelinha BBQ servido na bandeja', 'Model at the table with the Costelinha BBQ dish served on a tray') },
+  { img: e58, alt: T('Modelo em fundo verde segurando a box e o garfo com costelinha', 'Model on green screen holding the box and a fork with ribs') },
+  { img: e33, alt: T('Modelo apresentando o prato na loja', 'Model presenting the dish at the store') },
+  { img: e59, alt: T('Modelo em fundo verde provando o Costelinha BBQ', 'Model on green screen tasting the Costelinha BBQ') },
+  { img: e62, alt: T('Modelo em fundo verde sorrindo com a box', 'Model on green screen smiling with the box') },
 ];
 
 // Selos flutuando pela página (decorativos). pos: posição no CSS; w: largura; v: velocidade do parallax.
@@ -67,15 +82,15 @@ const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: 'Macarrone Costelinha BBQ',
-  description: 'Campanha de lançamento do sabor Costelinha BBQ da Macarrone in Box, feita para a Agência Zava.',
+  description: T('Campanha de lançamento do sabor Costelinha BBQ da Macarrone in Box, feita para a Agência Zava.', 'Launch campaign for Macarrone in Box’s Costelinha BBQ flavor, made for Agência Zava.'),
   creator: { '@type': 'Person', name: 'Jonathan Menino' },
   dateCreated: '2025-09',
-  inLanguage: 'pt-BR',
+  inLanguage: T('pt-BR', 'en'),
 };
 ---
 <Base
-  title="Macarrone Costelinha BBQ · Campanha · Jonathan Menino"
-  description="Vídeos e peças da campanha de lançamento do Costelinha BBQ da Macarrone in Box, inspirada no Texas: vídeo oficial com chroma key, telão de LED, spoiler, anúncios, stories e voucher. Feita para a Agência Zava."
+  title={T('Macarrone Costelinha BBQ · Campanha · Jonathan Menino', 'Macarrone Costelinha BBQ · Campaign · Jonathan Menino')}
+  description={T('Vídeos e peças da campanha de lançamento do Costelinha BBQ da Macarrone in Box, inspirada no Texas: vídeo oficial com chroma key, telão de LED, spoiler, anúncios, stories e voucher. Feita para a Agência Zava.', 'Videos and pieces for the Texas-inspired launch campaign of Macarrone in Box’s Costelinha BBQ: official chroma key video, LED screen, teaser, ads, stories and voucher. Made for Agência Zava.')}
   image="og/macarrone-costelinha-bbq.jpg"
   tipo="article"
   themeColor="#0B0B0B"
@@ -83,11 +98,12 @@ const jsonld = {
 >
 <div class="bbq">
   <header class="topo">
-    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
       <Fox cor="#FF2A2A" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
     </a>
-    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
+
   </header>
 
   <main>
@@ -95,20 +111,20 @@ const jsonld = {
     <section class="hero brasa">
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Campanha · Lançamento de sabor</p>
+          <p class="eyebrow">{EN ? <>Campaign · Flavor launch</> : <>Campanha · Lançamento de sabor</>}</p>
           <h1 class="sr-only">Macarrone Costelinha BBQ</h1>
-          <Image src={logo} alt="Logo Macarrone BBQ, Absolutamente Irresistível" widths={[600, 882]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
-          <p class="lead">Um sabor novo com sotaque texano. Fiz os vídeos da campanha de lançamento do Costelinha BBQ, do spoiler ao vídeo oficial com chroma key, e parte das peças.</p>
+          <Image src={logo} alt={EN ? "Macarrone BBQ logo, Absolutamente Irresistível (absolutely irresistible)" : "Logo Macarrone BBQ, Absolutamente Irresistível"} widths={[600, 882]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
+          <p class="lead">{EN ? <>A new flavor with a Texan accent. I made the videos for the Costelinha BBQ launch campaign, from the teaser to the official chroma key video, plus some of the pieces.</> : <>Um sabor novo com sotaque texano. Fiz os vídeos da campanha de lançamento do Costelinha BBQ, do spoiler ao vídeo oficial com chroma key, e parte das peças.</>}</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
             <div class="agencia">
-              <dt>Feito para</dt>
+              <dt>{EN ? <>Made for</> : <>Feito para</>}</dt>
               <dd><Image src={zava} alt="Agência Zava" height={28} class="zava" /></dd>
             </div>
           </dl>
         </div>
         <div class="hero-arte">
-          <Image src={stModelo} alt="Story de lançamento com a modelo de cowboy segurando a box em cenário de faroeste" widths={[400, 800]} sizes="(min-width: 1024px) 380px, 80vw" loading="eager" />
+          <Image src={stModelo} alt={EN ? "Launch story with the cowgirl model holding the box on a Wild West set" : "Story de lançamento com a modelo de cowboy segurando a box em cenário de faroeste"} widths={[400, 800]} sizes="(min-width: 1024px) 380px, 80vw" loading="eager" />
         </div>
       </div>
     </section>
@@ -118,14 +134,14 @@ const jsonld = {
       {flutuam.desafio.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="240px" /></span>)}
       <div class="wrap duas">
         <div>
-          <p class="num">01 · O desafio</p>
-          <h2>Fazer um sabor novo parecer um acontecimento.</h2>
-          <p>A Macarrone in Box ia lançar o Costelinha BBQ, prato novo criado pelo chef Andrade. A campanha precisava criar expectativa antes da estreia em 12 de setembro e mostrar, em poucos segundos, que esse não era só mais um item do cardápio.</p>
+          <p class="num">{EN ? <>01 · The challenge</> : <>01 · O desafio</>}</p>
+          <h2>{EN ? <>Making a new flavor feel like an event.</> : <>Fazer um sabor novo parecer um acontecimento.</>}</h2>
+          <p>{EN ? <>Macarrone in Box was about to launch Costelinha BBQ, a new dish created by chef Andrade. The campaign had to build anticipation before the September 12 debut and show, in a few seconds, that this wasn’t just another menu item.</> : <>A Macarrone in Box ia lançar o Costelinha BBQ, prato novo criado pelo chef Andrade. A campanha precisava criar expectativa antes da estreia em 12 de setembro e mostrar, em poucos segundos, que esse não era só mais um item do cardápio.</>}</p>
         </div>
         <div>
-          <p class="num">02 · A ideia</p>
-          <h2>Levar o Texas para dentro da Macarrone.</h2>
-          <p>O prato nasceu da culinária texana, então a campanha foi buscar lá a sua linguagem: o mapa do estado como selo, letreiros em neon, lettering de faroeste e figurino de cowboy no ensaio e no vídeo. Por cima de tudo, uma promessa curta: Absolutamente Irresistível.</p>
+          <p class="num">{EN ? <>02 · The idea</> : <>02 · A ideia</>}</p>
+          <h2>{EN ? <>Bringing Texas into Macarrone.</> : <>Levar o Texas para dentro da Macarrone.</>}</h2>
+          <p>{EN ? <>The dish was born from Texan cooking, so the campaign borrowed its language from there: the state map as a seal, neon signs, Wild West lettering and cowboy wardrobe in the photo shoot and the video. On top of it all, a short promise: Absolutamente Irresistível (absolutely irresistible).</> : <>O prato nasceu da culinária texana, então a campanha foi buscar lá a sua linguagem: o mapa do estado como selo, letreiros em neon, lettering de faroeste e figurino de cowboy no ensaio e no vídeo. Por cima de tudo, uma promessa curta: Absolutamente Irresistível.</>}</p>
         </div>
       </div>
     </section>
@@ -134,16 +150,16 @@ const jsonld = {
     <section class="defumado">
       <div class="wrap duas prato">
         <div class="prato-img">
-          <Image src={e21} alt="Prato Costelinha BBQ servido na bandeja da loja" widths={[480, 960]} sizes="(min-width: 900px) 480px, 90vw" />
+          <Image src={e21} alt={EN ? "Costelinha BBQ dish served on the store tray" : "Prato Costelinha BBQ servido na bandeja da loja"} widths={[480, 960]} sizes="(min-width: 900px) 480px, 90vw" />
         </div>
         <div>
-          <p class="num">03 · O prato</p>
+          <p class="num">{EN ? <>03 · The dish</> : <>03 · O prato</>}</p>
           <h2 class="grande">Costelinha BBQ.</h2>
-          <p class="receita">Molho BBQ Jack preparado pelo chef Andrade, costelinha de porco cozida lentamente em vinho branco chileno, caldo de legumes e especiarias, servida desfiada como pulled pork. Vai com o molho cheddar da casa, macarrão caracolino e crispy de cebola.</p>
+          <p class="receita">{EN ? <>Jack BBQ sauce made by chef Andrade, pork ribs slow-cooked in Chilean white wine, vegetable stock and spices, served shredded like pulled pork. It comes with the house cheddar sauce, caracolino pasta and crispy onion.</> : <>Molho BBQ Jack preparado pelo chef Andrade, costelinha de porco cozida lentamente em vinho branco chileno, caldo de legumes e especiarias, servida desfiada como pulled pork. Vai com o molho cheddar da casa, macarrão caracolino e crispy de cebola.</>}</p>
           <ul class="fatos">
-            <li><b>12/09</b><span>Data de estreia</span></li>
-            <li><b>Texas</b><span>Inspiração</span></li>
-            <li><b>Chef Andrade</b><span>Receita</span></li>
+            <li>{EN ? <><b>Sep 12</b><span>Debut date</span></> : <><b>12/09</b><span>Data de estreia</span></>}</li>
+            <li><b>Texas</b>{EN ? <><span>Inspiration</span></> : <><span>Inspiração</span></>}</li>
+            <li><b>Chef Andrade</b>{EN ? <><span>Recipe</span></> : <><span>Receita</span></>}</li>
           </ul>
         </div>
       </div>
@@ -153,31 +169,31 @@ const jsonld = {
     <section class="defumado">
       {flutuam.videos.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[240, 480]} sizes="220px" /></span>)}
       <div class="wrap">
-        <p class="num">04 · Vídeos</p>
-        <h2 class="grande">Do saloon ao delivery.</h2>
-        <p class="intro">Meu trabalho principal na campanha: edição, motion e composição de todos os vídeos. A captação foi da agência. Toque em um vídeo para ouvir.</p>
+        <p class="num">{EN ? <>04 · Videos</> : <>04 · Vídeos</>}</p>
+        <h2 class="grande">{EN ? <>From the saloon to delivery.</> : <>Do saloon ao delivery.</>}</h2>
+        <p class="intro">{EN ? <>My main work in the campaign: editing, motion and compositing for every video. The footage was shot by the agency. Tap a video to hear it.</> : <>Meu trabalho principal na campanha: edição, motion e composição de todos os vídeos. A captação foi da agência. Toque em um vídeo para ouvir.</>}</p>
 
         <div class="oficial">
           <div class="oficial-video">
-            <video src={video('oficial.mp4')} poster={video('oficial.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo oficial da campanha Costelinha BBQ"></video>
+            <video src={video('oficial.mp4')} poster={video('oficial.jpg')} muted loop playsinline controls preload="none" aria-label={EN ? "Official video of the Costelinha BBQ campaign" : "Vídeo oficial da campanha Costelinha BBQ"}></video>
           </div>
           <div>
-            <p class="selo-oficial">Vídeo oficial</p>
-            <h3>O filme principal da campanha.</h3>
-            <p>A peça mais complexa do projeto. A partir do material gravado pela agência em chroma key e na loja, montei os cenários de faroeste na pós, animei os letreiros de neon e costurei tudo com os títulos da campanha.</p>
+            <p class="selo-oficial">{EN ? <>Official video</> : <>Vídeo oficial</>}</p>
+            <h3>{EN ? <>The campaign’s main film.</> : <>O filme principal da campanha.</>}</h3>
+            <p>{EN ? <>The most complex piece of the project. From footage the agency shot on chroma key and at the store, I built the Wild West sets in post, animated the neon signs and stitched it all together with the campaign titles.</> : <>A peça mais complexa do projeto. A partir do material gravado pela agência em chroma key e na loja, montei os cenários de faroeste na pós, animei os letreiros de neon e costurei tudo com os títulos da campanha.</>}</p>
             <ul class="tags">
-              <li>Chroma key</li><li>Composição de cenários</li><li>Motion e lettering</li><li>Edição</li>
+              <li>Chroma key</li>{EN ? <><li>Set compositing</li><li>Motion and lettering</li><li>Editing</li></> : <><li>Composição de cenários</li><li>Motion e lettering</li><li>Edição</li></>}
             </ul>
           </div>
         </div>
 
         <div class="led">
           <div class="led-tela">
-            <video src={video('led.mp4')} poster={video('led.jpg')} muted loop playsinline preload="none" aria-label="Animação para o telão de LED do shopping"></video>
+            <video src={video('led.mp4')} poster={video('led.jpg')} muted loop playsinline preload="none" aria-label={EN ? "Animation for the mall LED screen" : "Animação para o telão de LED do shopping"}></video>
           </div>
           <div class="led-txt">
-            <h3>Telão de LED no shopping.</h3>
-            <p>Versão horizontal 2:1 para o painel do shopping: o prato em close, com o logo entrando por cima. Sem som, feita para ser entendida de longe e em poucos segundos.</p>
+            <h3>{EN ? <>LED screen at the mall.</> : <>Telão de LED no shopping.</>}</h3>
+            <p>{EN ? <>A horizontal 2:1 version for the mall panel: a close-up of the dish with the logo coming in on top. No sound, made to be understood from afar in a few seconds.</> : <>Versão horizontal 2:1 para o painel do shopping: o prato em close, com o logo entrando por cima. Sem som, feita para ser entendida de longe e em poucos segundos.</>}</p>
           </div>
         </div>
 
@@ -197,33 +213,33 @@ const jsonld = {
     <section class="brasa secao">
       {flutuam.prelanc.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="160px" /></span>)}
       <div class="wrap">
-        <p class="num">05 · Peças</p>
-        <h2 class="grande">Contagem para 12/09.</h2>
-        <p class="intro">Antes da estreia, o prato apareceu só em pedaços: o fogo da panela, o neon do Texas e a data. Depois vieram as peças de lançamento e, no dia da estreia, um voucher para quem chegasse primeiro.</p>
+        <p class="num">{EN ? <>05 · Pieces</> : <>05 · Peças</>}</p>
+        <h2 class="grande">{EN ? <>Countdown to Sep 12.</> : <>Contagem para 12/09.</>}</h2>
+        <p class="intro">{EN ? <>Before the debut, the dish only appeared in bits: the flame in the pan, the Texas neon and the date. Then came the launch pieces and, on debut day, a voucher for whoever arrived first.</> : <>Antes da estreia, o prato apareceu só em pedaços: o fogo da panela, o neon do Texas e a data. Depois vieram as peças de lançamento e, no dia da estreia, um voucher para quem chegasse primeiro.</>}</p>
         <ul class="pecas">
           <li>
-            <Image src={stTeaser} alt="Story teaser: Absolutamente Irresistível, 12/09" widths={[270, 540]} sizes="(min-width: 900px) 260px, 44vw" />
-            <p class="legenda">Story teaser</p>
+            <Image src={stTeaser} alt={EN ? "Teaser story: Absolutamente Irresistível, Sep 12" : "Story teaser: Absolutamente Irresistível, 12/09"} widths={[270, 540]} sizes="(min-width: 900px) 260px, 44vw" />
+            <p class="legenda">{EN ? <>Teaser story</> : <>Story teaser</>}</p>
           </li>
           <li>
-            <video src={video('spoiler.mp4')} poster={video('spoiler.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo spoiler do Costelinha BBQ"></video>
-            <p class="legenda">Vídeo spoiler</p>
+            <video src={video('spoiler.mp4')} poster={video('spoiler.jpg')} muted loop playsinline controls preload="none" aria-label={EN ? "Costelinha BBQ teaser video" : "Vídeo spoiler do Costelinha BBQ"}></video>
+            <p class="legenda">{EN ? <>Teaser video</> : <>Vídeo spoiler</>}</p>
           </li>
           <li>
-            <Image src={stModelo} alt="Story com a modelo de cowboy segurando a box em cenário de faroeste" widths={[270, 540]} sizes="(min-width: 900px) 260px, 44vw" />
-            <p class="legenda">Story de lançamento</p>
+            <Image src={stModelo} alt={EN ? "Story with the cowgirl model holding the box on a Wild West set" : "Story com a modelo de cowboy segurando a box em cenário de faroeste"} widths={[270, 540]} sizes="(min-width: 900px) 260px, 44vw" />
+            <p class="legenda">{EN ? <>Launch story</> : <>Story de lançamento</>}</p>
           </li>
           <li class="feed-item">
-            <Image src={postLogo} alt="Post com o logo Macarrone BBQ" widths={[360, 720]} sizes="(min-width: 900px) 260px, 44vw" />
-            <p class="legenda">Post de feed</p>
+            <Image src={postLogo} alt={EN ? "Post with the Macarrone BBQ logo" : "Post com o logo Macarrone BBQ"} widths={[360, 720]} sizes="(min-width: 900px) 260px, 44vw" />
+            <p class="legenda">{EN ? <>Feed post</> : <>Post de feed</>}</p>
           </li>
         </ul>
         <div class="voucher">
           <div class="voucher-txt">
-            <h3>Voucher do dia da estreia.</h3>
-            <p>Ação para o 12/09: os primeiros 15 da fila que pedissem o Costelinha BBQ ganhavam um combo de brigadeiro e Coca-Cola. O voucher segue o formato de ingresso, com o canhoto numerado.</p>
+            <h3>{EN ? <>Debut day voucher.</> : <>Voucher do dia da estreia.</>}</h3>
+            <p>{EN ? <>A promotion for Sep 12: the first 15 people in line who ordered the Costelinha BBQ got a brigadeiro and Coca-Cola combo. The voucher looks like a ticket, with a numbered stub.</> : <>Ação para o 12/09: os primeiros 15 da fila que pedissem o Costelinha BBQ ganhavam um combo de brigadeiro e Coca-Cola. O voucher segue o formato de ingresso, com o canhoto numerado.</>}</p>
           </div>
-          <Image src={voucher} alt="Voucher Você ganhou um combo brigadeiro tradicional mais Coca-Cola 220 ml comprando o Macarrone Costelinha BBQ, número 01 na fila" widths={[600, 1200, 1772]} sizes="(min-width: 900px) 700px, 92vw" class="voucher-img" />
+          <Image src={voucher} alt={EN ? "Voucher: you won a traditional brigadeiro and 220 ml Coca-Cola combo by buying the Macarrone Costelinha BBQ, number 01 in line" : "Voucher Você ganhou um combo brigadeiro tradicional mais Coca-Cola 220 ml comprando o Macarrone Costelinha BBQ, número 01 na fila"} widths={[600, 1200, 1772]} sizes="(min-width: 900px) 700px, 92vw" class="voucher-img" />
         </div>
       </div>
     </section>
@@ -231,22 +247,22 @@ const jsonld = {
     <!-- ============ IDENTIDADE ============ -->
     <section class="claro">
       <div class="wrap">
-        <p class="num">06 · Base visual</p>
-        <h2 class="grande">A identidade que os vídeos seguem.</h2>
-        <p class="bloco-txt nota">A identidade visual da campanha foi criada pela equipe da agência, não por mim. Ela aparece aqui porque é a base dos vídeos e das peças que fiz.</p>
+        <p class="num">{EN ? <>06 · Visual foundation</> : <>06 · Base visual</>}</p>
+        <h2 class="grande">{EN ? <>The identity the videos follow.</> : <>A identidade que os vídeos seguem.</>}</h2>
+        <p class="bloco-txt nota">{EN ? <>The campaign’s visual identity was created by the agency team, not by me. It appears here because it’s the foundation of the videos and pieces I made.</> : <>A identidade visual da campanha foi criada pela equipe da agência, não por mim. Ela aparece aqui porque é a base dos vídeos e das peças que fiz.</>}</p>
 
         <div class="logo-palco">
-          <Image src={logo} alt="Logo Macarrone BBQ em branco e vermelho sobre preto" widths={[800, 882]} sizes="(min-width: 1200px) 860px, 90vw" />
+          <Image src={logo} alt={EN ? "Macarrone BBQ logo in white and red on black" : "Logo Macarrone BBQ em branco e vermelho sobre preto"} widths={[800, 882]} sizes="(min-width: 1200px) 860px, 90vw" />
         </div>
-        <h3 class="sub-h">Selo do Texas e neon nos vídeos</h3>
-        <p class="bloco-txt">Nas peças de impacto, o logo da Macarrone entra dentro do mapa do Texas com textura de carimbo, e os títulos ganham sombra em vermelho. Nos vídeos, o mesmo mapa vira um letreiro de neon.</p>
+        <h3 class="sub-h">{EN ? <>Texas seal and neon in the videos</> : <>Selo do Texas e neon nos vídeos</>}</h3>
+        <p class="bloco-txt">{EN ? <>In the high-impact pieces, the Macarrone logo sits inside the map of Texas with a stamp texture, and the titles get a red shadow. In the videos, the same map becomes a neon sign.</> : <>Nas peças de impacto, o logo da Macarrone entra dentro do mapa do Texas com textura de carimbo, e os títulos ganham sombra em vermelho. Nos vídeos, o mesmo mapa vira um letreiro de neon.</>}</p>
         <div class="texas">
           <div class="texas-selos brasa">
-            <Image src={seloBbq} alt="Selo do Texas com Macarrone in Box e o título Costelinha BBQ" widths={[300, 600]} sizes="(min-width: 900px) 280px, 50vw" class="selo-bbq" />
-            <Image src={seloIrresistivel} alt="Lettering Absolutamente Irresistível com sombra vermelha" widths={[300, 600]} sizes="(min-width: 900px) 300px, 60vw" class="selo-irr" />
+            <Image src={seloBbq} alt={EN ? "Texas seal with Macarrone in Box and the Costelinha BBQ title" : "Selo do Texas com Macarrone in Box e o título Costelinha BBQ"} widths={[300, 600]} sizes="(min-width: 900px) 280px, 50vw" class="selo-bbq" />
+            <Image src={seloIrresistivel} alt={EN ? "Absolutamente Irresistível lettering with red shadow" : "Lettering Absolutamente Irresistível com sombra vermelha"} widths={[300, 600]} sizes="(min-width: 900px) 300px, 60vw" class="selo-irr" />
           </div>
           <div class="texas-neon">
-            <Image src={neon} alt="Letreiro de neon com o mapa do Texas e a palavra Macarrone" widths={[400, 720]} sizes="(min-width: 900px) 380px, 90vw" />
+            <Image src={neon} alt={EN ? "Neon sign with the map of Texas and the word Macarrone" : "Letreiro de neon com o mapa do Texas e a palavra Macarrone"} widths={[400, 720]} sizes="(min-width: 900px) 380px, 90vw" />
           </div>
         </div>
 
@@ -257,9 +273,9 @@ const jsonld = {
     <section class="claro">
       {flutuam.ensaio.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="160px" /></span>)}
       <div class="wrap">
-        <p class="num">07 · Ensaio</p>
-        <h2 class="grande">Cowboy na praça de alimentação.</h2>
-        <p class="bloco-txt">Fotos da agência em dois cenários: na loja, com o prato servido na bandeja, e em fundo verde. Usei essas imagens nas peças e nos cenários do vídeo.</p>
+        <p class="num">{EN ? <>07 · Photo shoot</> : <>07 · Ensaio</>}</p>
+        <h2 class="grande">{EN ? <>Cowboy style in the food court.</> : <>Cowboy na praça de alimentação.</>}</h2>
+        <p class="bloco-txt">{EN ? <>Agency photos in two settings: at the store, with the dish served on a tray, and on green screen. I used these images in the pieces and in the video sets.</> : <>Fotos da agência em dois cenários: na loja, com o prato servido na bandeja, e em fundo verde. Usei essas imagens nas peças e nos cenários do vídeo.</>}</p>
         <ul class="ensaio">
           {ensaio.map((f) => (
             <li class={f.classe}><Image src={f.img} alt={f.alt} widths={[400, 800, 1200]} sizes="(min-width: 900px) 380px, 50vw" /></li>
@@ -271,8 +287,8 @@ const jsonld = {
     <!-- ============ CRÉDITOS ============ -->
     <section class="escuro creditos">
       <div class="wrap">
-        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>. Fiz os vídeos e parte das peças. Identidade visual, conceito, captação de vídeo e fotos são da equipe da agência.</p>
-        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+        <p>{EN ? <>Project developed for <b>Agência Zava</b>. Client: <b>Macarrone in Box</b>. I made the videos and some of the pieces. Visual identity, concept, video footage and photos are by the agency team.</> : <>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>. Fiz os vídeos e parte das peças. Identidade visual, conceito, captação de vídeo e fotos são da equipe da agência.</>}</p>
+        <a href={portfolio} class="botao">{EN ? <>See other projects</> : <>Ver outros projetos</>} <span aria-hidden="true">→</span></a>
       </div>
     </section>
   </main>

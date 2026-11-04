@@ -6,7 +6,9 @@
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Fox from '../../../components/Fox.astro';
+import TrocaIdioma from '../../../components/TrocaIdioma.astro';
 import { url } from '../../../data/site';
+import { idioma, tradutor, pagina } from '../../../i18n';
 import '@fontsource-variable/inter';
 
 import titulo from '../../../assets/portfolio/br-no-kombina/titulo.png';
@@ -15,48 +17,57 @@ import carrossel1 from '../../../assets/portfolio/br-no-kombina/carrossel-01.jpg
 import carrossel2 from '../../../assets/portfolio/br-no-kombina/carrossel-02.jpg';
 import zava from '../../../assets/agencias/zava-branco.svg';
 
-const portfolio = url('portfolio/');
+// Inglês em /en/: textos com T('pt', 'en') e {EN ? <>inglês</> : <>português</>}. As peças da campanha ficam em português.
+const L = idioma(Astro.url);
+const EN = L === 'en';
+const T = tradutor(L);
+const portfolio = pagina(L, 'portfolio/');
 const base = url('portfolio/br-no-kombina/');
 const video = (nome: string) => `${base}videos/${nome}`;
 
-const ficha = [
+const ficha = T([
   ['Cliente', 'Kombina Burgers House'],
   ['Ocasião', 'Lançamento de três burgers'],
   ['Meu papel', 'Criação da campanha e edição dos vídeos'],
   ['Período', 'Setembro de 2025'],
-];
+], [
+  ['Client', 'Kombina Burgers House'],
+  ['Occasion', 'Launch of three burgers'],
+  ['My role', 'Campaign creation and video editing'],
+  ['Period', 'September 2025'],
+]);
 
 const burgers = [
-  { estado: 'Rio de Janeiro', nome: 'Kom Carioca', arquivo: 'carioca', texto: 'O Cristo Redentor e o Pão de Açúcar entram em recorte de cartão-postal, com o nome do burger escrito na tela.' },
-  { estado: 'São Paulo', nome: 'Kom Paulista', arquivo: 'paulista', texto: 'A Ponte Estaiada e o Monumento às Bandeiras entram em recorte, no mesmo ritmo do burger sendo montado.' },
-  { estado: 'Minas Gerais', nome: 'Kom Minêro', arquivo: 'mineiro', texto: 'Roda de carro de boi, viola, pão de queijo e café: o sotaque mineiro contado pelos objetos.' },
+  { estado: 'Rio de Janeiro', nome: 'Kom Carioca', arquivo: 'carioca', texto: T('O Cristo Redentor e o Pão de Açúcar entram em recorte de cartão-postal, com o nome do burger escrito na tela.', 'Christ the Redeemer and Sugarloaf Mountain come in as postcard cutouts, with the burger’s name written on screen.') },
+  { estado: 'São Paulo', nome: 'Kom Paulista', arquivo: 'paulista', texto: T('A Ponte Estaiada e o Monumento às Bandeiras entram em recorte, no mesmo ritmo do burger sendo montado.', 'The Estaiada Bridge and the Bandeiras Monument come in as cutouts, in rhythm with the burger being assembled.') },
+  { estado: 'Minas Gerais', nome: 'Kom Minêro', arquivo: 'mineiro', texto: T('Roda de carro de boi, viola, pão de queijo e café: o sotaque mineiro contado pelos objetos.', 'An ox-cart wheel, a viola, cheese bread and coffee: the Minas Gerais accent told through objects.') },
 ];
 
 const spoilers = [
-  { arquivo: 'spoiler1', titulo: 'Spoiler 1', texto: 'A bandeira na tela e o título surgindo na roupa da apresentadora.' },
-  { arquivo: 'spoiler2', titulo: 'Spoiler 2', texto: 'Ela entra na Kombina e anuncia: "Aqui, Brasil se escreve com S".' },
+  { arquivo: 'spoiler1', titulo: T('Spoiler 1', 'Teaser 1'), texto: T('A bandeira na tela e o título surgindo na roupa da apresentadora.', 'The flag on screen and the title appearing on the host’s outfit.') },
+  { arquivo: 'spoiler2', titulo: T('Spoiler 2', 'Teaser 2'), texto: T('Ela entra na Kombina e anuncia: "Aqui, Brasil se escreve com S".', 'She walks into Kombina and announces: "Aqui, Brasil se escreve com S" (here, Brazil is spelled with an S).') },
 ];
 
 const paleta = [
-  { nome: 'Verde Bandeira', cod: '#018434', uso: 'Fundo principal', cor: '#018434' },
-  { nome: 'Amarelo Ouro', cod: '#FFE600', uso: 'Título e chamadas', cor: '#FFE600' },
-  { nome: 'Azul Kombi', cod: '#414668', uso: 'Kombi, palmeiras e selos', cor: '#414668' },
-  { nome: 'Laranja Kombina', cod: '#F07A1A', uso: 'Moldura e assinatura da marca', cor: '#F07A1A' },
+  { nome: T('Verde Bandeira', 'Flag Green'), cod: '#018434', uso: T('Fundo principal', 'Main background'), cor: '#018434' },
+  { nome: T('Amarelo Ouro', 'Gold Yellow'), cod: '#FFE600', uso: T('Título e chamadas', 'Title and calls to action'), cor: '#FFE600' },
+  { nome: T('Azul Kombi', 'Kombi Blue'), cod: '#414668', uso: T('Kombi, palmeiras e selos', 'Kombi van, palm trees and badges'), cor: '#414668' },
+  { nome: T('Laranja Kombina', 'Kombina Orange'), cod: '#F07A1A', uso: T('Moldura e assinatura da marca', 'Frame and brand signature'), cor: '#F07A1A' },
 ];
 
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: 'É o BR no Kombina',
-  description: 'Campanha de lançamento dos burgers Kom Carioca, Kom Paulista e Kom Minêro da Kombina Burgers House, feita para a Agência Zava.',
+  description: T('Campanha de lançamento dos burgers Kom Carioca, Kom Paulista e Kom Minêro da Kombina Burgers House, feita para a Agência Zava.', 'Launch campaign for the Kom Carioca, Kom Paulista and Kom Minêro burgers at Kombina Burgers House, made for Agência Zava.'),
   creator: { '@type': 'Person', name: 'Jonathan Menino' },
   dateCreated: '2025-09',
-  inLanguage: 'pt-BR',
+  inLanguage: T('pt-BR', 'en'),
 };
 ---
 <Base
-  title="É o BR no Kombina · Campanha · Jonathan Menino"
-  description="Campanha de lançamento de três burgers com sotaque, Kom Carioca, Kom Paulista e Kom Minêro, da Kombina Burgers House: identidade, peças e edição dos vídeos. Feita para a Agência Zava."
+  title={T('É o BR no Kombina · Campanha · Jonathan Menino', 'É o BR no Kombina · Campaign · Jonathan Menino')}
+  description={T('Campanha de lançamento de três burgers com sotaque, Kom Carioca, Kom Paulista e Kom Minêro, da Kombina Burgers House: identidade, peças e edição dos vídeos. Feita para a Agência Zava.', 'Launch campaign for three burgers with regional accents, Kom Carioca, Kom Paulista and Kom Minêro, at Kombina Burgers House: identity, pieces and video editing. Made for Agência Zava.')}
   image="og/br-no-kombina.jpg"
   tipo="article"
   themeColor="#016E2B"
@@ -64,11 +75,11 @@ const jsonld = {
 >
 <div class="kbr">
   <header class="topo">
-    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
       <Fox cor="#FFE600" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
     </a>
-    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
   </header>
 
   <main>
@@ -79,20 +90,20 @@ const jsonld = {
       </span>
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Campanha · Lançamento de cardápio</p>
+          <p class="eyebrow">{EN ? <>Campaign · Menu launch</> : <>Campanha · Lançamento de cardápio</>}</p>
           <h1 class="sr-only">É o BR no Kombina</h1>
-          <Image src={titulo} alt="É o BR no Kombina, título da campanha em amarelo" widths={[300, 600, 900]} sizes="(min-width: 1024px) 340px, 60vw" class="hero-titulo" loading="eager" fetchpriority="high" />
-          <p class="lead">Três burgers novos, cada um com o sotaque de um estado. Criei a campanha de lançamento da Kombina, da identidade às peças, e editei todos os vídeos.</p>
+          <Image src={titulo} alt={EN ? "É o BR no Kombina, campaign title in yellow" : "É o BR no Kombina, título da campanha em amarelo"} widths={[300, 600, 900]} sizes="(min-width: 1024px) 340px, 60vw" class="hero-titulo" loading="eager" fetchpriority="high" />
+          <p class="lead">{EN ? <>Three new burgers, each with the accent of a Brazilian state. I created Kombina’s launch campaign, from identity to pieces, and edited every video.</> : <>Três burgers novos, cada um com o sotaque de um estado. Criei a campanha de lançamento da Kombina, da identidade às peças, e editei todos os vídeos.</>}</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
             <div class="agencia">
-              <dt>Feito para</dt>
+              <dt>{EN ? <>Made for</> : <>Feito para</>}</dt>
               <dd><Image src={zava} alt="Agência Zava" height={28} class="zava" /></dd>
             </div>
           </dl>
         </div>
         <div class="hero-arte">
-          <Image src={keyVisual} alt="Arte principal da campanha: título amarelo sobre verde, com a Kombi azul e os três burgers" widths={[400, 720]} sizes="(min-width: 1024px) 380px, 80vw" loading="eager" />
+          <Image src={keyVisual} alt={EN ? "Campaign key visual: yellow title on green, with the blue Kombi van and the three burgers" : "Arte principal da campanha: título amarelo sobre verde, com a Kombi azul e os três burgers"} widths={[400, 720]} sizes="(min-width: 1024px) 380px, 80vw" loading="eager" />
         </div>
       </div>
     </section>
@@ -101,14 +112,14 @@ const jsonld = {
     <section class="amarelo">
       <div class="wrap duas">
         <div>
-          <p class="num">01 · O desafio</p>
-          <h2>Três burgers novos, um de cada canto.</h2>
-          <p>O cardápio da Kombina ganhava um burger carioca, um paulista e um mineiro. A campanha precisava apresentar os três juntos, dar personalidade para cada um e deixar claro que esse Brasil inteiro estava em um lugar só.</p>
+          <p class="num">{EN ? <>01 · The challenge</> : <>01 · O desafio</>}</p>
+          <h2>{EN ? <>Three new burgers, one from each corner of Brazil.</> : <>Três burgers novos, um de cada canto.</>}</h2>
+          <p>{EN ? <>Kombina’s menu was getting a burger from Rio, one from São Paulo and one from Minas Gerais. The campaign had to present all three together, give each one its own personality and make clear that all of Brazil was in a single place.</> : <>O cardápio da Kombina ganhava um burger carioca, um paulista e um mineiro. A campanha precisava apresentar os três juntos, dar personalidade para cada um e deixar claro que esse Brasil inteiro estava em um lugar só.</>}</p>
         </div>
         <div>
-          <p class="num">02 · A ideia</p>
-          <h2>O Brasil inteiro cabe numa Kombi.</h2>
-          <p>"É o BR no Kombina" junta as cores da bandeira, a Kombi da marca e as palmeiras de cartão-postal. Cada burger virou um "Kom" com sotaque: Kom Carioca, Kom Paulista e Kom Minêro. Montei o título empilhado como uma placa, com letras tremidas de carimbo feito à mão.</p>
+          <p class="num">{EN ? <>02 · The idea</> : <>02 · A ideia</>}</p>
+          <h2>{EN ? <>All of Brazil fits in a Kombi van.</> : <>O Brasil inteiro cabe numa Kombi.</>}</h2>
+          <p>{EN ? <>"É o BR no Kombina" ("it’s Brazil at Kombina") brings together the flag colors, the brand’s Kombi van and postcard palm trees. Each burger became a "Kom" with an accent: Kom Carioca, Kom Paulista and Kom Minêro. I built the title stacked like a sign, with shaky hand-stamped letters.</> : <>"É o BR no Kombina" junta as cores da bandeira, a Kombi da marca e as palmeiras de cartão-postal. Cada burger virou um "Kom" com sotaque: Kom Carioca, Kom Paulista e Kom Minêro. Montei o título empilhado como uma placa, com letras tremidas de carimbo feito à mão.</>}</p>
         </div>
       </div>
       <p class="faixa" aria-label="Aqui, Brasil se escreve com S">
@@ -119,20 +130,20 @@ const jsonld = {
     <!-- ============ VÍDEOS ============ -->
     <section class="verde-escuro">
       <div class="wrap">
-        <p class="num">03 · Vídeos</p>
-        <h2 class="grande">Um reels para cada sotaque.</h2>
-        <p class="intro">Editei todos os vídeos da campanha: dois spoilers, o vídeo oficial e um reels para cada burger. Na edição entram os recortes de cartão-postal de cada estado, os textos na tela e o ritmo de cada sotaque. Toque em um vídeo para ouvir.</p>
+        <p class="num">{EN ? <>03 · Videos</> : <>03 · Vídeos</>}</p>
+        <h2 class="grande">{EN ? <>A reel for each accent.</> : <>Um reels para cada sotaque.</>}</h2>
+        <p class="intro">{EN ? <>I edited every video in the campaign: two teasers, the official video and a reel for each burger. The editing brings in each state’s postcard cutouts, the on-screen text and the rhythm of each accent. Tap a video to hear it.</> : <>Editei todos os vídeos da campanha: dois spoilers, o vídeo oficial e um reels para cada burger. Na edição entram os recortes de cartão-postal de cada estado, os textos na tela e o ritmo de cada sotaque. Toque em um vídeo para ouvir.</>}</p>
 
         <div class="oficial">
           <div class="oficial-video">
-            <video src={video('oficial.mp4')} poster={video('oficial.jpg')} muted loop playsinline controls preload="none" aria-label="Vídeo oficial da campanha É o BR no Kombina"></video>
+            <video src={video('oficial.mp4')} poster={video('oficial.jpg')} muted loop playsinline controls preload="none" aria-label={EN ? "Official video of the É o BR no Kombina campaign" : "Vídeo oficial da campanha É o BR no Kombina"}></video>
           </div>
           <div>
-            <p class="selo-oficial">Vídeo oficial</p>
-            <h3>Os três burgers na mesma viagem.</h3>
-            <p>O filme principal apresenta o cardápio novo de uma vez. A apresentadora passa pelos três estados e cada burger chega com seus cartões-postais, montados sobre o material gravado na Kombina.</p>
+            <p class="selo-oficial">{EN ? <>Official video</> : <>Vídeo oficial</>}</p>
+            <h3>{EN ? <>The three burgers on the same trip.</> : <>Os três burgers na mesma viagem.</>}</h3>
+            <p>{EN ? <>The main film presents the new menu all at once. The host travels through the three states and each burger arrives with its postcards, composited over the footage shot at Kombina.</> : <>O filme principal apresenta o cardápio novo de uma vez. A apresentadora passa pelos três estados e cada burger chega com seus cartões-postais, montados sobre o material gravado na Kombina.</>}</p>
             <ul class="tags">
-              <li>Edição</li><li>Motion e lettering</li><li>Recortes de cartão-postal</li><li>Ritmo e trilha</li>
+              {EN ? <><li>Editing</li><li>Motion and lettering</li><li>Postcard cutouts</li><li>Rhythm and soundtrack</li></> : <><li>Edição</li><li>Motion e lettering</li><li>Recortes de cartão-postal</li><li>Ritmo e trilha</li></>}
             </ul>
           </div>
         </div>
@@ -140,7 +151,8 @@ const jsonld = {
         <ul class="grade-videos">
           {burgers.map((b) => (
             <li>
-              <video src={video(`${b.arquivo}.mp4`)} poster={video(`${b.arquivo}.jpg`)} muted loop playsinline controls preload="none" aria-label={`Reels do ${b.nome}`}></video>
+              <video src={video(`${b.arquivo}.mp4`)} poster={video(`${b.arquivo}.jpg`)} muted loop playsinline controls preload="none" aria-label={T(`Reels do ${b.nome}`, `${b.nome} reel`)}
+></video>
               <p class="estado">{b.estado}</p>
               <p class="legenda">{b.nome}</p>
               <p class="legenda-txt">{b.texto}</p>
@@ -148,7 +160,7 @@ const jsonld = {
           ))}
         </ul>
 
-        <h3 class="sub-h">Antes do lançamento</h3>
+        <h3 class="sub-h">{EN ? <>Before the launch</> : <>Antes do lançamento</>}</h3>
         <ul class="grade-videos spoilers">
           {spoilers.map((v) => (
             <li>
@@ -164,15 +176,15 @@ const jsonld = {
     <!-- ============ IDENTIDADE ============ -->
     <section class="claro">
       <div class="wrap">
-        <p class="num">04 · Identidade da campanha</p>
-        <h2 class="grande">Bandeira, Kombi e palmeira.</h2>
-        <p class="bloco-txt">Criei a identidade a partir de três coisas que já eram da Kombina ou do Brasil: o verde e amarelo da bandeira, o azul da Kombi da marca e o laranja da assinatura. O título quebra "Kombina" em três linhas para caber como uma placa em qualquer formato, do story ao reels.</p>
+        <p class="num">{EN ? <>04 · Campaign identity</> : <>04 · Identidade da campanha</>}</p>
+        <h2 class="grande">{EN ? <>Flag, Kombi and palm tree.</> : <>Bandeira, Kombi e palmeira.</>}</h2>
+        <p class="bloco-txt">{EN ? <>I created the identity from three things that already belonged to Kombina or to Brazil: the green and yellow of the flag, the blue of the brand’s Kombi van and the orange of the signature. The title breaks "Kombina" into three lines so it fits like a sign in any format, from story to reel.</> : <>Criei a identidade a partir de três coisas que já eram da Kombina ou do Brasil: o verde e amarelo da bandeira, o azul da Kombi da marca e o laranja da assinatura. O título quebra "Kombina" em três linhas para caber como uma placa em qualquer formato, do story ao reels.</>}</p>
 
         <div class="titulo-palco">
-          <Image src={titulo} alt="Título É o BR no Kombina em amarelo sobre verde" widths={[400, 800]} sizes="(min-width: 900px) 380px, 70vw" />
+          <Image src={titulo} alt={EN ? "É o BR no Kombina title in yellow on green" : "Título É o BR no Kombina em amarelo sobre verde"} widths={[400, 800]} sizes="(min-width: 900px) 380px, 70vw" />
         </div>
 
-        <h3 class="sub-h">Paleta</h3>
+        <h3 class="sub-h">{EN ? <>Palette</> : <>Paleta</>}</h3>
         <ul class="paleta">
           {paleta.map((c) => (
             <li>
@@ -182,12 +194,12 @@ const jsonld = {
           ))}
         </ul>
 
-        <h3 class="sub-h">Tipografia</h3>
+        <h3 class="sub-h">{EN ? <>Typography</> : <>Tipografia</>}</h3>
         <div class="tipo">
           <p class="tipo-aa sp" aria-hidden="true">BR</p>
           <div>
             <p class="tipo-nome">Stretch Pro</p>
-            <p class="tipo-desc">Fonte bem larga, usada em caixa alta nos títulos, nos nomes dos burgers e nos textos que aparecem na tela dos vídeos.</p>
+            <p class="tipo-desc">{EN ? <>A very wide typeface, used in capitals for titles, burger names and the text that appears on screen in the videos.</> : <>Fonte bem larga, usada em caixa alta nos títulos, nos nomes dos burgers e nos textos que aparecem na tela dos vídeos.</>}</p>
             <p class="tipo-amostra sp">Kom Minêro</p>
           </div>
         </div>
@@ -197,13 +209,13 @@ const jsonld = {
     <!-- ============ REDES ============ -->
     <section class="azul">
       <div class="wrap">
-        <p class="num">05 · Redes sociais</p>
-        <h2 class="grande">Feed com cara de bandeira.</h2>
-        <p class="intro">Carrossel de lançamento com os três burgers e a arte principal, no mesmo verde dos vídeos para o perfil virar uma vitrine só.</p>
+        <p class="num">{EN ? <>05 · Social media</> : <>05 · Redes sociais</>}</p>
+        <h2 class="grande">{EN ? <>A feed that looks like a flag.</> : <>Feed com cara de bandeira.</>}</h2>
+        <p class="intro">{EN ? <>Launch carousel with the three burgers and the key visual, in the same green as the videos so the profile becomes a single showcase.</> : <>Carrossel de lançamento com os três burgers e a arte principal, no mesmo verde dos vídeos para o perfil virar uma vitrine só.</>}</p>
         <ul class="pecas">
-          <li><Image src={carrossel1} alt="Carrossel, card 1: É o BR no Kombina com a Kombi, a palmeira e os três burgers" widths={[360, 720]} sizes="(min-width: 900px) 360px, 80vw" /><p class="legenda">Carrossel · card 1</p></li>
-          <li><Image src={carrossel2} alt="Carrossel, card 2 com os burgers da campanha" widths={[360, 720]} sizes="(min-width: 900px) 360px, 80vw" /><p class="legenda">Carrossel · card 2</p></li>
-          <li><Image src={keyVisual} alt="Arte principal em formato de story" widths={[300, 600]} sizes="(min-width: 900px) 280px, 70vw" /><p class="legenda">Arte principal · story</p></li>
+          <li><Image src={carrossel1} alt={EN ? "Carousel, card 1: É o BR no Kombina with the Kombi, the palm tree and the three burgers" : "Carrossel, card 1: É o BR no Kombina com a Kombi, a palmeira e os três burgers"} widths={[360, 720]} sizes="(min-width: 900px) 360px, 80vw" /><p class="legenda">{EN ? <>Carousel · card 1</> : <>Carrossel · card 1</>}</p></li>
+          <li><Image src={carrossel2} alt={EN ? "Carousel, card 2 with the campaign burgers" : "Carrossel, card 2 com os burgers da campanha"} widths={[360, 720]} sizes="(min-width: 900px) 360px, 80vw" /><p class="legenda">{EN ? <>Carousel · card 2</> : <>Carrossel · card 2</>}</p></li>
+          <li><Image src={keyVisual} alt={EN ? "Key visual in story format" : "Arte principal em formato de story"} widths={[300, 600]} sizes="(min-width: 900px) 280px, 70vw" /><p class="legenda">{EN ? <>Key visual · story</> : <>Arte principal · story</>}</p></li>
         </ul>
       </div>
     </section>
@@ -211,8 +223,8 @@ const jsonld = {
     <!-- ============ CRÉDITOS ============ -->
     <section class="escuro creditos">
       <div class="wrap">
-        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Kombina Burgers House</b>. Criei a campanha, da identidade às peças, e editei todos os vídeos.</p>
-        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+        <p>{EN ? <>Project developed for <b>Agência Zava</b>. Client: <b>Kombina Burgers House</b>. I created the campaign, from identity to pieces, and edited every video.</> : <>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Kombina Burgers House</b>. Criei a campanha, da identidade às peças, e editei todos os vídeos.</>}</p>
+        <a href={portfolio} class="botao">{EN ? <>See other projects</> : <>Ver outros projetos</>} <span aria-hidden="true">→</span></a>
       </div>
     </section>
   </main>

@@ -1,0 +1,45 @@
+---
+// Bandeirinha do menu do topo: leva para a mesma página no outro idioma e guarda a escolha
+// (o clique em [data-idioma] é tratado no <head> do Base.astro). A bandeira do idioma atual fica acesa.
+import { idioma, outroIdioma } from '../i18n';
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+const L = idioma(Astro.url);
+const destino = L === 'en' ? 'pt' : 'en';
+const listras = Array.from({ length: 7 }, (_, i) => i * 2);
+---
+<a
+  class:list={['troca-idioma', cls]}
+  href={outroIdioma(Astro.url.pathname, L)}
+  hreflang={destino === 'en' ? 'en' : 'pt-BR'}
+  lang={destino === 'en' ? 'en' : 'pt-BR'}
+  data-idioma={destino}
+  aria-label={destino === 'en' ? 'View this page in English' : 'Ver esta página em português'}
+  title={destino === 'en' ? 'English' : 'Português'}
+>
+  <span class:list={['bandeira', { atual: L === 'pt' }]} aria-hidden="true">
+    <svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#009C3B"/><path d="M10 1.6 18.4 7 10 12.4 1.6 7Z" fill="#FFDF00"/><circle cx="10" cy="7" r="3.1" fill="#002776"/><path d="M7 6.2Q10 5.4 13 7.2" stroke="#fff" stroke-width=".6" fill="none"/></svg>
+    <b>PT</b>
+  </span>
+  <span class:list={['bandeira', { atual: L === 'en' }]} aria-hidden="true">
+    <svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#fff"/>{listras.map((i) => <rect y={i * (14 / 13)} width="20" height={14 / 13} fill="#B22234"/>)}<rect width="8.6" height={7 * (14 / 13)} fill="#3C3B6E"/><g fill="#fff">{[1.4, 3.75, 6.1].map((y) => [1.3, 3.3, 5.3, 7.3].map((x) => <circle cx={x} cy={y} r=".45"/>))}</g></svg>
+    <b>EN</b>
+  </span>
+</a>
+
+<style is:global>
+  .troca-idioma { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 999px; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); text-decoration: none; color: inherit; line-height: 1; flex-shrink: 0; transition: border-color .2s; }
+  .troca-idioma:hover { border-color: color-mix(in srgb, currentColor 55%, transparent); }
+  .troca-idioma:focus-visible { outline: 2px solid #9B7BFF; outline-offset: 2px; }
+  .troca-idioma .bandeira { display: inline-flex; align-items: center; gap: 5px; padding: 4px 8px 4px 5px; border-radius: 999px; opacity: .5; transition: opacity .2s, background-color .2s; }
+  .troca-idioma .bandeira.atual { opacity: 1; background: color-mix(in srgb, currentColor 12%, transparent); }
+  .troca-idioma:hover .bandeira:not(.atual) { opacity: .85; }
+  .troca-idioma svg { width: 18px; height: 13px; border-radius: 2px; box-shadow: 0 0 0 1px rgb(0 0 0 / .15); display: block; }
+  .troca-idioma b { font: 600 11px/1 "JetBrains Mono", ui-monospace, monospace; letter-spacing: .06em; }
+  .troca-idioma.so-bandeira b { display: none; }
+  .troca-idioma.so-bandeira .bandeira { padding: 4px 5px; }
+  .barra-mob nav { align-items: center; }
+  /* Topo dos cases do portfólio: link de voltar + bandeirinha lado a lado */
+  .topo-dir { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: flex-end; }
+  .menu .menu-idioma { display: flex; align-items: center; align-self: center; }
+</style>

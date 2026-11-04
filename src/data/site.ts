@@ -26,6 +26,17 @@ export const MENSAGENS = {
   case: 'Olá, Jonathan! Vi o case {projeto} no seu site e quero conversar sobre uma parceria para a minha agência.',
 };
 
+// As mesmas mensagens em inglês (versão /en/ do site).
+export const MENSAGENS_EN: typeof MENSAGENS = {
+  parceria: 'Hi, Jonathan! I saw your page and would like to know more about the White Label partnership for my agency.',
+  valores: 'Hi, Jonathan! I run an agency and would like to get the special partner price list.',
+  conversa: 'Hi, Jonathan! My agency has website projects and I would like to talk about a partnership.',
+  orcamento: 'Hi, Jonathan! I saw the partner price list and would like a quote for a project at my agency.',
+  empresa: 'Hi, Jonathan! I saw your page for businesses and would like a quote for my brand.',
+  case: 'Hi, Jonathan! I saw the {projeto} case on your website and would like to talk about a partnership for my agency.',
+};
+export const mensagens = (idioma: 'pt' | 'en' = 'pt') => (idioma === 'en' ? MENSAGENS_EN : MENSAGENS);
+
 export const linkWhatsApp = (mensagem = '') =>
   `https://wa.me/${SITE.whatsapp}${mensagem ? `?text=${encodeURIComponent(mensagem)}` : ''}`;
 

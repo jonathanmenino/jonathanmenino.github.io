@@ -7,7 +7,8 @@ import { Image } from 'astro:assets';
 import foto from '../assets/sobre/jonathan.png';
 import Base from '../layouts/Base.astro';
 import { SITE, url, linkWhatsApp } from '../data/site';
-import { PROJETOS, CATEGORIAS } from '../data/portfolio';
+import { PROJETOS, categoria } from '../data/portfolio';
+import { idioma, tradutor, pagina, em } from '../i18n';
 import '@fontsource/anton/latin-400.css';
 import '@fontsource/caveat-brush/latin-400.css';
 import '../styles/home.css';
@@ -17,32 +18,50 @@ import MenuTopo from '../components/novo/MenuTopo.astro';
 import Mural from '../components/novo/Mural.astro';
 import FundoLiquido from '../components/novo/FundoLiquido.astro';
 
-const DESTAQUES = PROJETOS.filter((p) => p.destaque);
+const L = idioma(Astro.url);
+const T = tradutor(L);
+const DESTAQUES = PROJETOS.filter((p) => p.destaque).map((p) => em(p, L));
 
-const FRENTES = [
+const FRENTES = T([
   { t: 'Design gráfico & identidade', tags: ['Identidade visual', 'Direção de arte', 'Social media', 'Campanhas', 'Impressos e PDV'], ex: 'Escalados Macarrone', capa: 'og/escalados-macarrone.jpg', link: 'portfolio/escalados-macarrone/' },
   { t: 'Vídeo & motion', tags: ['Edição', 'Motion design', 'Reels e anúncios', 'Chroma key', 'Telão de LED'], ex: 'Costelinha BBQ', capa: 'og/macarrone-costelinha-bbq.jpg', link: 'portfolio/macarrone-costelinha-bbq/' },
   { t: 'UI & sites', tags: ['Figma', 'Landing pages', 'Sites institucionais', 'HTML, CSS e JS'], ex: 'Sentinela', capa: 'og/sentinela.jpg', link: 'white-label/projetos/sentinela/' },
   { t: 'Fluxos com IA', tags: ['Imagem generativa', 'Vídeo generativo', 'IA no fluxo de criação'], ex: 'Doces da Fer', capa: 'og/doces-da-fer-pascoa.jpg', link: 'portfolio/doces-da-fer-pascoa/' },
-];
+], [
+  { t: 'Graphic design & identity', tags: ['Visual identity', 'Art direction', 'Social media', 'Campaigns', 'Print and POS'], ex: 'Escalados Macarrone', capa: 'og/escalados-macarrone.jpg', link: 'portfolio/escalados-macarrone/' },
+  { t: 'Video & motion', tags: ['Editing', 'Motion design', 'Reels and ads', 'Chroma key', 'LED screens'], ex: 'Costelinha BBQ', capa: 'og/macarrone-costelinha-bbq.jpg', link: 'portfolio/macarrone-costelinha-bbq/' },
+  { t: 'UI & websites', tags: ['Figma', 'Landing pages', 'Corporate websites', 'HTML, CSS and JS'], ex: 'Sentinela', capa: 'og/sentinela.jpg', link: 'white-label/projetos/sentinela/' },
+  { t: 'AI workflows', tags: ['Generative image', 'Generative video', 'AI in the creative workflow'], ex: 'Doces da Fer', capa: 'og/doces-da-fer-pascoa.jpg', link: 'portfolio/doces-da-fer-pascoa/' },
+]);
 
-const TRAJETORIA = [
+const TRAJETORIA = T([
   { ano: '2019', onde: 'BluePex', oque: 'Analista de marketing em segurança digital.' },
   { ano: '2021', onde: 'DISEMP', oque: 'Designer pleno, marketing automotivo, motion e vídeo.' },
   { ano: '2023', onde: 'Acade', oque: 'Designer pleno, educação fitness: campanhas, PDV e eventos.' },
   { ano: '2025', onde: 'Agência Zava', oque: 'Designer gráfico sênior: identidade, campanhas, vídeos e IA.' },
-];
+], [
+  { ano: '2019', onde: 'BluePex', oque: 'Marketing analyst in cybersecurity.' },
+  { ano: '2021', onde: 'DISEMP', oque: 'Mid-level designer in automotive marketing, motion and video.' },
+  { ano: '2023', onde: 'Acade', oque: 'Mid-level designer in fitness education: campaigns, POS and events.' },
+  { ano: '2025', onde: 'Agência Zava', oque: 'Senior graphic designer: identity, campaigns, videos and AI.' },
+]);
 
-const MENU = [
+const MENU = T([
   ['sobre', 'Sobre'],
   ['frentes', 'Frentes'],
   ['trabalhos', 'Trabalhos'],
   ['trajetoria', 'Trajetória'],
   ['contato', 'Contato'],
-];
+], [
+  ['sobre', 'About'],
+  ['frentes', 'Services'],
+  ['trabalhos', 'Work'],
+  ['trajetoria', 'Experience'],
+  ['contato', 'Contact'],
+]);
 
 const EMAIL = 'jmeninodesign@gmail.com';
-const whats = linkWhatsApp('Olá, Jonathan! Vi seu site e quero conversar.');
+const whats = linkWhatsApp(T('Olá, Jonathan! Vi seu site e quero conversar.', 'Hi, Jonathan! I saw your website and would like to talk.'));
 
 const jsonld = {
   '@context': 'https://schema.org',
@@ -50,41 +69,41 @@ const jsonld = {
   mainEntity: {
     '@type': 'Person',
     name: SITE.nome,
-    jobTitle: 'Designer Gráfico',
+    jobTitle: T('Designer Gráfico', 'Graphic Designer'),
     address: { '@type': 'PostalAddress', addressLocality: 'Limeira', addressRegion: 'SP', addressCountry: 'BR' },
-    knowsAbout: ['Design gráfico', 'Identidade visual', 'Direção de arte', 'Edição de vídeo', 'Motion design', 'UI design', 'Desenvolvimento de sites', 'IA generativa'],
+    knowsAbout: T(['Design gráfico', 'Identidade visual', 'Direção de arte', 'Edição de vídeo', 'Motion design', 'UI design', 'Desenvolvimento de sites', 'IA generativa'], ['Graphic design', 'Visual identity', 'Art direction', 'Video editing', 'Motion design', 'UI design', 'Web development', 'Generative AI']),
     sameAs: Object.values(SITE.redes).filter(Boolean),
   },
 };
 ---
 <Base
-  title="Jonathan Menino · Designer gráfico, vídeo e sites"
-  description="Sou Jonathan Menino, designer gráfico em Limeira/SP. Há mais de 13 anos crio identidades, campanhas, vídeos e sites, hoje com fluxos de IA no dia a dia."
+  title={T('Jonathan Menino · Designer gráfico, vídeo e sites', 'Jonathan Menino · Graphic designer, video and websites')}
+  description={T('Sou Jonathan Menino, designer gráfico em Limeira/SP. Há mais de 13 anos crio identidades, campanhas, vídeos e sites, hoje com fluxos de IA no dia a dia.', 'I’m Jonathan Menino, a graphic designer based in Limeira, Brazil. For over 13 years I’ve created identities, campaigns, videos and websites, now with AI workflows every day.')}
   tipo="article"
   jsonld={jsonld}
 >
 <Prancheta />
-<BarraMob links={[['Portfólio', url('portfolio/')], ['Contato', '#contato']]} />
+<BarraMob links={[[T('Portfólio', 'Portfolio'), pagina(L, 'portfolio/')], [T('Contato', 'Contact'), '#contato']]} />
 
 <header class="heroi" id="topo">
   <FundoLiquido />
   <MenuTopo itens={MENU.map(([id, nome]) => [nome, `#${id}`])} />
   <div></div>
   <div class="base">
-    <p class="selo"><span class="pulso" aria-hidden="true"></span>Disponível para vagas e freelas</p>
+    <p class="selo"><span class="pulso" aria-hidden="true"></span>{T('Disponível para vagas e freelas', 'Available for jobs and freelance')}</p>
     <div class="linha-nome">
-      <p class="mao nota-mao" aria-hidden="true">↙ transformo ideias em marcas, vídeos e sites</p>
-      <h1 class="tt nome"><span class="sr">Jonathan Menino, designer gráfico. Eu transformo ideias em marcas, vídeos e sites.</span><span class="l" aria-hidden="true">Jonathan</span> <span class="l" aria-hidden="true"><em>Menino</em></span></h1>
-      <Image class="retrato-mini" src={foto} alt="Retrato de Jonathan Menino" widths={[180, 320]} sizes="160px" loading="eager" fetchpriority="high" />
+      <p class="mao nota-mao" aria-hidden="true">{T('↙ transformo ideias em marcas, vídeos e sites', '↙ I turn ideas into brands, videos and websites')}</p>
+      <h1 class="tt nome"><span class="sr">{T('Jonathan Menino, designer gráfico. Eu transformo ideias em marcas, vídeos e sites.', 'Jonathan Menino, graphic designer. I turn ideas into brands, videos and websites.')}</span><span class="l" aria-hidden="true">Jonathan</span> <span class="l" aria-hidden="true"><em>Menino</em></span></h1>
+      <Image class="retrato-mini" src={foto} alt={T('Retrato de Jonathan Menino', 'Portrait of Jonathan Menino')} widths={[180, 320]} sizes="160px" loading="eager" fetchpriority="high" />
     </div>
     <div class="sob-nome">
       <div class="esq">
-        <a class="mao desce" href="#sobre">↓ continua descendo</a>
+        <a class="mao desce" href="#sobre">{T('↓ continua descendo', '↓ keep scrolling')}</a>
         <svg class="risco" id="risco-heroi" viewBox="0 0 600 18" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 120 4, 260 14, 380 8 S 560 6, 596 10"/></svg>
       </div>
       <div class="acoes">
-        <a class="btn" href={url('portfolio/')}>Ver portfólio <span aria-hidden="true">→</span></a>
-        <a class="btn sec" href={whats}>Falar comigo no WhatsApp</a>
+        <a class="btn" href={pagina(L, 'portfolio/')}>{T('Ver portfólio', 'View portfolio')} <span aria-hidden="true">→</span></a>
+        <a class="btn sec" href={whats}>{T('Falar comigo no WhatsApp', 'Message me on WhatsApp')}</a>
       </div>
     </div>
   </div>
@@ -93,64 +112,64 @@ const jsonld = {
 <div class="corpo">
   <main>
     <section class="secao" id="sobre" aria-labelledby="t-sobre">
-      <h2 class="tt manifesto" id="t-sobre">Primeiro a ideia,<br><em>depois a ferramenta…</em></h2>
+      <h2 class="tt manifesto" id="t-sobre">{T('Primeiro a ideia,', 'Idea first,')}<br><em>{T('depois a ferramenta…', 'then the tool…')}</em></h2>
       <svg class="risco" viewBox="0 0 600 18" preserveAspectRatio="none" aria-hidden="true" style="width:min(100%,640px);height:14px;margin-top:10px;color:var(--lilas)"><path d="M4 10 C 140 15, 300 3, 450 9 S 570 12, 596 7"/></svg>
-      <p class="intro-txt">Sou designer gráfico em Limeira, interior de São Paulo. Gosto de design que chama atenção sem deixar de lado a clareza da mensagem, e consigo levar uma ideia da peça estática ao vídeo e ao site.</p>
+      <p class="intro-txt">{T('Sou designer gráfico em Limeira, interior de São Paulo. Gosto de design que chama atenção sem deixar de lado a clareza da mensagem, e consigo levar uma ideia da peça estática ao vídeo e ao site.', 'I’m a graphic designer in Limeira, in the countryside of São Paulo, Brazil. I like design that grabs attention without losing a clear message, and I can take an idea from a static piece to video and to the web.')}</p>
       <div class="numeros">
         <span class="seta" aria-hidden="true">↗</span>
-        <div><strong>13+</strong><span>anos<br>de design</span></div>
-        <div><strong>{PROJETOS.length}</strong><span>projetos<br>no portfólio</span></div>
-        <div><strong>4</strong><span>frentes: design,<br>vídeo, web e IA</span></div>
+        <div><strong>13+</strong><span>{T('anos', 'years')}<br>{T('de design', 'of design')}</span></div>
+        <div><strong>{PROJETOS.length}</strong><span>{T('projetos', 'projects')}<br>{T('no portfólio', 'in the portfolio')}</span></div>
+        <div><strong>4</strong><span>{T('frentes: design,', 'fields: design,')}<br>{T('vídeo, web e IA', 'video, web and AI')}</span></div>
       </div>
       <div class="quem">
-        <p>Estudei Design Gráfico na FAAL e passei por segurança digital, marketing automotivo, educação fitness e, hoje, a Agência Zava, onde atendo marcas de alimentação e varejo.</p>
-        <p>Num mesmo dia posso criar uma identidade, editar um Reels, montar uma landing page ou testar um fluxo de IA. O que une tudo é fazer algo bonito que funcione para quem vê.</p>
+        <p>{T('Estudei Design Gráfico na FAAL e passei por segurança digital, marketing automotivo, educação fitness e, hoje, a Agência Zava, onde atendo marcas de alimentação e varejo.', 'I studied Graphic Design at FAAL and have worked in cybersecurity, automotive marketing, fitness education and, today, at Agência Zava, where I serve food and retail brands.')}</p>
+        <p>{T('Num mesmo dia posso criar uma identidade, editar um Reels, montar uma landing page ou testar um fluxo de IA. O que une tudo é fazer algo bonito que funcione para quem vê.', 'In a single day I might create an identity, edit a Reel, build a landing page or test an AI workflow. What ties it all together is making something beautiful that works for the people who see it.')}</p>
       </div>
       <div class="reel">
-        <div class="rotulo"><p class="mao">→ 36 segundos do que eu faço</p><span class="mono" style="color:var(--papel-2)">Showreel</span></div>
+        <div class="rotulo"><p class="mao">{T('→ 36 segundos do que eu faço', '→ 36 seconds of what I do')}</p><span class="mono" style="color:var(--papel-2)">Showreel</span></div>
         <div class="reel-caixa" id="reel">
-          <video id="reel-video" src={url('showreel/showreel.mp4')} poster={url('showreel/showreel.jpg')} muted loop playsinline autoplay preload="metadata" aria-label="Showreel com trechos de Escalados Macarrone, Costelinha BBQ e Doces da Fer"></video>
-          <button class="reel-pausa" id="reel-pausa" type="button">Pausar</button>
+          <video id="reel-video" src={url('showreel/showreel.mp4')} poster={url('showreel/showreel.jpg')} muted loop playsinline autoplay preload="metadata" aria-label={T('Showreel com trechos de Escalados Macarrone, Costelinha BBQ e Doces da Fer', 'Showreel with clips from Escalados Macarrone, Costelinha BBQ and Doces da Fer')}></video>
+          <button class="reel-pausa" id="reel-pausa" type="button">{T('Pausar', 'Pause')}</button>
         </div>
       </div>
     </section>
 
     <section class="secao" id="frentes" aria-labelledby="t-frentes">
-      <h2 class="tt" id="t-frentes" style="font-size:clamp(52px,7vw,116px)">O que eu <em>faço</em></h2>
-      <p class="mao sub-mao">→ quatro frentes, a mesma vontade de fazer bonito e claro</p>
+      <h2 class="tt" id="t-frentes" style="font-size:clamp(52px,7vw,116px)">{T('O que eu', 'What I')} <em>{T('faço', 'do')}</em></h2>
+      <p class="mao sub-mao">{T('→ quatro frentes, a mesma vontade de fazer bonito e claro', '→ four fields, the same drive to make things beautiful and clear')}</p>
       <ul class="frentes">
         {FRENTES.map((f, i) => (
           <li>
-            <a href={url(f.link)} data-previa={url(f.capa)}><h3 class="tt"><span class="num">0{i + 1}</span>{f.t}</h3></a>
+            <a href={pagina(L, f.link)} data-previa={url(f.capa)}><h3 class="tt"><span class="num">0{i + 1}</span>{f.t}</h3></a>
             <div class="tags mono">{f.tags.map((x) => <span>{x}</span>)}</div>
-            <a class="mao ex" href={url(f.link)}>→ ver {f.ex}</a>
+            <a class="mao ex" href={pagina(L, f.link)}>{T('→ ver', '→ see')} {f.ex}</a>
           </li>
         ))}
       </ul>
     </section>
 
     <section class="secao" id="trabalhos" aria-labelledby="t-trab">
-      <div class="cab"><h2 class="tt" id="t-trab">Trabalhos <em>recentes</em></h2><p class="mao">→ arraste para o lado</p></div>
+      <div class="cab"><h2 class="tt" id="t-trab">{T('Trabalhos', 'Recent')} <em>{T('recentes', 'work')}</em></h2><p class="mao">{T('→ arraste para o lado', '→ drag sideways')}</p></div>
       <div class="trilho-area" id="trilho-area"><div class="trilho" id="trilho">
         {DESTAQUES.map((p) => (
-          <a class="card" href={url(p.link)} draggable="false">
-            <div class="foto"><img src={url(p.capa)} alt={`Capa do projeto ${p.titulo}`} width="1200" height="630" loading="lazy" draggable="false"></div>
-            <div class="meta"><div><h3 class="tt">{p.titulo}</h3><p class="cli">{p.cliente}</p></div><span class="mono tag">{CATEGORIAS[p.categorias[0]]}</span></div>
+          <a class="card" href={pagina(L, p.link)} draggable="false">
+            <div class="foto"><img src={url(p.capa)} alt={T(`Capa do projeto ${p.titulo}`, `${p.titulo} project cover`)} width="1200" height="630" loading="lazy" draggable="false"></div>
+            <div class="meta"><div><h3 class="tt">{p.titulo}</h3><p class="cli">{p.cliente}</p></div><span class="mono tag">{categoria(p.categorias[0], L)}</span></div>
           </a>
         ))}
       </div></div>
-      <div class="trilho-pe"><div class="barra"><i id="barra"></i></div><a class="mono" href={url('portfolio/')}>Ver todos os projetos →</a></div>
+      <div class="trilho-pe"><div class="barra"><i id="barra"></i></div><a class="mono" href={pagina(L, 'portfolio/')}>{T('Ver todos os projetos →', 'See all projects →')}</a></div>
     </section>
 
     <section class="secao" id="trajetoria" aria-labelledby="t-traj">
-      <div class="cab"><h2 class="tt" id="t-traj">Trajetória</h2><a class="mono" href={url('curriculo/')}>Currículo completo →</a></div>
+      <div class="cab"><h2 class="tt" id="t-traj">{T('Trajetória', 'Experience')}</h2><a class="mono" href={pagina(L, 'curriculo/')}>{T('Currículo completo →', 'Full résumé →')}</a></div>
       <ol class="linha-tempo">
         {TRAJETORIA.map((t) => <li><span class="ano">{t.ano}</span><h3>{t.onde}</h3><p>{t.oque}</p></li>)}
       </ol>
     </section>
 
     <section class="pergunta" aria-labelledby="t-perg">
-      <h2 class="tt" id="t-perg">E aí… bora criar<br><em>algo juntos?</em></h2>
+      <h2 class="tt" id="t-perg">{T('E aí… bora criar', 'So… shall we create')}<br><em>{T('algo juntos?', 'something together?')}</em></h2>
     </section>
   </main>
 
@@ -159,36 +178,37 @@ const jsonld = {
       <p class="tt marca">Jonathan <em>Menino</em></p>
       <svg class="risco" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 8 C 80 3, 160 10, 297 5"/></svg>
     </div>
-    <p class="tt" style="font-size:15px;letter-spacing:.04em">Design / Vídeo / Web / IA</p>
+    <p class="tt" style="font-size:15px;letter-spacing:.04em">{T('Design / Vídeo / Web / IA', 'Design / Video / Web / AI')}</p>
     <div class="redes">
       {SITE.redes.linkedin && <a href={SITE.redes.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>}
       {SITE.redes.behance && <a href={SITE.redes.behance} target="_blank" rel="noopener">Behance ↗</a>}
       {SITE.redes.instagram && <a href={SITE.redes.instagram} target="_blank" rel="noopener">Instagram ↗</a>}
       {SITE.redes.github && <a href={SITE.redes.github} target="_blank" rel="noopener">GitHub ↗</a>}
     </div>
-    <p class="bio">Designer gráfico sênior na Agência Zava. Identidade, campanhas, vídeo, sites e IA.<br><span class="mono" style="color:var(--papel-2)">● Limeira/SP · Remoto ou híbrido</span></p>
+    <p class="bio">{T('Designer gráfico sênior na Agência Zava. Identidade, campanhas, vídeo, sites e IA.', 'Senior graphic designer at Agência Zava. Identity, campaigns, video, websites and AI.')}<br><span class="mono" style="color:var(--papel-2)">{T('● Limeira/SP · Remoto ou híbrido', '● Limeira, Brazil · Remote or hybrid')}</span></p>
     <ul class="menu" id="menu-lateral">
       {MENU.map(([id, nome], i) => <li><a href={`#${id}`}><small>0{i + 1}</small>{nome}</a></li>)}
     </ul>
-    <figure><Image src={foto} alt="Retrato de Jonathan Menino" widths={[300, 560]} sizes="270px" loading="lazy" /><span class="mono">Retrato / 01</span><span class="mono vert">13+ anos / design</span></figure>
-    <div class="caixa-email"><span>{EMAIL}</span><button type="button" data-copiar={EMAIL}>Copiar</button></div>
+    <figure><Image src={foto} alt={T('Retrato de Jonathan Menino', 'Portrait of Jonathan Menino')} widths={[300, 560]} sizes="270px" loading="lazy" /><span class="mono">{T('Retrato / 01', 'Portrait / 01')}</span><span class="mono vert">{T('13+ anos / design', '13+ years / design')}</span></figure>
+    <div class="caixa-email"><span>{EMAIL}</span><button type="button" data-copiar={EMAIL}>{T('Copiar', 'Copy')}</button></div>
   </aside>
 </div>
 
-<Mural titulo="Contato">
-  <h2 class="tt" id="t-contato"><em>Chama</em> com a sua ideia</h2>
+<Mural titulo={T('Contato', 'Contact')}>
+  <h2 class="tt" id="t-contato">{L === 'en' ? <>Reach out with <em>your idea</em></> : <><em>Chama</em> com a sua ideia</>}</h2>
   <svg class="risco" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 7 C 90 3, 180 10, 297 6"/></svg>
-  <div class="caixa-email"><span>{EMAIL}</span><button type="button" data-copiar={EMAIL}>Copiar</button></div>
+  <div class="caixa-email"><span>{EMAIL}</span><button type="button" data-copiar={EMAIL}>{T('Copiar', 'Copy')}</button></div>
   <div class="acoes" style="justify-content:center">
-    <a class="btn" href={whats}>Chamar no WhatsApp</a>
-    <a class="btn sec" href={url('curriculo/')}>Ver currículo</a>
+    <a class="btn" href={whats}>{T('Chamar no WhatsApp', 'Message on WhatsApp')}</a>
+    <a class="btn sec" href={pagina(L, 'curriculo/')}>{T('Ver currículo', 'View résumé')}</a>
   </div>
-  <p class="mono disp">Disponível para vagas e freelas</p>
+  <p class="mono disp">{T('Disponível para vagas e freelas', 'Available for jobs and freelance')}</p>
 </Mural>
 
 <footer class="rodape">
   <span>© {new Date().getFullYear()} Jonathan Menino</span>
-  <span><a href={url('empresas/')}>Para empresas</a> · <a href={url('white-label/')}>Para agências</a></span>
+  <span><a href={pagina(L, 'empresas/')}>{T('Para empresas', 'For businesses')}</a> · <a href={pagina(L, 'white-label/')}>{T('Para agências', 'For agencies')}</a></span>
+
 </footer>
 
 </Base>

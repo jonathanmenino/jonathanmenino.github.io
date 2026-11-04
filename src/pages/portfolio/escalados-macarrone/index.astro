@@ -6,7 +6,9 @@
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Fox from '../../../components/Fox.astro';
+import TrocaIdioma from '../../../components/TrocaIdioma.astro';
 import { url } from '../../../data/site';
+import { idioma, tradutor, pagina } from '../../../i18n';
 import '@fontsource/poppins/latin-400.css';
 import '@fontsource/poppins/latin-600.css';
 import '@fontsource/poppins/latin-800.css';
@@ -38,30 +40,74 @@ import stDisplay from '../../../assets/portfolio/escalados-macarrone/story-displ
 import assinatura from '../../../assets/portfolio/escalados-macarrone/assinatura.png';
 import zava from '../../../assets/agencias/zava-branco.svg';
 
-const portfolio = url('portfolio/');
+// Inglês em /en/: textos com T('pt', 'en') e {EN ? <>inglês</> : <>português</>}. As peças da campanha ficam em português.
+const L = idioma(Astro.url);
+const EN = L === 'en';
+const T = tradutor(L);
+const portfolio = pagina(L, 'portfolio/');
 const video = (nome: string) => url(`portfolio/escalados-macarrone/videos/${nome}`);
 
-const ficha = [
+const ficha = T([
   ['Cliente', 'Macarrone in Box'],
   ['Ocasião', 'Copa do Mundo 2026'],
   ['Meu papel', 'Identidade da campanha, direção de arte, peças e vídeos'],
   ['Período', '12 de maio a 30 de junho'],
-];
+], [
+  ['Client', 'Macarrone in Box'],
+  ['Occasion', '2026 FIFA World Cup'],
+  ['My role', 'Campaign identity, art direction, pieces and videos'],
+  ['Period', 'May 12 to June 30'],
+]);
 
 const paleta = [
-  { nome: 'Verde Gramado', hex: '#0C843B', rgb: '12 132 59', uso: 'Fundo principal, campo e selos' },
-  { nome: 'Amarelo Taça', hex: '#FEC302', rgb: '254 195 2', uso: 'Estrelas, "Macarrone" e chamadas' },
-  { nome: 'Branco', hex: '#FFFFFF', rgb: '255 255 255', uso: 'Lettering "Escalados" e textos' },
-  { nome: 'Preto', hex: '#111111', rgb: '17 17 17', uso: 'Fundo da landing e textos longos' },
+  { nome: T('Verde Gramado', 'Pitch Green'), hex: '#0C843B', rgb: '12 132 59', uso: T('Fundo principal, campo e selos', 'Main background, pitch and badges') },
+  { nome: T('Amarelo Taça', 'Trophy Yellow'), hex: '#FEC302', rgb: '254 195 2', uso: T('Estrelas, "Macarrone" e chamadas', 'Stars, "Macarrone" and calls to action') },
+  { nome: T('Branco', 'White'), hex: '#FFFFFF', rgb: '255 255 255', uso: T('Lettering "Escalados" e textos', '"Escalados" lettering and text') },
+  { nome: T('Preto', 'Black'), hex: '#111111', rgb: '17 17 17', uso: T('Fundo da landing e textos longos', 'Landing page background and long text') },
 ];
 
 const pratos = [
-  { nome: 'Parmigiano', massa: 'Penne', texto: 'Molho cremoso de parmesão, frango grelhado e alho frito.', img: car2 },
-  { nome: 'Peito de Peru', massa: 'Penne', texto: 'Requeijão cremoso da casa, peito de peru defumado e ervilhas.', img: car3 },
-  { nome: 'Pepperoni', massa: 'Caracol', texto: 'Provolone defumado, parmesão fresco e pepperoni italiano.', img: car4 },
+  { nome: 'Parmigiano', massa: 'Penne', texto: T('Molho cremoso de parmesão, frango grelhado e alho frito.', 'Creamy parmesan sauce, grilled chicken and fried garlic.'), img: car2 },
+  { nome: T('Peito de Peru', 'Turkey Breast'), massa: 'Penne', texto: T('Requeijão cremoso da casa, peito de peru defumado e ervilhas.', 'House cream cheese, smoked turkey breast and peas.'), img: car3 },
+  { nome: 'Pepperoni', massa: T('Caracol', 'Lumache'), texto: T('Provolone defumado, parmesão fresco e pepperoni italiano.', 'Smoked provolone, fresh parmesan and Italian pepperoni.'), img: car4 },
 ];
 
-const grupos = [
+const grupos = EN ? [
+  {
+    titulo: 'Campaign calls',
+    texto: 'Launch videos introducing the lineup, the prize draw and where to order.',
+    videos: [
+      { arquivo: 'chamada-oficial', legenda: 'Official call' },
+      { arquivo: 'chamada-chef', legenda: 'Call with the chef' },
+      { arquivo: 'chamada-carro', legenda: 'Call with a creator' },
+    ],
+  },
+  {
+    titulo: 'Reels with creators',
+    texto: 'The chef and the creator tasting each flavor, with the campaign brand on the captions and the plate.',
+    videos: [
+      { arquivo: 'chef-parmigiano', legenda: 'Chef · Parmigiano' },
+      { arquivo: 'lari-parmigiano', legenda: 'Creator · Parmigiano' },
+    ],
+  },
+  {
+    titulo: 'Trends',
+    texto: 'Short trend formats for organic reach.',
+    videos: [
+      { arquivo: 'trend-sabores', legenda: 'Flavors trend' },
+      { arquivo: 'trend-nome', legenda: 'Dish name trend' },
+    ],
+  },
+  {
+    titulo: 'Paid traffic videos',
+    texto: 'Close-ups of the plate and the box, with the flavor name, description and "Order now". One per flavor.',
+    videos: [
+      { arquivo: 'box-parmigiano', legenda: 'Parmigiano box' },
+      { arquivo: 'box-peito-de-peru', legenda: 'Turkey Breast box' },
+      { arquivo: 'box-pepperoni', legenda: 'Pepperoni box' },
+    ],
+  },
+] : [
   {
     titulo: 'Chamadas da campanha',
     texto: 'Vídeos de lançamento que apresentam os escalados, o sorteio e onde pedir.',
@@ -104,9 +150,9 @@ const adesivos = [
   { img: aHexa, nome: 'Rumo ao Hexa', r: -3 },
   { img: aTaca, nome: 'A Taça do Mundo é Nossa', r: 5 },
   { img: aEscalados, nome: 'Escalados Macarrone', r: 0 },
-  { img: aParmigiano, nome: 'Etiqueta Parmigiano', r: -4 },
-  { img: aPeito, nome: 'Etiqueta Petto di Tacchino', r: 3 },
-  { img: aPepperoni, nome: 'Etiqueta Pepperoni', r: -2 },
+  { img: aParmigiano, nome: T('Etiqueta Parmigiano', 'Parmigiano label'), r: -4 },
+  { img: aPeito, nome: T('Etiqueta Petto di Tacchino', 'Petto di Tacchino label'), r: 3 },
+  { img: aPepperoni, nome: T('Etiqueta Pepperoni', 'Pepperoni label'), r: -2 },
 ];
 
 // Adesivos flutuando pela página (decorativos). pos: posição no CSS; w: largura; v: velocidade do parallax.
@@ -131,14 +177,14 @@ const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: 'Escalados Macarrone',
-  description: 'Campanha da Macarrone in Box para a Copa do Mundo 2026, feita para a Agência Zava.',
+  description: T('Campanha da Macarrone in Box para a Copa do Mundo 2026, feita para a Agência Zava.', 'Macarrone in Box campaign for the 2026 World Cup, made for Agência Zava.'),
   creator: { '@type': 'Person', name: 'Jonathan Menino' },
-  inLanguage: 'pt-BR',
+  inLanguage: T('pt-BR', 'en'),
 };
 ---
 <Base
-  title="Escalados Macarrone · Campanha · Jonathan Menino"
-  description="Campanha Escalados Macarrone para a Copa do Mundo 2026: identidade, posts, stories, vídeos, landing page e ponto de venda. Feita para a Agência Zava."
+  title={T('Escalados Macarrone · Campanha · Jonathan Menino', 'Escalados Macarrone · Campaign · Jonathan Menino')}
+  description={T('Campanha Escalados Macarrone para a Copa do Mundo 2026: identidade, posts, stories, vídeos, landing page e ponto de venda. Feita para a Agência Zava.', 'Escalados Macarrone campaign for the 2026 World Cup: identity, posts, stories, videos, landing page and point of sale. Made for Agência Zava.')}
   image="og/escalados-macarrone.jpg"
   tipo="article"
   themeColor="#0C843B"
@@ -146,11 +192,11 @@ const jsonld = {
 >
 <div class="em">
   <header class="topo">
-    <a href={portfolio} class="marca" aria-label="Jonathan Menino, portfólio">
+    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
       <Fox cor="#FEC302" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">Portfólio</span></span>
+      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
     </a>
-    <a href={portfolio} class="voltar"><span aria-hidden="true">←</span> Todos os projetos</a>
+    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
   </header>
 
   <main>
@@ -160,20 +206,20 @@ const jsonld = {
       <div class="campo" aria-hidden="true"></div>
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow">Campanha · Copa do Mundo 2026</p>
+          <p class="eyebrow">{EN ? <>Campaign · 2026 World Cup</> : <>Campanha · Copa do Mundo 2026</>}</p>
           <h1 class="sr-only">Escalados Macarrone</h1>
-          <Image src={logo} alt="Logo Escalados Macarrone" widths={[600, 1200]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
-          <p class="lead">Três sabores exclusivos convocados para a Copa. Criei a identidade da campanha e todas as peças, do feed ao balcão da loja.</p>
+          <Image src={logo} alt={EN ? "Escalados Macarrone logo" : "Logo Escalados Macarrone"} widths={[600, 1200]} sizes="(min-width: 1024px) 560px, 90vw" class="hero-logo" loading="eager" fetchpriority="high" />
+          <p class="lead">{EN ? <>Three exclusive flavors called up for the World Cup. I created the campaign identity and every piece, from the feed to the store counter.</> : <>Três sabores exclusivos convocados para a Copa. Criei a identidade da campanha e todas as peças, do feed ao balcão da loja.</>}</p>
           <dl class="ficha">
             {ficha.map(([r, v]) => (<div><dt>{r}</dt><dd>{v}</dd></div>))}
             <div class="agencia">
-              <dt>Feito para</dt>
+              <dt>{EN ? <>Made for</> : <>Feito para</>}</dt>
               <dd><Image src={zava} alt="Agência Zava" height={28} class="zava" /></dd>
             </div>
           </dl>
         </div>
         <div class="hero-arte">
-          <Image src={keyVisual} alt="Key visual da campanha com os três pratos sobre um campo de futebol" widths={[480, 960]} sizes="(min-width: 1024px) 480px, 90vw" loading="eager" />
+          <Image src={keyVisual} alt={EN ? "Campaign key visual with the three dishes on a soccer pitch" : "Key visual da campanha com os três pratos sobre um campo de futebol"} widths={[480, 960]} sizes="(min-width: 1024px) 480px, 90vw" loading="eager" />
         </div>
       </div>
     </section>
@@ -183,14 +229,14 @@ const jsonld = {
       {flutuam.desafio.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap duas">
         <div>
-          <p class="num">01 · O desafio</p>
-          <h2>Entrar no clima da Copa sem perder o sabor da marca.</h2>
-          <p>A Macarrone in Box queria lançar três pratos que só existiriam durante a Copa, com sorteio de bolas oficiais nas unidades de Americana, Piracicaba e Limeira e no delivery. A campanha precisava falar a língua da torcida e funcionar em tudo: feed, stories, reels, iFood, site e ponto de venda.</p>
+          <p class="num">{EN ? <>01 · The challenge</> : <>01 · O desafio</>}</p>
+          <h2>{EN ? <>Getting into the World Cup mood without losing the brand’s flavor.</> : <>Entrar no clima da Copa sem perder o sabor da marca.</>}</h2>
+          <p>{EN ? <>Macarrone in Box wanted to launch three dishes that would only exist during the World Cup, with a draw for official match balls at the Americana, Piracicaba and Limeira stores and on delivery. The campaign had to speak the fans’ language and work everywhere: feed, stories, reels, iFood, website and point of sale.</> : <>A Macarrone in Box queria lançar três pratos que só existiriam durante a Copa, com sorteio de bolas oficiais nas unidades de Americana, Piracicaba e Limeira e no delivery. A campanha precisava falar a língua da torcida e funcionar em tudo: feed, stories, reels, iFood, site e ponto de venda.</>}</p>
         </div>
         <div>
-          <p class="num">02 · A ideia</p>
-          <h2>Os pratos são a seleção. Eles foram escalados.</h2>
-          <p>"Escalados" trata os três sabores como o time convocado. O nome em letras de camisa de futebol divide espaço com o "Macarrone" manuscrito, que puxa a assinatura da marca. Cinco estrelas lembram os títulos do Brasil e a estrela dentro do O é a sexta: rumo ao hexa.</p>
+          <p class="num">{EN ? <>02 · The idea</> : <>02 · A ideia</>}</p>
+          <h2>{EN ? <>The dishes are the national team. They were called up.</> : <>Os pratos são a seleção. Eles foram escalados.</>}</h2>
+          <p>{EN ? <>"Escalados" (Portuguese for "called up") treats the three flavors as the team lineup. The name in soccer jersey letters shares space with the handwritten "Macarrone", taken from the brand’s signature. Five stars recall Brazil’s titles and the star inside the O is the sixth: on the way to the "hexa".</> : <>"Escalados" trata os três sabores como o time convocado. O nome em letras de camisa de futebol divide espaço com o "Macarrone" manuscrito, que puxa a assinatura da marca. Cinco estrelas lembram os títulos do Brasil e a estrela dentro do O é a sexta: rumo ao hexa.</>}</p>
         </div>
       </div>
     </section>
@@ -199,15 +245,15 @@ const jsonld = {
     <section class="escuro">
       {flutuam.time.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap">
-        <p class="num">03 · O time escalado</p>
-        <h2 class="grande">Parmigiano, Peito de Peru e Pepperoni.</h2>
+        <p class="num">{EN ? <>03 · The lineup</> : <>03 · O time escalado</>}</p>
+        <h2 class="grande">{EN ? <>Parmigiano, Turkey Breast and Pepperoni.</> : <>Parmigiano, Peito de Peru e Pepperoni.</>}</h2>
         <ul class="pratos">
           {pratos.map((p) => (
             <li>
-              <Image src={p.img} alt={`Post do Macarrone ${p.nome}`} widths={[400, 800]} sizes="(min-width: 900px) 380px, 90vw" />
+              <Image src={p.img} alt={T(`Post do Macarrone ${p.nome}`, `Macarrone ${p.nome} post`)} widths={[400, 800]} sizes="(min-width: 900px) 380px, 90vw" />
               <div class="prato-txt">
                 <h3>{p.nome}</h3>
-                <p class="massa">Massa {p.massa}</p>
+                <p class="massa">{T('Massa', 'Pasta:')} {p.massa}</p>
                 <p>{p.texto}</p>
               </div>
             </li>
@@ -219,19 +265,19 @@ const jsonld = {
     <!-- ============ IDENTIDADE ============ -->
     <section class="claro">
       <div class="wrap">
-        <p class="num">04 · Identidade da campanha</p>
-        <h2 class="grande">Um uniforme próprio para a Copa.</h2>
+        <p class="num">{EN ? <>04 · Campaign identity</> : <>04 · Identidade da campanha</>}</p>
+        <h2 class="grande">{EN ? <>A kit of its own for the World Cup.</> : <>Um uniforme próprio para a Copa.</>}</h2>
 
         <div class="logo-palco gramado">
-          <Image src={logo} alt="Logo Escalados Macarrone sobre o verde da campanha" widths={[800, 1600]} sizes="(min-width: 1200px) 900px, 90vw" />
+          <Image src={logo} alt={EN ? "Escalados Macarrone logo on the campaign green" : "Logo Escalados Macarrone sobre o verde da campanha"} widths={[800, 1600]} sizes="(min-width: 1200px) 900px, 90vw" />
         </div>
         <ul class="anatomia">
-          <li><span>★★★★★</span><p><b>Cinco estrelas</b> em arco, como o escudo da seleção.</p></li>
-          <li><span>ESCALADOS</span><p><b>Lettering de camisa</b>, condensado e com letras em alturas diferentes, como uma escalação.</p></li>
-          <li><Image src={assinatura} alt="Macarrone" width={300} class="script" /><p><b>Assinatura manuscrita</b> em amarelo, que mantém o laço com a marca.</p></li>
+          <li><span>★★★★★</span><p>{EN ? <><b>Five stars</b> in an arc, like the national team crest.</> : <><b>Cinco estrelas</b> em arco, como o escudo da seleção.</>}</p></li>
+          <li><span>ESCALADOS</span><p>{EN ? <><b>Jersey lettering</b>, condensed and with letters at different heights, like a lineup.</> : <><b>Lettering de camisa</b>, condensado e com letras em alturas diferentes, como uma escalação.</>}</p></li>
+          <li><Image src={assinatura} alt="Macarrone" width={300} class="script" /><p>{EN ? <><b>Handwritten signature</b> in yellow, keeping the link with the brand.</> : <><b>Assinatura manuscrita</b> em amarelo, que mantém o laço com a marca.</>}</p></li>
         </ul>
 
-        <h3 class="sub-h">Paleta</h3>
+        <h3 class="sub-h">{EN ? <>Palette</> : <>Paleta</>}</h3>
         <ul class="paleta">
           {paleta.map((c) => (
             <li>
@@ -245,20 +291,20 @@ const jsonld = {
           ))}
         </ul>
 
-        <h3 class="sub-h">Tipografia</h3>
+        <h3 class="sub-h">{EN ? <>Typography</> : <>Tipografia</>}</h3>
         <div class="tipo">
           <div class="tipo-aa" aria-hidden="true">Aa</div>
           <div>
             <p class="tipo-nome">Poppins</p>
-            <p class="tipo-desc">Família usada só na campanha: Bold e ExtraBold nas chamadas, Regular nos textos e espaçada em caixa alta para selos como "por tempo limitado".</p>
+            <p class="tipo-desc">{EN ? <>Family used only in the campaign: Bold and ExtraBold for headlines, Regular for text and wide-spaced capitals for badges like "por tempo limitado" (limited time only).</> : <>Família usada só na campanha: Bold e ExtraBold nas chamadas, Regular nos textos e espaçada em caixa alta para selos como "por tempo limitado".</>}</p>
             <p class="tipo-amostra"><b>COMPRE &amp; CONCORRA</b></p>
             <p class="tipo-esp">POR TEMPO LIMITADO</p>
             <p class="tipo-reg">Macarrone Parmigiano · Peito de Peru · Pepperoni</p>
           </div>
         </div>
 
-        <h3 class="sub-h">Adesivos e selos</h3>
-        <p class="adesivos-txt">Selos de torcida para as peças, o jogo americano e a embalagem, e uma etiqueta para cada sabor colada no prato.</p>
+        <h3 class="sub-h">{EN ? <>Stickers and badges</> : <>Adesivos e selos</>}</h3>
+        <p class="adesivos-txt">{EN ? <>Fan badges for the pieces, the placemat and the packaging, plus a label for each flavor stuck on the plate.</> : <>Selos de torcida para as peças, o jogo americano e a embalagem, e uma etiqueta para cada sabor colada no prato.</>}</p>
         <ul class="adesivos gramado">
           {adesivos.map((a) => (
             <li style={`--r:${a.r}deg`}><Image src={a.img} alt={a.nome} widths={[200, 400]} sizes="(min-width: 900px) 220px, 40vw" /></li>
@@ -271,14 +317,15 @@ const jsonld = {
     <section class="gramado secao">
       {flutuam.redes.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap">
-        <p class="num">05 · Redes sociais</p>
-        <h2 class="grande">Feed e stories.</h2>
-        <p class="intro">Carrossel de lançamento com o preço e um card por sabor, adaptado para stories.</p>
+        <p class="num">{EN ? <>05 · Social media</> : <>05 · Redes sociais</>}</p>
+        <h2 class="grande">{EN ? <>Feed and stories.</> : <>Feed e stories.</>}</h2>
+        <p class="intro">{EN ? <>Launch carousel with the price and one card per flavor, adapted for stories.</> : <>Carrossel de lançamento com o preço e um card por sabor, adaptado para stories.</>}</p>
 
         <h3 class="sub-h">Feed · 1080 × 1350</h3>
         <ul class="trilho feed">
           {[car1, car2, car3, car4, postSabores].map((img, i) => (
-            <li><Image src={img} alt={`Post de feed ${i + 1}`} widths={[360, 720]} sizes="320px" /></li>
+            <li><Image src={img} alt={`${T('Post de feed', 'Feed post')} ${i + 1}`}
+ widths={[360, 720]} sizes="320px" /></li>
           ))}
         </ul>
 
@@ -295,9 +342,9 @@ const jsonld = {
     <section class="escuro">
       {flutuam.videos.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap">
-        <p class="num">06 · Vídeos</p>
-        <h2 class="grande">Reels, trends e anúncios.</h2>
-        <p class="intro">Edição e motion de todos os vídeos da campanha. Toque em um vídeo para ouvir.</p>
+        <p class="num">{EN ? <>06 · Videos</> : <>06 · Vídeos</>}</p>
+        <h2 class="grande">{EN ? <>Reels, trends and ads.</> : <>Reels, trends e anúncios.</>}</h2>
+        <p class="intro">{EN ? <>Editing and motion for every video in the campaign. Tap a video to hear it.</> : <>Edição e motion de todos os vídeos da campanha. Toque em um vídeo para ouvir.</>}</p>
         {grupos.map((g) => (
           <div class="grupo">
             <div class="grupo-cab">
@@ -322,17 +369,17 @@ const jsonld = {
       {flutuam.site.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap duas site">
         <div>
-          <p class="num">07 · Site e delivery</p>
-          <h2>Landing page do sorteio e banners para o iFood.</h2>
-          <p>A página reúne os sabores, como participar, o prêmio, as unidades, o formulário de cadastro e o regulamento completo. Os banners levam a campanha para o site da marca e para o app de delivery.</p>
+          <p class="num">{EN ? <>07 · Website and delivery</> : <>07 · Site e delivery</>}</p>
+          <h2>{EN ? <>Prize draw landing page and banners for iFood.</> : <>Landing page do sorteio e banners para o iFood.</>}</h2>
+          <p>{EN ? <>The page brings together the flavors, how to take part, the prize, the stores, the sign-up form and the full rules. The banners take the campaign to the brand’s website and the delivery app.</> : <>A página reúne os sabores, como participar, o prêmio, as unidades, o formulário de cadastro e o regulamento completo. Os banners levam a campanha para o site da marca e para o app de delivery.</>}</p>
           <div class="banners">
-            <Image src={bannerDelivery} alt="Banner horizontal para delivery" widths={[500, 850]} sizes="(min-width: 900px) 500px, 90vw" />
+            <Image src={bannerDelivery} alt={EN ? "Horizontal banner for delivery" : "Banner horizontal para delivery"} widths={[500, 850]} sizes="(min-width: 900px) 500px, 90vw" />
           </div>
         </div>
         <div class="navegador">
           <div class="nav-barra"><span></span><span></span><span></span><em>macarrone.com.br/escalados-macarrone</em></div>
-          <div class="nav-rolagem" tabindex="0" aria-label="Landing page, role para ver tudo">
-            <Image src={landing} alt="Landing page completa da campanha Escalados Macarrone" widths={[520, 1033]} sizes="(min-width: 900px) 520px, 90vw" />
+          <div class="nav-rolagem" tabindex="0" aria-label={EN ? "Landing page, scroll to see it all" : "Landing page, role para ver tudo"}>
+            <Image src={landing} alt={EN ? "Full landing page of the Escalados Macarrone campaign" : "Landing page completa da campanha Escalados Macarrone"} widths={[520, 1033]} sizes="(min-width: 900px) 520px, 90vw" />
           </div>
         </div>
       </div>
@@ -341,20 +388,20 @@ const jsonld = {
     <!-- ============ TELAS DO SHOPPING ============ -->
     <section class="escuro">
       <div class="wrap">
-        <p class="num">08 · Telas do shopping</p>
-        <h2 class="grande">A campanha no corredor do shopping.</h2>
-        <p class="intro">Animações para as telas dos shoppings onde ficam as lojas: um painel de LED grande e uma parede de seis TVs verticais lado a lado.</p>
+        <p class="num">{EN ? <>08 · Mall screens</> : <>08 · Telas do shopping</>}</p>
+        <h2 class="grande">{EN ? <>The campaign in the mall hallway.</> : <>A campanha no corredor do shopping.</>}</h2>
+        <p class="intro">{EN ? <>Animations for the screens in the malls where the stores are: a large LED panel and a wall of six vertical TVs side by side.</> : <>Animações para as telas dos shoppings onde ficam as lojas: um painel de LED grande e uma parede de seis TVs verticais lado a lado.</>}</p>
         <div class="telao">
-          <h3 class="telao-tit">Parede de 6 TVs verticais · 6480 × 1920</h3>
+          <h3 class="telao-tit">{EN ? <>Wall of 6 vertical TVs · 6480 × 1920</> : <>Parede de 6 TVs verticais · 6480 × 1920</>}</h3>
           <div class="tvs">
-            <video src={video('tv-6-telas.mp4')} poster={video('tv-6-telas.jpg')} muted loop playsinline preload="none" aria-label="Animação para seis TVs verticais"></video>
+            <video src={video('tv-6-telas.mp4')} poster={video('tv-6-telas.jpg')} muted loop playsinline preload="none" aria-label={EN ? "Animation for six vertical TVs" : "Animação para seis TVs verticais"}></video>
             <span class="tvs-divisas" aria-hidden="true"></span>
           </div>
         </div>
         <div class="telao">
-          <h3 class="telao-tit">Painel de LED · 2560 × 1280</h3>
+          <h3 class="telao-tit">{EN ? <>LED panel · 2560 × 1280</> : <>Painel de LED · 2560 × 1280</>}</h3>
           <div class="led">
-            <video src={video('led.mp4')} poster={video('led.jpg')} muted loop playsinline preload="none" aria-label="Animação para o painel de LED"></video>
+            <video src={video('led.mp4')} poster={video('led.jpg')} muted loop playsinline preload="none" aria-label={EN ? "Animation for the LED panel" : "Animação para o painel de LED"}></video>
           </div>
         </div>
       </div>
@@ -365,12 +412,12 @@ const jsonld = {
       {flutuam.pdv.map((f) => <span class:list={['flutua', f.desk && 'so-desk']} data-v={f.v} style={`${f.pos};--w:${f.w};--r:${f.r}deg;--d:${f.d ?? 0}s`} aria-hidden="true"><Image src={f.img} alt="" widths={[200, 400]} sizes="180px" /></span>)}
       <div class="wrap duas pdv">
         <div class="pdv-img">
-          <Image src={display} alt="Display impresso A4 da campanha para o balcão" widths={[500, 1000]} sizes="(min-width: 900px) 460px, 90vw" />
+          <Image src={display} alt={EN ? "Printed A4 campaign display for the counter" : "Display impresso A4 da campanha para o balcão"} widths={[500, 1000]} sizes="(min-width: 900px) 460px, 90vw" />
         </div>
         <div>
-          <p class="num">09 · Ponto de venda</p>
-          <h2>Display A4 para o balcão.</h2>
-          <p>Peça impressa para as três lojas, com os sabores, o "Compre &amp; Concorra" e as regras do sorteio no rodapé.</p>
+          <p class="num">{EN ? <>09 · Point of sale</> : <>09 · Ponto de venda</>}</p>
+          <h2>{EN ? <>A4 counter display.</> : <>Display A4 para o balcão.</>}</h2>
+          <p>{EN ? <>Printed piece for the three stores, with the flavors, the "Compre &amp; Concorra" (buy and enter) call and the draw rules in the footer.</> : <>Peça impressa para as três lojas, com os sabores, o "Compre &amp; Concorra" e as regras do sorteio no rodapé.</>}</p>
         </div>
       </div>
     </section>
@@ -378,8 +425,8 @@ const jsonld = {
     <!-- ============ CRÉDITOS ============ -->
     <section class="escuro creditos">
       <div class="wrap">
-        <p>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>.</p>
-        <a href={portfolio} class="botao">Ver outros projetos <span aria-hidden="true">→</span></a>
+        <p>{EN ? <>Project developed for <b>Agência Zava</b>. Client: <b>Macarrone in Box</b>.</> : <>Projeto desenvolvido para a <b>Agência Zava</b>. Cliente: <b>Macarrone in Box</b>.</>}</p>
+        <a href={portfolio} class="botao">{EN ? <>See other projects</> : <>Ver outros projetos</>} <span aria-hidden="true">→</span></a>
       </div>
     </section>
   </main>

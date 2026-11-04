@@ -5,6 +5,7 @@
    jsonld: dados estruturados opcionais (objeto). */
 import CursorCirculo from '../components/CursorCirculo.astro';
 import { SITE, url } from '../data/site';
+import { idioma, versoes } from '../i18n';
 // Fontes servidas pelo próprio site (sem depender do Google Fonts): carregam mais rápido.
 import '@fontsource-variable/inter/index.css';
 import '@fontsource/jetbrains-mono/latin-400.css';
@@ -31,11 +32,15 @@ const {
   themeColor = '#0B0A0D',
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// Idioma pelo endereço (/en/ = inglês) e a mesma página no outro idioma, para o Google.
+const L = idioma(Astro.url);
+const alt = versoes(Astro.url.pathname);
+const is404 = Astro.url.pathname.includes('404');
 const imagem = new URL(url(image), Astro.site);
 ---
 
 <!doctype html>
-<html lang="pt-BR">
+<html lang={L === 'en' ? 'en' : 'pt-BR'}>
   <head>
     <meta charset="utf-8" />
     <meta
@@ -45,7 +50,37 @@ const imagem = new URL(url(image), Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {!is404 && <link rel="alternate" hreflang="pt-BR" href={new URL(alt.pt, Astro.site)} />}
+    {!is404 && <link rel="alternate" hreflang="en" href={new URL(alt.en, Astro.site)} />}
+    {!is404 && <link rel="alternate" hreflang="x-default" href={new URL(alt.pt, Astro.site)} />}
     <meta name="theme-color" content={themeColor} />
+    <!-- Idioma: na primeira visita segue a língua do navegador (português fica na raiz, o resto vai para /en/).
+         Depois que a pessoa toca na bandeirinha, vale a escolha dela (guardada no aparelho).
+         Robôs de busca e o PageSpeed não são redirecionados: cada versão tem o seu endereço. -->
+    <script is:inline define:vars={{ base: import.meta.env.BASE_URL.replace(/\/$/, '') }}>
+      (function () {
+        var p = location.pathname.slice(base.length) || '/';
+        var naEn = p === '/en' || p.indexOf('/en/') === 0;
+        var salvo = null;
+        try { salvo = localStorage.getItem('idioma'); } catch (e) {}
+        document.addEventListener('click', function (e) {
+          var a = e.target.closest && e.target.closest('[data-idioma]');
+          if (a) try { localStorage.setItem('idioma', a.getAttribute('data-idioma')); } catch (e) {}
+        });
+        var quer = salvo;
+        if (quer !== 'pt' && quer !== 'en') {
+          if (/bot|crawl|spider|slurp|lighthouse|pagespeed|headless|preview|facebookexternalhit|whatsapp|telegram/i.test(navigator.userAgent)) return;
+          var l = (navigator.languages && navigator.languages[0]) || navigator.language || 'pt';
+          // Sem escolha salva, só sai do português; um link /en/ aberto de propósito fica em inglês.
+          if (naEn || /^pt/i.test(l)) return;
+          quer = 'en';
+        }
+        var alvo = null;
+        if (quer === 'en' && !naEn) alvo = '/en' + p;
+        if (quer === 'pt' && naEn) alvo = p.slice(3) || '/';
+        if (alvo && !/404/.test(p)) location.replace(base + alvo + location.search + location.hash);
+      })();
+    </script>
     <!-- Tema: aplica a escolha salva antes de desenhar a página (evita piscar) e expõe window.alternarTema. -->
     <script is:inline>
       (function () {
@@ -93,7 +128,8 @@ const imagem = new URL(url(image), Astro.site);
     <link rel="sitemap" href={url('sitemap-index.xml')} />
 
     <meta property="og:type" content={tipo} />
-    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale" content={L === 'en' ? 'en_US' : 'pt_BR'} />
+    <meta property="og:locale:alternate" content={L === 'en' ? 'pt_BR' : 'en_US'} />
     <meta property="og:site_name" content={SITE.nome} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
