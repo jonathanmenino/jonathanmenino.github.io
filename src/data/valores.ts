@@ -8,13 +8,13 @@
 export const MARGEM_SUGERIDA = 0.8; // 80% acima do valor de parceiro
 
 export const VALORES: { projeto: string; de: number | null; ate: number | null }[] = [
-  { projeto: 'Landing page de alta conversão', de: 1000, ate: 3000 },
-  { projeto: 'Site one page (institucional)', de: 850, ate: 2500 },
-  { projeto: 'Site com até 3 páginas', de: 1400, ate: 3500 },
-  { projeto: 'Site com até 5 páginas', de: 2100, ate: 5000 },
-  { projeto: 'Site com até 8 páginas', de: 3000, ate: 7000 },
+  { projeto: 'Landing page de alta conversão', de: 750, ate: 2250 },
+  { projeto: 'Site one page (institucional)', de: 650, ate: 1900 },
+  { projeto: 'Site com até 3 páginas', de: 1050, ate: 2650 },
+  { projeto: 'Site com até 5 páginas', de: 1600, ate: 3750 },
+  { projeto: 'Site com até 8 páginas', de: 2250, ate: 5250 },
   { projeto: 'Acima de 8 páginas', de: null, ate: null },
-  { projeto: 'Página adicional', de: 350, ate: 800 },
+  { projeto: 'Página adicional', de: 250, ate: 600 },
 ];
 
 export const reais = (valor: number, idioma: 'pt' | 'en' = 'pt') => `R$ ${valor.toLocaleString(idioma === 'en' ? 'en-US' : 'pt-BR')}`;
