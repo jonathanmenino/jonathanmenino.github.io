@@ -52,4 +52,22 @@ const cases = defineCollection({
   }),
 });
 
-export const collections = { cases };
+// Blog: cada arquivo .md em src/content/blog/ vira um artigo em /blog/<nome-do-arquivo>/.
+// Como escrever um artigo novo: veja src/content/blog/_LEIA-ME.md (arquivos que começam com _ não viram página).
+const blog = defineCollection({
+  loader: glob({ pattern: '[!_]*.md', base: './src/content/blog' }),
+  schema: ({ image }) => z.object({
+    titulo: z.string(),
+    descricao: z.string().max(170), // aparece no Google e no compartilhamento
+    data: z.coerce.date(),
+    atualizado: z.coerce.date().optional(),
+    publico: z.enum(['agencias', 'empresas', 'todos']).default('todos'),
+    tags: z.array(z.string()).default([]),
+    capa: image().optional(),          // imagem no topo do artigo (opcional)
+    capaAlt: z.string().optional(),
+    og: z.string().optional(),         // imagem de compartilhamento em /public (ex.: og/blog/artigo.jpg)
+    rascunho: z.boolean().default(false), // true = não publica
+  }),
+});
+
+export const collections = { cases, blog };

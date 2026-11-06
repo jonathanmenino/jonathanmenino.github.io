@@ -1,0 +1,63 @@
+---
+/* LISTA DO BLOG: todos os artigos de src/content/blog/, do mais novo para o mais antigo.
+   O primeiro aparece em destaque. Os botões filtram por público (agências / empresas). */
+import Blog from '../../layouts/Blog.astro';
+import CardPost from '../../components/blog/CardPost.astro';
+import { BLOG, artigos } from '../../data/blog';
+import { SITE, url } from '../../data/site';
+
+const posts = await artigos();
+const endereco = new URL(url('blog/'), Astro.site).href;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: BLOG.titulo,
+  description: BLOG.descricao,
+  url: endereco,
+  inLanguage: 'pt-BR',
+  author: { '@type': 'Person', name: SITE.nome, url: new URL(url(''), Astro.site).href },
+  blogPost: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.titulo,
+    url: new URL(url(`blog/${p.id}/`), Astro.site).href,
+    datePublished: p.data.data.toISOString(),
+  })),
+};
+---
+<Blog title={BLOG.titulo} description={BLOG.descricao} image="og/blog.jpg" jsonld={jsonld}>
+  <section class="b-hero">
+    <div class="b-wrap">
+      <p class="eyebrow">Blog</p>
+      <h1>Sites que <span>funcionam</span> de verdade.</h1>
+      <p>Velocidade, segurança, Google e IA explicados sem enrolação. Para agências que entregam sites aos clientes e para quem tem um negócio e quer que o site traga resultado.</p>
+      {posts.length > 1 && (
+        <div class="filtros" role="group" aria-label="Filtrar artigos por público">
+          <button type="button" data-filtro="" aria-pressed="true">Todos</button>
+          <button type="button" data-filtro="agencias" aria-pressed="false">Para agências</button>
+          <button type="button" data-filtro="empresas" aria-pressed="false">Para empresas</button>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <div class="b-wrap">
+    {posts.length ? (
+      <ul class="lista" id="lista">
+        {posts.map((p) => <li data-publico={p.data.publico}><CardPost post={p} /></li>)}
+      </ul>
+    ) : (
+      <p class="vazio">Os primeiros artigos chegam em breve.</p>
+    )}
+  </div>
+</Blog>
+
+<script>
+  // Filtro por público: "Para todos" aparece em qualquer filtro.
+  const botoes = [...document.querySelectorAll<HTMLButtonElement>('[data-filtro]')];
+  const itens = [...document.querySelectorAll<HTMLLIElement>('#lista > li')];
+  botoes.forEach((b) => b.addEventListener('click', () => {
+    const f = b.dataset.filtro;
+    botoes.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    itens.forEach((li) => { li.hidden = !!f && li.dataset.publico !== f && li.dataset.publico !== 'todos'; });
+  }));
+</script>

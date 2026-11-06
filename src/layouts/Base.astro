@@ -2,7 +2,8 @@
 /* Estrutura comum de todas as páginas: <head> com SEO e compartilhamento.
    title/description: o que aparece no Google.
    image: imagem de compartilhamento (1200x630), caminho dentro de /public, sem barra inicial.
-   jsonld: dados estruturados opcionais (objeto). */
+   jsonld: dados estruturados opcionais (objeto).
+   soPortugues: página sem versão em inglês (ex.: blog). Não manda o visitante para /en/ nem anuncia hreflang. */
 import CursorCirculo from '../components/CursorCirculo.astro';
 import { SITE, url } from '../data/site';
 import { idioma, versoes } from '../i18n';
@@ -22,6 +23,7 @@ interface Props {
   tipo?: 'website' | 'article';
   jsonld?: Record<string, unknown> | Record<string, unknown>[];
   themeColor?: string;
+  soPortugues?: boolean;
 }
 const {
   title,
@@ -30,12 +32,14 @@ const {
   tipo = 'website',
   jsonld,
   themeColor = '#0B0A0D',
+  soPortugues = false,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // Idioma pelo endereço (/en/ = inglês) e a mesma página no outro idioma, para o Google.
 const L = idioma(Astro.url);
 const alt = versoes(Astro.url.pathname);
 const is404 = Astro.url.pathname.includes('404');
+const semAlternativas = is404 || soPortugues;
 const imagem = new URL(url(image), Astro.site);
 ---
 
@@ -50,15 +54,16 @@ const imagem = new URL(url(image), Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {!is404 && <link rel="alternate" hreflang="pt-BR" href={new URL(alt.pt, Astro.site)} />}
-    {!is404 && <link rel="alternate" hreflang="en" href={new URL(alt.en, Astro.site)} />}
-    {!is404 && <link rel="alternate" hreflang="x-default" href={new URL(alt.pt, Astro.site)} />}
+    {!semAlternativas && <link rel="alternate" hreflang="pt-BR" href={new URL(alt.pt, Astro.site)} />}
+    {!semAlternativas && <link rel="alternate" hreflang="en" href={new URL(alt.en, Astro.site)} />}
+    {!semAlternativas && <link rel="alternate" hreflang="x-default" href={new URL(alt.pt, Astro.site)} />}
     <meta name="theme-color" content={themeColor} />
     <!-- Idioma: na primeira visita segue a língua do navegador (português fica na raiz, o resto vai para /en/).
          Depois que a pessoa toca na bandeirinha, vale a escolha dela (guardada no aparelho).
          Robôs de busca e o PageSpeed não são redirecionados: cada versão tem o seu endereço. -->
-    <script is:inline define:vars={{ base: import.meta.env.BASE_URL.replace(/\/$/, '') }}>
+    <script is:inline define:vars={{ base: import.meta.env.BASE_URL.replace(/\/$/, ''), soPortugues }}>
       (function () {
+        if (soPortugues) return;
         var p = location.pathname.slice(base.length) || '/';
         var naEn = p === '/en' || p.indexOf('/en/') === 0;
         var salvo = null;

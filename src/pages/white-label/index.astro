@@ -68,6 +68,7 @@ const jsonld = {
       <a class="transition hover:text-hl" href="#beneficios">{EN ? <>Benefits</> : <>Benefícios</>}</a>
       <a class="transition hover:text-hl" href="#projetos">{EN ? <>Projects</> : <>Projetos</>}</a>
       <a class="transition hover:text-hl" href="#processo">{EN ? <>Process</> : <>Processo</>}</a>
+      {!EN && <a class="transition hover:text-hl" href={url('blog/')}>Blog</a>}
     </nav>
     <div class="flex items-center gap-2 md:gap-3">
     <TrocaIdioma />
@@ -98,6 +99,7 @@ const jsonld = {
     <a class="py-2" href="#beneficios">{EN ? <>Benefits</> : <>Benefícios</>}</a>
     <a class="py-2" href="#projetos">{EN ? <>Projects</> : <>Projetos</>}</a>
     <a class="py-2" href="#processo">{EN ? <>Process</> : <>Processo</>}</a>
+    {!EN && <a class="py-2" href={url('blog/')}>Blog</a>}
   </nav>
   <a href={wa.parceria} target="_blank" rel="noopener" class="mt-auto flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-4 font-semibold">{EN ? <>Become a partner</> : <>Quero ser parceiro</>}</a>
 </div>
@@ -688,6 +690,7 @@ const jsonld = {
             <li><a class="text-white/85 hover:text-brand-light" href="#beneficios">{EN ? <>Benefits</> : <>Benefícios</>}</a></li>
             <li><a class="text-white/85 hover:text-brand-light" href="#projetos">{EN ? <>Projects</> : <>Projetos</>}</a></li>
             <li><a class="text-white/85 hover:text-brand-light" href="#processo">{EN ? <>Process</> : <>Processo</>}</a></li>
+            {!EN && <li><a class="text-white/85 hover:text-brand-light" href={url('blog/')}>Blog</a></li>}
           </ul>
         </div>
         <div class="min-w-0">

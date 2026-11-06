@@ -1,0 +1,18 @@
+---
+// Card de um artigo na lista do blog. nivel: h2 na lista, h3 em "Leia também".
+import { url } from '../../data/site';
+import { PUBLICOS, dataCurta, tempoLeitura, type Post } from '../../data/blog';
+interface Props { post: Post; nivel?: 'h2' | 'h3' }
+const { post, nivel = 'h2' } = Astro.props;
+const { titulo, descricao, data, publico } = post.data;
+const H = nivel;
+---
+<article class="card-post" data-publico={publico}>
+  <div class="topo-card">
+    <span class="selo-publico">{PUBLICOS[publico]}</span>
+    <span class="meta"><time datetime={data.toISOString().slice(0, 10)}>{dataCurta(data)}</time> · {tempoLeitura(post.body)} min</span>
+  </div>
+  <H><a href={url(`blog/${post.id}/`)}>{titulo}</a></H>
+  <p>{descricao}</p>
+  <span class="ler" aria-hidden="true">Ler artigo <svg class="arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+</article>
