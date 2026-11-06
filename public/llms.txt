@@ -1,0 +1,19 @@
+# Jonathan Menino
+
+> Designer gráfico e desenvolvedor de sites em Limeira/SP, Brasil. Cria identidades visuais, campanhas, vídeos e sites rápidos (Astro, WordPress, Elementor). Atende empresas diretamente e agências em White Label. Contato pelo WhatsApp +55 19 99436-6334.
+
+## Páginas principais
+
+- [Sobre mim](https://jonathanmenino.github.io/): quem é Jonathan Menino, frentes de trabalho e trajetória.
+- [Para empresas](https://jonathanmenino.github.io/empresas/): identidade visual, campanhas, vídeo e sites para empresas.
+- [Para agências (White Label)](https://jonathanmenino.github.io/white-label/): desenvolvimento de sites e landing pages em White Label para agências.
+- [Portfólio](https://jonathanmenino.github.io/portfolio/): projetos de design, vídeo e sites.
+- [Blog](https://jonathanmenino.github.io/blog/): artigos sobre sites rápidos, seguros e fáceis de encontrar no Google e nas IAs.
+
+## Blog
+
+- [Feed RSS](https://jonathanmenino.github.io/blog/rss.xml): lista de todos os artigos.
+
+## Versão em inglês
+
+- [English version](https://jonathanmenino.github.io/en/)

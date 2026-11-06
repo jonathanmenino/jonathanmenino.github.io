@@ -1,0 +1,86 @@
+---
+/* Moldura das páginas do blog: menu do topo, rodapé e estilos de leitura (src/styles/blog.css).
+   Visual claro com modo escuro, igual à página White Label. Blog só em português. */
+import Base from './Base.astro';
+import Fox from '../components/Fox.astro';
+import TemaToggle from '../components/TemaToggle.astro';
+import Redes from '../components/Redes.astro';
+import { url, linkWhatsApp } from '../data/site';
+import '../styles/blog.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  tipo?: 'website' | 'article';
+  jsonld?: Record<string, unknown> | Record<string, unknown>[];
+}
+const props = Astro.props;
+const noBlog = Astro.url.pathname.replace(/\/$/, '').endsWith('/blog');
+const whats = linkWhatsApp('Olá, Jonathan! Li um artigo do seu blog e quero conversar.');
+const LINKS: [string, string][] = [
+  ['Blog', url('blog/')],
+  ['Para agências', url('white-label/')],
+  ['Para empresas', url('empresas/')],
+  ['Sobre mim', url('')],
+];
+---
+<Base {...props} themeColor="#F7F6F3" soPortugues>
+  <link slot="head" rel="alternate" type="application/rss+xml" title="Blog · Jonathan Menino" href={url('blog/rss.xml')} />
+
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="b-topo">
+    <div class="b-topo-in">
+      <a href={url('blog/')} class="b-marca">
+        <Fox class="h-8 w-auto" />
+        <span>
+          <span class="b-marca-nome">Jonathan Menino</span>
+          <span class="b-marca-sub">Blog · Sites que funcionam</span>
+        </span>
+      </a>
+      <nav class="b-nav no-scrollbar" aria-label="Principal">
+        {LINKS.map(([t, h]) => <a href={h} aria-current={t === 'Blog' && noBlog ? 'page' : undefined}>{t}</a>)}
+      </nav>
+      <TemaToggle class="b-tema" />
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <slot />
+  </main>
+
+  <footer class="b-rodape">
+    <div class="b-rodape-in">
+      <div class="max-w-sm">
+        <div class="flex items-center gap-3">
+          <Fox cor="#9B7BFF" class="h-9 w-auto" />
+          <span class="leading-tight">
+            <span class="block font-semibold">Jonathan Menino</span>
+            <span class="block font-mono text-[9.5px] uppercase tracking-[.14em] text-white/60">Design e desenvolvimento de sites</span>
+          </span>
+        </div>
+        <p class="mt-5 text-sm leading-relaxed text-white/65">Sites rápidos, seguros e fáceis de achar. Para agências que terceirizam o desenvolvimento e para empresas que querem um site que traga cliente.</p>
+        <Redes class="mt-6 flex flex-wrap gap-2" />
+      </div>
+      <div class="grid grid-cols-2 gap-10 text-sm sm:gap-16">
+        <div>
+          <p class="font-mono text-[10.5px] uppercase tracking-[.12em] text-white/60">Navegação</p>
+          <ul class="mt-4 space-y-2.5">
+            {LINKS.map(([t, h]) => <li><a class="text-white/85 hover:text-brand-light" href={h}>{t}</a></li>)}
+          </ul>
+        </div>
+        <div class="min-w-0">
+          <p class="font-mono text-[10.5px] uppercase tracking-[.12em] text-white/60">Contato</p>
+          <ul class="mt-4 space-y-2.5">
+            <li><a href={whats} target="_blank" rel="noopener" class="text-white/85 hover:text-brand-light">WhatsApp · Seg–Sex, 9h–18h</a></li>
+            <li><a href={url('blog/rss.xml')} class="text-white/85 hover:text-brand-light">Feed RSS do blog</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="b-rodape-pe">
+      <p>© {new Date().getFullYear()} Jonathan Menino. Todos os direitos reservados.</p>
+      <p class="font-mono uppercase tracking-[.1em]"><a class="hover:text-brand-light" href={url('')}>jonathanmenino</a> · Limeira/SP</p>
+    </div>
+  </footer>
+</Base>

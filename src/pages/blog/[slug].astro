@@ -1,0 +1,173 @@
+---
+/* PÁGINA DE ARTIGO: /blog/<nome-do-arquivo>/
+   Texto em Markdown de src/content/blog/. Índice lateral gerado pelos títulos ## do texto.
+   No fim: caixa de contato (muda conforme o público do artigo) e "Leia também". */
+import { render } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import Blog from '../../layouts/Blog.astro';
+import CardPost from '../../components/blog/CardPost.astro';
+import foto from '../../assets/sobre/jonathan.png';
+import { artigos, dataLonga, tempoLeitura, PUBLICOS, type Post } from '../../data/blog';
+import { SITE, url, linkWhatsApp } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await artigos();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, todos: posts } }));
+}
+
+interface Props { post: Post; todos: Post[] }
+const { post, todos } = Astro.props;
+const d = post.data;
+const { Content, headings } = await render(post);
+const indice = headings.filter((h) => h.depth === 2);
+const minutos = tempoLeitura(post.body);
+const endereco = new URL(url(`blog/${post.id}/`), Astro.site).href;
+// Imagem de compartilhamento: a definida no artigo, senão a capa cortada em 1200x630, senão a padrão do blog.
+const ogCapa = d.capa && !d.og ? (await getImage({ src: d.capa, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 82 })).src : undefined;
+const og = d.og ?? ogCapa ?? 'og/blog.jpg';
+
+// Leia também: primeiro os do mesmo público, depois os mais recentes.
+const outros = todos.filter((p) => p.id !== post.id);
+const relacionados = [...outros.filter((p) => p.data.publico === d.publico), ...outros.filter((p) => p.data.publico !== d.publico)].slice(0, 2);
+
+const CTA = {
+  agencias: {
+    titulo: 'Sua agência vende sites e precisa de quem desenvolva?',
+    texto: 'Eu desenvolvo em White Label: o cliente vê só a sua agência, e o site sai rápido, seguro e pronto para Google e IA.',
+    botao: ['Conhecer a parceria', url('white-label/')],
+    msg: `Olá, Jonathan! Li o artigo "${d.titulo}" e quero saber mais sobre a parceria White Label.`,
+  },
+  empresas: {
+    titulo: 'Quer um site que seja encontrado e traga clientes?',
+    texto: 'Eu desenho e desenvolvo sites rápidos, seguros e fáceis de achar no Google e nas IAs. Você fala direto comigo do começo ao fim.',
+    botao: ['Ver serviços para empresas', url('empresas/')],
+    msg: `Olá, Jonathan! Li o artigo "${d.titulo}" e quero um orçamento de site.`,
+  },
+  todos: {
+    titulo: 'Quer um site assim para você ou para os clientes da sua agência?',
+    texto: 'Desenvolvo sites rápidos, seguros e prontos para Google e IA, direto para empresas ou em White Label para agências.',
+    botao: ['Sou de uma agência', url('white-label/')],
+    msg: `Olá, Jonathan! Li o artigo "${d.titulo}" e quero conversar sobre um site.`,
+  },
+}[d.publico];
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: d.titulo,
+    description: d.descricao,
+    url: endereco,
+    mainEntityOfPage: endereco,
+    image: new URL(url(og), Astro.site).href,
+    datePublished: d.data.toISOString(),
+    dateModified: (d.atualizado ?? d.data).toISOString(),
+    inLanguage: 'pt-BR',
+    wordCount: (post.body ?? '').split(/\s+/).filter(Boolean).length,
+    timeRequired: `PT${minutos}M`,
+    keywords: d.tags.join(', '),
+    author: { '@type': 'Person', name: SITE.nome, url: new URL(url(''), Astro.site).href, sameAs: Object.values(SITE.redes).filter(Boolean) },
+    publisher: { '@type': 'Person', name: SITE.nome },
+    isPartOf: { '@type': 'Blog', name: 'Blog · Jonathan Menino', url: new URL(url('blog/'), Astro.site).href },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: new URL(url(''), Astro.site).href },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: new URL(url('blog/'), Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: d.titulo, item: endereco },
+    ],
+  },
+];
+---
+<Blog title={`${d.titulo} · Blog Jonathan Menino`} description={d.descricao} image={og} tipo="article" jsonld={jsonld}>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={d.data.toISOString()} />
+    <meta property="article:modified_time" content={(d.atualizado ?? d.data).toISOString()} />
+    <meta property="article:author" content={SITE.nome} />
+    {d.tags.map((t) => <meta property="article:tag" content={t} />)}
+  </Fragment>
+
+  <article>
+    <header class="a-cab">
+      <div class="b-wrap">
+        <nav class="migalhas" aria-label="Você está em">
+          <a href={url('')}>Início</a><span aria-hidden="true">/</span><a href={url('blog/')}>Blog</a>
+        </nav>
+        <div class="a-meta" style="margin-top:28px">
+          <span class="selo-publico">{PUBLICOS[d.publico]}</span>
+          <span class="meta">{minutos} min de leitura</span>
+        </div>
+        <h1>{d.titulo}</h1>
+        <p class="lead">{d.descricao}</p>
+        <div class="a-meta">
+          <a class="autor" href={url('')}>
+            <Image src={foto} alt="" widths={[88]} sizes="44px" loading="eager" />
+            <span><b>Jonathan Menino</b><span>Designer e desenvolvedor de sites</span></span>
+          </a>
+          <span class="meta">
+            <time datetime={d.data.toISOString().slice(0, 10)}>{dataLonga(d.data)}</time>
+            {d.atualizado && <> · atualizado em <time datetime={d.atualizado.toISOString().slice(0, 10)}>{dataLonga(d.atualizado)}</time></>}
+          </span>
+        </div>
+        {d.capa && (
+          <figure class="a-capa">
+            <div><Image src={d.capa} alt={d.capaAlt ?? ''} widths={[720, 1200, 1800]} sizes="(min-width: 1264px) 1136px, 100vw" loading="eager" fetchpriority="high" /></div>
+            {d.credito && (
+              <figcaption class="a-credito">Foto: <a href={`${d.credito.perfil}?utm_source=jonathanmenino&utm_medium=referral`} target="_blank" rel="noopener">{d.credito.autor}</a> no <a href={`${d.credito.foto}?utm_source=jonathanmenino&utm_medium=referral`} target="_blank" rel="noopener">{d.credito.banco}</a></figcaption>
+            )}
+          </figure>
+        )}
+      </div>
+    </header>
+
+    <div class="b-wrap">
+      <div class="a-grade">
+        <div>
+          <div class="texto">
+            <Content />
+          </div>
+          <aside class="cta" aria-labelledby="cta-t">
+            <h2 id="cta-t">{CTA.titulo}</h2>
+            <p>{CTA.texto}</p>
+            <div class="botoes">
+              <a class="btn-b" href={linkWhatsApp(CTA.msg)} target="_blank" rel="noopener">Falar no WhatsApp</a>
+              <a class="btn-b sec" href={CTA.botao[1]}>{CTA.botao[0]} <svg class="arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </aside>
+        </div>
+        {indice.length > 1 && (
+          <nav class="indice" aria-labelledby="indice-t">
+            <p id="indice-t">Neste artigo</p>
+            <ol>{indice.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+          </nav>
+        )}
+      </div>
+    </div>
+  </article>
+
+  {relacionados.length > 0 && (
+    <section class="relacionados" aria-labelledby="rel-t">
+      <div class="b-wrap">
+        <h2 class="rel-titulo" id="rel-t">Leia também</h2>
+        <ul class="lista">{relacionados.map((p) => <li><CardPost post={p} nivel="h3" /></li>)}</ul>
+      </div>
+    </section>
+  )}
+</Blog>
+
+<script>
+  // Índice: marca a seção que está sendo lida.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.indice a')];
+  const alvos = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1)))).filter(Boolean) as HTMLElement[];
+  if (alvos.length && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => {
+        if (!e.isIntersecting) return;
+        links.forEach((a) => a.classList.toggle('ativo', a.hash.slice(1) === e.target.id));
+      });
+    }, { rootMargin: '-15% 0px -70% 0px' });
+    alvos.forEach((t) => obs.observe(t));
+  }
+</script>

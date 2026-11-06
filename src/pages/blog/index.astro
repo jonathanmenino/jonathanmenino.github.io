@@ -1,0 +1,101 @@
+---
+/* LISTA DO BLOG: artigos de src/content/blog/, do mais novo para o mais antigo.
+   Topo escuro com os mais recentes: o mais novo em destaque e os 3 seguintes ao lado.
+   Com mais de 4 artigos aparece "Todos os artigos", com filtro por público (agências / empresas). */
+import Blog from '../../layouts/Blog.astro';
+import CardPost from '../../components/blog/CardPost.astro';
+import { Image } from 'astro:assets';
+import foto from '../../assets/sobre/jonathan.png';
+import { BLOG, artigos } from '../../data/blog';
+import { SITE, url } from '../../data/site';
+
+const posts = await artigos();
+const NO_TOPO = 4;
+const [destaque, ...resto] = posts;
+const lado = resto.slice(0, NO_TOPO - 1);
+const endereco = new URL(url('blog/'), Astro.site).href;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: BLOG.titulo,
+  description: BLOG.descricao,
+  url: endereco,
+  inLanguage: 'pt-BR',
+  author: { '@type': 'Person', name: SITE.nome, url: new URL(url(''), Astro.site).href },
+  blogPost: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.titulo,
+    url: new URL(url(`blog/${p.id}/`), Astro.site).href,
+    datePublished: p.data.data.toISOString(),
+  })),
+};
+---
+<Blog title={BLOG.titulo} description={BLOG.descricao} image="og/blog.jpg" jsonld={jsonld}>
+  <section class="b-hero" aria-labelledby="t-blog">
+    <div class="b-wrap">
+      <div class="b-hero-cab">
+        <div>
+          <p class="eyebrow">Blog · Mais recentes</p>
+          <h1 id="t-blog">Sites que <span>funcionam</span> de verdade.</h1>
+        </div>
+        <p>Velocidade, segurança, Google e IA explicados sem enrolação. Para agências que entregam sites aos clientes e para quem tem um negócio.</p>
+      </div>
+      {destaque ? (
+        <div class="destaques">
+          <CardPost post={destaque} destaque />
+          {lado.length > 0 && (
+            <ul class="lado">{lado.map((p) => <li><CardPost post={p} compacto /></li>)}</ul>
+          )}
+        </div>
+      ) : (
+        <p class="vazio" style="color:rgba(255,255,255,.6)">Os primeiros artigos chegam em breve.</p>
+      )}
+    </div>
+  </section>
+
+  <section class="quem-escreve" aria-labelledby="t-quem">
+    <div class="b-wrap">
+      <div class="quem-caixa">
+        <Image src={foto} alt="" widths={[120, 240]} sizes="96px" loading="lazy" />
+        <div>
+          <p class="eyebrow">Quem escreve</p>
+          <h2 id="t-quem">Jonathan Menino</h2>
+          <p>Designer e desenvolvedor de sites há mais de 13 anos. Escrevo aqui o que aplico nos projetos: sites rápidos, seguros e fáceis de encontrar no Google e nas IAs.</p>
+        </div>
+        <div class="quem-links">
+          <a class="btn-b" href={url('white-label/')}>Sou de uma agência</a>
+          <a class="btn-b sec" href={url('empresas/')}>Tenho uma empresa</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {posts.length > NO_TOPO && (
+    <section class="todos" aria-labelledby="t-todos">
+      <div class="b-wrap">
+        <div class="todos-cab">
+          <h2 id="t-todos">Todos os artigos</h2>
+          <div class="filtros" role="group" aria-label="Filtrar artigos por público">
+            <button type="button" data-filtro="" aria-pressed="true">Todos</button>
+            <button type="button" data-filtro="agencias" aria-pressed="false">Para agências</button>
+            <button type="button" data-filtro="empresas" aria-pressed="false">Para empresas</button>
+          </div>
+        </div>
+        <ul class="lista" id="lista">
+          {posts.map((p) => <li data-publico={p.data.publico}><CardPost post={p} /></li>)}
+        </ul>
+      </div>
+    </section>
+  )}
+</Blog>
+
+<script>
+  // Filtro por público: "Para todos" aparece em qualquer filtro.
+  const botoes = [...document.querySelectorAll<HTMLButtonElement>('[data-filtro]')];
+  const itens = [...document.querySelectorAll<HTMLLIElement>('#lista > li')];
+  botoes.forEach((b) => b.addEventListener('click', () => {
+    const f = b.dataset.filtro;
+    botoes.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    itens.forEach((li) => { li.hidden = !!f && li.dataset.publico !== f && li.dataset.publico !== 'todos'; });
+  }));
+</script>

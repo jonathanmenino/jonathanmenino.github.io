@@ -235,7 +235,7 @@ const jsonld = {
 
 <footer class="rodape">
   <span>© {new Date().getFullYear()} Jonathan Menino</span>
-  <span><a href={pagina(L)}>{T('Início', 'Home')}</a> · <a href={pagina(L, 'white-label/')}>{T('Para agências', 'For agencies')}</a></span>
+  <span><a href={pagina(L)}>{T('Início', 'Home')}</a> · <a href={pagina(L, 'white-label/')}>{T('Para agências', 'For agencies')}</a>{L === 'pt' && <> · <a href={url('blog/')}>Blog</a></>}</span>
 
 </footer>
 </Base>

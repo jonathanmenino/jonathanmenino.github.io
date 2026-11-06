@@ -1,0 +1,34 @@
+---
+// Card de um artigo na lista do blog, com a imagem de destaque (capa) no topo.
+// nivel: h2 na lista, h3 em "Leia também". destaque: card grande do topo do /blog/ (imagem carrega primeiro). compacto: sem o resumo (coluna ao lado do destaque).
+import { Image } from 'astro:assets';
+import { url } from '../../data/site';
+import { PUBLICOS, dataCurta, tempoLeitura, type Post } from '../../data/blog';
+interface Props { post: Post; nivel?: 'h2' | 'h3'; destaque?: boolean; compacto?: boolean; class?: string }
+const { post, nivel = 'h2', destaque = false, compacto = false, class: cls = '' } = Astro.props;
+const { titulo, descricao, data, publico, capa } = post.data;
+const H = nivel;
+---
+<article class:list={['card-post', cls, { 'card-destaque': destaque, 'card-compacto': compacto }]} data-publico={publico}>
+  <div class="card-img">
+    {capa ? (
+      <Image
+        src={capa}
+        alt=""
+        widths={destaque ? [640, 960, 1280, 1600] : [400, 640, 800]}
+        sizes={destaque ? '(min-width: 1024px) 720px, 100vw' : '(min-width: 1024px) 380px, (min-width: 760px) 50vw, 100vw'}
+        loading={destaque ? 'eager' : 'lazy'}
+        fetchpriority={destaque ? 'high' : undefined}
+      />
+    ) : <span class="card-sem-img" aria-hidden="true"></span>}
+  </div>
+  <div class="card-corpo">
+    <div class="topo-card">
+      <span class="selo-publico">{PUBLICOS[publico]}</span>
+      <span class="meta"><time datetime={data.toISOString().slice(0, 10)}>{dataCurta(data)}</time> · {tempoLeitura(post.body)} min</span>
+    </div>
+    <H><a href={url(`blog/${post.id}/`)}>{titulo}</a></H>
+    {!compacto && <p>{descricao}</p>}
+    <span class="ler" aria-hidden="true">Ler artigo <svg class="arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+  </div>
+</article>
