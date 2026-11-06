@@ -1,9 +1,15 @@
 ---
 titulo: 'Seu site está pronto para ser lido por IA? 7 ajustes que fazem diferença'
 descricao: 'ChatGPT, Gemini e Perplexity já respondem por quem procura um serviço. Veja como deixar o seu site fácil de entender para essas IAs, sem truque e sem mistério.'
-data: 2026-11-06
+data: 2026-11-06T09:00:00-03:00
 publico: todos
 tags: ['IA', 'SEO', 'HTML semântico', 'Dados estruturados', 'Performance']
+capa: ../../assets/blog/site-legivel-para-ia.jpg
+capaAlt: 'Robô branco com o logo do Google segurando uma lupa ao lado de uma janela de navegador'
+credito:
+  autor: Growtika
+  perfil: https://unsplash.com/@growtika
+  foto: https://unsplash.com/photos/a-white-robot-holding-a-magnifying-glass-next-to-a-white-box-183Yxo3vsGY
 ---
 
 Pense em alguém que abre o ChatGPT e pergunta: *"qual clínica de fisioterapia em Limeira atende aos sábados?"*. A resposta vem pronta, com dois ou três nomes. Esse alguém talvez nem abra o Google.

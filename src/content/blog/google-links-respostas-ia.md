@@ -1,9 +1,15 @@
 ---
 titulo: 'O Google colocou mais links nas respostas de IA. O que isso muda para o seu site'
 descricao: 'As respostas de IA já aparecem em mais de 80% das buscas, e agora trazem mais links para sites. Veja o que mudou e o que fazer para o seu site ser citado.'
-data: 2026-11-06
+data: 2026-11-06T12:00:00-03:00
 publico: todos
 tags: ['IA', 'SEO', 'Google']
+capa: ../../assets/blog/google-links-respostas-ia.jpg
+capaAlt: 'Mão segurando um celular com a página de busca do Google aberta'
+credito:
+  autor: Solen Feyissa
+  perfil: https://unsplash.com/@solenfeyissa
+  foto: https://unsplash.com/photos/smartphone-displaying-google-search-engine-UWVJaDvXW_c
 ---
 
 Quem pesquisa no Google hoje quase sempre vê primeiro uma resposta escrita pela IA do próprio Google. Em novembro de 2026, o Google mudou de novo o jeito como essas respostas mostram links para sites. A mudança é boa para quem tem um site bem feito, mas vem com um porém importante.

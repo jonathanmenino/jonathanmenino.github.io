@@ -65,7 +65,9 @@ const blog = defineCollection({
     tags: z.array(z.string()).default([]),
     capa: image().optional(),          // imagem no topo do artigo (opcional)
     capaAlt: z.string().optional(),
-    og: z.string().optional(),         // imagem de compartilhamento em /public (ex.: og/blog/artigo.jpg)
+    // Crédito da foto (banco de imagens grátis, ex.: Unsplash). Aparece embaixo da capa no artigo.
+    credito: z.object({ autor: z.string(), perfil: z.string().url(), foto: z.string().url(), banco: z.string().default('Unsplash') }).optional(),
+    og: z.string().optional(),         // imagem de compartilhamento em /public; sem isso usa a capa (cortada em 1200x630) ou og/blog.jpg
     rascunho: z.boolean().default(false), // true = não publica
   }),
 });
