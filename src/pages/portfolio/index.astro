@@ -5,8 +5,8 @@
    Visual igual ao da home (src/styles/home.css e src/scripts/home.ts). */
 import Base from '../../layouts/Base.astro';
 import Prancheta from '../../components/novo/Prancheta.astro';
-import BarraMob from '../../components/novo/BarraMob.astro';
-import MenuTopo from '../../components/novo/MenuTopo.astro';
+import Topo from '../../components/site/Topo.astro';
+import Rodape from '../../components/site/Rodape.astro';
 import Mural from '../../components/novo/Mural.astro';
 import '@fontsource/anton/latin-400.css';
 import '@fontsource/caveat-brush/latin-400.css';
@@ -36,11 +36,9 @@ const jsonld = {
   jsonld={jsonld}
 >
 <Prancheta />
-<BarraMob links={[[T('Início', 'Home'), pagina(L)], [T('Contato', 'Contact'), '#contato']]} />
+<Topo tom="escuro" />
 
-<header class="port-topo" id="topo">
-  <MenuTopo sub={T('Portfólio · Projetos selecionados', 'Portfolio · Selected projects')} itens={[[T('Início', 'Home'), pagina(L)], [T('Portfólio', 'Portfolio'), pagina(L, 'portfolio/'), true], [T('Currículo', 'Résumé'), pagina(L, 'curriculo/')], [T('Empresas', 'Businesses'), pagina(L, 'empresas/')], [T('Contato', 'Contact'), '#contato']]} />
-</header>
+<div id="topo"></div>
 
 <div class="corpo solo">
   <main>
@@ -81,11 +79,7 @@ const jsonld = {
   </div>
 </Mural>
 
-<footer class="rodape">
-  <span>© {new Date().getFullYear()} Jonathan Menino</span>
-  <span><a href={pagina(L)}>{T('Início', 'Home')}</a> · <a href={pagina(L, 'empresas/')}>{T('Para empresas', 'For businesses')}</a> · <a href={pagina(L, 'white-label/')}>{T('Para agências', 'For agencies')}</a></span>
-
-</footer>
+<Rodape />
 </Base>
 
 <script>

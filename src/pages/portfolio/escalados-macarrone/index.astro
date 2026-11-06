@@ -5,8 +5,8 @@
    troque o link "Portfólio" do topo e do rodapé (const portfolio). */
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
-import Fox from '../../../components/Fox.astro';
-import TrocaIdioma from '../../../components/TrocaIdioma.astro';
+import Topo from '../../../components/site/Topo.astro';
+import Rodape from '../../../components/site/Rodape.astro';
 import { url } from '../../../data/site';
 import { idioma, tradutor, pagina } from '../../../i18n';
 import '@fontsource/poppins/latin-400.css';
@@ -190,14 +190,8 @@ const jsonld = {
   themeColor="#0C843B"
   jsonld={jsonld}
 >
+<Topo tom="escuro" />
 <div class="em">
-  <header class="topo">
-    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
-      <Fox cor="#FEC302" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
-    </a>
-    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
-  </header>
 
   <main>
     <!-- ============ TOPO ============ -->
@@ -431,6 +425,7 @@ const jsonld = {
     </section>
   </main>
 </div>
+<Rodape />
 </Base>
 
 <script>
@@ -480,14 +475,8 @@ const jsonld = {
 .em a:focus-visible, .em video:focus-visible, .em [tabindex]:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 3px; }
 
 /* Topo */
-.em .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(10,116,52,.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,.12); }
-@media (min-width: 768px) { .em .topo { padding: 14px 32px; } }
-.em .marca { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
-.em .raposa { height: 32px; width: auto; }
 .em .nome { display: block; font-weight: 600; font-size: 15px; line-height: 1.2; }
 .em .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.75); }
-.em .voltar { font-size: 14px; font-weight: 600; color: #fff; text-decoration: none; }
-.em .voltar:hover { color: var(--amarelo); }
 
 /* Fundo gramado: verde com textura leve, como as peças */
 .em .gramado { position: relative; background-color: var(--verde); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }

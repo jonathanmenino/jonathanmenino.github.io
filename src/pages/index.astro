@@ -13,8 +13,9 @@ import '@fontsource/anton/latin-400.css';
 import '@fontsource/caveat-brush/latin-400.css';
 import '../styles/home.css';
 import Prancheta from '../components/novo/Prancheta.astro';
-import BarraMob from '../components/novo/BarraMob.astro';
-import MenuTopo from '../components/novo/MenuTopo.astro';
+import Topo from '../components/site/Topo.astro';
+import Rodape from '../components/site/Rodape.astro';
+import ChamadaBlog from '../components/site/ChamadaBlog.astro';
 import Mural from '../components/novo/Mural.astro';
 import FundoLiquido from '../components/novo/FundoLiquido.astro';
 
@@ -83,11 +84,11 @@ const jsonld = {
   jsonld={jsonld}
 >
 <Prancheta />
-<BarraMob links={[[T('Portfólio', 'Portfolio'), pagina(L, 'portfolio/')], [T('Contato', 'Contact'), '#contato']]} />
+<Topo tom="escuro" />
 
 <header class="heroi" id="topo">
   <FundoLiquido />
-  <MenuTopo itens={MENU.map(([id, nome]) => [nome, `#${id}`])} />
+  <div></div>
   <div></div>
   <div class="base">
     <p class="selo"><span class="pulso" aria-hidden="true"></span>{T('Disponível para vagas e freelas', 'Available for jobs and freelance')}</p>
@@ -168,6 +169,8 @@ const jsonld = {
       </ol>
     </section>
 
+    <ChamadaBlog tom="escuro" titulo="Escrevo sobre sites, design e IA" class="secao" />
+
     <section class="pergunta" aria-labelledby="t-perg">
       <h2 class="tt" id="t-perg">{T('E aí… bora criar', 'So… shall we create')}<br><em>{T('algo juntos?', 'something together?')}</em></h2>
     </section>
@@ -205,11 +208,7 @@ const jsonld = {
   <p class="mono disp">{T('Disponível para vagas e freelas', 'Available for jobs and freelance')}</p>
 </Mural>
 
-<footer class="rodape">
-  <span>© {new Date().getFullYear()} Jonathan Menino</span>
-  <span><a href={pagina(L, 'empresas/')}>{T('Para empresas', 'For businesses')}</a> · <a href={pagina(L, 'white-label/')}>{T('Para agências', 'For agencies')}</a>{L === 'pt' && <> · <a href={url('blog/')}>Blog</a></>}</span>
-
-</footer>
+<Rodape />
 
 </Base>
 

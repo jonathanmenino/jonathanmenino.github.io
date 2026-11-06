@@ -4,8 +4,8 @@
    Texto de verdade, uma coluna e títulos comuns: leitura fácil para recrutadores, sistemas de vagas (ATS) e IA.
    Para atualizar: edite os dados abaixo e gere o PDF de novo (veja o README). */
 import Base from '../../layouts/Base.astro';
-import Fox from '../../components/Fox.astro';
-import TrocaIdioma from '../../components/TrocaIdioma.astro';
+import Topo from '../../components/site/Topo.astro';
+import Rodape from '../../components/site/Rodape.astro';
 import { SITE, url } from '../../data/site';
 import { idioma, tradutor, pagina } from '../../i18n';
 
@@ -201,17 +201,7 @@ const jsonld = {
   description={T('Currículo de Jonathan Menino: designer gráfico, UI designer e editor de vídeo em Limeira/SP, com mais de 13 anos de experiência em identidade visual, campanhas, motion, sites e fluxos de IA.', 'Résumé of Jonathan Menino: graphic designer, UI designer and video editor based in Limeira, Brazil, with over 13 years of experience in visual identity, campaigns, motion, websites and AI workflows.')}
   jsonld={jsonld}
 >
-<div class="barra no-print">
-  <a href={pagina(L)} class="voltar" aria-label={T('Voltar ao início', 'Back to home')}>
-    <Fox cor="#9B7BFF" class="raposa" />
-    <span>Jonathan Menino</span>
-  </a>
-  <div class="acoes">
-    <a class="btn" href={PDF} download>{T('Baixar PDF', 'Download PDF')}</a>
-    <a class="btn sec" href={pagina(L, 'portfolio/')}>{T('Ver portfólio', 'View portfolio')}</a>
-    <TrocaIdioma />
-  </div>
-</div>
+<Topo tom="escuro" cta={{ texto: T('Baixar PDF', 'Download PDF'), curto: 'PDF', href: PDF, download: true }} />
 
 <main class="folha">
   <header class="topo">
@@ -291,6 +281,7 @@ const jsonld = {
     </section>
   </div>
 </main>
+<Rodape />
 </Base>
 
 <style is:global>
@@ -302,17 +293,9 @@ body { background: var(--carvao); color: var(--tinta); font-family: "Inter Varia
 a { color: inherit; }
 :focus-visible { outline: 2px solid #9B7BFF; outline-offset: 3px; border-radius: 4px; }
 
-.barra { max-width: 860px; margin: 0 auto; padding: 24px 16px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; color: #fff; }
-.voltar { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; }
-.raposa { height: 32px; width: auto; }
-.acoes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.btn { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 999px; background: var(--roxo); color: #fff; text-decoration: none; font-weight: 600; font-size: 14px; transition: background .2s; }
-.btn:hover { background: var(--roxo-esc); }
-.btn.sec { background: transparent; border: 1px solid rgba(255,255,255,.25); }
-.btn.sec:hover { border-color: #9B7BFF; background: transparent; }
 
-.folha { max-width: 860px; margin: 0 auto 56px; background: #fff; padding: 56px 64px; border-radius: 6px; font-size: 14px; line-height: 1.55; }
-@media (max-width: 640px) { .folha { padding: 32px 20px; border-radius: 0; margin-bottom: 0; } }
+.folha { max-width: 860px; margin: 32px auto 56px; background: #fff; padding: 56px 64px; border-radius: 6px; font-size: 14px; line-height: 1.55; }
+@media (max-width: 640px) { .folha { padding: 32px 20px; border-radius: 0; margin: 0; } }
 
 .topo { border-bottom: 3px solid var(--roxo); padding-bottom: 18px; }
 h1 { font-size: 34px; font-weight: 750; letter-spacing: -.02em; line-height: 1.1; }

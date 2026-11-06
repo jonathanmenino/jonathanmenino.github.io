@@ -4,8 +4,9 @@
    Mensagem do WhatsApp: MENSAGENS.empresa em src/data/site.ts. */
 import Base from '../../layouts/Base.astro';
 import Prancheta from '../../components/novo/Prancheta.astro';
-import BarraMob from '../../components/novo/BarraMob.astro';
-import MenuTopo from '../../components/novo/MenuTopo.astro';
+import Topo from '../../components/site/Topo.astro';
+import Rodape from '../../components/site/Rodape.astro';
+import ChamadaBlog from '../../components/site/ChamadaBlog.astro';
 import Mural from '../../components/novo/Mural.astro';
 import FundoLiquido from '../../components/novo/FundoLiquido.astro';
 import { SITE, mensagens, url, linkWhatsApp } from '../../data/site';
@@ -132,11 +133,11 @@ const jsonld = {
   jsonld={jsonld}
 >
 <Prancheta />
-<BarraMob links={[[T('Portfólio', 'Portfolio'), pagina(L, 'portfolio/')], [T('Orçamento', 'Quote'), '#contato']]} />
+<Topo tom="escuro" cta={{ texto: T('Pedir orçamento', 'Get a quote'), curto: T('Orçamento', 'Quote'), href: wa }} />
 
 <header class="heroi" id="topo">
   <FundoLiquido />
-  <MenuTopo sub={T('Para empresas · Todo o Brasil', 'For businesses · Remote')} itens={[[T('Início', 'Home'), pagina(L)], [T('Portfólio', 'Portfolio'), pagina(L, 'portfolio/')], [T('Empresas', 'Businesses'), pagina(L, 'empresas/'), true], [T('Agências', 'Agencies'), pagina(L, 'white-label/')], [T('Orçamento', 'Quote'), '#contato']]} />
+  <div></div>
   <div></div>
   <div class="base">
     <p class="selo"><span class="pulso" aria-hidden="true"></span>{T('Orçamento sem compromisso', 'Free, no-obligation quote')}</p>
@@ -216,6 +217,8 @@ const jsonld = {
       </div>
     </section>
 
+    <ChamadaBlog publico="empresas" tom="escuro" titulo="Dicas para o site da sua empresa" class="secao" />
+
     <section class="pergunta" aria-labelledby="t-perg">
       <h2 class="tt" id="t-perg">{T('Vamos tirar a sua ideia', 'Shall we bring your idea')}<br><em>{T('do papel?', 'to life?')}</em></h2>
     </section>
@@ -233,11 +236,7 @@ const jsonld = {
   </div>
 </Mural>
 
-<footer class="rodape">
-  <span>© {new Date().getFullYear()} Jonathan Menino</span>
-  <span><a href={pagina(L)}>{T('Início', 'Home')}</a> · <a href={pagina(L, 'white-label/')}>{T('Para agências', 'For agencies')}</a>{L === 'pt' && <> · <a href={url('blog/')}>Blog</a></>}</span>
-
-</footer>
+<Rodape />
 </Base>
 
 <script>

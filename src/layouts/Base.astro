@@ -86,48 +86,8 @@ const imagem = new URL(url(image), Astro.site);
         if (alvo && !/404/.test(p)) location.replace(base + alvo + location.search + location.hash);
       })();
     </script>
-    <!-- Tema: aplica a escolha salva antes de desenhar a página (evita piscar) e expõe window.alternarTema. -->
-    <script is:inline>
-      (function () {
-        var raiz = document.documentElement,
-          mq = matchMedia('(prefers-color-scheme: dark)');
-        // "js" libera as animações que esperam o elemento aparecer na tela (src/components/Anima.astro).
-        raiz.classList.add('js');
-        var claro = document.querySelector('meta[name="theme-color"]').content;
-        function salvo() {
-          try {
-            return localStorage.getItem('tema');
-          } catch (e) {
-            return null;
-          }
-        }
-        function escuro() {
-          var t = raiz.getAttribute('data-theme');
-          return t ? t === 'dark' : mq.matches;
-        }
-        function corBarra() {
-          if (claro === '#F7F6F3')
-            document.querySelector('meta[name="theme-color"]').content =
-              escuro() ? '#141217' : claro;
-        }
-        var t = salvo();
-        if (t === 'light' || t === 'dark') raiz.setAttribute('data-theme', t);
-        corBarra();
-        mq.addEventListener('change', corBarra);
-        window.alternarTema = function () {
-          var novo = escuro() ? 'light' : 'dark';
-          // Se a escolha bate com o sistema, volta a seguir o sistema.
-          var sistema = mq.matches ? 'dark' : 'light';
-          try {
-            novo === sistema
-              ? localStorage.removeItem('tema')
-              : localStorage.setItem('tema', novo);
-          } catch (e) {}
-          raiz.setAttribute('data-theme', novo);
-          corBarra();
-        };
-      })();
-    </script>
+    <!-- "js" libera as animações que esperam o elemento aparecer na tela (src/components/Anima.astro). -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
     <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
     <link rel="sitemap" href={url('sitemap-index.xml')} />
