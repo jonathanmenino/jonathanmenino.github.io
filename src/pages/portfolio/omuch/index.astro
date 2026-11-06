@@ -7,9 +7,9 @@
    Cores e fonte vêm do próprio Omuch: Mandarina #F26B1D e Outfit. */
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
-import Fox from '../../../components/Fox.astro';
 import LogoOmuch from '../../../components/LogoOmuch.astro';
-import TrocaIdioma from '../../../components/TrocaIdioma.astro';
+import Topo from '../../../components/site/Topo.astro';
+import Rodape from '../../../components/site/Rodape.astro';
 import { idioma, pagina } from '../../../i18n';
 import '@fontsource-variable/outfit';
 
@@ -73,14 +73,8 @@ const jsonld = {
   themeColor="#FAF6F2"
   jsonld={jsonld}
 >
+<Topo tom="claro" />
 <div class="om">
-  <header class="topo">
-    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
-      <Fox cor="#F26B1D" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
-    </a>
-    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
-  </header>
 
   <main>
     <!-- ============ TOPO ============ -->
@@ -197,6 +191,7 @@ const jsonld = {
     </section>
   </main>
 </div>
+<Rodape />
 </Base>
 
 <style is:global>
@@ -214,14 +209,8 @@ const jsonld = {
 .om img { display: block; max-width: 100%; height: auto; }
 
 /* Topo */
-.om .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--linha); }
-@media (min-width: 768px) { .om .topo { padding: 14px 32px; } }
-.om .marca { display: flex; align-items: center; gap: 10px; color: var(--tinta); text-decoration: none; }
-.om .raposa { height: 32px; width: auto; }
 .om .nome { display: block; font-weight: 600; font-size: 15px; line-height: 1.2; }
 .om .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--cinza); }
-.om .voltar { font-size: 14px; font-weight: 600; color: var(--tinta); text-decoration: none; }
-.om .voltar:hover { color: var(--mandarina-texto); }
 
 /* Fundos */
 .om main > section { position: relative; overflow: hidden; padding: 72px 0; }

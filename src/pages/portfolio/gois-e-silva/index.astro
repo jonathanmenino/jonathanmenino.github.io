@@ -5,8 +5,8 @@
    Os SVGs foram gerados por script a partir de Cormorant Garamond e Lato (cópias em project files gois-e-silva/logo-refinado). */
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
-import Fox from '../../../components/Fox.astro';
-import TrocaIdioma from '../../../components/TrocaIdioma.astro';
+import Topo from '../../../components/site/Topo.astro';
+import Rodape from '../../../components/site/Rodape.astro';
 import { idioma, pagina } from '../../../i18n';
 import '@fontsource/cormorant-garamond/600.css';
 import '@fontsource/cormorant-garamond/700.css';
@@ -34,15 +34,8 @@ const jsonld = {
   themeColor="#17375F"
   jsonld={jsonld}
 >
+<Topo tom="escuro" />
 <div class="gs">
-  <header class="topo-gs">
-    <a href={portfolio} class="marca-gs" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
-      <Fox cor="#C9A95C" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
-    </a>
-    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
-
-  </header>
   <main>
 
 <section class="faixa azul">
@@ -182,6 +175,7 @@ const jsonld = {
 
   </main>
 </div>
+<Rodape />
 </Base>
 
 <style is:global>
@@ -303,13 +297,8 @@ const jsonld = {
 .gs .fim { display:flex; flex-wrap:wrap; justify-content:space-between; gap:20px; align-items:center; font-size:14px; color:rgba(255,255,255,.75); }
 .gs .fim .lk { width:220px; }
 
-.gs .topo-gs { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px max(16px, env(safe-area-inset-left, 0px)); background: rgba(23,55,95,.96); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(201,169,92,.4); color: #fff; }
-.gs .marca-gs { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
-.gs .raposa { height: 32px; width: auto; }
 .gs .nome { display: block; font-weight: 700; font-size: 15px; line-height: 1.2; }
 .gs .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--ouro2); }
-.gs .voltar { font-size: 14px; font-weight: 700; color: #fff; text-decoration: none; }
-.gs .voltar:hover { color: var(--ouro2); }
 .gs a:focus-visible { outline: 3px solid var(--ouro); outline-offset: 3px; }
 .gs .fim .botao { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: var(--ouro); color: var(--azul); font-weight: 700; font-size: 15px; text-decoration: none; }
 </style>

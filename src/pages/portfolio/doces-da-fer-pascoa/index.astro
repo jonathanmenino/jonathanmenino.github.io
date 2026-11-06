@@ -10,8 +10,8 @@
    troque o link "Portfólio" do topo e do rodapé (const portfolio). */
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
-import Fox from '../../../components/Fox.astro';
-import TrocaIdioma from '../../../components/TrocaIdioma.astro';
+import Topo from '../../../components/site/Topo.astro';
+import Rodape from '../../../components/site/Rodape.astro';
 import { url } from '../../../data/site';
 import { idioma, tradutor, pagina } from '../../../i18n';
 import '@fontsource-variable/inter';
@@ -97,14 +97,8 @@ const jsonld = {
   themeColor="#FBF4EC"
   jsonld={jsonld}
 >
+<Topo tom="claro" />
 <div class="fer">
-  <header class="topo">
-    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
-      <Fox cor="#C2456A" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
-    </a>
-    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
-  </header>
 
   <main>
     <!-- ============ TOPO ============ -->
@@ -284,6 +278,7 @@ const jsonld = {
     </section>
   </main>
 </div>
+<Rodape />
 </Base>
 
 <script>
@@ -334,14 +329,8 @@ const jsonld = {
 .fer a:focus-visible, .fer video:focus-visible { outline: 3px solid var(--rosa-texto); outline-offset: 3px; }
 
 /* Topo */
-.fer .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(251,244,236,.92); backdrop-filter: blur(8px); border-bottom: 2px solid var(--rosa); }
-@media (min-width: 768px) { .fer .topo { padding: 14px 32px; } }
-.fer .marca { display: flex; align-items: center; gap: 10px; color: var(--tinta); text-decoration: none; }
-.fer .raposa { height: 32px; width: auto; }
 .fer .nome { display: block; font-weight: 600; font-size: 15px; line-height: 1.2; }
 .fer .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(59,36,22,.7); }
-.fer .voltar { font-size: 14px; font-weight: 600; color: var(--tinta); text-decoration: none; }
-.fer .voltar:hover { color: var(--rosa-texto); }
 
 /* Fundos: creme pontilhado (como o key visual), rosa claro e marrom */
 .fer .creme { background-color: var(--creme); background-image: radial-gradient(var(--pontos) 1.6px, transparent 1.8px); background-size: 26px 26px; }

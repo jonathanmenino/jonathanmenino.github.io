@@ -1,0 +1,101 @@
+---
+/* Rodapé único do site: sempre escuro, com serviços, conteúdo, contato e redes.
+   Os links vêm de src/data/navegacao.ts. folga: espaço extra no celular quando a página
+   tem botão flutuante de WhatsApp (White Label). */
+import Fox from '../Fox.astro';
+import Redes from '../Redes.astro';
+import TrocaIdioma from '../TrocaIdioma.astro';
+import { linkWhatsApp, url } from '../../data/site';
+import { linksNav, soPortugues } from '../../data/navegacao';
+import { idioma, tradutor, pagina } from '../../i18n';
+
+interface Props { folga?: boolean }
+const { folga = false } = Astro.props;
+const L = idioma(Astro.url);
+const T = tradutor(L);
+const nav = Object.fromEntries(linksNav(L).map((l) => [l.id, l]));
+const comIdioma = !soPortugues(Astro.url.pathname);
+const whats = linkWhatsApp(T('Olá, Jonathan! Vi seu site e quero conversar.', 'Hi, Jonathan! I saw your website and would like to talk.'));
+
+const COLUNAS: { titulo: string; links: { texto: string; href: string; externo?: boolean }[] }[] = [
+  {
+    titulo: T('Serviços', 'Services'),
+    links: [
+      { texto: nav.empresas.texto, href: nav.empresas.href },
+      { texto: nav.agencias.texto, href: nav.agencias.href },
+      { texto: T('Cases de sites', 'Website case studies'), href: `${pagina(L, 'white-label/')}#projetos` },
+    ],
+  },
+  {
+    titulo: T('Conteúdo', 'Explore'),
+    links: [
+      { texto: T('Sobre mim', 'About me'), href: pagina(L) },
+      { texto: nav.portfolio.texto, href: nav.portfolio.href },
+      ...(nav.blog ? [{ texto: 'Blog', href: nav.blog.href }] : []),
+      { texto: nav.curriculo.texto, href: nav.curriculo.href },
+    ],
+  },
+  {
+    titulo: T('Contato', 'Contact'),
+    links: [
+      { texto: 'WhatsApp', href: whats, externo: true },
+      ...(L === 'pt' ? [{ texto: 'Feed RSS do blog', href: url('blog/rss.xml') }] : []),
+    ],
+  },
+];
+---
+<footer class:list={['sit-rodape', { 'sit-folga': folga }]}>
+  <div class="sit-rod-in">
+    <div class="sit-rod-grade">
+      <div class="sit-rod-marca">
+        <a href={pagina(L)} class="sit-marca">
+          <Fox cor="#9B7BFF" class="sit-fox" />
+          <span><b>Jonathan Menino</b><small>{T('Design · Vídeo · Sites', 'Design · Video · Web')}</small></span>
+        </a>
+        <p>{T('Designer e desenvolvedor em Limeira/SP. Marcas, vídeos e sites rápidos para empresas e agências de todo o Brasil.', 'Designer and developer based in Limeira, Brazil. Brands, videos and fast websites for businesses and agencies.')}</p>
+        <Redes class="sit-redes flex flex-wrap gap-2" />
+      </div>
+      {COLUNAS.map((c) => (
+        <div class="sit-rod-col">
+          <p class="sit-rod-tit">{c.titulo}</p>
+          <ul>
+            {c.links.map((l) => <li><a href={l.href} {...(l.externo ? { target: '_blank', rel: 'noopener' } : {})}>{l.texto}</a></li>)}
+            {c.titulo === T('Contato', 'Contact') && <li class="sit-rod-hora">{T('Seg–Sex, 9h–18h', 'Mon–Fri, 9am–6pm (Brazil)')}</li>}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div class="sit-rod-pe">
+      <p>© {new Date().getFullYear()} Jonathan Menino. {T('Todos os direitos reservados.', 'All rights reserved.')}</p>
+      {comIdioma && <TrocaIdioma />}
+    </div>
+  </div>
+</footer>
+
+<style is:global>
+  .sit-rodape { background: #0B0A0D; color: #F3F1F7; font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif; line-height: 1.5; border-top: 1px solid rgb(255 255 255 / .06); }
+  .sit-rod-in { max-width: 1280px; margin: 0 auto; padding: 56px max(20px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 28px) max(20px, env(safe-area-inset-left, 0px)); }
+  .sit-folga .sit-rod-in { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
+  @media (min-width: 768px) { .sit-folga .sit-rod-in { padding-bottom: 28px; } }
+  .sit-rod-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 36px 24px; }
+  .sit-rod-marca { grid-column: 1 / -1; max-width: 360px; }
+  .sit-rod-marca p { margin: 18px 0 0; font-size: 14px; color: rgb(243 241 247 / .65); }
+  .sit-rod-marca .sit-redes { margin-top: 20px; }
+  .sit-rodape .sit-marca { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+  .sit-rodape .sit-fox { height: 32px; width: auto; display: block; }
+  .sit-rodape .sit-marca b { display: block; font-size: 15px; font-weight: 600; }
+  .sit-rodape .sit-marca small { display: block; margin-top: 3px; font: 500 9.5px/1 "JetBrains Mono", ui-monospace, monospace; text-transform: uppercase; letter-spacing: .14em; color: rgb(243 241 247 / .6); }
+  .sit-rod-tit { margin: 0; font: 500 10.5px/1 "JetBrains Mono", ui-monospace, monospace; text-transform: uppercase; letter-spacing: .12em; color: rgb(243 241 247 / .6); }
+  .sit-rod-col ul { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 10px; font-size: 14px; }
+  .sit-rod-col a { color: rgb(243 241 247 / .86); text-decoration: none; transition: color .2s; }
+  .sit-rod-col a:hover { color: #9B7BFF; }
+  .sit-rod-hora { color: rgb(243 241 247 / .6); font-size: 13px; }
+  .sit-rodape a:focus-visible { outline: 2px solid #9B7BFF; outline-offset: 3px; border-radius: 4px; }
+  .sit-rod-pe { margin-top: 48px; padding-top: 22px; border-top: 1px solid rgb(255 255 255 / .1); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; font-size: 12.5px; color: rgb(243 241 247 / .6); }
+  .sit-rod-pe p { margin: 0; }
+  @media (min-width: 900px) {
+    .sit-rod-grade { grid-template-columns: 1.4fr repeat(3, 1fr); gap: 40px; }
+    .sit-rod-marca { grid-column: auto; }
+  }
+  @media print { .sit-rodape { display: none !important; } }
+</style>

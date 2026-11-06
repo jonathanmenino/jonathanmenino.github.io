@@ -8,8 +8,8 @@
    troque o link "Portfólio" do topo e do rodapé (const portfolio). */
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
-import Fox from '../../../components/Fox.astro';
-import TrocaIdioma from '../../../components/TrocaIdioma.astro';
+import Topo from '../../../components/site/Topo.astro';
+import Rodape from '../../../components/site/Rodape.astro';
 import { url } from '../../../data/site';
 import { idioma, tradutor, pagina } from '../../../i18n';
 import '@fontsource/heebo/latin-400.css';
@@ -103,14 +103,8 @@ const jsonld = {
   <link rel="preload" href={hertine} as="font" type="font/ttf" crossorigin />
   <Fragment set:html={`<style>@font-face{font-family:'Hertine';src:url("${hertine}") format("truetype");font-display:swap}</style>`} />
 </Fragment>
+<Topo tom="escuro" />
 <div class="mn">
-  <header class="topo">
-    <a href={portfolio} class="marca" aria-label={EN ? "Jonathan Menino, portfolio" : "Jonathan Menino, portfólio"}>
-      <Fox cor="#DB3E51" class="raposa" />
-      <span><span class="nome">Jonathan Menino</span><span class="sub">{EN ? <>Portfolio</> : <>Portfólio</>}</span></span>
-    </a>
-    <div class="topo-dir"><a href={portfolio} class="voltar"><span aria-hidden="true">←</span>{EN ? <> All projects</> : <> Todos os projetos</>}</a><TrocaIdioma /></div>
-  </header>
 
   <main>
     <!-- ============ TOPO ============ -->
@@ -281,6 +275,7 @@ const jsonld = {
     </section>
   </main>
 </div>
+<Rodape />
 </Base>
 
 <script>
@@ -317,14 +312,8 @@ const jsonld = {
 .mn a:focus-visible, .mn [tabindex]:focus-visible { outline: 3px solid var(--vinil); outline-offset: 3px; }
 
 /* Topo */
-.mn .topo { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: rgba(14,25,24,.9); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,.08); }
-@media (min-width: 768px) { .mn .topo { padding: 14px 32px; } }
-.mn .marca { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
-.mn .raposa { height: 32px; width: auto; }
 .mn .nome { display: block; font-weight: 700; font-size: 15px; line-height: 1.2; }
 .mn .sub { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.7); }
-.mn .voltar { font-size: 14px; font-weight: 500; color: #fff; text-decoration: none; }
-.mn .voltar:hover { color: var(--vinil); }
 
 /* Hero: a capa desfocada vira luz de fundo, como no site */
 .mn .hero { position: relative; overflow: hidden; padding: 48px 0 72px; }
