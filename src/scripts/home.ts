@@ -121,8 +121,11 @@ export function initHome() {
   const mural = document.getElementById('contato'), mt = document.getElementById('mural');
   if (mural && mt) {
     const centro = () => { gsap.set(mt, { x: (mural.clientWidth - mt.scrollWidth) / 2, y: (mural.clientHeight - mt.scrollHeight) / 2 }); };
+    // O cartão e o "voltar ao topo" ficam fora do arraste. No celular o Draggable ouve touchstart e cancela o toque;
+    // marcando-os como "clicáveis" ele nem começa ali, e os botões e links funcionam.
+    const fora = (el) => !!(el && el.closest && el.closest('.contato, .topo-btn'));
     const dm = Draggable.create(mt, { type: 'x,y', trigger: mural, inertia: true, edgeResistance: .9, allowEventDefault: false,
-      zIndexBoost: false, onPress(e) { if (e.target.closest('.contato, .topo-btn')) { this.endDrag(e); } } })[0];
+      zIndexBoost: false, dragClickables: false, clickableTest: fora })[0];
     const limM = () => { dm.applyBounds({ minX: mural.clientWidth - mt.scrollWidth, maxX: 0, minY: mural.clientHeight - mt.scrollHeight, maxY: 0 }); };
     centro(); limM(); dm.update(); window.addEventListener('resize', () => { limM(); dm.update(); });
     mural.querySelectorAll('.contato, .topo-btn').forEach((el) => el.addEventListener('pointerdown', (e) => e.stopPropagation()));
