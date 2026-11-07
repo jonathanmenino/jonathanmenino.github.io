@@ -36,6 +36,7 @@ export function initHome() {
   const TX = en ? { copiado: 'Copied', copiar: 'Copy', tocar: 'Play', pausar: 'Pause' } : { copiado: 'Copiado', copiar: 'Copiar', tocar: 'Tocar', pausar: 'Pausar' };
 
   // Copiar e-mail
+  document.querySelectorAll('[data-copiar]').forEach((b) => b.setAttribute('aria-live', 'polite'));
   document.querySelectorAll('[data-copiar]').forEach((b) => b.addEventListener('click', () => {
     const ok = () => { b.textContent = TX.copiado; setTimeout(() => (b.textContent = TX.copiar), 1800); };
     const falha = () => { const r = document.createRange(); r.selectNodeContents(b.previousElementSibling); getSelection().removeAllRanges(); getSelection().addRange(r); };
@@ -45,7 +46,13 @@ export function initHome() {
   // Showreel
   const rv = document.getElementById('reel-video'), rp = document.getElementById('reel-pausa');
   if (rv && rp && reduz) { rv.removeAttribute('autoplay'); rv.pause(); rp.textContent = TX.tocar; }
-  if (rv && rp) rp.addEventListener('click', () => { if (rv.paused) { rv.play(); rp.textContent = TX.pausar; } else { rv.pause(); rp.textContent = TX.tocar; } });
+  // pausadoPelaPessoa: o botão manda; fora da tela o vídeo para sozinho e volta quando reaparece.
+  let pausadoPelaPessoa = reduz;
+  if (rv && rp) rp.addEventListener('click', () => { if (rv.paused) { pausadoPelaPessoa = false; rv.play(); rp.textContent = TX.pausar; } else { pausadoPelaPessoa = true; rv.pause(); rp.textContent = TX.tocar; } });
+  if (rv && 'IntersectionObserver' in window) new IntersectionObserver(([e]) => {
+    if (pausadoPelaPessoa) return;
+    if (e.isIntersecting) rv.play().catch(() => {}); else rv.pause();
+  }, { threshold: .15 }).observe(rv);
 
   document.getElementById('topo-btn')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduz ? 'auto' : 'smooth' }));
 
@@ -97,7 +104,8 @@ export function initHome() {
     const regiao = () => {
       const el = mx < 0 ? null : document.elementFromPoint(mx, my);
       const on = !!(el && el.closest('#trilho-area, #contato') && !el.closest('.contato, .topo-btn'));
-      if (on !== ligado) { ligado = on; gsap.to(cursor, { scale: on ? 1 : 0, duration: on ? .4 : .25, ease: on ? 'back.out(2)' : 'power2.out', overwrite: 'auto' }); }
+      // Entra de 30% do tamanho (nunca do zero) e sai mais rápido do que entrou.
+      if (on !== ligado) { ligado = on; gsap.to(cursor, { scale: on ? 1 : .3, autoAlpha: on ? 1 : 0, duration: on ? .35 : .2, ease: on ? 'back.out(1.6)' : 'power2.out', overwrite: 'auto' }); }
     };
     window.addEventListener('pointermove', (e) => { mx = e.clientX; my = e.clientY; regiao(); }, { passive: true });
     window.addEventListener('scroll', regiao, { passive: true });
@@ -143,10 +151,19 @@ export function initHome() {
     const rh = document.querySelector('#risco-heroi path'); if (rh) riscar(rh, { delay: 1 });
     {
       document.querySelectorAll('main .risco path, .contato .risco path').forEach((p) => riscar(p, { scrollTrigger: { trigger: p.closest('svg'), start: 'top 88%' } }));
-      document.querySelectorAll('main h2.tt, .frentes h3, .contato h2').forEach((h) => {
-        gsap.from(h, { filter: 'blur(14px)', opacity: .15, y: 30, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: h, start: 'top 90%' } });
+      // Títulos de seção sobem linha a linha de dentro de uma máscara, o mesmo gesto do nome no topo.
+      // autoSplit refaz as linhas quando a fonte carrega ou a largura muda.
+      document.querySelectorAll('main h2.tt, main .cb h2, .contato h2').forEach((h) => {
+        SplitText.create(h, { type: 'lines', mask: 'lines', linesClass: 'ttlinha', autoSplit: true, onSplit: (self) => gsap.from(self.lines, {
+          yPercent: 120, duration: 1, ease: 'expo.out', stagger: .08,
+          scrollTrigger: { trigger: h, start: 'top 88%', once: true },
+        }) });
       });
-      if (document.querySelector('.numeros')) gsap.from('.frentes .tags, .numeros > *', { filter: 'blur(8px)', opacity: .2, duration: .9, stagger: .05, scrollTrigger: { trigger: '.numeros', start: 'top 90%' } });
+      // Frentes e motivos (letras vazadas): o título se revela da esquerda para a direita, como o risco à mão.
+      document.querySelectorAll('.frentes h3, .motivos h3').forEach((h) => {
+        gsap.fromTo(h, { clipPath: 'inset(-10% 100% -10% 0)' }, { clipPath: 'inset(-10% 0% -10% 0)', duration: .9, ease: 'expo.out', scrollTrigger: { trigger: h, start: 'top 90%', once: true } });
+      });
+      if (document.querySelector('.numeros')) gsap.from('.numeros > *', { y: 16, autoAlpha: 0, duration: .7, ease: 'expo.out', stagger: .06, scrollTrigger: { trigger: '.numeros', start: 'top 90%', once: true } });
       if (document.getElementById('reel')) gsap.fromTo('#reel', { scale: .9 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '#reel', start: 'top 95%', end: 'top 35%', scrub: true } });
       if (document.querySelector('.heroi .nome')) gsap.to('.nome', { yPercent: 25, opacity: .4, ease: 'none', scrollTrigger: { trigger: '.heroi', start: 'top top', end: 'bottom top', scrub: true } });
     }

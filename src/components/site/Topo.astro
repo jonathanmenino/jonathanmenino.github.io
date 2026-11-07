@@ -101,7 +101,7 @@ const inicio = pagina(L);
   .sit-ferr { display: flex; align-items: center; gap: 8px; margin-left: auto; }
   .sit-nav + .sit-ferr { margin-left: 8px; }
   .sit-cta { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 999px; background: #6E44FF; color: #fff; font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background-color .2s; }
-  .sit-cta:hover { background: #5A30EE; }
+  @media (hover: hover) and (pointer: fine) { .sit-cta:hover { background: #5A30EE; } }
   .sit-cta svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }
   .sit-abre, .sit-fecha { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); background: none; color: inherit; cursor: pointer; flex-shrink: 0; }
   .sit-abre svg, .sit-fecha svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
@@ -131,5 +131,18 @@ const inicio = pagina(L);
   .sit-menu-ferr { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .sit-menu .sit-cta { display: flex; justify-content: center; padding: 16px; font-size: 15px; }
   .sit-travado, .sit-travado body { overflow: hidden; }
+  /* Abertura do menu: o fundo aparece e os links sobem em sequência curta. Fecha na hora (sair é mais rápido que entrar). */
+  @media (prefers-reduced-motion: no-preference) {
+    .sit-menu:not([hidden]) { animation: sit-menu-abre .22s cubic-bezier(.23, 1, .32, 1); }
+    .sit-menu:not([hidden]) nav a, .sit-menu:not([hidden]) .sit-menu-pe { animation: sit-menu-item .4s cubic-bezier(.23, 1, .32, 1) both; }
+    .sit-menu nav a:nth-child(2) { animation-delay: .03s; } .sit-menu nav a:nth-child(3) { animation-delay: .06s; }
+    .sit-menu nav a:nth-child(4) { animation-delay: .09s; } .sit-menu nav a:nth-child(5) { animation-delay: .12s; }
+    .sit-menu nav a:nth-child(n+6), .sit-menu .sit-menu-pe { animation-delay: .15s; }
+    @keyframes sit-menu-abre { from { opacity: 0; } }
+    @keyframes sit-menu-item { from { opacity: 0; transform: translateY(14px); } }
+  }
+  @media (prefers-reduced-motion: reduce) { .sit-menu:not([hidden]) { animation: sit-menu-abre .15s ease; } @keyframes sit-menu-abre { from { opacity: 0; } } }
+  .sit-cta { transition: background-color .2s, transform .16s cubic-bezier(.23, 1, .32, 1); }
+  .sit-cta:active { transform: scale(.97); }
   @media print { .sit-topo, .sit-menu { display: none !important; } }
 </style>

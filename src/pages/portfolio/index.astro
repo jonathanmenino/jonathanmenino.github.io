@@ -87,10 +87,16 @@ const jsonld = {
   initHome();
   const botoes = [...document.querySelectorAll<HTMLButtonElement>('[data-filtro]')];
   const itens = [...document.querySelectorAll<HTMLElement>('.grade > li')];
+  const reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const aplicar = (filtro: string, salvar = true) => {
     if (!botoes.some((b) => b.dataset.filtro === filtro)) filtro = 'todos';
     botoes.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filtro === filtro)));
     itens.forEach((li) => { li.hidden = filtro !== 'todos' && !li.dataset.categorias!.split(' ').includes(filtro); });
+    // Ao filtrar, os projetos que ficam entram com um fade curto em sequência (até 6 com atraso, o resto junto).
+    if (salvar) itens.filter((li) => !li.hidden).forEach((li, i) => li.animate(
+      reduzir ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }],
+      { duration: reduzir ? 150 : 320, delay: Math.min(i, 6) * 40, easing: 'cubic-bezier(.23, 1, .32, 1)', fill: 'backwards' },
+    ));
     document.getElementById('total')!.textContent = String(itens.filter((li) => !li.hidden).length);
     if (salvar) {
       const u = new URL(location.href);

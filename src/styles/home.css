@@ -16,7 +16,11 @@
   --mao: "Caveat Brush", "Segoe Print", "Bradley Hand", cursive;
   --gl: max(16px, env(safe-area-inset-left, 0px));
   --gr: max(16px, env(safe-area-inset-right, 0px));
+  /* Curvas de movimento: saída forte para entradas e respostas; ida e volta para o que se move na tela. */
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
   color-scheme: dark;
+  scrollbar-color: #3A3442 var(--carvao);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -26,10 +30,14 @@ a { color: inherit; }
 img, video { max-width: 100%; display: block; }
 p { margin: 0; }
 :focus-visible { outline: 2px solid var(--lilas); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--roxo); color: #fff; }
+input, textarea { caret-color: var(--lilas); }
 .mono { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 .mao { font-family: var(--mao); font-size: 22px; line-height: 1; letter-spacing: .01em; }
 .tt { font-family: var(--titulo); font-weight: 400; text-transform: uppercase; line-height: .9; letter-spacing: .005em; margin: 0; text-wrap: balance; }
 .tt em { font-style: normal; color: var(--lilas); }
+/* Máscara das linhas que sobem nos títulos (home.ts): folga em cima e embaixo para não cortar acentos (Ç, Í, Ó). */
+.ttlinha-mask { padding-block: .14em .06em; margin-block: -.14em -.06em; }
 .risco { display: block; width: 100%; height: 18px; color: var(--papel); overflow: visible; }
 .risco path { fill: none; stroke: currentColor; stroke-width: 5; stroke-linecap: round; }
 
@@ -68,9 +76,13 @@ p { margin: 0; }
 .desce { white-space: nowrap; }
 .acoes { display: flex; flex-wrap: wrap; gap: 10px; }
 .btn { --c: var(--roxo); position: relative; display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px; border-radius: 4px; background: var(--c); color: #fff; text-decoration: none; font-weight: 600; font-size: 14px; overflow: hidden; isolation: isolate; border: 1px solid var(--c); cursor: pointer; font-family: var(--corpo); }
-.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--papel); transform: translateY(101%); transition: transform .45s cubic-bezier(.7,0,.2,1); }
-.btn:hover::before { transform: translateY(0); }
-.btn:hover { color: var(--carvao); }
+.btn { transition: color .3s var(--ease-out), transform .16s var(--ease-out); }
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--papel); transform: translateY(101%); transition: transform .4s var(--ease-out); }
+.btn:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover::before { transform: translateY(0); }
+  .btn:hover { color: var(--carvao); }
+}
 .btn.sec { --c: rgba(11,10,13,.5); border-color: rgba(238,234,244,.28); }
 @media (max-width: 860px) {
   .menu { justify-content: flex-start; gap: 4px 16px; }
@@ -114,6 +126,12 @@ p { margin: 0; }
 .numeros span { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--papel-2); line-height: 1.4; }
 .quem { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px 40px; color: var(--papel-2); max-width: 900px; }
 @media (max-width: 700px) { .quem { grid-template-columns: 1fr; } }
+/* No celular os três números ficam lado a lado, cada um com a legenda embaixo. */
+@media (max-width: 600px) {
+  .numeros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; }
+  .numeros .seta { display: none; }
+  .numeros div { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
 
 .reel { margin-top: 72px; position: relative; }
 .reel .rotulo { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 14px; }
@@ -126,7 +144,8 @@ p { margin: 0; }
 .frentes a { text-decoration: none; display: inline-block; }
 .frentes h3 { font-size: clamp(38px, 4.6vw, 80px); color: transparent; -webkit-text-stroke: 1.5px var(--papel); transition: color .35s, -webkit-text-stroke-color .35s; }
 .frentes h3 .num { -webkit-text-stroke: 0; color: var(--lilas); font-size: 15px; }
-.frentes a:hover h3 { color: var(--lilas); -webkit-text-stroke-color: var(--lilas); }
+@media (hover: hover) and (pointer: fine) { .frentes a:hover h3 { color: var(--lilas); -webkit-text-stroke-color: var(--lilas); } }
+.frentes a:focus-visible h3 { color: var(--lilas); -webkit-text-stroke-color: var(--lilas); }
 .sub-mao { margin-top: 14px; color: var(--papel-2); }
 .frentes .tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 4px 0; color: var(--papel-2); }
 .frentes .tags span + span::before { content: "·"; margin: 0 10px; color: var(--linha); }
@@ -143,7 +162,7 @@ p { margin: 0; }
 .card { width: clamp(260px, 28vw, 440px); flex: none; text-decoration: none; display: grid; gap: 12px; user-select: none; }
 .card .foto { overflow: hidden; aspect-ratio: 1200 / 630; background: var(--grafite); }
 .card img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s cubic-bezier(.2,.7,.1,1); pointer-events: none; }
-.card:hover img { transform: scale(1.06); }
+@media (hover: hover) and (pointer: fine) { .card:hover img { transform: scale(1.06); } }
 .card .meta { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
 .card h3 { font-size: clamp(26px, 2.2vw, 34px); }
 .card .cli { color: var(--papel-2); font-size: 13px; margin-top: 4px; }
@@ -184,8 +203,13 @@ p { margin: 0; }
 .rodape > * { padding-inline: 16px; }
 .rodape a { text-decoration: none; } .rodape a:hover { color: var(--papel); }
 
-.cursor-arraste { position: fixed; z-index: 70; top: 0; left: 0; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 50%; background: var(--papel); color: var(--carvao); display: grid; place-items: center; font: 600 12px var(--corpo); pointer-events: none; transform: scale(0); }
-@media (hover: none), (pointer: coarse) { .cursor-arraste, .previa { display: none; } }
+.cursor-arraste { position: fixed; z-index: 70; top: 0; left: 0; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 50%; background: var(--papel); color: var(--carvao); display: grid; place-items: center; font: 600 12px var(--corpo); pointer-events: none; transform: scale(.3); opacity: 0; visibility: hidden; }
+@media (hover: none), (pointer: coarse) {
+  .cursor-arraste, .previa { display: none; }
+  /* Links de texto pequenos ganham área de toque de 44px sem mudar o desenho. */
+  .frentes .ex, .desce, .trilho-pe a, .cab a.mono, .corpo .cb-todos { padding-block: 11px; margin-block: -11px; }
+  .frentes .ex { margin-top: -1px; } /* mantém os 10px de distância das tags */
+}
 @media (prefers-reduced-motion: reduce) { .pulso { animation: none; } html { scroll-behavior: auto; } }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .sem-cursor .cursor-circulo, .sem-cursor .cursor-anel { opacity: 0 !important; }
@@ -211,6 +235,15 @@ p { margin: 0; }
 .faq summary:hover { color: var(--lilas); }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { padding: 0 0 24px; color: var(--papel-2); max-width: 64ch; }
+.faq summary::after { transition: transform .25s var(--ease-out); }
+@media (prefers-reduced-motion: no-preference) {
+  .faq details[open] p { animation: faq-abre .3s var(--ease-out); }
+  @keyframes faq-abre { from { opacity: 0; transform: translateY(-6px); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq details[open] p { animation: faq-surge .2s ease; }
+  @keyframes faq-surge { from { opacity: 0; } }
+}
 .contato .txt { color: var(--papel-2); max-width: 40ch; }
 
 /* Portfólio: mesma estrutura, visual novo */
@@ -230,7 +263,7 @@ p { margin: 0; }
 .grade .pj { border: 0; border-radius: 0; background: transparent; }
 .grade .pj:hover { transform: none; }
 .grade .pj-capa { background: var(--grafite); }
-.grade .pj:hover .pj-capa img { transform: scale(1.06); }
+@media (hover: hover) and (pointer: fine) { .grade .pj:hover .pj-capa img { transform: scale(1.06); } }
 .grade .pj-capa img { transition: transform .9s cubic-bezier(.2,.7,.1,1); }
 .grade .pj-txt { padding: 16px 0 0; }
 .grade .pj-tipo { color: var(--lilas); font-size: 10px; }
@@ -238,3 +271,24 @@ p { margin: 0; }
 .grade .pj-cliente { color: var(--papel-2); }
 .grade .pj-resumo { color: var(--papel-2); font-size: 14px; }
 .grade .pj-tags span { border-radius: 0; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; border-color: var(--linha); color: var(--papel-2); }
+
+/* ---------- Faixa do blog no visual novo (home e Para empresas) ----------
+   Mesma linguagem das outras seções: título em Anton, capas retas, sem cartão arredondado. */
+.corpo .cb-rotulo { display: none; }
+.corpo .cb h2 { margin: 0; font-family: var(--titulo); font-weight: 400; text-transform: uppercase; line-height: .9; letter-spacing: .005em; font-size: clamp(44px, 5.4vw, 88px); text-wrap: balance; max-width: 14ch; }
+.corpo .cb-todos { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--papel); }
+.corpo .cb-todos:hover { color: var(--lilas); text-decoration: none; }
+.corpo .cb-lista { margin-top: 36px; gap: 36px 24px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.corpo .cb-card { border: 0; border-radius: 0; background: transparent; overflow: visible; transition: none; }
+.corpo .cb-card:hover { transform: none; }
+.corpo .cb-card img { aspect-ratio: 1200 / 630; background: var(--grafite); transition: filter .3s ease; }
+.corpo .cb-card > img, .corpo .cb-card picture { display: block; }
+.corpo .cb-corpo { padding: 16px 0 0; gap: 8px; }
+.corpo .cb-meta { color: var(--lilas); font-size: 10px; letter-spacing: .1em; }
+.corpo .cb h3 { font-family: var(--titulo); font-weight: 400; text-transform: uppercase; font-size: clamp(24px, 2vw, 30px); line-height: 1; letter-spacing: .005em; }
+.corpo .cb-ler { font-family: var(--mao); font-size: 20px; font-weight: 400; color: var(--papel); }
+.corpo .cb-card:has(a:focus-visible) { outline-offset: 6px; }
+@media (hover: hover) and (pointer: fine) {
+  .corpo .cb-card:hover img { filter: brightness(1.08); }
+  .corpo .cb-card:hover h3 { color: var(--lilas); }
+}
